@@ -63,7 +63,7 @@
                 var qr = new QRious({
                     element: document.getElementById('qr-code')
                 });
-                var qrtext = "PCF://COVID-19Vaccine" + "|" + new Date().toJSON()
+                var qrtext = "COVID-19Vaccine" + "|" + new Date().toJSON() + "|"
                             + document.getElementById("qr-manuf").value + "|"  
                             + document.getElementById("qr-lot").value + "|" 
                             + document.getElementById("qr-route").value + "|" 

@@ -1,0 +1,87 @@
+<!doctype html>
+	<head>
+		<style>
+			body {
+			    margin-top: 100px;
+                width: 100%;
+                height: 100%;
+			}
+            
+            .center { 
+                width: 500px;
+                margin: 0 auto;
+            }
+            
+			input {
+			    padding:5px;
+                margin: 3px;
+			    background-color:transparent;
+			    border:none;
+			    border-bottom:solid 4px #3654DD;
+			    width:250px;
+			    font-size:16px;
+			}
+			
+			.qr-btn {
+			    background-color: #3654DD;
+			    padding:8px;
+			    color:white;
+			    cursor:pointer;
+			}
+		</style>
+		
+		<title>Vaccine Certificate QR Code Generator</title>
+	</head>
+	<body>
+        <div class="center">
+            <h3>Vaccine Certificate Code Generator</h3>
+            <div>
+                <table>
+                    <tr><td>Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer,etc"/></td></tr>
+                    <tr><td>Lot #</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
+                    <tr><td>Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular"/></td></tr>
+                    <tr><td>Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, etc"/></td></tr>
+                    <tr><td>User ID</td><td><input id="qr-userid" type="text" placeholder="SSN, Phone Number, etc"/></td></tr>
+                </table>
+            </div>
+            <br/><br/>
+            <div>
+                <button class="qr-btn" onclick="generateQRCode()">Create QR Code</button>
+            </div>
+            <br/><br/><br/>
+            <p id="qr-result"></p>
+            <canvas id="qr-code"></canvas>
+        </div>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+		<script>
+			/* JS comes here */
+			var qr;
+			(function() {
+                    qr = new QRious({
+                    element: document.getElementById('qr-code'),
+                    size: 500,
+                    value: 'https://studytonight.com'
+                });
+            })();
+            
+            function generateQRCode() {
+                var qrtext = "PCF://COVID-19Vaccine" + "|" + new Date().toJSON()
+                            + document.getElementById("qr-manuf").value + "|"  
+                            + document.getElementById("qr-lot").value + "|" 
+                            + document.getElementById("qr-route").value + "|" 
+                            + document.getElementById("qr-site").value + "|" 
+                            + document.getElementById("qr-userid").value;
+                qr.set({
+                    foreground: '#3654DD',
+                    size: 500,
+                    value: qrtext
+                });
+                
+                document.getElementById("qr-result").innerHTML = "QR code for " + qrtext +":";
+                
+            }
+		</script>
+        
+	</body>
+</html>

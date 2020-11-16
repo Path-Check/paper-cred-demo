@@ -21,6 +21,10 @@
 			    width:300px;
 			    font-size:16px;
 			}
+            
+            .invisible {
+                display: none;
+            }
 			
             .input-label {
                 width:600px;
@@ -49,6 +53,35 @@
                 </table>
             </div>
             <br/><br/>
+            <label for="privkey">Provider's Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+            <textarea id="privkey" rows="15" cols="65">
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
+WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
+aY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4gwQco1KRMDSmXSMkDwIDAQAB
+AoGAfY9LpnuWK5Bs50UVep5c93SJdUi82u7yMx4iHFMc/Z2hfenfYEzu+57fI4fv
+xTQ//5DbzRR/XKb8ulNv6+CHyPF31xk7YOBfkGI8qjLoq06V+FyBfDSwL8KbLyeH
+m7KUZnLNQbk8yGLzB3iYKkRHlmUanQGaNMIJziWOkN+N9dECQQD0ONYRNZeuM8zd
+8XJTSdcIX4a3gy3GGCJxOzv16XHxD03GW6UNLmfPwenKu+cdrQeaqEixrCejXdAF
+z/7+BSMpAkEA8EaSOeP5Xr3ZrbiKzi6TGMwHMvC7HdJxaBJbVRfApFrE0/mPwmP5
+rN7QwjrMY+0+AbXcm8mRQyQ1+IGEembsdwJBAN6az8Rv7QnD/YBvi52POIlRSSIM
+V7SwWvSK4WSMnGb1ZBbhgdg57DXaspcwHsFV7hByQ5BvMtIduHcT14ECfcECQATe
+aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
+psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
+uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
+-----END RSA PRIVATE KEY-----
+            </textarea>
+            <label class="invisible" for="pubkey">Public Key <small>(openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem)</small></label><br/>
+            <textarea class="invisible"  id="pubkey" rows="6" cols="65">
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+gwQco1KRMDSmXSMkDwIDAQAB
+-----END PUBLIC KEY-----
+            </textarea>
+            
+            <br/><br/>
             <div>
                 <button class="qr-btn" onclick="generateQRCode()">Create QR Code</button>
             </div>
@@ -57,26 +90,40 @@
             <p id="qr-result"></p>
         </div>
         
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+        <script src="js/qrious.min.js"></script>
+        <script src="js/jsencrypt.min.js"></script>
+        <script src="js/sha256.js"></script>
 		<script>
             function generateQRCode() {
-                var qr = new QRious({
-                    element: document.getElementById('qr-code')
-                });
                 var qrtext = "COVID-19Vaccine" + "|" + new Date().toJSON() + "|"
                             + document.getElementById("qr-manuf").value + "|"  
                             + document.getElementById("qr-lot").value + "|" 
                             + document.getElementById("qr-route").value + "|" 
                             + document.getElementById("qr-site").value + "|" 
                             + document.getElementById("qr-userid").value;
+                
+                var sign = new JSEncrypt();
+                sign.setPrivateKey(document.getElementById('privkey').value);
+                var signature = sign.sign(qrtext, CryptoJS.SHA256, "sha256");
+                
+                var qr = new QRious({
+                    element: document.getElementById('qr-code')
+                });
+                
                 qr.set({
                     foreground: '#3654DD',
                     size: 500,
-                    value: qrtext
+                    value: qrtext+"|"+signature
                 });
                 
-                document.getElementById("qr-result").innerHTML = "QR code for " + qrtext +":";
+                // Verify with the public key...
+                var verify = new JSEncrypt();
+                verify.setPublicKey(document.getElementById('pubkey').value);
+                var verified = verify.verify(qrtext, signature, CryptoJS.SHA256);
                 
+                document.getElementById("qr-result").innerHTML = "Info: " + qrtext
+                    +" <br><br>Signature: " + signature 
+                    + " <br><br>Verified: " + verified;
             }
 		</script>
         

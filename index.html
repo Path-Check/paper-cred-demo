@@ -50,11 +50,12 @@
             <div>
                 <table>
                     <tr><td class="input-label">Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer,etc"/></td></tr>
-                    <tr><td class="input-label">Lot #</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
-                    <tr><td class="input-label">Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular"/></td></tr>
-                    <tr><td class="input-label">Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, etc"/></td></tr>
-                    <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Company, City, etc"/></td></tr>
-                    <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="SSN, Phone Number, etc"/></td></tr>
+                    <tr><td class="input-label">Lot#</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
+                    <tr><td class="input-label">Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
+                    <tr><td class="input-label">Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
+                    <tr><td class="input-label">Dose</td><td><input id="qr-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
+                    <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Company, City, ..."/></td></tr>
+                    <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="SSN, Phone Number, ..."/></td></tr>
                 </table>
             </div>
             <br/><br/>
@@ -109,6 +110,8 @@ gwQco1KRMDSmXSMkDwIDAQAB
                    vacInfo += "&route=" + document.getElementById("qr-route").value ;
                 if (document.getElementById("qr-site").value)
                    vacInfo += "&site=" + document.getElementById("qr-site").value;
+                if (document.getElementById("qr-dose").value)
+                   vacInfo += "&dose=" + document.getElementById("qr-dose").value;
                 if (document.getElementById("qr-vacinatorid").value)
                    vacInfo += "&vaccinator=" + document.getElementById("qr-vacinatorid").value;
                  if (document.getElementById("qr-vaccineeid").value)

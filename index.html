@@ -101,7 +101,7 @@ gwQco1KRMDSmXSMkDwIDAQAB
         <script src="js/sha256.js"></script>
 		<script>
             function generateQRCode() {
-                var vacInfo = "vaccine:COVID19?date=" + new Date().toJSON();
+                var vacInfo = "healthpass:vaccine?name=COVID19&date=" + new Date().toJSON();
                 if (document.getElementById("qr-manuf").value)
                    vacInfo += "&manuf=" + document.getElementById("qr-manuf").value; 
                 if (document.getElementById("qr-lot").value)

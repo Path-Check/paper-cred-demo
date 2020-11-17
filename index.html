@@ -49,7 +49,8 @@
                     <tr><td class="input-label">Lot #</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
                     <tr><td class="input-label">Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular"/></td></tr>
                     <tr><td class="input-label">Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, etc"/></td></tr>
-                    <tr><td class="input-label">User ID</td><td><input id="qr-userid" type="text" placeholder="SSN, Phone Number, etc"/></td></tr>
+                    <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Company, City, etc"/></td></tr>
+                    <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="SSN, Phone Number, etc"/></td></tr>
                 </table>
             </div>
             <br/><br/>
@@ -95,16 +96,23 @@ gwQco1KRMDSmXSMkDwIDAQAB
         <script src="js/sha256.js"></script>
 		<script>
             function generateQRCode() {
-                var qrtext = "COVID-19Vaccine" + "|" + new Date().toJSON() + "|"
-                            + document.getElementById("qr-manuf").value + "|"  
-                            + document.getElementById("qr-lot").value + "|" 
-                            + document.getElementById("qr-route").value + "|" 
-                            + document.getElementById("qr-site").value + "|" 
-                            + document.getElementById("qr-userid").value;
+                var vacInfo = "vaccine:COVID19?date=" + new Date().toJSON();
+                if (document.getElementById("qr-manuf").value)
+                   vacInfo += "&manuf=" + document.getElementById("qr-manuf").value; 
+                if (document.getElementById("qr-lot").value)
+                   vacInfo += "&lot=" + document.getElementById("qr-lot").value;
+                if (document.getElementById("qr-route").value)
+                   vacInfo += "&route=" + document.getElementById("qr-route").value ;
+                if (document.getElementById("qr-site").value)
+                   vacInfo += "&site=" + document.getElementById("qr-site").value;
+                if (document.getElementById("qr-vacinatorid").value)
+                   vacInfo += "&vaccinator=" + document.getElementById("qr-vacinatorid").value;
+                 if (document.getElementById("qr-vaccineeid").value)
+                   vacInfo += "&vaccinee=" + document.getElementById("qr-vaccineeid").value;
                 
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(document.getElementById('privkey').value);
-                var signature = sign.sign(qrtext, CryptoJS.SHA256, "sha256");
+                var signature = sign.sign(vacInfo, CryptoJS.SHA256, "sha256");
                 
                 var qr = new QRious({
                     element: document.getElementById('qr-code')
@@ -113,15 +121,15 @@ gwQco1KRMDSmXSMkDwIDAQAB
                 qr.set({
                     foreground: '#3654DD',
                     size: 500,
-                    value: qrtext+"|"+signature
+                    value: vacInfo+"&signed="+signature
                 });
                 
                 // Verify with the public key...
                 var verify = new JSEncrypt();
                 verify.setPublicKey(document.getElementById('pubkey').value);
-                var verified = verify.verify(qrtext, signature, CryptoJS.SHA256);
+                var verified = verify.verify(vacInfo, signature, CryptoJS.SHA256);
                 
-                document.getElementById("qr-result").innerHTML = "Info: " + qrtext
+                document.getElementById("qr-result").innerHTML = "QRCode: " + vacInfo
                     +" <br><br>Signature: " + signature 
                     + " <br><br>Verified: " + verified;
             }

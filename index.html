@@ -2,13 +2,13 @@
 	<head>
 		<style>
 			body {
-			    margin-top: 100px;
+			    margin-top: 50px;
                 width: 100%;
                 height: 100%;
 			}
             
             .center { 
-                width: 500px;
+                width: 1100px;
                 margin: 0 auto;
             }
             
@@ -17,28 +17,59 @@
                 margin: 3px;
 			    background-color:transparent;
 			    border:none;
-			    border-bottom:solid 4px #3654DD;
-			    width:300px;
+			    border-bottom:solid 2px #3654DD;
+			    width:350px;
 			    font-size:16px;
 			}
+            
+            textarea {
+                margin-top: 10px;
+            }
             
             .invisible {
                 display: none;
             }
 			
             .input-label {
-                width:600px;
+                width:300px;
             }
             
 			.qr-btn {
 			    background-color: #3654DD;
 			    padding:8px;
+                font-size:20px;
 			    color:white;
 			    cursor:pointer;
 			}
             
+            .center-in-div {
+                margin: 0;
+                position: absolute;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+            
             #qr-result {
                 word-wrap: break-word;
+            }
+            
+            .left-div {
+                float: left;
+                width: 49%;
+                margin: 0px;
+                padding-right:10px;
+            }
+            
+            .right-div {
+                float: right;
+                width: 49%;
+                padding-left:0px;
+            }
+            
+            .full-div {
+                clear: both;
+                width: 100%;
             }
 		</style>
 		
@@ -47,7 +78,7 @@
 	<body>
         <div class="center">
             <h3>Signed Vaccine Certificate Generator</h3>
-            <div>
+            <div class="left-div">
                 <table>
                     <tr><td class="input-label">Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer,etc"/></td></tr>
                     <tr><td class="input-label">Lot#</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
@@ -58,9 +89,9 @@
                     <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="SSN, Phone Number, ..."/></td></tr>
                 </table>
             </div>
-            <br/><br/>
-            <label for="privkey">Provider's Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
-            <textarea id="privkey" rows="15" cols="65">
+            <div class="right-div">
+                <label for="privkey">Provider's Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+                <textarea id="privkey" rows="16" cols="62">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
 WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
@@ -76,46 +107,47 @@ aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
 psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
 uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 -----END RSA PRIVATE KEY-----
-            </textarea>
-            <label class="invisible" for="pubkey">Public Key <small>(openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem)</small></label><br/>
-            <textarea class="invisible"  id="pubkey" rows="6" cols="65">
------BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
-FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
-xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
-gwQco1KRMDSmXSMkDwIDAQAB
------END PUBLIC KEY-----
-            </textarea>
-            
-            <br/><br/>
-            <div>
-                <button class="qr-btn" onclick="generateQRCode()">Create QR Code</button>
+                </textarea>
+                <label class="invisible" for="pubkey">Public Key <small>(openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem)</small></label><br/>
+                <textarea class="invisible"  id="pubkey" rows="6" cols="65">
+    -----BEGIN PUBLIC KEY-----
+    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+    FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+    xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+    gwQco1KRMDSmXSMkDwIDAQAB
+    -----END PUBLIC KEY-----
+                </textarea>
             </div>
-            <br/><br/>
-            <canvas id="qr-code"></canvas><br/>
-            <p id="qr-result"></p>
+            <div class="full-div">
+                <br/><br/>
+                <div style="margin: 0 auto; width:500px;">
+                    
+                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Create QR Code</button>
+                    <br/>
+                    <canvas id="qr-code"></canvas><br/>
+                    <p id="qr-result"></p>
+                </div>
+            </div>
+
         </div>
         
         <script src="js/qrious.min.js"></script>
         <script src="js/jsencrypt.min.js"></script>
         <script src="js/sha256.js"></script>
 		<script>
+            function addIfExists(prefix, elemId) {
+                let value = document.getElementById(elemId).value;
+                return value ? prefix+value : "";
+            }
             function generateQRCode() {
                 var vacInfo = "healthpass:vaccine?name=COVID19&date=" + new Date().toJSON();
-                if (document.getElementById("qr-manuf").value)
-                   vacInfo += "&manuf=" + document.getElementById("qr-manuf").value; 
-                if (document.getElementById("qr-lot").value)
-                   vacInfo += "&lot=" + document.getElementById("qr-lot").value;
-                if (document.getElementById("qr-route").value)
-                   vacInfo += "&route=" + document.getElementById("qr-route").value ;
-                if (document.getElementById("qr-site").value)
-                   vacInfo += "&site=" + document.getElementById("qr-site").value;
-                if (document.getElementById("qr-dose").value)
-                   vacInfo += "&dose=" + document.getElementById("qr-dose").value;
-                if (document.getElementById("qr-vacinatorid").value)
-                   vacInfo += "&vaccinator=" + document.getElementById("qr-vacinatorid").value;
-                 if (document.getElementById("qr-vaccineeid").value)
-                   vacInfo += "&vaccinee=" + document.getElementById("qr-vaccineeid").value;
+                vacInfo += addIfExists("&manuf=", "qr-manuf");
+                vacInfo += addIfExists("&lot=",   "qr-lot");
+                vacInfo += addIfExists("&route=", "qr-route");
+                vacInfo += addIfExists("&site=",  "qr-site");
+                vacInfo += addIfExists("&dose=",  "qr-dose");
+                vacInfo += addIfExists("&vaccinatorid=", "qr-vacinatorid");
+                vacInfo += addIfExists("&vaccineeid=", "qr-vaccineeid");
                 
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(document.getElementById('privkey').value);

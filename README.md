@@ -1,10 +1,10 @@
 # Signed Vaccine Certificate Generator
 
-<img align="right" src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png" width="350px"/>
-
 JavaScipt-based web app to generate a Vaccine Certification in a QR Code that is signed by the Health Provider, making it impossible to forge. 
 
 Users can distribute their certificates to prove they have been vaccinated and are free of COVID-19. 
+
+<img src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png"/>
 
 ## Behavior
 

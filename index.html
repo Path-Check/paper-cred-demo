@@ -144,7 +144,9 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 return value ? prefix+value : "";
             }
             function generateQRCode() {
-                var vacInfo = "healthpass:vaccine?name=COVID19&date=" + new Date().toJSON();
+                var vacInfo = "healthpass:vaccine?name=COVID19";
+                vacInfo += "&date=" + new Date().toJSON()
+                vacInfo += "&vaccinator_pub_key=https://vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key";
                 vacInfo += addIfExists("&manuf=", "qr-manuf");
                 vacInfo += addIfExists("&lot=",   "qr-lot");
                 vacInfo += addIfExists("&route=", "qr-route");
@@ -152,6 +154,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 vacInfo += addIfExists("&dose=",  "qr-dose");
                 vacInfo += addIfExists("&vaccinator=", "qr-vacinatorid");
                 vacInfo += addIfExists("&vaccinee=", "qr-vaccineeid");
+               
                 
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(document.getElementById('privkey').value);

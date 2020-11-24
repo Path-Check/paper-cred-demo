@@ -140,7 +140,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         <script src="js/sha256.js"></script>
 		<script>
             function addIfExists(prefix, elemId) {
-                let value = document.getElementById(elemId).value;
+                let value = encodeURIComponent(document.getElementById(elemId).value);
                 return value ? prefix+value : "";
             }
             function generateQRCode() {
@@ -167,7 +167,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 qr.set({
                     foreground: '#3654DD',
                     size: 500,
-                    value: vacInfo+"&signed="+signature
+                    value: vacInfo+"&signature="+btoa(signature)
                 });
                 
                 // Verify with the public key...

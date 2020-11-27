@@ -144,22 +144,24 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 return value ? prefix+value : "";
             }
             function generateQRCode() {
-                var vacInfo = "healthpass:vaccine?name=COVID19";
-                vacInfo += "&date=" + new Date().toJSON()
-                vacInfo += "&vaccinator_pub_key=https://vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key";
-                vacInfo += addIfExists("&manuf=", "qr-manuf");
-                vacInfo += addIfExists("&lot=",   "qr-lot");
-                vacInfo += addIfExists("&route=", "qr-route");
-                vacInfo += addIfExists("&site=",  "qr-site");
-                vacInfo += addIfExists("&dose=",  "qr-dose");
-                vacInfo += addIfExists("&vaccinator=", "qr-vacinatorid");
-                vacInfo += addIfExists("&vaccinee=", "qr-vaccineeid");
-               
-                
+                var message = "date=" + new Date().toJSON();
+                message += addIfExists("&vaccinee=", "qr-vaccineeid");
+                message += addIfExists("&vaccinator=", "qr-vacinatorid");
+                message += addIfExists("&manuf=", "qr-manuf");
+                message += "&name=COVID19";
+                message += addIfExists("&lot=",   "qr-lot");
+                message += addIfExists("&route=", "qr-route");
+                message += addIfExists("&site=",  "qr-site");
+                message += addIfExists("&dose=",  "qr-dose");
+
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(document.getElementById('privkey').value);
-                var signature = sign.sign(vacInfo, CryptoJS.SHA256, "sha256");
+                var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
                 
+                var uri = "healthpass:SHA256\\"+signature
+                        + "@vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key?"
+                        + message;
+
                 var qr = new QRious({
                     element: document.getElementById('qr-code')
                 });
@@ -167,15 +169,15 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 qr.set({
                     foreground: '#3654DD',
                     size: 500,
-                    value: vacInfo+"&signature="+btoa(signature)
+                    value: uri
                 });
                 
                 // Verify with the public key...
                 var verify = new JSEncrypt();
                 verify.setPublicKey(document.getElementById('pubkey').value);
-                var verified = verify.verify(vacInfo, signature, CryptoJS.SHA256);
+                var verified = verify.verify(message, signature, CryptoJS.SHA256);
                 
-                document.getElementById("qr-result").innerHTML = "QRCode: " + vacInfo
+                document.getElementById("qr-result").innerHTML = "QRCode: " + uri
                     +" <br><br>Signature: " + signature 
                     + " <br><br>Verified: " + verified;
             }

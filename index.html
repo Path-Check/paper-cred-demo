@@ -87,6 +87,8 @@
                     <tr><td class="input-label">Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
                     <tr><td class="input-label">Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
                     <tr><td class="input-label">Dose</td><td><input id="qr-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
+                    <tr><td class="input-label">Required Doses</td><td><input id="qr-required_doses" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
+                    <tr><td class="input-label">Next Dose (days)</td><td><input id="qr-next_dose_in_days" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
                     <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Company, City, ..."/></td></tr>
                     <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
                 </table>
@@ -153,6 +155,9 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 message += addIfExists("&route=", "qr-route");
                 message += addIfExists("&site=",  "qr-site");
                 message += addIfExists("&dose=",  "qr-dose");
+                message += addIfExists("&dose=",  "qr-dose");
+                message += addIfExists("&required_doses=",  "qr-required_doses");
+                message += addIfExists("&next_dose_in_days=",  "qr-next_dose_in_days");
 
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(document.getElementById('privkey').value);

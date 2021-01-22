@@ -1,80 +1,6 @@
 <!doctype html>
 	<head>
-		<style>
-			body {
-			    margin-top: 50px;
-                width: 100%;
-                height: 100%;
-			}
-            
-            .center { 
-                width: 1100px;
-                margin: 0 auto;
-            }
-            
-			input {
-			    padding:5px;
-                margin: 3px;
-			    background-color:transparent;
-			    border:none;
-			    border-bottom:solid 2px #3654DD;
-			    width:350px;
-			    font-size:16px;
-			}
-            
-            textarea {
-                margin-top: 10px;
-            }
-            
-            .invisible {
-                display: none;
-            }
-			
-            .input-label {
-                width:300px;
-            }
-            
-			.qr-btn {
-			    background-color: #3654DD;
-			    padding:8px;
-                font-size:20px;
-			    color:white;
-                border:none;
-                border-radius: 4px;
-			    cursor:pointer;
-			}
-            
-            .center-in-div {
-                margin: 0;
-                position: absolute;
-                left: 50%;
-                -ms-transform: translate(-50%, -50%);
-                transform: translate(-50%, -50%);
-            }
-            
-            #qr-result {
-                word-wrap: break-word;
-            }
-            
-            .left-div {
-                float: left;
-                width: 49%;
-                margin: 0px;
-                padding-right:10px;
-            }
-            
-            .right-div {
-                float: right;
-                width: 49%;
-                padding-left:0px;
-            }
-            
-            .full-div {
-                clear: both;
-                width: 100%;
-            }
-		</style>
-		
+		<link rel="stylesheet" href="style.css">
 		<title>Signed Vaccine Certificate Generator</title>
 	</head>
 	<body>
@@ -82,19 +8,21 @@
             <h3>Signed Vaccine Certificate Generator</h3>
             <div class="left-div">
                 <table>
-                    <tr><td class="input-label">Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer,etc"/></td></tr>
-                    <tr><td class="input-label">Lot#</td><td><input id="qr-lot" type="text" placeholder="1234"/></td></tr>
+                    <tr><td class="input-label">Immunization Date</td><td><input id="qr-date" type="text" placeholder=""/></td></tr>
+                    <tr><td class="input-label">Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer, Moderna, etc"/></td></tr>
+                    <tr><td class="input-label">Product Name</td><td><input id="qr-product" type="text" placeholder="COVID-19"/></td></tr>
+                    <tr><td class="input-label">Lot#</td><td><input id="qr-lot" type="text" placeholder="012L20A, ..."/></td></tr>
                     <tr><td class="input-label">Route</td><td><input id="qr-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
                     <tr><td class="input-label">Site</td><td><input id="qr-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
                     <tr><td class="input-label">Dose</td><td><input id="qr-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
-                    <tr><td class="input-label">Required Doses</td><td><input id="qr-required_doses" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
-                    <tr><td class="input-label">Next Dose (days)</td><td><input id="qr-next_dose_in_days" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
-                    <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Company, City, ..."/></td></tr>
-                    <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="Name, Phone Number, ..."/></td></tr>
+                    <tr><td class="input-label">Required Doses</td><td><input id="qr-required_doses" type="text" placeholder="1, 2, 3, ..."/></td></tr>
+                    <tr><td class="input-label">Next Dose (days)</td><td><input id="qr-next_dose_in_days" type="text" placeholder="21, 28, ..."/></td></tr>
+                    <tr><td class="input-label">Vaccinator ID</td><td><input id="qr-vacinatorid" type="text" placeholder="Pharmacy Name, City, ..."/></td></tr>
+                    <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="Name, Phone Number, ID, Coupon, ..."/></td></tr>
                 </table>
             </div>
             <div class="right-div">
-                <label for="privkey">Provider's Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+                <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
                 <textarea id="privkey" rows="16" cols="63">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
@@ -112,26 +40,33 @@ psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
 uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 -----END RSA PRIVATE KEY-----
                 </textarea>
-                <label class="invisible" for="pubkey">Public Key <small>(openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem)</small></label><br/>
-                <textarea class="invisible"  id="pubkey" rows="6" cols="65">
-    -----BEGIN PUBLIC KEY-----
-    MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
-    FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
-    xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
-    gwQco1KRMDSmXSMkDwIDAQAB
-    -----END PUBLIC KEY-----
-                </textarea>
+                <label for="pubkey" class="invisible" >Public Key <small>(openssl rsa -pubout -in rsa_1024_priv.pem -out rsa_1024_pub.pem)</small></label><br/>
+                <textarea id="pubkey" class="invisible" rows="7" cols="63">
+-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDlOJu6TyygqxfWT7eLtGDwajtN
+FOb9I5XRb6khyfD1Yt3YiCgQWMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76
+xFxdU6jE0NQ+Z+zEdhUTooNRaY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4
+gwQco1KRMDSmXSMkDwIDAQAB
+-----END PUBLIC KEY-----
+                </textarea><br>
+                <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
+                <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
             </div>
             <div class="full-div">
                 <br/><br/>
                 <div style="margin: 0 auto; width:500px;">
-                    
-                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Create QR Code</button>
-                    <br/>
+                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Sign Vaccine Certificate</button>
+                    <br/><br/>
                     <canvas id="qr-code"></canvas><br/>
-                    <p id="qr-result"></p>
+                    <pre id="qr-result"></pre>
+                    <pre id="qr-format"></pre>
+                    <p id="qr-verified"></p>
                     <br/>
-                    <button class="qr-btn center-in-div" onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">Download the Reader App</button>
+                    <button 
+                        class="qr-btn center-in-div" 
+                        onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">
+                        Download the Reader App
+                    </button>
                 </div>
             </div>
 
@@ -141,16 +76,19 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         <script src="js/jsencrypt.min.js"></script>
         <script src="js/sha256.js"></script>
 		<script>
+            function e(elem) {
+                return document.getElementById(elem);
+            }
             function addIfExists(prefix, elemId) {
-                let value = encodeURIComponent(document.getElementById(elemId).value);
+                let value = encodeURIComponent(e(elemId).value);
                 return value ? prefix+value : "";
             }
             function generateQRCode() {
-                var message = "date=" + new Date().toJSON();
+                var message = "date="+e("qr-date").value;
                 message += addIfExists("&vaccinee=", "qr-vaccineeid");
                 message += addIfExists("&vaccinator=", "qr-vacinatorid");
                 message += addIfExists("&manuf=", "qr-manuf");
-                message += "&name=COVID19";
+                message += addIfExists("&name=", "qr-product");
                 message += addIfExists("&lot=",   "qr-lot");
                 message += addIfExists("&route=", "qr-route");
                 message += addIfExists("&site=",  "qr-site");
@@ -159,16 +97,15 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 message += addIfExists("&required_doses=",  "qr-required_doses");
                 message += addIfExists("&next_dose_in_days=",  "qr-next_dose_in_days");
 
+                var link = e("qr-link").value.trim().replace("http://","");
                 var sign = new JSEncrypt();
-                sign.setPrivateKey(document.getElementById('privkey').value);
+                sign.setPrivateKey(e('privkey').value);
                 var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
                 
-                var uri = "healthpass:SHA256\\"+signature
-                        + "@vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key?"
-                        + message;
+                var uri = "healthpass:SHA256\\"+signature+"@"+link+"?"+message;
 
                 var qr = new QRious({
-                    element: document.getElementById('qr-code')
+                    element: e('qr-code')
                 });
                 
                 qr.set({
@@ -176,17 +113,36 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     size: 500,
                     value: uri
                 });
-                
-                // Verify with the public key...
-                var verify = new JSEncrypt();
-                verify.setPublicKey(document.getElementById('pubkey').value);
-                var verified = verify.verify(message, signature, CryptoJS.SHA256);
-                
-                document.getElementById("qr-result").innerHTML = "QRCode: " + uri
-                    +" <br><br>Signature: " + signature 
-                    + " <br><br>Verified: " + verified;
+
+                e("qr-result").innerHTML= "<span class='protocol'>healthpass</span>:" + 
+                                            "<span class='crypto-algo'>SHA256</span>\\" +
+                                            "<span class='signature'>" + signature + "</span>" + "@" +
+                                            "<span class='pub-key'>" + link + "</span>" + "?" +
+                                            "<span class='message'>" + message + "</span>";
+
+                e("qr-format").innerHTML= "<span class='protocol'>Protocol</span>:" + 
+                                            "<span class='crypto-algo'>HashAlgo</span>\\" +
+                                            "<span class='signature'>Signature</span>" + "@" +
+                                            "<span class='pub-key'>PubKey</span>" + "?" +
+                                            "<span class='message'>Message</span>";
+
+                // Download pubkey to verify
+                var client = new XMLHttpRequest();
+                client.open('GET', "https://vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key");
+                client.addEventListener("load", 
+                    function() {
+                        // Verify with the public key...
+                        var verify = new JSEncrypt();
+                        verify.setPublicKey(e('pubkey').value);
+                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
+                        e("qr-verified").innerHTML = "Verified: " + verified;
+                    }
+                );
+                client.send();
             }
 		</script>
-        
+        <script>
+            document.getElementById("qr-date").value = new Date().toJSON();
+        </script>
 	</body>
 </html>

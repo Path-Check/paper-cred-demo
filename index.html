@@ -93,16 +93,15 @@ gwQco1KRMDSmXSMkDwIDAQAB
                 message += addIfExists("&route=", "qr-route");
                 message += addIfExists("&site=",  "qr-site");
                 message += addIfExists("&dose=",  "qr-dose");
-                message += addIfExists("&dose=",  "qr-dose");
                 message += addIfExists("&required_doses=",  "qr-required_doses");
                 message += addIfExists("&next_dose_in_days=",  "qr-next_dose_in_days");
 
-                var link = e("qr-link").value.trim().replace("http://","");
+                var pubkey = e("qr-link").value.trim().replace("http://","");
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(e('privkey').value);
                 var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
                 
-                var uri = "healthpass:SHA256\\"+signature+"@"+link+"?"+message;
+                var uri = "healthpass:SHA256\\"+signature+"@"+pubkey+"?"+message;
 
                 var qr = new QRious({
                     element: e('qr-code')
@@ -117,7 +116,7 @@ gwQco1KRMDSmXSMkDwIDAQAB
                 e("qr-result").innerHTML= "<span class='protocol'>healthpass</span>:" + 
                                             "<span class='crypto-algo'>SHA256</span>\\" +
                                             "<span class='signature'>" + signature + "</span>" + "@" +
-                                            "<span class='pub-key'>" + link + "</span>" + "?" +
+                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
                                             "<span class='message'>" + message + "</span>";
 
                 e("qr-format").innerHTML= "<span class='protocol'>Protocol</span>:" + 
@@ -126,14 +125,17 @@ gwQco1KRMDSmXSMkDwIDAQAB
                                             "<span class='pub-key'>PubKey</span>" + "?" +
                                             "<span class='message'>Message</span>";
 
+                e("qr-verified").innerHTML = "Verified: false";
+
+
                 // Download pubkey to verify
                 var client = new XMLHttpRequest();
-                client.open('GET', "https://vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key");
+                client.open('GET', "https://" + pubkey);
                 client.addEventListener("load", 
                     function() {
                         // Verify with the public key...
                         var verify = new JSEncrypt();
-                        verify.setPublicKey(e('pubkey').value);
+                        verify.setPublicKey(this.responseText);
                         var verified = verify.verify(message, signature, CryptoJS.SHA256);
                         e("qr-verified").innerHTML = "Verified: " + verified;
                     }

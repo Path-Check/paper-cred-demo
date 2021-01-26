@@ -118,9 +118,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         <script src="js/jsencrypt.min.js"></script>
         <script src="js/sha256.js"></script>
 		<script>
-            function e(elem) {
-                return document.getElementById(elem);
-            }
+            function e(elem) { return document.getElementById(elem); }
 
             function addIfExists(prefix, elemId) {
                 let value = encodeURIComponent(e(elemId).value);
@@ -147,9 +145,9 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(prikey);
 
-                var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
+                var signature = sign.sign(message, CryptoJS.SHA256, crypto);
 
-                var uri = "healthpass:SHA256\\"+signature+"@"+pubkey+"?"+message;
+                var uri = protocol+":"+crypto+"\\"+signature+"@"+pubkey+"?"+message;
 
                 var qr = new QRious({ element: e(elemPref+'-code') });
                 qr.set({
@@ -172,7 +170,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 var pubkey = e("qr-link").value.trim().replace("http://","");
                 var prikey = e('privkey').value;
 
-                var messageCoupon = "coupon_id="+e("qr-coupon-id").value;
+                var messageCoupon = "type=coupon";
+                messageCoupon += addIfExists("&coupon_id=", "qr-coupon-id");
                 messageCoupon += addIfExists("&coupons=", "qr-coupon-total-coupons");
                 messageCoupon += addIfExists("&phase=", "qr-coupon-phase");
                 messageCoupon += addIfExists("&city=", "qr-coupon-elegibility-city");
@@ -180,18 +179,20 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 messageCoupon += addIfExists("&cond=",   "qr-coupon-elegibility-conditions");
                 messageCoupon += addIfExists("&job=", "qr-coupon-elegibility-job");
                 
-                signAndDisplayQR("qr-coupon", "healthpasscoupon", "SHA256", prikey, pubkey, messageCoupon);
+                signAndDisplayQR("qr-coupon", "healthpass", "SHA256", prikey, pubkey, messageCoupon);
 
                 // PassKey
-                var messagePassKey = "name="+e("qr-passkey-name").value;
+                var messagePassKey = "type=passkey"; 
+                messagePassKey += addIfExists("&name=", "qr-passkey-name");
                 messagePassKey += addIfExists("&phone=", "qr-passkey-phone");
                 messagePassKey += addIfExists("&dob=", "qr-passkey-dob");
                 messagePassKey += addIfExists("&salt=", "qr-passkey-salt");
 
-                signAndDisplayQR("qr-passkey", "healthpasskey", "SHA256", prikey, pubkey, messagePassKey);
+                signAndDisplayQR("qr-passkey", "healthpass", "SHA256", prikey, pubkey, messagePassKey);
 
                 // Badge
-                var messageBadge = "date="+e("qr-badge-date").value;
+                var messageBadge = "type=badge";
+                messageBadge += addIfExists("&date=", "qr-badge-date");
                 messageBadge += addIfExists("&vaccinee=", "qr-badge-vaccineeid");
                 messageBadge += addIfExists("&vaccinator=", "qr-badge-vacinatorid");
                 messageBadge += addIfExists("&manuf=", "qr-badge-manuf");
@@ -203,13 +204,14 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 messageBadge += addIfExists("&required_doses=",  "qr-badge-required_doses");
                 messageBadge += addIfExists("&next_dose_in_days=",  "qr-badge-next_dose_in_days");
 
-                signAndDisplayQR("qr-badge", "healthpassbadge", "SHA256", prikey, pubkey, messageBadge);
+                signAndDisplayQR("qr-badge", "healthpass", "SHA256", prikey, pubkey, messageBadge);
 
                 // Status
-                var messageStatus = "vaccinated="+e("qr-status-vaccinated").value;
+                var messageStatus = "type=status";
+                messageStatus += addIfExists("&vaccinated=", "qr-status-vaccinated");
                 messageStatus += addIfExists("&vaccineeid=", "qr-status-vaccineeid");
 
-                signAndDisplayQR("qr-status", "healthpassstatus", "SHA256", prikey, pubkey, messageStatus);
+                signAndDisplayQR("qr-status", "healthpass", "SHA256", prikey, pubkey, messageStatus);
             }
         </script>
         

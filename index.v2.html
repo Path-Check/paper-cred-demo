@@ -1,0 +1,222 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+		<title>Vaccine Distribution Certificates Generator</title>
+	</head>
+	<body>
+        <div class="center">
+            <div class="full-div">
+                <h3>Vaccine Distribution Certificates Generator</h3>
+                <div class="quarter">
+                    <h4>Coupon</h4>
+                    <table>
+                        <tr><td class="input-label">Seq ID</td><td><input id="qr-coupon-id" type="text" placeholder="2"/></td></tr>
+                        <tr><td class="input-label">Coupons</td><td><input id="qr-coupon-total-coupons" type="text" placeholder="5000"/></td></tr>
+                        <tr><td class="input-label">Phase</td><td><input id="qr-coupon-phase" type="text" placeholder="1A, 2A, ..."/></td></tr>
+                        <tr><td class="input-label">City</td><td><input id="qr-coupon-elegibility-city" type="text" placeholder="Somerville, Cambridge, ..."/></td></tr>
+                        <tr><td class="input-label">Age</td><td><input id="qr-coupon-elegibility-age" type="text" placeholder="Under 65, Over 65, ...>"/></td></tr>
+                        <tr><td class="input-label">Conditions</td><td><input id="qr-coupon-elegibility-conditions" type="text" placeholder="Diabetes, ...."/></td></tr>
+                        <tr><td class="input-label">Job</td><td><input id="qr-coupon-elegibility-job" type="text" placeholder="Teacher, Healthworker, ..."/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Badge</h4>
+                    <table>
+                        <tr><td class="input-label">Date</td><td><input id="qr-badge-date" type="text" placeholder=""/></td></tr>
+                        <tr><td class="input-label">Manuf</td><td><input id="qr-badge-manuf" type="text" placeholder="Pfizer, Moderna, etc"/></td></tr>
+                        <tr><td class="input-label">Product</td><td><input id="qr-badge-product" type="text" placeholder="COVID-19"/></td></tr>
+                        <tr><td class="input-label">Lot#</td><td><input id="qr-badge-lot" type="text" placeholder="012L20A, ..."/></td></tr>
+                        <tr><td class="input-label">Route</td><td><input id="qr-badge-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
+                        <tr><td class="input-label">Site</td><td><input id="qr-badge-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
+                        <tr><td class="input-label">Dose</td><td><input id="qr-badge-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
+                        <tr><td class="input-label">Doses</td><td><input id="qr-badge-required_doses" type="text" placeholder="1, 2, 3, ..."/></td></tr>
+                        <tr><td class="input-label">Next Dose</td><td><input id="qr-badge-next_dose_in_days" type="text" placeholder="21, 28, ..."/></td></tr>
+                        <tr><td class="input-label">Vaccinator</td><td><input id="qr-badge-vacinatorid" type="text" placeholder="Pharmacy Name, City, ..."/></td></tr>
+                        <tr><td class="input-label">VaccineeID</td><td><input id="qr-badge-vaccineeid" type="text" placeholder="User Hash"/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter"> 
+                    <h4>PassKey</h4>
+                    <table>
+                        <tr><td class="input-label">Name</td><td><input id="qr-passkey-name" type="text" placeholder="Pat Name"/></td></tr>
+                        <tr><td class="input-label">Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
+                        <tr><td class="input-label">DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td class="input-label">Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Status</h4>
+                    <table>
+                        <tr><td class="input-label">Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
+                        <tr><td class="input-label">VaccineeID</td><td><input id="qr-status-vaccineeid" type="text" placeholder="617 .."/></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>Credentials</h4>
+                    <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+                    <textarea id="privkey" rows="16" cols="63">
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
+WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
+aY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4gwQco1KRMDSmXSMkDwIDAQAB
+AoGAfY9LpnuWK5Bs50UVep5c93SJdUi82u7yMx4iHFMc/Z2hfenfYEzu+57fI4fv
+xTQ//5DbzRR/XKb8ulNv6+CHyPF31xk7YOBfkGI8qjLoq06V+FyBfDSwL8KbLyeH
+m7KUZnLNQbk8yGLzB3iYKkRHlmUanQGaNMIJziWOkN+N9dECQQD0ONYRNZeuM8zd
+8XJTSdcIX4a3gy3GGCJxOzv16XHxD03GW6UNLmfPwenKu+cdrQeaqEixrCejXdAF
+z/7+BSMpAkEA8EaSOeP5Xr3ZrbiKzi6TGMwHMvC7HdJxaBJbVRfApFrE0/mPwmP5
+rN7QwjrMY+0+AbXcm8mRQyQ1+IGEembsdwJBAN6az8Rv7QnD/YBvi52POIlRSSIM
+V7SwWvSK4WSMnGb1ZBbhgdg57DXaspcwHsFV7hByQ5BvMtIduHcT14ECfcECQATe
+aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
+psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
+uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
+-----END RSA PRIVATE KEY-----
+                    </textarea><br><br>
+                    <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
+                    <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                </div>
+            </div>
+            <div class="full-div">
+                <br/><br/>
+                <div style="margin: 0 auto; width:500px;">
+                    <button class="qr-btn center-in-div" onclick="generateQRCodes()">Sign All Certificates</button>
+                    <br/><br/>
+                </div>
+            </div>
+            <div class="full-div">
+                <div class="quarter">
+                    <canvas id="qr-coupon-code"></canvas><br/>
+                    <pre id="qr-coupon-result"></pre>
+                    <pre id="qr-coupon-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <p id="qr-coupon-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-badge-code"></canvas><br/>
+                    <pre id="qr-badge-result"></pre>
+                    <pre id="qr-badge-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <p id="qr-badge-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-passkey-code"></canvas><br/>
+                    <pre id="qr-passkey-result"></pre>
+                    <pre id="qr-passkey-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <p id="qr-passkey-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-status-code"></canvas><br/>
+                    <pre id="qr-status-result"></pre>
+                    <pre id="qr-status-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <p id="qr-status-verified"></p>
+                </div>
+                <div class="quarter">
+                    
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrious.min.js"></script>
+        <script src="js/jsencrypt.min.js"></script>
+        <script src="js/sha256.js"></script>
+		<script>
+            function e(elem) {
+                return document.getElementById(elem);
+            }
+
+            function addIfExists(prefix, elemId) {
+                let value = encodeURIComponent(e(elemId).value);
+                return value ? prefix+value : "";
+            }
+
+            function verify(pubkey, message, signature, feedback_elem_id) {
+                // Download pubkey to verify
+                var client = new XMLHttpRequest();
+                client.open('GET', "https://" + pubkey);
+                client.addEventListener("load", 
+                    function() {
+                        // Verify with the public key...
+                        var verify = new JSEncrypt();
+                        verify.setPublicKey(this.responseText);
+                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
+                        e(feedback_elem_id).innerHTML = "Verified: " + verified;
+                    }
+                );
+                client.send();
+            }
+
+            function signAndDisplayQR(elemPref, protocol, crypto, prikey, pubkey, message) {
+                var sign = new JSEncrypt();
+                sign.setPrivateKey(prikey);
+
+                var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
+
+                var uri = "healthpass:SHA256\\"+signature+"@"+pubkey+"?"+message;
+
+                var qr = new QRious({ element: e(elemPref+'-code') });
+                qr.set({
+                    foreground: '#3654DD',
+                    size: 250,
+                    value: uri
+                });
+
+                e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol+"</span>:" + 
+                                            "<span class='crypto-algo'>"+crypto+"</span>\\" +
+                                            "<span class='signature'>" + signature + "</span>" + "@" +
+                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
+                                            "<span class='message'>" + message + "</span>";
+                e(elemPref+"-format").className="visible";
+                e(elemPref+"-verified").innerHTML = "Verified: false";
+
+                verify(pubkey, message, signature, elemPref + "-verified");
+            }
+
+            function generateQRCodes() {
+                var pubkey = e("qr-link").value.trim().replace("http://","");
+                var prikey = e('privkey').value;
+
+                var messageCoupon = "coupon_id="+e("qr-coupon-id").value;
+                messageCoupon += addIfExists("&coupons=", "qr-coupon-total-coupons");
+                messageCoupon += addIfExists("&phase=", "qr-coupon-phase");
+                messageCoupon += addIfExists("&city=", "qr-coupon-elegibility-city");
+                messageCoupon += addIfExists("&age=", "qr-coupon-elegibility-age");
+                messageCoupon += addIfExists("&cond=",   "qr-coupon-elegibility-conditions");
+                messageCoupon += addIfExists("&job=", "qr-coupon-elegibility-job");
+                
+                signAndDisplayQR("qr-coupon", "healthpasscoupon", "SHA256", prikey, pubkey, messageCoupon);
+
+                // Badge
+                var messageBadge = "date="+e("qr-badge-date").value;
+                messageBadge += addIfExists("&vaccinee=", "qr-badge-vaccineeid");
+                messageBadge += addIfExists("&vaccinator=", "qr-badge-vacinatorid");
+                messageBadge += addIfExists("&manuf=", "qr-badge-manuf");
+                messageBadge += addIfExists("&name=", "qr-badge-product");
+                messageBadge += addIfExists("&lot=",   "qr-badge-lot");
+                messageBadge += addIfExists("&route=", "qr-badge-route");
+                messageBadge += addIfExists("&site=",  "qr-badge-site");
+                messageBadge += addIfExists("&dose=",  "qr-badge-dose");
+                messageBadge += addIfExists("&required_doses=",  "qr-badge-required_doses");
+                messageBadge += addIfExists("&next_dose_in_days=",  "qr-badge-next_dose_in_days");
+
+                signAndDisplayQR("qr-badge", "healthpassbadge", "SHA256", prikey, pubkey, messageBadge);
+
+                // PassKey
+                var messagePassKey = "name="+e("qr-passkey-name").value;
+                messagePassKey += addIfExists("&phone=", "qr-passkey-phone");
+                messagePassKey += addIfExists("&dob=", "qr-passkey-dob");
+                messagePassKey += addIfExists("&salt=", "qr-passkey-salt");
+
+                signAndDisplayQR("qr-passkey", "healthpasskey", "SHA256", prikey, pubkey, messagePassKey);
+
+                // Status
+                var messageStatus = "vaccinated="+e("qr-status-vaccinated").value;
+                messageStatus += addIfExists("&vaccineeid=", "qr-status-vaccineeid");
+
+                signAndDisplayQR("qr-status", "healthpassstatus", "SHA256", prikey, pubkey, messageStatus);
+            }
+        </script>
+        
+        <script>
+            // Defaults
+            document.getElementById("qr-badge-date").value = new Date().toJSON();
+        </script>
+	</body>
+</html>

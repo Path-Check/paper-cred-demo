@@ -62,25 +62,12 @@ pre {
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
-.left-div {
-  float: left;
-  width: 49%;
-  margin: 0px;
-  padding-right: 10px;
-}
-
 .quarter {
   float: left;
   width: 19%;
   margin: 0px;
   padding-right: 5px;
   padding-left: 5px;
-}
-
-.right-div {
-  float: right;
-  width: 49%;
-  padding-left: 0px;
 }
 
 .full-div {

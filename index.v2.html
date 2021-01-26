@@ -71,9 +71,13 @@ aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
 psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
 uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 -----END RSA PRIVATE KEY-----
-                    </textarea><br><br>
+                    </textarea>
+                    <br><br>
                     <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
                     <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                    <br><br>
+                    <label for="privkey">QR Code Format</label><br/>
+                    <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                 </div>
             </div>
             <div class="full-div">
@@ -87,25 +91,21 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 <div class="quarter">
                     <canvas id="qr-coupon-code"></canvas><br/>
                     <pre id="qr-coupon-result"></pre>
-                    <pre id="qr-coupon-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <p id="qr-coupon-verified"></p>
                 </div>
                 <div class="quarter">
                     <canvas id="qr-badge-code"></canvas><br/>
                     <pre id="qr-badge-result"></pre>
-                    <pre id="qr-badge-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <p id="qr-badge-verified"></p>
                 </div>
                 <div class="quarter">
                     <canvas id="qr-passkey-code"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
-                    <pre id="qr-passkey-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <p id="qr-passkey-verified"></p>
                 </div>
                 <div class="quarter">
                     <canvas id="qr-status-code"></canvas><br/>
                     <pre id="qr-status-result"></pre>
-                    <pre id="qr-status-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <p id="qr-status-verified"></p>
                 </div>
                 <div class="quarter">
@@ -163,7 +163,6 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                                             "<span class='signature'>" + signature + "</span>" + "@" +
                                             "<span class='pub-key'>" + pubkey + "</span>" + "?" +
                                             "<span class='message'>" + message + "</span>";
-                e(elemPref+"-format").className="visible";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 verify(pubkey, message, signature, elemPref + "-verified");

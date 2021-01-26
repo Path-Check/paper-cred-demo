@@ -19,6 +19,15 @@
                         <tr><td class="input-label">Job</td><td><input id="qr-coupon-elegibility-job" type="text" placeholder="Teacher, Healthworker, ..."/></td></tr>
                     </table>
                 </div>
+                <div class="quarter"> 
+                    <h4>PassKey</h4>
+                    <table>
+                        <tr><td class="input-label">Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
+                        <tr><td class="input-label">Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
+                        <tr><td class="input-label">DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td class="input-label">Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
+                    </table>
+                </div>
                 <div class="quarter">
                     <h4>Badge</h4>
                     <table>
@@ -33,15 +42,6 @@
                         <tr><td class="input-label">Next Dose</td><td><input id="qr-badge-next_dose_in_days" type="text" placeholder="21, 28, ..."/></td></tr>
                         <tr><td class="input-label">Vaccinator</td><td><input id="qr-badge-vacinatorid" type="text" placeholder="Pharmacy Name, City, ..."/></td></tr>
                         <tr><td class="input-label">VaccineeID</td><td><input id="qr-badge-vaccineeid" type="text" placeholder="User Hash"/></td></tr>
-                    </table>
-                </div>
-                <div class="quarter"> 
-                    <h4>PassKey</h4>
-                    <table>
-                        <tr><td class="input-label">Name</td><td><input id="qr-passkey-name" type="text" placeholder="Pat Name"/></td></tr>
-                        <tr><td class="input-label">Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
-                        <tr><td class="input-label">DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
-                        <tr><td class="input-label">Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
                 </div>
                 <div class="quarter">
@@ -94,14 +94,14 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     <p id="qr-coupon-verified"></p>
                 </div>
                 <div class="quarter">
-                    <canvas id="qr-badge-code"></canvas><br/>
-                    <pre id="qr-badge-result"></pre>
-                    <p id="qr-badge-verified"></p>
-                </div>
-                <div class="quarter">
                     <canvas id="qr-passkey-code"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
                     <p id="qr-passkey-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-badge-code"></canvas><br/>
+                    <pre id="qr-badge-result"></pre>
+                    <p id="qr-badge-verified"></p>
                 </div>
                 <div class="quarter">
                     <canvas id="qr-status-code"></canvas><br/>
@@ -215,7 +215,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         
         <script>
             // Defaults
-            document.getElementById("qr-badge-date").value = new Date().toJSON();
+            document.getElementById("qr-badge-date").value = new Date().toJSON().slice(0, 16);
         </script>
 	</body>
 </html>

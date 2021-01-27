@@ -42,6 +42,9 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 </textarea><br><br>
                 <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
                 <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                <br><br>
+                <label for="privkey">QR Code Format</label>
+                <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
             </div>
             <div class="full-div">
                 <br/><br/>
@@ -75,6 +78,21 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
             function addIfExists(prefix, elemId) {
                 let value = encodeURIComponent(e(elemId).value);
                 return value ? prefix+value : "";
+            }
+            function verify(pubkey, message, signature, feedback_elem_id) {
+                // Download pubkey to verify
+                var client = new XMLHttpRequest();
+                client.open('GET', "https://" + pubkey);
+                client.addEventListener("load", 
+                    function() {
+                        // Verify with the public key...
+                        var verify = new JSEncrypt();
+                        verify.setPublicKey(this.responseText);
+                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
+                        e(feedback_elem_id).innerHTML = "Verified: " + verified;
+                    }
+                );
+                client.send();
             }
             function generateQRCode() {
                 var message = "date="+e("qr-date").value;
@@ -116,20 +134,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 e("qr-format").className="visible";
                 e("qr-verified").innerHTML = "Verified: false";
 
-
-                // Download pubkey to verify
-                var client = new XMLHttpRequest();
-                client.open('GET', "https://" + pubkey);
-                client.addEventListener("load", 
-                    function() {
-                        // Verify with the public key...
-                        var verify = new JSEncrypt();
-                        verify.setPublicKey(this.responseText);
-                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
-                        e("qr-verified").innerHTML = "Verified: " + verified;
-                    }
-                );
-                client.send();
+                verify(pubkey, message, signature, "qr-verified");
             }
         </script>
         

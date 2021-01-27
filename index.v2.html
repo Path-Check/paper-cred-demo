@@ -55,7 +55,7 @@
                 <div class="quarter">
                     <h4>Credentials</h4>
                     <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
-                    <textarea id="privkey" rows="16" cols="30">
+                    <textarea id="privkey" rows="10" cols="30">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
 WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
@@ -80,6 +80,12 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <br>
                     <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
+                    <br><br>
+                    <button 
+                        class="qr-btn" 
+                        onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">
+                        Download the Reader App
+                        </button>
                 </div>
             </div>
             <div class="full-div">
@@ -111,7 +117,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     <p id="qr-status-verified"></p>
                 </div>
                 <div class="quarter">
-                    
+                   
                 </div>
             </div>
         </div>

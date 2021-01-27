@@ -1,0 +1,83 @@
+body {
+  margin-top: 50px;
+  width: 100%;
+  height: 100%;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.center {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+textarea {
+  margin-top: 10px;
+}
+
+.invisible {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.qr-btn {
+  background-color: #3654DD;
+  padding: 8px;
+  font-size: 20px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.center-in-div {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.qr-data {
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.left-div {
+  float: left;
+  width: 59%;
+  margin: 0px;
+  padding-right: 10px;
+}
+
+.right-div {
+  float: right;
+  width: 39%;
+  padding-left: 0px;
+}
+
+.full-div {
+  clear: both;
+  width: 100%;
+}
+
+.protocol {
+  color: red;
+}
+.crypto-algo {
+  color: rgb(155, 148, 51);
+}
+.signature {
+  color: green;
+}
+.pub-key {
+  color:blue;
+}
+.message {
+  color: rgb(197, 107, 197);
+}

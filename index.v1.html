@@ -46,6 +46,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
             <div class="full-div">
                 <br/><br/>
                 <div style="margin: 0 auto; width:500px;">
+                    <button class="qr-btn center-in-div" onclick="loadDemo()">Load Demo Data</button>
+                    <br/><br/><br/><br/>
                     <button class="qr-btn center-in-div" onclick="generateQRCode()">Sign Vaccine Certificate</button>
                     <br/><br/>
                     <canvas id="qr-code"></canvas><br/>
@@ -134,6 +136,19 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         <script>
             // Defaults
             document.getElementById("qr-date").value = new Date().toJSON();
+
+            function loadDemo() {
+                e("qr-vacinatorid").value = "CVS Minute Clinic";
+                e("qr-manuf").value = "Moderna";
+                e("qr-product").value = "COVID-19";
+                e("qr-lot").value = "012L20A";
+                e("qr-route").value = "IM";
+                e("qr-site").value = "RA";
+                e("qr-dose").value = ".5ml";
+                e("qr-required_doses").value = "2";
+                e("qr-next_dose_in_days").value = "28";
+                e("qr-vaccineeid").value = "John Doe";
+            }
         </script>
 	</body>
 </html>

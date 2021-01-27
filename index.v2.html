@@ -55,7 +55,7 @@
                 <div class="quarter">
                     <h4>Credentials</h4>
                     <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
-                    <textarea id="privkey" rows="16" cols="63">
+                    <textarea id="privkey" rows="16" cols="30">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
 WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
@@ -74,7 +74,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     </textarea>
                     <br><br>
                     <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
-                    <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                    <textarea id="qr-link" rows="3" cols="30">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
@@ -154,7 +154,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 var qr = new QRious({ element: e(elemPref+'-code') });
                 qr.set({
                     foreground: '#3654DD',
-                    size: 300,
+                    size: 290,
+                    level: 'M',
                     value: uri
                 });
 

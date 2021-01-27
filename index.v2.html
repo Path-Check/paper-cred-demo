@@ -37,7 +37,7 @@
                         <tr><td>Lot#</td><td><input id="qr-badge-lot" type="text" placeholder="012L20A, ..."/></td></tr>
                         <tr><td>Route</td><td><input id="qr-badge-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
                         <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
-                        <tr><td>Dose</td><td><input id="qr-badge-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
+                        <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1.0ml, 0.5ml, ..."/></td></tr>
                         <tr><td>Doses</td><td><input id="qr-badge-required_doses" type="text" placeholder="1, 2, 3, ..."/></td></tr>
                         <tr><td>Next Dose</td><td><input id="qr-badge-next_dose_in_days" type="text" placeholder="21, 28, ..."/></td></tr>
                         <tr><td>Vaccinator</td><td><input id="qr-badge-vacinator" type="text" placeholder="Pharmacy Name, City, ..."/></td></tr>
@@ -230,7 +230,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
             e("qr-passkey-salt").value = Math.random().toString(36).substring(2);
 
             function loadDemo() {
-                e("qr-coupon-id").value = "USMA0001";
+                e("qr-coupon-id").value = "US MA 0001";
                 e("qr-coupon-coupons").value = 5000;
                 e("qr-coupon-phase").value = "1A";
                 e("qr-coupon-city").value = "Somerville";
@@ -239,10 +239,10 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 e("qr-coupon-job").value = "HealthWorkers, Teachers";
 
                 e("qr-passkey-name").value = "John Doe";
-                e("qr-passkey-phone").value = "6173332345";
-                e("qr-passkey-dob").value = "1950-01-01";
+                e("qr-passkey-phone").value = "+1 617 333 2345";
+                e("qr-passkey-dob").value = "1950-04-22";
 
-                e("qr-badge-vacinator").value = "CVS Minute Clinics";
+                e("qr-badge-vacinator").value = "CVS Minute Clinic";
                 e("qr-badge-manuf").value = "Moderna";
                 e("qr-badge-product").value = "COVID-19";
                 e("qr-badge-lot").value = "012L20A";

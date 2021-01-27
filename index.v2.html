@@ -41,14 +41,14 @@
                         <tr><td>Doses</td><td><input id="qr-badge-required_doses" type="text" placeholder="1, 2, 3, ..."/></td></tr>
                         <tr><td>Next Dose</td><td><input id="qr-badge-next_dose_in_days" type="text" placeholder="21, 28, ..."/></td></tr>
                         <tr><td>Vaccinator</td><td><input id="qr-badge-vacinator" type="text" placeholder="Pharmacy Name, City, ..."/></td></tr>
-                        <tr><td>PassKey</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash"/></td></tr>
+                        <tr><td>PassKey</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                     </table>
                 </div>
                 <div class="quarter">
                     <h4>Status</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
-                        <tr><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash"/></td></tr>
+                        <tr><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                     </table>
                 </div>
                 
@@ -78,6 +78,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <br>
+                    <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
                 </div>
             </div>
             <div class="full-div">
@@ -145,14 +147,14 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 var sign = new JSEncrypt();
                 sign.setPrivateKey(prikey);
 
-                var signature = sign.sign(message, CryptoJS.SHA256, crypto);
+                var signature = sign.sign(message, CryptoJS.SHA256, crypto.toLowerCase());
 
                 var uri = protocol+":"+crypto+"\\"+signature+"@"+pubkey+"?"+message;
 
                 var qr = new QRious({ element: e(elemPref+'-code') });
                 qr.set({
                     foreground: '#3654DD',
-                    size: 250,
+                    size: 300,
                     value: uri
                 });
 
@@ -190,9 +192,13 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 
                 signAndDisplayQR("qr-passkey", "healthpass", "SHA256", prikey, pubkey, messagePassKey);
 
+                var hashPassKey = CryptoJS.SHA256(messagePassKey);
+                e("qr-status-vaccinee").value = hashPassKey;
+                e("qr-badge-vaccinee").value = hashPassKey;
+
                 // Badge
                 var messageBadge = "type=badge";
-                messageBadge += addIfExists("&date=", "qr-badge-date");
+                messageBadge += "&date="+e("qr-badge-date").value;
                 messageBadge += addIfExists("&vaccinee=", "qr-badge-vaccinee");
                 messageBadge += addIfExists("&vaccinator=", "qr-badge-vacinator");
                 messageBadge += addIfExists("&manuf=", "qr-badge-manuf");
@@ -217,7 +223,38 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
         
         <script>
             // Defaults
-            document.getElementById("qr-badge-date").value = new Date().toJSON().slice(0, 16);
+            e("qr-badge-date").value = new Date().toJSON().slice(0, 16);
+
+            // Salt 
+            e("qr-passkey-salt").value = Math.random().toString(36).substring(2);
+
+            function loadDemo() {
+                e("qr-coupon-id").value = "USMA0001";
+                e("qr-coupon-coupons").value = 5000;
+                e("qr-coupon-phase").value = "1A";
+                e("qr-coupon-city").value = "Somerville";
+                e("qr-coupon-age").value = "<65";
+                e("qr-coupon-conditions").value = "Chronic";
+                e("qr-coupon-job").value = "HealthWorkers, Teachers";
+
+                e("qr-passkey-name").value = "John Doe";
+                e("qr-passkey-phone").value = "6173332345";
+                e("qr-passkey-dob").value = "1950-01-01";
+
+                e("qr-badge-vacinator").value = "CVS Minute Clinics";
+                e("qr-badge-manuf").value = "Moderna";
+                e("qr-badge-product").value = "COVID-19";
+                e("qr-badge-lot").value = "012L20A";
+                e("qr-badge-route").value = "IM";
+                e("qr-badge-site").value = "RA";
+                e("qr-badge-dose").value = ".5ml";
+                e("qr-badge-required_doses").value = "2";
+                e("qr-badge-next_dose_in_days").value = "28";
+
+                e("qr-status-vaccinated").value = "1";
+            }
         </script>
 	</body>
 </html>
+
+

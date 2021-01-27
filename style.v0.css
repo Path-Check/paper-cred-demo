@@ -6,7 +6,7 @@ body {
 }
 
 .center {
-  width: 1200px;
+  width: 1100px;
   margin: 0 auto;
 }
 
@@ -50,14 +50,14 @@ textarea {
 
 .left-div {
   float: left;
-  width: 59%;
+  width: 49%;
   margin: 0px;
   padding-right: 10px;
 }
 
 .right-div {
   float: right;
-  width: 39%;
+  width: 49%;
   padding-left: 0px;
 }
 

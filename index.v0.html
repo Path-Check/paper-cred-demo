@@ -7,9 +7,119 @@
         <div class="center">
             <h3>Signed QR Code Generator</h3>
             <div class="left-div">
-                <h4>Message as Json to Sign</h4>
-                <textarea id="india-data" rows="40" cols="84">
-{"@context":["https://www.w3.org/2018/credentials/v1", "https://cowin.mofw.gov.in/credentials/vaccination/v1"],
+                <h4>Message to Sign</h4>
+                <textarea id="india-data" rows="40" cols="65">
+             
+                </textarea> 
+            </div>
+
+            <div class="right-div">
+                <h4>Credentials</h4>
+                <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+                <textarea id="privkey" rows="16" cols="63">
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
+WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
+aY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4gwQco1KRMDSmXSMkDwIDAQAB
+AoGAfY9LpnuWK5Bs50UVep5c93SJdUi82u7yMx4iHFMc/Z2hfenfYEzu+57fI4fv
+xTQ//5DbzRR/XKb8ulNv6+CHyPF31xk7YOBfkGI8qjLoq06V+FyBfDSwL8KbLyeH
+m7KUZnLNQbk8yGLzB3iYKkRHlmUanQGaNMIJziWOkN+N9dECQQD0ONYRNZeuM8zd
+8XJTSdcIX4a3gy3GGCJxOzv16XHxD03GW6UNLmfPwenKu+cdrQeaqEixrCejXdAF
+z/7+BSMpAkEA8EaSOeP5Xr3ZrbiKzi6TGMwHMvC7HdJxaBJbVRfApFrE0/mPwmP5
+rN7QwjrMY+0+AbXcm8mRQyQ1+IGEembsdwJBAN6az8Rv7QnD/YBvi52POIlRSSIM
+V7SwWvSK4WSMnGb1ZBbhgdg57DXaspcwHsFV7hByQ5BvMtIduHcT14ECfcECQATe
+aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
+psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
+uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
+-----END RSA PRIVATE KEY-----
+                </textarea>
+                <br><br>
+                <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
+                <textarea id="qr-link" rows="3" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                <br><br>
+                <label for="privkey">QR Code Format</label><br/>
+                <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                <br>               
+                <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
+            </div>
+
+            <div class="full-div">
+                <br/><br/>
+                <div class="center">
+                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Sign and Generate QR</button>
+                    <br/><br/>
+                    <canvas id="qr-code"></canvas><br/>
+                    <pre id="qr-result" class="qr-data"></pre>
+                    <p id="qr-verified"></p>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrious.min.js"></script>
+        <script src="js/jsencrypt.min.js"></script>
+        <script src="js/sha256.js"></script>
+		<script>
+            function e(elem) {
+                return document.getElementById(elem);
+            }
+            function addIfExists(prefix, elemId) {
+                let value = encodeURIComponent(e(elemId).value);
+                return value ? prefix+value : "";
+            }
+            function verify(pubkey, message, signature, feedback_elem_id) {
+                // Download pubkey to verify
+                var client = new XMLHttpRequest();
+                client.open('GET', "https://" + pubkey);
+                client.addEventListener("load", 
+                    function() {
+                        // Verify with the public key...
+                        var verify = new JSEncrypt();
+                        verify.setPublicKey(this.responseText);
+                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
+                        e(feedback_elem_id).innerHTML = "Verified: " + verified;
+                    }
+                );
+                client.send();
+            }
+            function generateQRCode() {
+                var message = addIfExists("data=", 'india-data');
+                
+                var pubkey = e("qr-link").value.trim().replace("http://","");
+                var sign = new JSEncrypt();
+                sign.setPrivateKey(e('privkey').value);
+                var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
+
+                var qr = new QRious({
+                    element: e('qr-code')
+                });
+
+                var uri = "healthpass:SHA256\\"+signature+"@"+pubkey+"?"+message;
+
+                qr.set({
+                    foreground: '#3654DD',
+                    size: 1100,
+                    value: uri
+                });
+
+                
+                e("qr-result").innerHTML= "<span class='protocol'>healthpass</span>:" + 
+                                            "<span class='crypto-algo'>SHA256</span>\\" +
+                                            "<span class='signature'>" + signature + "</span>" + "@" +
+                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
+                                            "<span class='message'>" + message + "</span>";
+                
+                e("qr-verified").innerHTML = "Verified: false";
+
+
+                verify(pubkey, message, signature, "qr-verified");
+            }
+        </script>
+
+        <script>
+            // Defaults
+            function loadDemo() {
+                e("india-data").value = 
+`{"@context":["https://www.w3.org/2018/credentials/v1", "https://cowin.mofw.gov.in/credentials/vaccination/v1"],
     "type": ["VerifiableCredential", "ProofOfVaccinationCredential"],
     "credentialSubject": {
         "type": "Person",
@@ -69,108 +179,7 @@
         "proofPurpose": "assertionMethod",
 "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..DD1JJkEeLvXvJ-Cby2roHs0RF3qpDYbS8DnGghUJY3mnU3-GDczpNkyc0KD8SLdl7JbGkMFOlhRI0vk907Xl4n8ea_l9-V5fEeV-gdk9IyEjjav8AHwZL38wsbBcGdWGFu9XtdExKNvL0sCWgniPKgiu2HhZOa2PVocQq8xbdXa6FSFdD6djvF_ezDkM9g80QqV81YlGChuo4z3g1CBrYgWfbtesNVwlNil2htraWGDupff9NPF_4OyLq8fMMvSRnT7e6iLavXRJEbtvn7UG1fJafrh0nQ-JSjHIH9NMi2hkU_mB12T66JH1QKY9ZUH2HT7NaP1TtLJRqF25-BaU3Q"
     }
-}                
-                </textarea> 
-            </div>
-
-            <div class="right-div">
-                <h4>Credentials</h4>
-                <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
-                <textarea id="privkey" rows="16" cols="63">
------BEGIN RSA PRIVATE KEY-----
-MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
-WMNW649887VGJiGr/L5i2osbl8C9+WJTeucF+S76xFxdU6jE0NQ+Z+zEdhUTooNR
-aY5nZiu5PgDB0ED/ZKBUSLKL7eibMxZtMlUDHjm4gwQco1KRMDSmXSMkDwIDAQAB
-AoGAfY9LpnuWK5Bs50UVep5c93SJdUi82u7yMx4iHFMc/Z2hfenfYEzu+57fI4fv
-xTQ//5DbzRR/XKb8ulNv6+CHyPF31xk7YOBfkGI8qjLoq06V+FyBfDSwL8KbLyeH
-m7KUZnLNQbk8yGLzB3iYKkRHlmUanQGaNMIJziWOkN+N9dECQQD0ONYRNZeuM8zd
-8XJTSdcIX4a3gy3GGCJxOzv16XHxD03GW6UNLmfPwenKu+cdrQeaqEixrCejXdAF
-z/7+BSMpAkEA8EaSOeP5Xr3ZrbiKzi6TGMwHMvC7HdJxaBJbVRfApFrE0/mPwmP5
-rN7QwjrMY+0+AbXcm8mRQyQ1+IGEembsdwJBAN6az8Rv7QnD/YBvi52POIlRSSIM
-V7SwWvSK4WSMnGb1ZBbhgdg57DXaspcwHsFV7hByQ5BvMtIduHcT14ECfcECQATe
-aTgjFnqE/lQ22Rk0eGaYO80cc643BXVGafNfd9fcvwBMnk0iGX0XRsOozVt5Azil
-psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
-uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
------END RSA PRIVATE KEY-----
-                </textarea>
-                <br><br>
-                <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
-                <textarea id="qr-link" rows="3" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
-                <br><br>
-                <label for="privkey">QR Code Format</label><br/>
-                <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
-                <br>
-            </div>
-
-            <div class="full-div">
-                <br/><br/>
-                <div class="center">
-                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Sign Vaccine Certificate</button>
-                    <br/><br/>
-                    <canvas id="qr-code"></canvas><br/>
-                    <pre id="qr-result" class="qr-data"></pre>
-                    <p id="qr-verified"></p>
-                </div>
-            </div>
-        </div>
-        
-        <script src="js/qrious.min.js"></script>
-        <script src="js/jsencrypt.min.js"></script>
-        <script src="js/sha256.js"></script>
-		<script>
-            function e(elem) {
-                return document.getElementById(elem);
-            }
-            function addIfExists(prefix, elemId) {
-                let value = encodeURIComponent(e(elemId).value);
-                return value ? prefix+value : "";
-            }
-            function verify(pubkey, message, signature, feedback_elem_id) {
-                // Download pubkey to verify
-                var client = new XMLHttpRequest();
-                client.open('GET', "https://" + pubkey);
-                client.addEventListener("load", 
-                    function() {
-                        // Verify with the public key...
-                        var verify = new JSEncrypt();
-                        verify.setPublicKey(this.responseText);
-                        var verified = verify.verify(message, signature, CryptoJS.SHA256);
-                        e(feedback_elem_id).innerHTML = "Verified: " + verified;
-                    }
-                );
-                client.send();
-            }
-            function generateQRCode() {
-                var message = addIfExists("data=", 'india-data');
-                
-                var pubkey = e("qr-link").value.trim().replace("http://","");
-                var sign = new JSEncrypt();
-                sign.setPrivateKey(e('privkey').value);
-                var signature = sign.sign(message, CryptoJS.SHA256, "sha256");
-
-                var qr = new QRious({
-                    element: e('qr-code')
-                });
-
-                var uri = "healthpass:SHA256\\"+signature+"@"+pubkey+"?"+message;
-
-                qr.set({
-                    foreground: '#3654DD',
-                    size: 1000,
-                    value: uri
-                });
-
-                
-                e("qr-result").innerHTML= "<span class='protocol'>healthpass</span>:" + 
-                                            "<span class='crypto-algo'>SHA256</span>\\" +
-                                            "<span class='signature'>" + signature + "</span>" + "@" +
-                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
-                                            "<span class='message'>" + message + "</span>";
-                
-                e("qr-verified").innerHTML = "Verified: false";
-
-
-                verify(pubkey, message, signature, "qr-verified");
+}`;
             }
         </script>
 	</body>

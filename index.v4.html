@@ -242,7 +242,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         
         <script>
             // Defaults
-            e("qr-badge-date").value = new Date().toJSON().slice(0, 16);
+            e("qr-badge-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
 
             // Salt 
             e("qr-passkey-salt").value = '1BC93AB4AXD3';//Math.random().toString(36).substring(3);

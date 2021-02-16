@@ -64,7 +64,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <textarea id="qr-link" rows="1" cols="30">www.pathcheck.org/hubfs/pub</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
-                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>.<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
                 </div>
             </div>
             <div class="full-div">
@@ -193,7 +193,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let signature = key.sign(payload).toDER('hex');
 
                 // Builds URI
-                let uri = protocol+":"+signature+"@"+pubkey+"?"+payload;
+                let uri = protocol+":"+signature+"."+pubkey+"?"+payload;
 
                 // Builds QR Element
                 let qr = new QRious({ element: e(elemPref+'-code') });
@@ -206,7 +206,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol+"</span>:" + 
-                                            "<span class='signature'>" + signature + "</span>" + "@" +
+                                            "<span class='signature'>" + signature + "</span>" + "." +
                                             "<span class='pub-key'>" + pubkey + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
@@ -255,6 +255,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
 
             function loadDemo() {
+                // Salt 
+                e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
+            
                 e("qr-coupon-id").value = "1";
                 e("qr-coupon-coupons").value = 5000;
                 e("qr-coupon-phase").value = "1A";

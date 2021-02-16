@@ -64,7 +64,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <textarea id="qr-link" rows="3" cols="30">www.pathcheck.org/hubfs/pub</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
-                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
                     <br>
                     <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
                     <br><br>
@@ -143,7 +143,21 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function e(elem) { return document.getElementById(elem); }
 
-            function verify(pubkey, message, signature, feedback_elem_id) {
+            function prepPayloadWith(elemArray) {
+                let fields = elemArray.map(function(elemId) {
+                    return encodeURIComponent(e(elemId).value.toUpperCase());
+                })
+                return fields.join('/');
+            }
+            function prepHashWith(elemArray) {
+                const RS = String.fromCharCode(30);
+                let fields = elemArray.map(function(elemId) {
+                    return e(elemId).value.toUpperCase();
+                })
+                return fields.join(RS);
+            }
+
+            function verify(pubkey, payload, signature, feedback_elem_id) {
                 // Download pubkey to verify
                 let client = new XMLHttpRequest();
                 // Must be downloadable via HTTPs. Cannot redirect. 
@@ -162,7 +176,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         let key = ec.keyFromPublic(pubk.pub.data, 'der');
 
                         // Verifies Signature. 
-                        let verified = key.verify(message, signature);
+                        let verified = key.verify(payload, signature);
 
                         // Updates screen. 
                         e(feedback_elem_id).innerHTML = "Verified: " + verified;
@@ -171,7 +185,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 client.send();
             }
 
-            function signAndDisplayQR(elemPref, protocol, prikey, pubkey, message) {
+            function signAndDisplayQR(elemPref, protocol, prikey, pubkey, payload) {
                 // Load Primary Key
                 let ec_pk = ECPrivateKey.decode(prikey, 'pem', {label: 'EC PRIVATE KEY'});
                 // Get Curve Algorithm.
@@ -182,10 +196,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
                 // Signs
-                let signature = key.sign(message).toDER('hex');
+                let signature = key.sign(payload).toDER('hex');
 
                 // Builds URI
-                let uri = protocol+":"+signature+"@"+pubkey+"?"+message;
+                let uri = protocol+":"+signature+"@"+pubkey+"?"+payload;
 
                 // Builds QR Element
                 let qr = new QRious({ element: e(elemPref+'-code') });
@@ -200,54 +214,42 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol+"</span>:" + 
                                             "<span class='signature'>" + signature + "</span>" + "@" +
                                             "<span class='pub-key'>" + pubkey + "</span>" + "?" +
-                                            "<span class='message'>" + message + "</span>";
+                                            "<span class='message'>" + payload + "</span>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid
-                verify(pubkey, message, signature, elemPref + "-verified");
-            }
-
-            function prepareMessageWith(elemArray) {
-                let fields = elemArray.map(function(elemId) {
-                    return encodeURIComponent(e(elemId).value.toUpperCase());
-                })
-                return fields.join('/');
+                verify(pubkey, payload, signature, elemPref + "-verified");
             }
 
             function generateQRCodes() {
+                // Get Keys
                 let pubkey = e("qr-link").value.trim().replace("http://","");
                 let prikey = e('privkey').value;
 
-                let couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
-                let messageCoupon = prepareMessageWith(couponArray);
-                
-                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, messageCoupon);
+                // Build PassKeyHash
+                let hashPassKey = CryptoJS.SHA256(prepHashWith(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
 
-                let passKeyArray = ["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"];
-                let messagePassKey = prepareMessageWith(passKeyArray);
-                
-                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, messagePassKey);
-
-                const RS = String.fromCharCode(30);
-                let passKeyToHash = e("qr-passkey-name").value.toUpperCase()+RS+e("qr-passkey-dob").value.toUpperCase()+RS+e("qr-passkey-salt").value.toUpperCase();
-                let hashPassKey = CryptoJS.SHA256(passKeyToHash);
+                // Update fields on Screen
                 e("qr-status-vaccinee").value = hashPassKey;
                 e("qr-badge-vaccinee").value = hashPassKey;
 
+                // Coupon QR
+                let couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
+                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, prepPayloadWith(couponArray));
 
+                // PassKey QR
+                let passKeyArray = ["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"];  
+                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, prepPayloadWith(passKeyArray));
+
+                // Badge QR
                 let badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
                                   "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
                                   "qr-badge-site", "qr-badge-dose"];
-
-                let messageBadge = prepareMessageWith(badgeArray);
-
-                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, messageBadge);
-
-                // Status
+                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, prepPayloadWith(badgeArray));
+ 
+                // Status QR
                 let statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
-                let messageStatus = prepareMessageWith(statusArray);
-
-                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, messageStatus);
+                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, prepPayloadWith(statusArray));
             }
         </script>
         
@@ -256,7 +258,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             e("qr-badge-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
 
             // Salt 
-            e("qr-passkey-salt").value = '1BC93AB4AXD3';//Math.random().toString(36).substring(3);
+            e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
 
             function loadDemo() {
                 e("qr-coupon-id").value = "1";

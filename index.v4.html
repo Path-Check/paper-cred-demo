@@ -152,31 +152,35 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verify(pubkey, payload, signature, feedback_elem_id) {
-                // Download pubkey to verify
-                let client = new XMLHttpRequest();
-                // Must be downloadable via HTTPs. Cannot redirect. 
-                client.open('GET', "https://" + pubkey);
-                client.addEventListener("load", 
-                    function() {
-                        // Decoding the public key to get algo+key
-                        let pubk = ECPublicKey.decode(this.response, 'pem', {label: 'PUBLIC KEY'});
-                        // Get Encryption Algorithm
-                        let algoCode = pubk.algorithm.id.join('.');
-                        // Get Curve Algorithm
-                        let curveCode = pubk.algorithm.curve.join('.');
-                        
-                        // Prepare EC with assigned curve
-                        let ec = new EC(curves[curveCode]);
-                        let key = ec.keyFromPublic(pubk.pub.data, 'der');
+                try {
+                    // Download pubkey to verify
+                    let client = new XMLHttpRequest();
+                    // Must be downloadable via HTTPs. Cannot redirect. 
+                    client.open('GET', "https://" + pubkey);
+                    client.addEventListener("load", 
+                        function() {
+                            // Decoding the public key to get algo+key
+                            let pubk = ECPublicKey.decode(this.response, 'pem', {label: 'PUBLIC KEY'});
+                            // Get Encryption Algorithm
+                            let algoCode = pubk.algorithm.id.join('.');
+                            // Get Curve Algorithm
+                            let curveCode = pubk.algorithm.curve.join('.');
+                            
+                            // Prepare EC with assigned curve
+                            let ec = new EC(curves[curveCode]);
+                            let key = ec.keyFromPublic(pubk.pub.data, 'der');
 
-                        // Verifies Signature. 
-                        let verified = key.verify(payload, signature);
+                            // Verifies Signature. 
+                            let verified = key.verify(payload, signature);
 
-                        // Updates screen. 
-                        e(feedback_elem_id).innerHTML = "Verified: " + verified;
-                    }
-                );
-                client.send();
+                            // Updates screen. 
+                            e(feedback_elem_id).innerHTML = "Verified: " + verified;
+                        }
+                    );
+                    client.send();
+                } catch(err) {
+                    console.log(err);
+                }
             }
 
             function signAndDisplayQR(elemPref, protocol, prikey, pubkey, payload) {

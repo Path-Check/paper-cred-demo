@@ -145,7 +145,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function addIfExists(prefix, elemId) {
                 let value = encodeURIComponent(e(elemId).value);
-                return value ? prefix+value : "";
+                return value ? prefix+value : prefix;
             }
 
             function verify(pubkey, message, signature, feedback_elem_id) {

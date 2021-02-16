@@ -212,7 +212,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 const RS = String.fromCharCode(30);
                 let passKeyToHash = e("qr-passkey-name").value.toUpperCase()+RS+e("qr-passkey-dob").value.toUpperCase()+RS+e("qr-passkey-salt").value.toUpperCase();
-                console.log(passKeyToHash);
                 let hashPassKey = CryptoJS.SHA256(passKeyToHash);
                 e("qr-status-vaccinee").value = hashPassKey;
                 e("qr-badge-vaccinee").value = hashPassKey;
@@ -248,10 +247,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             e("qr-passkey-salt").value = '1BC93AB4AXD3';//Math.random().toString(36).substring(3);
 
             function loadDemo() {
-                e("qr-coupon-id").value = "0001";
+                e("qr-coupon-id").value = "1";
                 e("qr-coupon-coupons").value = 5000;
                 e("qr-coupon-phase").value = "1A";
-                e("qr-coupon-city").value = "SOMERVILLE,MA,US";
+                e("qr-coupon-city").value = "Somerville MA US";
                 e("qr-coupon-indicator").value = ">65";
                 
                 e("qr-passkey-name").value = "Jane Doe";

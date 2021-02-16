@@ -205,9 +205,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 var messagePassKey = ""; 
                 messagePassKey += addIfExists("", "qr-passkey-name");
                 messagePassKey += addIfExists("/", "qr-passkey-dob");
-                messagePassKey += addIfExists("/", "qr-passkey-phone");
                 messagePassKey += addIfExists("/", "qr-passkey-salt");
-
+                messagePassKey += addIfExists("/", "qr-passkey-phone");
+                
                 signAndDisplayQR("qr-passkey", "cred:passkey:1", 'secp256k1', prikey, pubkey, messagePassKey);
 
                 const RS = String.fromCharCode(30);
@@ -223,11 +223,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 messageBadge += addIfExists("/", "qr-badge-manuf");
                 messageBadge += addIfExists("/", "qr-badge-product");
                 messageBadge += addIfExists("/",   "qr-badge-lot");
+                messageBadge += addIfExists("/",  "qr-badge-required_doses");
+                messageBadge += addIfExists("/", "qr-badge-vaccinee");
                 messageBadge += addIfExists("/", "qr-badge-route");
                 messageBadge += addIfExists("/",  "qr-badge-site");
                 messageBadge += addIfExists("/",  "qr-badge-dose");
-                messageBadge += addIfExists("/",  "qr-badge-required_doses");
-                messageBadge += addIfExists("/", "qr-badge-vaccinee");
 
                 signAndDisplayQR("qr-badge", "cred:badge:1", 'secp256k1', prikey, pubkey, messageBadge);
 

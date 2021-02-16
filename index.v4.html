@@ -143,13 +143,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function e(elem) { return document.getElementById(elem); }
 
-            function prepPayloadWith(elemArray) {
+            function payloadFrom(elemArray) {
                 let fields = elemArray.map(function(elemId) {
                     return encodeURIComponent(e(elemId).value.toUpperCase());
                 })
                 return fields.join('/');
             }
-            function prepHashWith(elemArray) {
+            function hashFrom(elemArray) {
                 const RS = String.fromCharCode(30);
                 let fields = elemArray.map(function(elemId) {
                     return e(elemId).value.toUpperCase();
@@ -227,7 +227,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let prikey = e('privkey').value;
 
                 // Build PassKeyHash
-                let hashPassKey = CryptoJS.SHA256(prepHashWith(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+                let hashPassKey = CryptoJS.SHA256(hashFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
 
                 // Update fields on Screen
                 e("qr-status-vaccinee").value = hashPassKey;
@@ -235,21 +235,21 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Coupon QR
                 let couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
-                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, prepPayloadWith(couponArray));
+                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, payloadFrom(couponArray));
 
                 // PassKey QR
                 let passKeyArray = ["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"];  
-                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, prepPayloadWith(passKeyArray));
+                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, payloadFrom(passKeyArray));
 
                 // Badge QR
                 let badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
                                   "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
                                   "qr-badge-site", "qr-badge-dose"];
-                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, prepPayloadWith(badgeArray));
+                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, payloadFrom(badgeArray));
  
                 // Status QR
                 let statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
-                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, prepPayloadWith(statusArray));
+                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, payloadFrom(statusArray));
             }
         </script>
         

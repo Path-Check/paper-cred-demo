@@ -61,25 +61,19 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
                     <label for="pubkey">Link to Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <textarea id="qr-link" rows="3" cols="30">www.pathcheck.org/hubfs/pub</textarea>
+                    <textarea id="qr-link" rows="1" cols="30">www.pathcheck.org/hubfs/pub</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
-                    <br>
-                    <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
-                    <br><br>
-                    <button 
-                        class="qr-btn" 
-                        onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">
-                        Download the Reader App
-                        </button>
                 </div>
             </div>
             <div class="full-div">
-                <br/><br/>
-                <div style="margin: 0 auto; width:500px;">
-                    <button class="qr-btn center-in-div" onclick="generateQRCodes()">Sign All Certificates</button>
-                    <br/><br/>
+                <br>
+                <div style="margin: 0 auto; width:500px; height:50px;">
+                    <div class="center-in-div"> 
+                        <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
+                        <button class="qr-btn" onclick="generateQRCodes()">Sign All Certificates</button>
+                    </div>
                 </div>
             </div>
             <div class="full-div">

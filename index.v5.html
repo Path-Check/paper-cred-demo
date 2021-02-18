@@ -1,0 +1,290 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+		<title>Vaccine Distribution Certificates Generator</title>
+	</head>
+	<body>
+        <div class="center">
+            <div class="full-div">
+                <h3>Vaccine Distribution Certificates Generator (<a href="https://github.com/Path-Check/paper-cred/blob/main/SPECIFICATION.md">Spec</a>)</h3>
+                <div class="quarter">
+                    <h4>Coupon</h4>
+                    <table>
+                        <tr><td>ID</td><td><input id="qr-coupon-id" type="text" placeholder="2"/></td></tr>
+                        <tr><td>Coupons</td><td><input id="qr-coupon-coupons" type="text" placeholder="5000"/></td></tr>
+                        <tr><td>Phase</td><td><input id="qr-coupon-phase" type="text" placeholder="1A, 2A, ..."/></td></tr>
+                        <tr><td>City</td><td><input id="qr-coupon-city" type="text" placeholder="Somerville, MA, US..."/></td></tr>
+                        <tr><td>Limits</td><td><input id="qr-coupon-indicator" type="text" placeholder="Diabetes, Teacher, Healthworker, Under 65, Over 65,...."/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter"> 
+                    <h4>PassKey</h4>
+                    <table>
+                        <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
+                        <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Badge</h4>
+                    <table>
+                        <tr><td>Date</td><td><input id="qr-badge-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Manuf</td><td><input id="qr-badge-manuf" type="text" placeholder="Pfizer, Moderna, etc"/></td></tr>
+                        <tr><td>Product</td><td><input id="qr-badge-product" type="text" placeholder="COVID-19"/></td></tr>
+                        <tr><td>Lot#</td><td><input id="qr-badge-lot" type="text" placeholder="012L20A, ..."/></td></tr>
+                        <tr><td>Route</td><td><input id="qr-badge-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
+                        <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
+                        <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1000ul, 500ul, ..."/></td></tr>
+                        <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="[28], [21], []"/></td></tr>
+                        <tr><td>PassKey</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Status</h4>
+                    <table>
+                        <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
+                        <tr><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>Credentials</h4>
+                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+<textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
+oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
+DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
+-----END EC PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">Link to Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">www.pathcheck.org/hubfs/pub</textarea>
+                    <br><br>
+                    <label for="privkey">QR Code Format</label><br/>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>.<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
+                </div>
+            </div>
+            <div class="full-div">
+                <br>
+                <div style="margin: 0 auto; width:500px; height:50px;">
+                    <div class="center-in-div"> 
+                        <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
+                        <button class="qr-btn" onclick="generateQRCodes()">Sign All Certificates</button>
+                    </div>
+                </div>
+            </div>
+            <div class="full-div">
+                <div class="quarter">
+                    <canvas id="qr-coupon-code"></canvas><br/>
+                    <pre id="qr-coupon-result"></pre>
+                    <p id="qr-coupon-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-passkey-code"></canvas><br/>
+                    <pre id="qr-passkey-result"></pre>
+                    <p id="qr-passkey-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-badge-code"></canvas><br/>
+                    <pre id="qr-badge-result"></pre>
+                    <p id="qr-badge-verified"></p>
+                </div>
+                <div class="quarter">
+                    <canvas id="qr-status-code"></canvas><br/>
+                    <pre id="qr-status-result"></pre>
+                    <p id="qr-status-verified"></p>
+                </div>
+                <div class="quarter">
+                   
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrious.min.js"></script>
+
+        <script src="js/elliptic.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script src="js/asn1.min.js"></script>
+        <script src="js/base36.js"></script>
+
+		<script>
+            var EC = elliptic.ec;
+            var ANS1 = asn1;
+
+            // PEM Definitions
+            var ECPublicKey = ANS1.define("PublicKey", function() {
+                this.seq().obj(
+                    this.key("algorithm").seq().obj(
+                        this.key("id").objid(),
+                        this.key("curve").objid()
+                    ),
+                    this.key("pub").bitstr()
+                );
+            });
+            var ECPrivateKey = ANS1.define("ECPrivateKey", function() {
+                this.seq().obj(
+                    this.key('version').int().def(1),
+                    this.key('privateKey').octstr(),
+                    this.key('parameters').explicit(0).objid().optional(),
+                    this.key('publicKey').explicit(1).bitstr().optional()
+                );
+            });
+
+            const algos = {'1.2.840.10045.2.1':'Elliptic curve public key cryptography'};
+            const curves = {'1.3.132.0.10': 'secp256k1'};
+
+            function e(elem) { return document.getElementById(elem); }
+
+            function payloadFrom(elemArray) {
+                let fields = elemArray.map(function(elemId) {
+                    return encodeURIComponent(e(elemId).value.toUpperCase());
+                })
+                return fields.join('/');
+            }
+            function hashFrom(elemArray) {
+                const RS = String.fromCharCode(30);
+                let fields = elemArray.map(function(elemId) {
+                    return e(elemId).value.toUpperCase();
+                })
+                return fields.join(RS);
+            }
+
+            function verify(pubkey, payload, signature, feedback_elem_id) {
+                try {
+                    // Download pubkey to verify
+                    let client = new XMLHttpRequest();
+                    // Must be downloadable via HTTPs. Cannot redirect. 
+                    client.open('GET', "https://" + pubkey);
+                    client.addEventListener("load", 
+                        function() {
+                            // Decoding the public key to get algo+key
+                            let pubk = ECPublicKey.decode(this.response, 'pem', {label: 'PUBLIC KEY'});
+                            // Get Encryption Algorithm
+                            let algoCode = pubk.algorithm.id.join('.');
+                            // Get Curve Algorithm
+                            let curveCode = pubk.algorithm.curve.join('.');
+                            
+                            // Prepare EC with assigned curve
+                            let ec = new EC(curves[curveCode]);
+                            let key = ec.keyFromPublic(pubk.pub.data, 'der');
+
+                            // Verifies Signature. 
+                            let verified = key.verify(payload, to16(signature));
+
+                            // Updates screen. 
+                            e(feedback_elem_id).innerHTML = "Verified: " + verified;
+                        }
+                    );
+                    client.send();
+                } catch(err) {
+                    console.log(err);
+                }
+            }
+
+            function signAndDisplayQR(elemPref, protocol, prikey, pubkey, payload) {
+                // Load Primary Key
+                let ec_pk = ECPrivateKey.decode(prikey, 'pem', {label: 'EC PRIVATE KEY'});
+                // Get Curve Algorithm.
+                let curveCode = ec_pk.parameters.join('.');
+                
+                // Prepare EC with assigned curve
+                let ec = new EC(curves[curveCode]);
+                let key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
+
+                // Signs
+                let signature = to36(key.sign(payload).toDER('hex'));
+                
+                // Builds URI
+                let uri = protocol.toUpperCase()+":"+signature.toUpperCase()+"."+pubkey.toUpperCase()+"?"+payload;
+
+                // Builds QR Element
+                let qr = new QRious({ element: e(elemPref+'-code') });
+                qr.set({
+                    foreground: '#3654DD',
+                    size: 290,
+                    level: 'M',
+                    value: uri
+                });
+
+                // Updates screen elements. 
+                e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
+                                            "<span class='signature'>" + signature.toUpperCase() + "</span>" + "." +
+                                            "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
+                                            "<span class='message'>" + payload + "</span>";
+                e(elemPref+"-verified").innerHTML = "Verified: false";
+
+                // Verifies URI is valid
+                verify(pubkey, payload, signature, elemPref + "-verified");
+            }
+
+            function generateQRCodes() {
+                // Get Keys
+                let pubkey = e("qr-link").value.trim().replace("http://","");
+                let prikey = e('privkey').value;
+
+                // Build PassKeyHash
+                let hashPassKey = to36(CryptoJS.SHA256(hashFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"])).toString());
+
+                // Update fields on Screen
+                e("qr-status-vaccinee").value = hashPassKey;
+                e("qr-badge-vaccinee").value = hashPassKey;
+
+                // Coupon QR
+                let couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
+                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, payloadFrom(couponArray));
+
+                // PassKey QR
+                let passKeyArray = ["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"];  
+                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, payloadFrom(passKeyArray));
+
+                // Badge QR
+                let badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
+                                  "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
+                                  "qr-badge-site", "qr-badge-dose"];
+                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, payloadFrom(badgeArray));
+ 
+                // Status QR
+                let statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
+                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, payloadFrom(statusArray));
+            }
+        </script>
+        
+        <script>
+            // Defaults
+            e("qr-badge-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
+
+            // Salt 
+            e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
+
+            function loadDemo() {
+                // Salt 
+                e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
+            
+                e("qr-coupon-id").value = "1";
+                e("qr-coupon-coupons").value = 5000;
+                e("qr-coupon-phase").value = "1A";
+                e("qr-coupon-city").value = "Somerville MA US";
+                e("qr-coupon-indicator").value = ">65";
+                
+                e("qr-passkey-name").value = "Jane Doe";
+                e("qr-passkey-phone").value = "16173332345";
+                e("qr-passkey-dob").value = "19010101";
+
+                e("qr-badge-manuf").value = "Moderna";
+                e("qr-badge-product").value = "COVID-19";
+                e("qr-badge-lot").value = "012L20A";
+                e("qr-badge-route").value = "C28161";
+                e("qr-badge-site").value = "RA";
+                e("qr-badge-dose").value = "500";
+                e("qr-badge-required_doses").value = "28";
+
+                e("qr-status-vaccinated").value = "1";
+            }
+        </script>
+	</body>
+</html>
+
+

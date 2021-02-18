@@ -195,10 +195,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
                 // Signs
-                let signature = to36(key.sign(payload).toDER('hex'));
+                let signature = to36(key.sign(payload).toDER('hex')).toUpperCase();
                 
                 // Builds URI
-                let uri = protocol.toUpperCase()+":"+signature.toUpperCase()+"."+pubkey.toUpperCase()+"?"+payload;
+                let uri = protocol.toUpperCase()+":"+signature+"."+pubkey.toUpperCase()+"?"+payload;
 
                 // Builds QR Element
                 let qr = new QRious({ element: e(elemPref+'-code') });
@@ -211,7 +211,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
-                                            "<span class='signature'>" + signature.toUpperCase() + "</span>" + "." +
+                                            "<span class='signature'>" + signature + "</span>" + "." +
                                             "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";

@@ -195,8 +195,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
                 // Signs
-                let signature = to36(key.sign(payload).toDER('hex')).toUpperCase();
-                
+                let signatureHex = key.sign(payload).toDER('hex');
+                let signature = to36(signatureHex).toUpperCase();
+                let signatureHexBack = to16(signature);
+
                 // Builds URI
                 let uri = protocol.toUpperCase()+":"+signature+"."+pubkey.toUpperCase()+"?"+payload;
 
@@ -213,7 +215,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
                                             "<span class='signature'>" + signature + "</span>" + "." +
                                             "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
-                                            "<span class='message'>" + payload + "</span>";
+                                            "<span class='message'>" + payload + "</span><br><br>" + 
+                                            "<span class='signature'>Signature Hex: " + signatureHex + "</span><br><br>" +
+                                            "<span class='signature'>Signature Hex-36: " + signature + "</span><br><br>" +
+                                            "<span class='signature'>Signature Hex-36-Hex: " + signatureHexBack + "</span><br><br>" +
+                                            "<span class='signature'>BaseAlgoVerified: " + (signatureHex === signatureHexBack) + "</span>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid

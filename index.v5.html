@@ -98,7 +98,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <p id="qr-status-verified"></p>
                 </div>
                 <div class="quarter">
-                   
+                    <label for="verify">Verify your QR Code</small></label><br/>
+                    <textarea id="qr-verify" rows="10" cols="30">CRED:COUPON:1:48JK2ZH25J7Z03WZHAB4JPUJ3P03LHR4HHUU71OAGWTACQ4KGK4B9XCNKJKY0IML6P2QFJU2GOI9EM4B6YHZJIMXLDV5EVNNCNQL8F6XFBPQI9DR.PCF.VITORPAMPLONA.COM?1/5000/SOMERVILLE%20MA%20US/1A/%3E65</textarea>
+                    <br><br>
+                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    <br><br>
+                    <pre id="qr-verify-result"></pre>
+                    <p id="qr-verify-verified"></p>
                 </div>
             </div>
         </div>
@@ -152,39 +158,59 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return fields.join(RS);
             }
 
-            function verify(pubkey, payload, signature, feedback_elem_id) {
+            function verifySignature(pubkey, payload, signature, feedback_elem_id) {
                 try {
-                    // Download pubkey to verify
-                    let client = new XMLHttpRequest();
-                    // Must be downloadable via HTTPs. Cannot redirect. 
-                    client.open('GET', "https://dns.google/resolve?name=" + pubkey + '&type=TXT');
-                    client.addEventListener("load", 
-                        function() {
-                            // Loading key from TXT Lookup
-                            let pubKeyTxtLookup = JSON.parse(this.response).Answer[0].data
-                            let noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
-                            console.log(noQuotes);
-                            // Decoding the public key to get algo+key
-                            let pubk = ECPublicKey.decode(noQuotes, 'pem', {label: 'PUBLIC KEY'});
-                            // Get Encryption Algorithm
-                            let algoCode = pubk.algorithm.id.join('.');
-                            // Get Curve Algorithm
-                            let curveCode = pubk.algorithm.curve.join('.');
-                            
-                            // Prepare EC with assigned curve
-                            let ec = new EC(curves[curveCode]);
-                            let key = ec.keyFromPublic(pubk.pub.data, 'der');
+                    // Decoding the public key to get algo+key
+                    let pubk = ECPublicKey.decode(pubkey, 'pem', {label: 'PUBLIC KEY'});
+                    // Get Encryption Algorithm
+                    let algoCode = pubk.algorithm.id.join('.');
+                    // Get Curve Algorithm
+                    let curveCode = pubk.algorithm.curve.join('.');
+                    
+                    // Prepare EC with assigned curve
+                    let ec = new EC(curves[curveCode]);
+                    let key = ec.keyFromPublic(pubk.pub.data, 'der');
 
-                            // Verifies Signature. 
-                            let verified = key.verify(payload, to16(signature));
+                    // Verifies Signature. 
+                    let verified = key.verify(payload, to16(signature));
 
-                            // Updates screen. 
-                            e(feedback_elem_id).innerHTML = "Verified: " + verified;
-                        }
-                    );
-                    client.send();
+                    // Updates screen. 
+                    e(feedback_elem_id).innerHTML = "Verified: " + verified;
                 } catch(err) {
-                    console.log(err);
+                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
+                }
+            }
+
+            function downloadAndVerify(pubkeyURL, payload, signature, feedback_elem_id) {
+                // Download pubkey to verify
+                let client = new XMLHttpRequest();
+                    
+                try {
+                    // Try to download from the DNS TXT record. 
+                    client.open('GET', "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT', false);
+                    client.send();
+
+                    let jsonResponse = JSON.parse(client.response);
+                    if (jsonResponse.Answer) {
+                        let pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
+                        let noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
+                            
+                        verifySignature(noQuotes, payload, signature, feedback_elem_id);
+                        return;
+                    }
+
+                    // Try to download as a file. 
+                    client.open('GET', "https://" + pubkeyURL, false);
+                    client.send();
+
+                    console.log(client.response);
+
+                    verifySignature(client.response, payload, signature, feedback_elem_id);
+                    
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
                 }
             }
 
@@ -227,7 +253,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid
-                verify(pubkey, payload, signature, elemPref + "-verified");
+                downloadAndVerify(pubkey, payload, signature, elemPref + "-verified");
             }
 
             function generateQRCodes() {
@@ -259,6 +285,44 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Status QR
                 let statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
                 signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, payloadFrom(statusArray));
+            }
+
+            function verifyQRCode() {
+                e("qr-verify-result").innerHTML = "";
+                e('qr-verify-verified').innerHTML = "";
+
+                let qr = e("qr-verify").value;
+
+                let [schema, type, version, data] = qr.split(':');
+                let [signature_pubkey, payload] = data.split('?');
+                
+                let index = signature_pubkey.indexOf('.');
+                let [signature, pubkey] = [signature_pubkey.slice(0, index), signature_pubkey.slice(index + 1)];
+
+                // Updates screen elements. 
+                e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
+                                            "<span class='signature'>" + signature + "</span>" + "." +
+                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
+                                            "<span class='message'>" + payload + "</span><br><br>";
+                                            
+                if (schema.toLowerCase() !== "cred") {
+                    e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
+                }
+
+                let types = ["coupon", "badge", "status", "passkey"];
+                if (!types.includes(type.toLowerCase())) {
+                    e('qr-verify-verified').innerHTML += "Invalid CRED type: " + type + " was not recognized <br>";
+                }
+
+                if (version > 1) {
+                    e('qr-verify-verified').innerHTML += "Invalid Version: " + version + " was not released yet <br>";
+                }
+
+                if (e('qr-verify-verified').innerHTML === "") {
+                    downloadAndVerify(pubkey, payload, signature, 'qr-verify-verified');
+                } else {
+                    e('qr-verify-verified').innerHTML += "Verified: false";
+                }
             }
         </script>
         

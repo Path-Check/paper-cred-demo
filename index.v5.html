@@ -114,7 +114,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/elliptic.min.js"></script>
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
-        <script src="js/base36.js"></script>
+        <script src="js/base32.min.js"></script>
 
 		<script>
             var EC = elliptic.ec;
@@ -172,7 +172,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     let key = ec.keyFromPublic(pubk.pub.data, 'der');
 
                     // Verifies Signature. 
-                    let verified = key.verify(payload, to16(signature));
+                    let verified = key.verify(payload, base32.decode.asBytes(pad(signature)));
 
                     // Updates screen. 
                     e(feedback_elem_id).innerHTML = "Verified: " + verified;
@@ -225,10 +225,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
                 // Signs
-                let signatureHex = key.sign(payload).toDER('hex');
-                let signature = to36(signatureHex).toUpperCase();
-                let signatureHexBack = to16(signature);
-
+                let signatureDER = key.sign(payload).toDER();
+                let signatureBase32 = base32.encode(signatureDER);
+                let signature = rmPad(signatureBase32);
+                let signatureDERBack = base32.decode.asBytes(pad(signature));
+                
                 // Builds URI
                 let uri = protocol.toUpperCase()+":"+signature+"."+pubkey.toUpperCase()+"?"+payload;
 
@@ -246,10 +247,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='signature'>" + signature + "</span>" + "." +
                                             "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span><br><br>" + 
-                                            "<span class='signature'>Signature Hex: " + signatureHex + "</span><br><br>" +
-                                            "<span class='signature'>Signature Hex-36: " + signature + "</span><br><br>" +
-                                            "<span class='signature'>Signature Hex-36-Hex: " + signatureHexBack + "</span><br><br>" +
-                                            "<span class='signature'>BaseAlgoVerified: " + (signatureHex === signatureHexBack) + "</span>";
+                                            "<span class='signature'>Signature DER: " + signatureDER + "</span><br><br>" +
+                                            "<span class='signature'>Signature DER-32: " + signature + "</span><br><br>" +
+                                            "<span class='signature'>Signature DER-32-DER: " + signatureDERBack + "</span><br><br>" +
+                                            "<span class='signature'>BaseAlgoVerified: " + (signatureDER === signatureDERBack) + "</span>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid
@@ -262,8 +263,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let prikey = e('privkey').value;
 
                 // Build PassKeyHash
-                let hashPassKey = to36(CryptoJS.SHA256(hashFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"])).toString());
-
+                let digest = CryptoJS.SHA256(hashFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+                let hashPassKey = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
+            
                 // Update fields on Screen
                 e("qr-status-vaccinee").value = hashPassKey;
                 e("qr-badge-vaccinee").value = hashPassKey;
@@ -323,6 +325,45 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 } else {
                     e('qr-verify-verified').innerHTML += "Verified: false";
                 }
+            }
+
+            function pad(base32) {
+                switch (base32.length % 8) {
+                    case 2: return base32 + "======"; 
+                    case 4: return base32 + "===="; 
+                    case 5: return base32 + "==="; 
+                    case 7: return base32 + "="; 
+                }
+                return base32;
+            }
+
+            function rmPad(base32) {
+                return base32.replaceAll("=", "");
+            }
+
+            /* Converts a cryptjs WordArray to native Uint8Array */                                                                                  
+            function CryptJsWordArrayToUint8Array(wordArray) {                                                                                       
+                const l = wordArray.sigBytes;                                                                                                        
+                const words = wordArray.words;                                                                                                       
+                const result = new Uint8Array(l);                                                                                                    
+                var i=0 /*dst*/, j=0 /*src*/;
+                while(true) {
+                    // here i is a multiple of 4
+                    if (i==l)
+                        break;
+                    var w = words[j++];
+                    result[i++] = (w & 0xff000000) >>> 24;
+                    if (i==l)
+                        break;
+                    result[i++] = (w & 0x00ff0000) >>> 16;                                                                                            
+                    if (i==l)                                                                                                                        
+                        break;                                                                                                                       
+                    result[i++] = (w & 0x0000ff00) >>> 8;
+                    if (i==l)
+                        break;
+                    result[i++] = (w & 0x000000ff);                                                                                                  
+                }
+                return result;
             }
         </script>
         

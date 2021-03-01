@@ -150,7 +150,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 })
                 return fields.join('/');
             }
-            function hashFrom(elemArray) {
+            function hashPayloadFrom(elemArray) {
                 const RS = String.fromCharCode(30);
                 let fields = elemArray.map(function(elemId) {
                     return e(elemId).value.toUpperCase();
@@ -258,7 +258,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let prikey = e('privkey').value;
 
                 // Build PassKeyHash
-                let digest = CryptoJS.SHA256(hashFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+                let digest = CryptoJS.SHA256(hashPayloadFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
                 let hashPassKey = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
             
                 // Update fields on Screen
@@ -338,24 +338,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             /* Converts a cryptjs WordArray to native Uint8Array */                                                                                  
             function CryptJsWordArrayToUint8Array(wordArray) {                                                                                       
-                const l = wordArray.sigBytes;                                                                                                        
-                const words = wordArray.words;                                                                                                       
-                const result = new Uint8Array(l);                                                                                                    
-                var i=0 /*dst*/, j=0 /*src*/;
-                while(true) {
+                const result = new Uint8Array(wordArray.sigBytes);                                                                                                    
+                var i=0, wordIndex=0;
+                while(i < wordArray.sigBytes) {
                     // here i is a multiple of 4
-                    if (i==l)
-                        break;
-                    var w = words[j++];
+                    var w = wordArray.words[wordIndex++];
                     result[i++] = (w & 0xff000000) >>> 24;
-                    if (i==l)
-                        break;
+                    if (i==wordArray.sigBytes) break;
                     result[i++] = (w & 0x00ff0000) >>> 16;                                                                                            
-                    if (i==l)                                                                                                                        
-                        break;                                                                                                                       
+                    if (i==wordArray.sigBytes) break;                                                                                                                       
                     result[i++] = (w & 0x0000ff00) >>> 8;
-                    if (i==l)
-                        break;
+                    if (i==wordArray.sigBytes) break; 
                     result[i++] = (w & 0x000000ff);                                                                                                  
                 }
                 return result;

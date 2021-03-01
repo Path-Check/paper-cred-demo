@@ -204,8 +204,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     client.open('GET', "https://" + pubkeyURL, false);
                     client.send();
 
-                    console.log(client.response);
-
                     verifySignature(client.response, payload, signature, feedback_elem_id);
                     
                 } catch(err) {
@@ -247,10 +245,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='signature'>" + signature + "</span>" + "." +
                                             "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span><br><br>" + 
-                                            "<span class='signature'>Signature DER: " + signatureDER + "</span><br><br>" +
-                                            "<span class='signature'>Signature DER-32: " + signature + "</span><br><br>" +
-                                            "<span class='signature'>Signature DER-32-DER: " + signatureDERBack + "</span><br><br>" +
-                                            "<span class='signature'>BaseAlgoVerified: " + (signatureDER === signatureDERBack) + "</span>";
+                                            "<span class='signature'>Signature DER: " + signatureDER + "</span><br><br>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid

@@ -144,13 +144,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function e(elem) { return document.getElementById(elem); }
 
-            function payloadFrom(elemArray) {
+            function buildPayload(elemArray) {
                 let fields = elemArray.map(function(elemId) {
                     return encodeURIComponent(e(elemId).value.toUpperCase());
                 })
                 return fields.join('/');
             }
-            function hashPayloadFrom(elemArray) {
+            function buildHashPayload(elemArray) {
                 const RS = String.fromCharCode(30);
                 let fields = elemArray.map(function(elemId) {
                     return e(elemId).value.toUpperCase();
@@ -158,7 +158,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return fields.join(RS);
             }
 
-            function verifySignature(pubkey, payload, signature, feedback_elem_id) {
+            function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
                 try {
                     // Decoding the public key to get algo+key
                     let pubk = ECPublicKey.decode(pubkey, 'pem', {label: 'PUBLIC KEY'});
@@ -172,7 +172,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     let key = ec.keyFromPublic(pubk.pub.data, 'der');
 
                     // Verifies Signature. 
-                    let verified = key.verify(payload, base32.decode.asBytes(pad(signature)));
+                    let verified = key.verify(payload, base32.decode.asBytes(pad(signatureBase32NoPad)));
 
                     // Updates screen. 
                     e(feedback_elem_id).innerHTML = "Verified: " + verified;
@@ -182,7 +182,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }
 
-            function downloadAndVerify(pubkeyURL, payload, signature, feedback_elem_id) {
+            function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
                 // Download pubkey to verify
                 let client = new XMLHttpRequest();
                     
@@ -196,7 +196,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         let pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
                         let noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
                             
-                        verifySignature(noQuotes, payload, signature, feedback_elem_id);
+                        verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
                         return;
                     }
 
@@ -204,7 +204,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     client.open('GET', "https://" + pubkeyURL, false);
                     client.send();
 
-                    verifySignature(client.response, payload, signature, feedback_elem_id);
+                    verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id);
                     
                 } catch(err) {
                     e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
@@ -212,9 +212,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }
 
-            function signAndDisplayQR(elemPref, protocol, prikey, pubkey, payload) {
+            function signAndDisplayQR(elemPref, protocol, priKeyPEM, pubKeyLink, payload) {
                 // Load Primary Key
-                let ec_pk = ECPrivateKey.decode(prikey, 'pem', {label: 'EC PRIVATE KEY'});
+                let ec_pk = ECPrivateKey.decode(priKeyPEM, 'pem', {label: 'EC PRIVATE KEY'});
                 // Get Curve Algorithm.
                 let curveCode = ec_pk.parameters.join('.');
                 
@@ -229,7 +229,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let signatureDERBack = base32.decode.asBytes(pad(signature));
                 
                 // Builds URI
-                let uri = protocol.toUpperCase()+":"+signature+"."+pubkey.toUpperCase()+"?"+payload;
+                let uri = protocol.toUpperCase()+":"+signature+"."+pubKeyLink.toUpperCase()+"?"+payload;
 
                 // Builds QR Element
                 let qr = new QRious({ element: e(elemPref+'-code') });
@@ -243,45 +243,45 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
                                             "<span class='signature'>" + signature + "</span>" + "." +
-                                            "<span class='pub-key'>" + pubkey.toUpperCase() + "</span>" + "?" +
+                                            "<span class='pub-key'>" + pubKeyLink.toUpperCase() + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span><br><br>" + 
                                             "<span class='signature'>Signature DER: " + signatureDER + "</span><br><br>";
                 e(elemPref+"-verified").innerHTML = "Verified: false";
 
                 // Verifies URI is valid
-                downloadAndVerify(pubkey, payload, signature, elemPref + "-verified");
+                downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
             }
 
             function generateQRCodes() {
                 // Get Keys
-                let pubkey = e("qr-link").value.trim().replace("http://","");
-                let prikey = e('privkey').value;
+                let pubKeyLink = e("qr-link").value.trim().replace("http://","");
+                let priKeyPEM = e('privkey').value;
 
                 // Build PassKeyHash
-                let digest = CryptoJS.SHA256(hashPayloadFrom(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
-                let hashPassKey = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
+                let digest = CryptoJS.SHA256(buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+                let hashPassKeyBase32 = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
             
                 // Update fields on Screen
-                e("qr-status-vaccinee").value = hashPassKey;
-                e("qr-badge-vaccinee").value = hashPassKey;
+                e("qr-status-vaccinee").value = hashPassKeyBase32;
+                e("qr-badge-vaccinee").value = hashPassKeyBase32;
 
                 // Coupon QR
                 let couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
-                signAndDisplayQR("qr-coupon", "cred:coupon:1", prikey, pubkey, payloadFrom(couponArray));
+                signAndDisplayQR("qr-coupon", "cred:coupon:1", priKeyPEM, pubKeyLink, buildPayload(couponArray));
 
                 // PassKey QR
                 let passKeyArray = ["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"];  
-                signAndDisplayQR("qr-passkey", "cred:passkey:1", prikey, pubkey, payloadFrom(passKeyArray));
+                signAndDisplayQR("qr-passkey", "cred:passkey:1", priKeyPEM, pubKeyLink, buildPayload(passKeyArray));
 
                 // Badge QR
                 let badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
                                   "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
                                   "qr-badge-site", "qr-badge-dose"];
-                signAndDisplayQR("qr-badge", "cred:badge:1", prikey, pubkey, payloadFrom(badgeArray));
+                signAndDisplayQR("qr-badge", "cred:badge:1", priKeyPEM, pubKeyLink, buildPayload(badgeArray));
  
                 // Status QR
                 let statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
-                signAndDisplayQR("qr-status", "cred:status:1", prikey, pubkey, payloadFrom(statusArray));
+                signAndDisplayQR("qr-status", "cred:status:1", priKeyPEM, pubKeyLink, buildPayload(statusArray));
             }
 
             function verifyQRCode() {
@@ -294,12 +294,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let [signature_pubkey, payload] = data.split('?');
                 
                 let index = signature_pubkey.indexOf('.');
-                let [signature, pubkey] = [signature_pubkey.slice(0, index), signature_pubkey.slice(index + 1)];
+                let [signatureBase32NoPad, pubKeyLink] = [signature_pubkey.slice(0, index), signature_pubkey.slice(index + 1)];
 
                 // Updates screen elements. 
                 e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
-                                            "<span class='signature'>" + signature + "</span>" + "." +
-                                            "<span class='pub-key'>" + pubkey + "</span>" + "?" +
+                                            "<span class='signature'>" + signatureBase32NoPad + "</span>" + "." +
+                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + "?" +
                                             "<span class='message'>" + payload + "</span><br><br>";
                                             
                 if (schema.toLowerCase() !== "cred") {
@@ -316,24 +316,24 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
 
                 if (e('qr-verify-verified').innerHTML === "") {
-                    downloadAndVerify(pubkey, payload, signature, 'qr-verify-verified');
+                    downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
                 } else {
                     e('qr-verify-verified').innerHTML += "Verified: false";
                 }
             }
 
-            function pad(base32) {
-                switch (base32.length % 8) {
-                    case 2: return base32 + "======"; 
-                    case 4: return base32 + "===="; 
-                    case 5: return base32 + "==="; 
-                    case 7: return base32 + "="; 
+            function pad(base32Str) {
+                switch (base32Str.length % 8) {
+                    case 2: return base32Str + "======"; 
+                    case 4: return base32Str + "===="; 
+                    case 5: return base32Str + "==="; 
+                    case 7: return base32Str + "="; 
                 }
-                return base32;
+                return base32Str;
             }
 
-            function rmPad(base32) {
-                return base32.replaceAll("=", "");
+            function rmPad(base32Str) {
+                return base32Str.replaceAll("=", "");
             }
 
             /* Converts a cryptjs WordArray to native Uint8Array */                                                                                  

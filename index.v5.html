@@ -203,8 +203,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     const ec = new EC(curves[curveCode]);
                     const key = ec.keyFromPublic(pubk.pub.data, 'der');
 
+                    const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+
                     // Verifies Signature. 
-                    const verified = key.verify(payload, base32.decode.asBytes(pad(signatureBase32NoPad)));
+                    const verified = key.verify(payloadSHA256, base32.decode.asBytes(pad(signatureBase32NoPad)));
 
                     // Updates screen. 
                     e(feedback_elem_id).innerHTML = "Verified: " + verified;
@@ -255,7 +257,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
                 // Signs
-                const signatureDER = key.sign(payload).toDER();
+                const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+                const signatureDER = key.sign(payloadSHA256).toDER();
+
                 const signatureBase32 = base32.encode(signatureDER);
                 const signature = rmPad(signatureBase32);
                 const signatureDERBack = base32.decode.asBytes(pad(signature));

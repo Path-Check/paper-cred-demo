@@ -192,21 +192,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
                 try {
-                    // Decoding the public key to get algo+key
+                    // Decoding the public key to get curve algorithm + key itself
                     const pubk = ECPublicKey.decode(pubkey, 'pem', {label: 'PUBLIC KEY'});
-                    // Get Encryption Algorithm
+
+                    // Get Encryption Algorithm: EC
                     const algoCode = pubk.algorithm.id.join('.');
-                    // Get Curve Algorithm
+                    // Get Curve Algorithm: secp256k1
                     const curveCode = pubk.algorithm.curve.join('.');
                     
                     // Prepare EC with assigned curve
                     const ec = new EC(curves[curveCode]);
+                    
+                    // Load public key from PEM as DER
                     const key = ec.keyFromPublic(pubk.pub.data, 'der');
 
+                    // Converts to UTF-8 -> WorldArray -> SHA256 Hash 
                     const payloadSHA256 = CryptoJS.SHA256(payload).toString();
 
+                    // Gets the Base32 enconded, add padding and convert to DER.
+                    const signatureDER = base32.decode.asBytes(pad(signatureBase32NoPad));
+
                     // Verifies Signature. 
-                    const verified = key.verify(payloadSHA256, base32.decode.asBytes(pad(signatureBase32NoPad)));
+                    const verified = key.verify(payloadSHA256, signatureDER);
 
                     // Updates screen. 
                     e(feedback_elem_id).innerHTML = "Verified: " + verified;
@@ -249,20 +256,24 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function signAndDisplayQR(elemPref, protocol, priKeyPEM, pubKeyLink, payload) {
                 // Load Primary Key
                 const ec_pk = ECPrivateKey.decode(priKeyPEM, 'pem', {label: 'EC PRIVATE KEY'});
+                
                 // Get Curve Algorithm.
                 const curveCode = ec_pk.parameters.join('.');
                 
-                // Prepare EC with assigned curve
+                // Prepare EC with assigned curve: secp256k1
                 const ec = new EC(curves[curveCode]);
+
+                // Load Private Key from PEM file converted to DER.
                 const key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
 
-                // Signs
+                // Converts to UTF-8 -> WorldArray -> SHA256 Hash 
                 const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+                
+                // Signs, gets a DER
                 const signatureDER = key.sign(payloadSHA256).toDER();
 
-                const signatureBase32 = base32.encode(signatureDER);
-                const signature = rmPad(signatureBase32);
-                const signatureDERBack = base32.decode.asBytes(pad(signature));
+                // Converts DER to Base32 and remove padding. 
+                const signature = rmPad(base32.encode(signatureDER));
                 
                 // Builds URI
                 const uri = protocol.toUpperCase()+":"+signature+"."+pubKeyLink.toUpperCase()+"?"+payload;
@@ -289,12 +300,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
-                // Get Keys
+                // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
+
+                // PEM code of the private key
                 const priKeyPEM = e('privkey').value;
 
                 // Build PassKeyHash
                 const digest = CryptoJS.SHA256(buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+
+                // Converts a cryptjs WordArray Digest -> native Uint8Array -> Base32 -> remove padding
                 const hashPassKeyBase32 = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
             
                 // Update fields on Screen

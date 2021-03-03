@@ -109,8 +109,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
         </div>
         
-        <script src="js/qrious.min.js"></script>
-
+        <script src="js/qrcode.min.js"></script>
+        
         <script src="js/elliptic.min.js"></script>
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
@@ -279,13 +279,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = protocol.toUpperCase()+":"+signature+"."+pubKeyLink.toUpperCase()+"?"+payload;
 
                 // Builds QR Element
-                let qr = new QRious({ element: e(elemPref+'-code') });
-                qr.set({
-                    foreground: '#3654DD',
-                    size: 290,
-                    level: 'M',
-                    value: uri
-                });
+                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                    if (error) console.error(error)
+                    console.log('success!');
+                })
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 

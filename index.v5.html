@@ -22,7 +22,7 @@
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
                         <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
                 </div>
@@ -37,15 +37,20 @@
                         <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
                         <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1000ul, 500ul, ..."/></td></tr>
                         <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="[28], [21], []"/></td></tr>
-                        <tr><td>PassKey</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr><td>Private?</td><td><input id="qr-badge-private" type="checkbox" checked></td></tr>
+                        <tr id="qr-badge-line-passkey"><td>PassKey</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-badge-line-passkey2" style="visibility: hidden;" ><td>PassKey</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-badge-line-name" style="display: none;"><td>Name</td><td><input id="qr-badge-name" type="text" placeholder="Patient Name" readonly/></td></tr>
+                        <tr id="qr-badge-line-dob"  style="display: none;"><td>DoB</td><td><input id="qr-badge-dob" type="text" placeholder="YYYYMMDD" readonly/></td></tr>
                     </table>
                 </div>
                 <div class="quarter">
                     <h4>Status</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
-                        <tr><td>Holder Initials</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="VP83"/></td></tr>
-                        <tr><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox" checked></td></tr>
+                        <tr id="qr-status-line-passkey"><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-status-line-name" style="display: none;"><td>Holder</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="VP83" readonly/></td></tr>
                     </table>
                 </div>
                 
@@ -69,7 +74,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
             </div>
             <div class="full-div">
-                <br>
+                <br><br>
                 <div style="margin: 0 auto; width:500px; height:50px;">
                     <div class="center-in-div"> 
                         <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
@@ -315,11 +320,25 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Converts a cryptjs WordArray Digest -> native Uint8Array -> Base32 -> remove padding
                 const hashPassKeyBase32 = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
-            
-                // Update fields on Screen
-                e("qr-status-vaccinee").value = hashPassKeyBase32;
-                e("qr-badge-vaccinee").value = hashPassKeyBase32;
-                e("qr-status-vaccinee-red").value = getInitialsAndYear(e("qr-passkey-name").value, e('qr-passkey-dob').value);
+
+                if (e("qr-badge-private").checked) {
+                    // Update fields on Screen
+                    e("qr-badge-vaccinee").value = hashPassKeyBase32;
+                    e("qr-badge-name").value = "";
+                    e("qr-badge-dob").value = "";
+                } else {
+                    e("qr-badge-vaccinee").value = "";
+                    e("qr-badge-name").value = e("qr-passkey-name").value;
+                    e("qr-badge-dob").value = e("qr-passkey-dob").value;
+                }
+
+                if (e("qr-status-private").checked) {
+                    e("qr-status-vaccinee").value = hashPassKeyBase32;
+                    e("qr-status-vaccinee-red").value = ""
+                } else {
+                    e("qr-status-vaccinee").value = ""
+                    e("qr-status-vaccinee-red").value = getInitialsAndYear(e("qr-passkey-name").value, e('qr-passkey-dob').value);
+                }
 
                 // Coupon QR
                 const couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
@@ -332,11 +351,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Badge QR
                 const badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
                                   "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
-                                  "qr-badge-site", "qr-badge-dose"];
+                                  "qr-badge-site", "qr-badge-dose", "qr-badge-name", "qr-badge-dob"];
                 signAndDisplayQR("qr-badge", "cred:badge:1", priKeyPEM, pubKeyLink, buildPayload(badgeArray));
  
                 // Status QR
-                const statusArray = ["qr-status-vaccinated", "qr-status-vaccinee-red", "qr-status-vaccinee"];
+                const statusArray = ["qr-status-vaccinated", "qr-status-vaccinee", "qr-status-vaccinee-red"];
                 signAndDisplayQR("qr-status", "cred:status:1", priKeyPEM, pubKeyLink, buildPayload(statusArray));
             }
 
@@ -399,6 +418,31 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         </script>
         
         <script>
+            e("qr-badge-private").addEventListener('change', () => {
+                e("qr-badge-line-name").style.display = e("qr-badge-private").checked ? 'none': '';
+                e("qr-badge-line-dob").style.display = e("qr-badge-private").checked ? 'none': '';
+                e("qr-badge-line-passkey").style.display = e("qr-badge-private").checked ? '' :'none';
+                e("qr-badge-line-passkey2").style.display = e("qr-badge-private").checked ? '' :'none';
+
+                if (e("qr-badge-private").checked) {
+                    e("qr-badge-name").value = "";
+                    e("qr-badge-dob").value = "";
+                } else {
+                    e("qr-badge-vaccinee").value = "";
+                }
+            });
+
+            e("qr-status-private").addEventListener('change', () => {
+                e("qr-status-line-name").style.display = e("qr-status-private").checked ? 'none': '';
+                e("qr-status-line-passkey").style.display = e("qr-status-private").checked ? '' :'none';
+                
+                if (e("qr-status-private").checked) {
+                    e("qr-status-vaccinee-red").value = "";
+                } else {
+                    e("qr-status-vaccinee").value = "";
+                }
+            });
+
             // Defaults
             e("qr-badge-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
 
@@ -408,6 +452,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function loadDemo() {
                 // Salt 
                 e("qr-passkey-salt").value = Math.random().toString(36).substring(3);
+
+                e("qr-badge-name").value = "";
+                e("qr-badge-dob").value = "";
+                e("qr-badge-vaccinee").value = "";
             
                 e("qr-coupon-id").value = "1";
                 e("qr-coupon-coupons").value = 5000;
@@ -428,6 +476,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-badge-required_doses").value = "28";
 
                 e("qr-status-vaccinated").value = "1";
+                e("qr-status-vaccinee").value = "";
             }
         </script>
 	</body>

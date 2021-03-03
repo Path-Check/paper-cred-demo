@@ -44,6 +44,7 @@
                     <h4>Status</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
+                        <tr><td>Holder Initials</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="VP83"/></td></tr>
                         <tr><td>PassKey</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                     </table>
                 </div>
@@ -318,6 +319,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Update fields on Screen
                 e("qr-status-vaccinee").value = hashPassKeyBase32;
                 e("qr-badge-vaccinee").value = hashPassKeyBase32;
+                e("qr-status-vaccinee-red").value = getInitialsAndYear(e("qr-passkey-name").value, e('qr-passkey-dob').value);
 
                 // Coupon QR
                 const couponArray = ["qr-coupon-id", "qr-coupon-coupons", "qr-coupon-city", "qr-coupon-phase", "qr-coupon-indicator"];
@@ -334,7 +336,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 signAndDisplayQR("qr-badge", "cred:badge:1", priKeyPEM, pubKeyLink, buildPayload(badgeArray));
  
                 // Status QR
-                const statusArray = ["qr-status-vaccinated", "qr-status-vaccinee"];
+                const statusArray = ["qr-status-vaccinated", "qr-status-vaccinee-red", "qr-status-vaccinee"];
                 signAndDisplayQR("qr-status", "cred:status:1", priKeyPEM, pubKeyLink, buildPayload(statusArray));
             }
 
@@ -388,6 +390,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e('qr-verify-verified').innerHTML += "<br>Signature Verified: false";
                 }
             }
+
+            function getInitialsAndYear(fullName, dob) {
+                var names = fullName.split(' '),
+                    initials = names[0].substring(0, 1).toUpperCase();
+                
+                if (names.length > 1) {
+                    initials += names[names.length - 1].substring(0, 1).toUpperCase();
+                }
+
+                return initials + dob.substring(2,4);
+            };
         </script>
         
         <script>
@@ -409,7 +422,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 
                 e("qr-passkey-name").value = "Jane Doe";
                 e("qr-passkey-phone").value = "16173332345";
-                e("qr-passkey-dob").value = "19010101";
+                e("qr-passkey-dob").value = "19820321";
 
                 e("qr-badge-manuf").value = "Moderna";
                 e("qr-badge-product").value = "COVID-19";

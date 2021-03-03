@@ -28,6 +28,19 @@ input[type="checkbox"] {
   font-size: 16px;
 }
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #bcbcbc;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #bcbcbc;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #bcbcbc;
+}
+
 textarea {
   margin-top: 10px;
 }

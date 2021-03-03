@@ -1,6 +1,8 @@
 # pip3 install ecdsa
+# pip3 install dnspython
 import hashlib
 import base64
+import dns.resolver
 
 from hashlib import sha256
 
@@ -19,13 +21,7 @@ def rmPad(base32text):
   return base32text.replace('=','')
 
 def parseQR(qr): 
-  [schema, qrtype, version, data] = qr.split(':')
-  [signature_pubkey, payload] = data.split('?')
-  index = signature_pubkey.index('.')
-
-  signatureBase32NoPad = signature_pubkey[0:index]
-  pubKeyLink = signature_pubkey[index + 1:]
-  return [schema, qrtype, version, signatureBase32NoPad, pubKeyLink, payload]
+  return qr.split(':')
 
 def printBytes(label, bytes): 
   print(label, "\t", end=' ')
@@ -57,20 +53,18 @@ def signAndFormatQR(sk, schema, qrtype, version, pubKeyLink, payload):
   
   formattedSig = rmPad(base64.b32encode(sig).decode("ascii"))
   
-  return ':'.join([schema, qrtype, version, formattedSig+'.'+pubKeyLink + "?" + payload]); 
-
-
-# Loading public key
-with open("ecdsa_pub_key") as f:
-  vk = VerifyingKey.from_pem(f.read())
+  return ':'.join([schema, qrtype, version, formattedSig, pubKeyLink, payload]); 
 
 # Loading private key
 with open("ecdsa_private_key") as f:
   sk = SigningKey.from_pem(f.read())
 
 # Loading default QR
-qr = 'CRED:PASSKEY:1:GBCAEIAK5CBMBME62GXVW6L5PLQOCVGHVGGNSY5BHDUH6E3XM4EKH7BF4UBCASD57KBVRJMQIOB6FSDGNMIUPGUP6QV3O6HIGTBINVYJAD2ENH62.PCF.VITORPAMPLONA.COM?JANE%20DOE/19010101/9IQHMB8N6R/16173332345'
+qr = 'CRED:STATUS:1:GBCQEIIARIIJXBTYU57EHXKOTZUNAODR62UFSZXMNVZLAAW23NRY5KRG7RBQEICH2OTWJUG755VRHBMJILUQDSKPFXVFJKTGRQ25OI5DGDYZHSVS5U:PCF.VITORPAMPLONA.COM:1/JD82/C5HLIDIEWJT3WWHROEDIE6INAFHXKNAP5PNLGOBPAUTUE46YOJJQ'
 [schema, qrtype, version, a, pubKeyLink, payload] = parseQR(qr)
+
+pubkey_pem = dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n")
+vk = VerifyingKey.from_pem(pubkey_pem)
 
 print("")
 print("Loading hardcoded QR")

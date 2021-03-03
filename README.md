@@ -1,35 +1,25 @@
 # Signed Vaccine Certificate Generator
 
-JavaScipt-based web app to generate a Vaccine Certification in a QR Code that is signed by the Health Provider, making it impossible to forge. 
+JavaScipt-based web app to generate a Vaccine Certification in a alphanumeric QR Code that is signed by the Health Provider. 
 
 Users can distribute their certificates to prove they have been vaccinated and are free of COVID-19. 
 
+The complete specification documentation is [here](https://github.com/Path-Check/paper-cred)
+
 <img src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png"/>
-
-## Behavior
-
-1. A vaccine provider inserts Vaccination data, the vacinee ID and signs with a Private Key. 
-2. The QR code can be copied, printed or loaded into an app for wide distribution. 
-3. The [here](https://github.com/vitorpamplona/vaccine-certificate-tracking-app) reads the QR Code, validates the signature and imports multiple certificates for the user and other vacinees and is ideal for Business that want to verify the certificates of customers to guarantee a COVID-free environment. 
 
 ## Immunization Certificate
 
 The certificate is the signed record that prove a patient name has taken a vaccine. It follows the format: 
 
 ```
-healthpass:typeOfHash\signature@pubKeyURL?<record as queryString>
+cred:type:version:signature:publicKeyId:payload
 ```
 
 Example:
 
 ```
-healthpass:SHA256\XhwgTyPE+Q6EaeEY+I10PbMI3i7yP6y73/tyYcjjtLciTW
-adqjVoQ9xBrQxzVBCsu53dmA6f/kH9QFLHiRpa+SGe3+fjMLQrT5r19rEYYewA0P
-WFMNRUg3uYsxvaYTaK7ZuMKypR1BDE1jFUkYlbcf15/yM2CBf1Msx5+tc5qv0=
-@vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key?
-date=2020-11-27T15:19:55.682Z&vaccinee=Vitor%20Fernando%20Pamplona
-&vaccinator=CVS%20Minute%20Clinics&manuf=Pfizer&name=COVID19&lot=1221
-&route=Intramuscular&site=Right%20arm&dose=1.0
+CRED:BADGE:1:GBCAEIBOFEBIZUXYC2D6EYOBJURKOQ5KQ3F4YLAUBMO3MY52E6QSVNMIAQBCAOTWMM5VZTWW3USVQLNCNNNAGXJ4PW3JYKL6TWMKZXDJA5E2CPPC:PCF.VITORPAMPLONA.COM:20210303/MODERNA/COVID-19/012L20A/28/TCXRTFWS4NAADDA5N76GOUIYUP54BCY5DLYUVU2YIISKVKNTR7VA/C28161/RA/500
 ````
 
 ## Try it out!

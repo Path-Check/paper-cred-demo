@@ -20,8 +20,8 @@
                 <div class="quarter"> 
                     <h4>PassKey</h4>
                     <table>
-                        <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
-                        <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
+                        <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Your Full Name ..."/></td></tr>
+                        <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="1617 .."/></td></tr>
                         <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
@@ -30,13 +30,13 @@
                     <h4>Badge</h4>
                     <table>
                         <tr><td>Date</td><td><input id="qr-badge-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Manuf</td><td><input id="qr-badge-manuf" type="text" placeholder="Pfizer, Moderna, etc"/></td></tr>
+                        <tr><td>Manuf</td><td><input id="qr-badge-manuf" type="text" placeholder="Pfizer, Moderna, ..."/></td></tr>
                         <tr><td>Product</td><td><input id="qr-badge-product" type="text" placeholder="COVID-19"/></td></tr>
                         <tr><td>Lot#</td><td><input id="qr-badge-lot" type="text" placeholder="012L20A, ..."/></td></tr>
-                        <tr><td>Route</td><td><input id="qr-badge-route" type="text" placeholder="Intramuscular, Intranasal, Subcut, Oral, ..."/></td></tr>
-                        <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="Right Arm, Left Arm, ..."/></td></tr>
-                        <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1000ul, 500ul, ..."/></td></tr>
-                        <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="[28], [21], []"/></td></tr>
+                        <tr><td>Route</td><td><input id="qr-badge-route" type="text" placeholder="C38238, C38276, ..."/></td></tr>
+                        <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="LA, RA,  ..."/></td></tr>
+                        <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1000, 500, ..."/></td></tr>
+                        <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="28, 21, 0, ..."/></td></tr>
                         <tr><td>Private?</td><td><input id="qr-badge-private" type="checkbox" checked></td></tr>
                         <tr id="qr-badge-line-passkey"><td>Pass #</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                         <tr id="qr-badge-line-passkey2" style="visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
@@ -47,7 +47,7 @@
                 <div class="quarter">
                     <h4>Status</h4>
                     <table>
-                        <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0,1,2"/></td></tr>
+                        <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0, 1, 2"/></td></tr>
                         <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox" checked></td></tr>
                         <tr id="qr-status-line-passkey"><td>Pass #</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                         <tr id="qr-status-line-name" style="display: none;"><td>Holder</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="VP83" readonly/></td></tr>

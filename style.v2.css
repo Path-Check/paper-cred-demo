@@ -72,8 +72,8 @@ textarea {
   margin: 0;
   position: absolute;
   left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -0%);
+  transform: translate(-50%, -0%);
 }
 
 pre {
@@ -87,6 +87,22 @@ pre {
 .quarter {
   float: left;
   width: 19%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.four-quarter {
+  float: left;
+  width: 78%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.two-quarter {
+  float: left;
+  width: 38.5%;
   margin: 0px;
   padding-right: 5px;
   padding-left: 5px;

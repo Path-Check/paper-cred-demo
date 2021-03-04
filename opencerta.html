@@ -1,0 +1,509 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+		<title>Vaccine Distribution Certificates Generator</title>
+	</head>
+	<body>
+        <div class="center">
+            <div class="full-div">
+                <h3>OpenCerta Certificate Example Schema using PCF's spec (<a href="https://github.com/Path-Check/paper-cred/blob/main/SPECIFICATION.md">Spec</a>)</h3>
+                <div class="quarter"> 
+                    <h4>VC Overhead</h4>
+                    <table>
+                        <tr><td>Context</td><td><input id="qr-head-context" type="text" placeholder="https://www.w3.org/2018/credentials/v1"/></td></tr>
+                        <tr><td>IssuanceDate</td><td><input id="qr-head-issuance-date" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>Type</td><td><input id="qr-head-type" type="text" placeholder="VerifiableCredential, Immunization"/></td></tr>
+                    </table>
+
+                    <h4>FHIR Overhead</h4>
+                    <table>
+                        <tr><td>Type</td><td><input id="qr-fhir-type" type="text" placeholder="fhir:Immunization"/></td></tr>
+                        <tr><td>Context</td><td><input id="qr-fhir-context" type="text" placeholder="https://opencerta.org/certificate/v1/"></td></tr>
+                        <tr><td>Status</td><td><input id="qr-fhir-status" type="text" placeholder="Completed"/></td></tr>
+                        <tr><td>NotGiven</td><td><input id="qr-fhir-not-given" type="text" placeholder="false"/></td></tr>
+                        <tr><td>VaxCode</td><td><input id="qr-fhir-vax-code" type="text" placeholder="AZD1222"/></td></tr>
+                        <tr><td>VaxCodeText</td><td><input id="qr-fhir-vax-code-text" type="text" placeholder="SARS-CoV-2"/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Patient</h4>
+                    <table>
+                        <tr><td>FirstName</td><td><input id="qr-pat-firstname" type="text" placeholder="First Name ..."/></td></tr>
+                        <tr><td>LastName</td><td><input id="qr-pat-lastname" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>Gender</td><td><input id="qr-pat-gender" type="text" placeholder="Gender ..."/></td></tr>
+                    </table>
+
+                    <h4>Location</h4>
+                    <table>
+                        <tr><td>City</td><td><input id="qr-location-city" type="text" placeholder="Somerville"/></td></tr>
+                        <tr><td>State</td><td><input id="qr-location-state" type="text" placeholder="MA"/></td></tr>
+                        <tr><td>Country</td><td><input id="qr-location-country" type="text" placeholder="USA"/></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Immunization</h4>
+                    <table>
+                        <tr><td>Date</td><td><input id="qr-immunization-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Manuf</td><td><input id="qr-immunization-manuf" type="text" placeholder="AstraZeneca, ..."/></td></tr>
+                        <tr><td>Product</td><td><input id="qr-immunization-product" type="text" placeholder="SARS-CoV-2"/></td></tr>
+                        <tr><td>Lot#</td><td><input id="qr-immunization-lot" type="text" placeholder="012L20A, ..."/></td></tr>
+                        <tr><td>Expiration</td><td><input id="qr-immunization-expiration" type="text" placeholder=""/></td></tr>
+                        <tr><td>PrimarySource</td><td><input id="qr-immunization-primary-source" type="text" placeholder="true"/></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>Practitioner</h4>
+                    <table>
+                        <tr><td>FirstName</td><td><input id="qr-practitioner-firstname" type="text" placeholder="First Name ..."/></td></tr>
+                        <tr><td>LastName</td><td><input id="qr-practitioner-lastname" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>Prefix</td><td><input id="qr-practitioner-prefix" type="text" placeholder="Dr."/></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>Credentials</h4>
+                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+<textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
+oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
+DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
+-----END EC PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">pcf.vitorpamplona.com</textarea>
+                    <br><br>
+                    <label for="privkey">QR Code Format</label><br/>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+                </div>
+            </div>
+            <div class="full-div">
+                <br><br>
+                <div style="margin: 0 auto; width:500px; height:50px;">
+                    <div class="center-in-div"> 
+                        <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
+                        <button class="qr-btn" onclick="generateQRCodes()">Sign Certificates</button>
+                    </div>
+                </div>
+                <br><br>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4>PCF's Format</h4>
+                    <canvas id="qr-certa-code"></canvas><br/>
+                    <pre id="qr-certa-result"></pre>
+                    <pre id="qr-certa-verified"></pre>
+                    <pre id="qr-certa-bytes"></pre>
+                </div>
+                <div class="two-quarter">
+                    <h4>Original JSON Format</h4>
+                    <img id="qr-certa-orig-code" src='img/open-certa-original.png' style="display: none;"/>
+                    <pre id="qr-certa-orig-result" style="display: none;">
+{
+    "@context": "https://www.w3.org/2018/credentials/v1",
+    "type": ["VerifiableCredential", "Immunization"],
+    "issuanceDate": "2020-07-10T19:23:24Z",
+    "credentialSubject": {
+        "type": "fhir:Immunization",
+        "@context": "https://opencerta.org/certificate/v1",
+        "role": "fhir:treeRoot",
+        "Immunization.status": {
+            "value": "completed"
+        },
+        "Immunization.notGiven": {
+            "boolean": false
+        },
+        "Immunization.vaccineCode": {
+            "CodeableConcept.coding": [{
+                "index": 0,
+                "Coding.display": {
+                    "value": "AZD1222"
+                }
+                }],
+            "CodeableConcept.text": {
+                "value": "SARS-CoV-2"
+            }
+        },
+        "Immunization.patient": {
+            "Patient.name": [{
+                "index": 0,
+                "HumanName.family": {
+                    "value": "Donald"
+                },
+                "HumanName.given": [{
+                    "index": 0,
+                    "value": "Daisy"
+                }]
+                }],
+            "Patient.gender": {
+                "value": "female"
+            }
+        },
+        "Immunization.date": {
+            "date": "2020-07-10"
+        },
+        "Immunization.primarySource": {
+            "boolean": true
+        },
+        "Immunization.manufacturer": {
+            "Organization.name": {
+                "value": "AstraZeneca; The University of Oxford; IQVIA"
+            }
+        },
+        "Immunization.lotNumber": {
+            "value": "AAJN11K"
+        },
+        "Immunization.expirationDate": {
+            "date": "2021-07-09"
+        },
+        "Immunization.location": {
+            "Location.address": {
+                "Address.city": {
+                    "value": "Houston"
+                },
+                "Address.state": {
+                    "value": "TX"
+                },
+                "Address.country": {
+                    "value": "US"
+                }
+            }
+        },
+        "Immunization.practitioner": [{
+            "index": 0,
+            "Practitioner.name": [{
+                "index": 0,
+                "HumanName.family": {
+                    "value": "Careful"
+                },
+                "HumanName.given": [{
+                    "index": 0,
+                    "value": "Adam"
+                }],
+                "HumanName.prefix": [{
+                    "index": 0,
+                    "value": "Dr"
+                }]
+                }]
+                }]
+    },
+    "proof": {...
+    }
+}
+
+                    </pre>
+                    <pre id="qr-certa-verified"></pre>
+                    <pre id="qr-certa-bytes"></pre>
+                </div>
+                
+                <div class="quarter">
+                    <label for="verify">Verify a QR Code</small></label><br/>
+                    <textarea id="qr-verify" rows="10" cols="30" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    <br><br>
+                    <pre id="qr-verify-result"></pre>
+                    <pre id="qr-verify-verified"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrcode.min.js"></script>
+        
+        <script src="js/elliptic.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script src="js/asn1.min.js"></script>
+        <script src="js/base32.min.js"></script>
+
+		<script>
+            const EC = elliptic.ec;
+            const ANS1 = asn1;
+
+            // PEM Definitions
+            const ECPublicKey = ANS1.define("PublicKey", function() {
+                this.seq().obj(
+                    this.key("algorithm").seq().obj(
+                        this.key("id").objid(),
+                        this.key("curve").objid()
+                    ),
+                    this.key("pub").bitstr()
+                );
+            });
+            const ECPrivateKey = ANS1.define("ECPrivateKey", function() {
+                this.seq().obj(
+                    this.key('version').int().def(1),
+                    this.key('privateKey').octstr(),
+                    this.key('parameters').explicit(0).objid().optional(),
+                    this.key('publicKey').explicit(1).bitstr().optional()
+                );
+            });
+
+            const algos = {'1.2.840.10045.2.1':'Elliptic curve public key cryptography'};
+            const curves = {'1.3.132.0.10': 'secp256k1'};
+
+            function e(elem) { return document.getElementById(elem); }
+
+            function buildPayload(elemArray) {
+                const fields = elemArray.map(function(elemId) {
+                    return encodeURIComponent(e(elemId).value.toUpperCase());
+                })
+                return fields.join('/');
+            }
+            function buildHashPayload(elemArray) {
+                const RS = String.fromCharCode(30);
+                let fields = elemArray.map(function(elemId) {
+                    return e(elemId).value.toUpperCase();
+                })
+                return fields.join(RS);
+            }
+
+            function pad(base32Str) {
+                switch (base32Str.length % 8) {
+                    case 2: return base32Str + "======"; 
+                    case 4: return base32Str + "===="; 
+                    case 5: return base32Str + "==="; 
+                    case 7: return base32Str + "="; 
+                }
+                return base32Str;
+            }
+
+            function rmPad(base32Str) {
+                return base32Str.replaceAll("=", "");
+            }
+
+            /* Converts a cryptjs WordArray to native Uint8Array */                                                                                  
+            function CryptJsWordArrayToUint8Array(wordArray) {                                                                                       
+                const result = new Uint8Array(wordArray.sigBytes);                                                                                                    
+                var i=0, wordIndex=0;
+                while(i < wordArray.sigBytes) {
+                    // here i is a multiple of 4
+                    var w = wordArray.words[wordIndex++];
+                    result[i++] = (w & 0xff000000) >>> 24;
+                    if (i==wordArray.sigBytes) break;
+                    result[i++] = (w & 0x00ff0000) >>> 16;                                                                                            
+                    if (i==wordArray.sigBytes) break;                                                                                                                       
+                    result[i++] = (w & 0x0000ff00) >>> 8;
+                    if (i==wordArray.sigBytes) break; 
+                    result[i++] = (w & 0x000000ff);                                                                                                  
+                }
+                return result;
+            }
+
+            function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
+                try {
+                    // Decoding the public key to get curve algorithm + key itself
+                    const pubk = ECPublicKey.decode(pubkey, 'pem', {label: 'PUBLIC KEY'});
+
+                    // Get Encryption Algorithm: EC
+                    const algoCode = pubk.algorithm.id.join('.');
+                    // Get Curve Algorithm: secp256k1
+                    const curveCode = pubk.algorithm.curve.join('.');
+                    
+                    // Prepare EC with assigned curve
+                    const ec = new EC(curves[curveCode]);
+                    
+                    // Load public key from PEM as DER
+                    const key = ec.keyFromPublic(pubk.pub.data, 'der');
+
+                    // Converts to UTF-8 -> WorldArray -> SHA256 Hash 
+                    const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+
+                    // Gets the Base32 enconded, add padding and convert to DER.
+                    const signatureDER = base32.decode.asBytes(pad(signatureBase32NoPad));
+
+                    // Verifies Signature. 
+                    const verified = key.verify(payloadSHA256, signatureDER);
+
+                    // Updates screen. 
+                    e(feedback_elem_id).innerHTML = "Signature Verified: " + verified;
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
+                    console.error(err);
+                }
+            }
+
+            function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
+                // Download pubkey to verify
+                let client = new XMLHttpRequest();
+                    
+                try {
+                    // Try to download from the DNS TXT record. 
+                    client.open('GET', "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT', false);
+                    client.send();
+
+                    const jsonResponse = JSON.parse(client.response);
+                    if (jsonResponse.Answer) {
+                        const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
+                        const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
+                            
+                        verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
+                        return;
+                    }
+
+                    // Try to download as a file. 
+                    client.open('GET', "https://" + pubkeyURL, false);
+                    client.send();
+
+                    verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id);
+                    
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
+                }
+            }
+
+            function signAndDisplayQR(elemPref, protocol, priKeyPEM, pubKeyLink, payload) {
+                // Load Primary Key
+                const ec_pk = ECPrivateKey.decode(priKeyPEM, 'pem', {label: 'EC PRIVATE KEY'});
+                
+                // Get Curve Algorithm.
+                const curveCode = ec_pk.parameters.join('.');
+                
+                // Prepare EC with assigned curve: secp256k1
+                const ec = new EC(curves[curveCode]);
+
+                // Load Private Key from PEM file converted to DER.
+                const key = ec.keyFromPrivate(ec_pk.privateKey, 'der');
+
+                // Converts to UTF-8 -> WorldArray -> SHA256 Hash 
+                const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+                
+                // Signs, gets a DER
+                const signatureDER = key.sign(payloadSHA256).toDER();
+
+                // Converts DER to Base32 and remove padding. 
+                const signature = rmPad(base32.encode(signatureDER));
+                
+                // Builds URI
+                const uri = protocol.toUpperCase()+":"+signature+":"+pubKeyLink.toUpperCase()+":"+payload;
+
+                // Builds QR Element
+                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:520, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                })
+
+                // Updates screen elements. 
+                e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
+                                            "<span class='signature'>" + signature + "</span>" + ":" +
+                                            "<span class='pub-key'>" + pubKeyLink.toUpperCase() + "</span>" + ":" +
+                                            "<span class='message'>" + payload + "</span><br><br>";
+                //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
+                //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
+                e(elemPref+"-verified").innerHTML = "Signature Verified: false";
+                e(elemPref+"-bytes").innerHTML = "Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
+
+                // Verifies URI is valid
+                downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
+            }
+
+            function generateQRCodes() {
+                // Where to Download the public key
+                const pubKeyLink = e("qr-link").value.trim().replace("http://","");
+
+                // PEM code of the private key
+                const priKeyPEM = e('privkey').value;
+
+                // Coupon QR
+                const certaArray = [
+                    "qr-pat-firstname", "qr-pat-lastname", "qr-pat-gender", 
+                    "qr-immunization-date", "qr-immunization-manuf", "qr-immunization-product", "qr-immunization-lot", "qr-immunization-expiration", "qr-immunization-primary-source",
+                    "qr-location-city", "qr-location-state", "qr-location-country", 
+                    "qr-practitioner-firstname", "qr-practitioner-lastname", "qr-practitioner-prefix", 
+                    "qr-head-context", "qr-head-issuance-date", "qr-head-type", 
+                    "qr-fhir-type", "qr-fhir-context", "qr-fhir-not-given", "qr-fhir-status", "qr-fhir-vax-code", "qr-fhir-vax-code-text"
+                ];
+
+                signAndDisplayQR("qr-certa", "cred:certa:1", priKeyPEM, pubKeyLink, buildPayload(certaArray));
+
+                e("qr-certa-orig-code").style.display='block';
+                e("qr-certa-orig-result").style.display='block';
+            }
+
+            function parseQR(qr) {
+                return [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = qr.split(':');
+            }
+
+            function verifyQRCode() {
+                e("qr-verify-result").innerHTML = "";
+                e('qr-verify-verified').innerHTML = "";
+
+                const qr = e("qr-verify").value;
+                
+                try {
+                    parseQR(qr);
+                    e('qr-verify-verified').innerHTML += "QR Parsed Sucessfully.<br><br>";
+                } catch (err) {
+                    e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
+                    return;
+                }
+
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr);
+                
+                // Updates screen elements. 
+                e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
+                                            "<span class='signature'>" + signatureBase32NoPad + "</span>" + ":" +
+                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
+                                            "<span class='message'>" + payload + "</span><br><br>";
+                                            
+                if (schema.toLowerCase() !== "cred") {
+                    e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
+                }
+
+                const types = ["coupon", "badge", "status", "passkey", "certa"];
+                if (!types.includes(type.toLowerCase())) {
+                    e('qr-verify-verified').innerHTML += "Invalid CRED type: " + type + " was not recognized <br>";
+                }
+
+                if (version > 1) {
+                    e('qr-verify-verified').innerHTML += "Invalid Version: " + version + " was not released yet <br>";
+                }
+
+                if (e('qr-verify-verified').innerHTML === "QR Parsed Sucessfully.<br><br>") {
+                    downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
+                } else {
+                    e('qr-verify-verified').innerHTML += "<br>Signature Verified: false";
+                }
+            }
+        </script>
+        
+        <script>
+            // Defaults
+            e("qr-immunization-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
+
+            function loadDemo() {
+                e("qr-head-context").value = "https://www.w3.org/2018/credentials/v1";
+                e("qr-head-issuance-date").value = new Date().toJSON().slice(0, 10).replaceAll("-","");
+                e("qr-head-type").value = "VerifiableCredential, Immunization";
+
+                e("qr-fhir-type").value = "fhir:Immunization";
+                e("qr-fhir-context").value = "https://opencerta.org/certificate/v1/";
+                e("qr-fhir-not-given").value = "false";
+                e("qr-fhir-status").value = "Completed";
+                e("qr-fhir-vax-code").value = "AZD1222";
+                e("qr-fhir-vax-code-text").value = "SARS-CoV-2";
+
+                e("qr-pat-firstname").value = "Daisy";
+                e("qr-pat-lastname").value = "Donald";
+                e("qr-pat-gender").value = "Female";
+            
+                e("qr-immunization-manuf").value = "AstraZeneca; The University of Oxford; IQVIA";
+                e("qr-immunization-product").value = "COVID19";
+                e("qr-immunization-lot").value = "AAJN11K";
+                e("qr-immunization-expiration").value = "20210709";
+                e("qr-immunization-primary-source").value = "true";
+
+                e("qr-location-city").value = "Houston";
+                e("qr-location-state").value = "TX";
+                e("qr-location-country").value = "USA";
+                
+                e("qr-practitioner-firstname").value = "Adam";
+                e("qr-practitioner-lastname").value = "Careful";
+                e("qr-practitioner-prefix").value = "Dr.";
+            }
+        </script>
+	</body>
+</html>
+
+

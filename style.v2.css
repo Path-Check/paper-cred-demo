@@ -41,6 +41,11 @@ input[type="checkbox"] {
   color: #bcbcbc;
 }
 
+.checkboxes input {
+  vertical-align: middle;
+  width:22px;
+}
+
 textarea {
   margin-top: 10px;
 }

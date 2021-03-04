@@ -71,6 +71,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+
+                    <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
                 </div>
             </div>
             <div class="full-div">
@@ -291,8 +293,27 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
-                    if (error) console.error(error)
-                    console.log('success!');
+                    if (e("include-logos").checked) {
+                        //adding a logo at center        
+                        const imgDim={width:50,height:50}; //logo dimention
+                        var context = e(elemPref+'-code').getContext('2d');
+                        var imageObj = new Image();  
+                        if (e(elemPref+'-private')) {
+                            if (e(elemPref+'-private').checked)
+                                imageObj.src = './img/closelocker.jpg';  
+                            else
+                                imageObj.src = './img/openlocker.jpg';
+                        } else if (elemPref === 'qr-passkey') {
+                            imageObj.src = './img/passkey.png'; 
+                        } else {
+                            imageObj.src = './img/logo.jpg';  
+                        }      
+                        imageObj.onload = function() {
+                            context.drawImage(imageObj, 
+                            e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
+                            e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                        }; 
+                    } 
                 })
 
                 // Updates screen elements. 

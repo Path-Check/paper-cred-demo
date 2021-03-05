@@ -23,7 +23,10 @@ def rmPad(base32text):
 def parseQR(qr): 
   return qr.split(':')
 
-def parseAndVerifyQR(vk, qr): 
+def downloadPublicKey(pubKeyLink):
+  return dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n")
+
+def parseAndVerifyQR(qr): 
   [schema, qrtype, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr)
 
   print ("Parsed QR\t", schema, qrtype, version, signatureBase32NoPad, pubKeyLink, payload)
@@ -34,6 +37,8 @@ def parseAndVerifyQR(vk, qr):
   print("Payload Bytes\t", *payloadBytes)
   print("Signature DER\t", *signatureDER)
 
+  pubkey_pem = downloadPublicKey(pubKeyLink)
+  vk = VerifyingKey.from_pem(pubkey_pem)
   verified = vk.verify(signatureDER, payloadBytes, hashfunc=sha256, sigdecode=sigdecode_der)
 
   print("")
@@ -50,33 +55,30 @@ def signAndFormatQR(sk, schema, qrtype, version, pubKeyLink, payload):
   
   return ':'.join([schema, qrtype, version, formattedSig, pubKeyLink, payload])
 
-# Loading private key
-with open("ecdsa_private_key") as f:
-  sk = SigningKey.from_pem(f.read())
-
-# Loading default QR
 qr = 'CRED:STATUS:1:GBCQEIIARIIJXBTYU57EHXKOTZUNAODR62UFSZXMNVZLAAW23NRY5KRG7RBQEICH2OTWJUG755VRHBMJILUQDSKPFXVFJKTGRQ25OI5DGDYZHSVS5U:PCF.VITORPAMPLONA.COM:1/JD82/C5HLIDIEWJT3WWHROEDIE6INAFHXKNAP5PNLGOBPAUTUE46YOJJQ'
-[schema, qrtype, version, a, pubKeyLink, payload] = parseQR(qr)
-
-pubkey_pem = dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n")
-vk = VerifyingKey.from_pem(pubkey_pem)
 
 print("")
 print("Loading hardcoded QR")
 print("")
 
-parseAndVerifyQR(vk, qr)
+parseAndVerifyQR(qr)
 
 print("")
 print("Resigning same payload")
 print("")
+
+# Loading private key
+with open("ecdsa_private_key") as f:
+  sk = SigningKey.from_pem(f.read())
+
+[schema, qrtype, version, _, pubKeyLink, payload] = parseQR(qr)
 
 newQR = signAndFormatQR(sk, schema, qrtype, version, pubKeyLink, payload)
 
 print("New QR Signed\t", newQR)
 print("")
 
-parseAndVerifyQR(vk, newQR)
+parseAndVerifyQR(newQR)
 
 
 

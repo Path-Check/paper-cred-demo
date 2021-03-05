@@ -90,6 +90,7 @@ public class verify {
 
     boolean verified = s.verify(signatureDER);
 
+    System.out.println("");
     System.out.println("Verify Payload\t" + verified);
 
     return verified;
@@ -124,10 +125,10 @@ public class verify {
     String[] qrArray = parseQR(qr);
 
     String newQR = signAndFormatQR(qrArray[0], qrArray[1], qrArray[2], qrArray[4], qrArray[5]);
-    parseAndVerifyQR(newQR);
 
-    System.out.println("");
     System.out.println("New QR Signed\t" + newQR);
     System.out.println("");
+
+    parseAndVerifyQR(newQR);
   }
 }

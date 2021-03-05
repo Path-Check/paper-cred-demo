@@ -23,7 +23,7 @@ def rmPad(base32text):
 def parseQR(qr): 
   return qr.split(':')
 
-def downloadPublicKey(pubKeyLink):
+def download(pubKeyLink):
   return dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n")
 
 def parseAndVerifyQR(qr): 
@@ -37,12 +37,10 @@ def parseAndVerifyQR(qr):
   print("Payload Bytes\t", *payloadBytes)
   print("Signature DER\t", *signatureDER)
 
-  pubkey_pem = downloadPublicKey(pubKeyLink)
-  vk = VerifyingKey.from_pem(pubkey_pem)
+  vk = VerifyingKey.from_pem(download(pubKeyLink))
   verified = vk.verify(signatureDER, payloadBytes, hashfunc=sha256, sigdecode=sigdecode_der)
 
-  print("")
-  print("Verify Payload\t", verified)
+  print("\nVerify Payload\t", verified)
 
   return verified
 

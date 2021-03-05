@@ -23,12 +23,6 @@ def rmPad(base32text):
 def parseQR(qr): 
   return qr.split(':')
 
-def printBytes(label, bytes): 
-  print(label, "\t", end=' ')
-  for byte in bytes:
-    print(byte, end=' ')
-  print('')
-
 def parseAndVerifyQR(vk, qr): 
   [schema, qrtype, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr)
 
@@ -37,11 +31,12 @@ def parseAndVerifyQR(vk, qr):
   payloadBytes = payload.encode("utf-8")
   signatureDER = base64.b32decode(pad(signatureBase32NoPad))
 
-  printBytes("Payload Bytes", payloadBytes)
-  printBytes("Signature DER", signatureDER)
+  print("Payload Bytes\t", *payloadBytes)
+  print("Signature DER\t", *signatureDER)
 
   verified = vk.verify(signatureDER, payloadBytes, hashfunc=sha256, sigdecode=sigdecode_der)
 
+  print("")
   print("Verify Payload\t", verified)
 
   return verified
@@ -50,10 +45,10 @@ def signAndFormatQR(sk, schema, qrtype, version, pubKeyLink, payload):
   payloadBytes = payload.encode("utf-8")
 
   sig = sk.sign(payloadBytes, hashfunc=sha256, sigencode=sigencode_der)
-  
+
   formattedSig = rmPad(base64.b32encode(sig).decode("ascii"))
   
-  return ':'.join([schema, qrtype, version, formattedSig, pubKeyLink, payload]); 
+  return ':'.join([schema, qrtype, version, formattedSig, pubKeyLink, payload])
 
 # Loading private key
 with open("ecdsa_private_key") as f:
@@ -78,11 +73,11 @@ print("")
 
 newQR = signAndFormatQR(sk, schema, qrtype, version, pubKeyLink, payload)
 
-parseAndVerifyQR(vk, newQR)
-
-print("")
 print("New QR Signed\t", newQR)
 print("")
+
+parseAndVerifyQR(vk, newQR)
+
 
 
 

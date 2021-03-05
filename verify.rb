@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-#gem install base32 -v 0.3.2
+# gem install base32
+
 require 'openssl'
 require 'base32'
 require 'pp'
@@ -17,33 +18,65 @@ def pad(base32str)
     end
 end
 
-vitor_badge = 'CRED:BADGE:1:GBCQEICRPCPHOGK5M36MTOFGHFMVR3REYJQZCTQR63YBLM6DLCJH4LHZLYBCCAFOLKIWMC2J2JM5LHXZZWS7OWFGYBSUM63X4S3KR4MLV6TGFVLLMI:PCF.VITORPAMPLONA.COM:20210303/MODERNA/COVID-19/012L20A/28/CTR3W5LCEHX65KN4DFFWEXQGQIUUINLGMZENFQ3YJH7HIZH4XUXA/C28161/RA/500'
-coupon = 'CRED:COUPON:1:GBDAEIIA42QDQ5BDUUXVMSQ4VIMMA7RETIZSXB573OL24M4L67LYB24CZYVQEIIA2EZ5W2QXLR7LUSLQW6MLAFV3N7OTT3BDAZCNCRMYBMUYC6WMXMNQ:PCF.VITORPAMPLONA.COM:1/5000/SOMERVILLE%20MA%20US/1A/%3E65'
-passkey = 'CRED:PASSKEY:1:GBCQEIIAR4IV6YKD54LLXLDSQKHZSPR5MJXVFLMDOJ4K4QTN2CSTRU3MOGMAEIAGRUZPAX4Z27HC62LKWFKXBE7NMSAVOVZSJCKJHP3SZSWBEKDUTU:PCF.VITORPAMPLONA.COM:JANE%20DOE/19010101/LLJOSWPWIA/16173332345'
-badge = 'CRED:BADGE:1:GBCQEICJAJ4SO6ZU4OJUQAOOH3Z6KZEWWPQQ53YM5GNXDOKMTNMTNSMRZUBCCAEOA66WVUBXNVCEH3ZS7TBMJLGARNOBOFGNTQI5YMCPWMJ6CVGTRA:PCF.VITORPAMPLONA.COM:20210303/MODERNA/COVID-19/012L20A/28/56IBA4HEVQYGEM5AHBXJJEQLKKJ2EV3HA5WX7A3QK65TJCYLWEEA/C28161/RA/500'
-status = 'CRED:STATUS:1:GBDAEIIAVWDG4K3TIIWWYOVQUW4UF3KZD6XQID3UOAGDZALXO7HJHEL2IH6QEIIATHYNNOEUDPXK3Y4UMZ4STOE3NIGDEHHNJ7Z7JXKR7BZTMHISLHJQ:PCF.VITORPAMPLONA.COM:1/56IBA4HEVQYGEM5AHBXJJEQLKKJ2EV3HA5WX7A3QK65TJCYLWEEA'
-qrs = [vitor_badge, coupon, passkey, badge, status]
+def rm_pad(base32text)
+  base32text.gsub '=', ''
+end
 
-qrs.each do |uri|
-  warn "Checking #{uri}"
-  # ugly hack but it works until we fix the uri delimiters
-  key_id = uri.split(/[:]/)[4]
-  pubkey = nil
-  Resolv::DNS.open do |dns|
-    resource = dns.getresource(key_id, Resolv::DNS::Resource::IN::TXT)
-    pubkey = resource.data.split('\n').join("\n")
-  end
-  key = OpenSSL::PKey::EC.new(pubkey)
+def parse_and_verify_qr(vk, qr)
+  (schema, qrtype, version, signature_b32, pub_key_link, payload) = qr.split(/:/)
 
-  signature_b32 = uri.split(/[:]/)[3]
-  payload = uri.split(/[:]/)[5]
+  puts "Parsed QR\t #{schema} #{qrtype} #{version} #{signature_b32} #{pub_key_link} #{payload}"
+
   sha_payload = Digest::SHA256.digest(payload)
   signature = Base32.decode(pad(signature_b32))
 
-  warn "checking #{payload}"
-  if key.dsa_verify_asn1(sha_payload, signature)
-    warn 'OK'
-  else
-    warn 'FAIL'
-  end
+  puts "Payload Bytes\t #{sha_payload.bytes}"
+  puts "Signature DER\t #{signature.bytes}"
+
+  verified = vk.dsa_verify_asn1(sha_payload, signature)
+
+  puts ''
+  puts "Verify Payload\t #{verified}"
+
+  verified
 end
+
+def sign_and_format_qr(sk, schema, qrtype, version, pub_key_link, payload)
+  sha_payload = Digest::SHA256.digest(payload)
+  sig = sk.dsa_sign_asn1(sha_payload)
+
+  formatted_sig = rm_pad(Base32.encode(sig))
+
+  [schema, qrtype, version, formatted_sig, pub_key_link, payload].join ':'
+end
+
+uri = 'CRED:BADGE:1:GBCQEICRPCPHOGK5M36MTOFGHFMVR3REYJQZCTQR63YBLM6DLCJH4LHZLYBCCAFOLKIWMC2J2JM5LHXZZWS7OWFGYBSUM63X4S3KR4MLV6TGFVLLMI:PCF.VITORPAMPLONA.COM:20210303/MODERNA/COVID-19/012L20A/28/CTR3W5LCEHX65KN4DFFWEXQGQIUUINLGMZENFQ3YJH7HIZH4XUXA/C28161/RA/500'
+
+(schema, qrtype, version, _, pub_key_link, payload) = uri.split(/:/)
+
+pubkey = nil
+Resolv::DNS.open do |dns|
+  resource = dns.getresource(pub_key_link, Resolv::DNS::Resource::IN::TXT)
+  pubkey = resource.data.split('\n').join("\n")
+end
+vk = OpenSSL::PKey::EC.new(pubkey)
+
+sk = OpenSSL::PKey::EC.new(File.read('ecdsa_private_key'))
+
+puts ''
+puts 'Loading hardcoded QR'
+puts ''
+
+parse_and_verify_qr(vk, uri)
+
+puts ''
+puts 'Resigning same payload'
+puts ''
+
+new_qr = sign_and_format_qr(sk, schema, qrtype, version, pub_key_link, payload)
+
+puts "New QR Signed\t #{new_qr}"
+puts ''
+
+parse_and_verify_qr(vk, new_qr)
+

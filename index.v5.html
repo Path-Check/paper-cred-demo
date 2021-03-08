@@ -67,7 +67,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
                     <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <textarea id="qr-link" rows="1" cols="30">pcf.vitorpamplona.com</textarea>
+                    <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
@@ -338,7 +338,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const priKeyPEM = e('privkey').value;
 
                 // Build PassKeyHash
-                const digest = CryptoJS.SHA256(buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt"]));
+                const hashedPassKey = buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]);
+                console.log(hashedPassKey);
+                const digest = CryptoJS.SHA256(hashedPassKey);
 
                 // Converts a cryptjs WordArray Digest -> native Uint8Array -> Base32 -> remove padding
                 const hashPassKeyBase32 = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));

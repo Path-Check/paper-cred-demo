@@ -376,11 +376,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const badgeArray = ["qr-badge-date", "qr-badge-manuf", "qr-badge-product", "qr-badge-lot", 
                                   "qr-badge-required_doses", "qr-badge-vaccinee", "qr-badge-route", 
                                   "qr-badge-site", "qr-badge-dose", "qr-badge-name", "qr-badge-dob"];
-                signAndDisplayQR("qr-badge", "cred:badge:1", priKeyPEM, pubKeyLink, buildPayload(badgeArray));
+                signAndDisplayQR("qr-badge", "cred:badge:2", priKeyPEM, pubKeyLink, buildPayload(badgeArray));
  
                 // Status QR
                 const statusArray = ["qr-status-vaccinated", "qr-status-vaccinee", "qr-status-vaccinee-red"];
-                signAndDisplayQR("qr-status", "cred:status:1", priKeyPEM, pubKeyLink, buildPayload(statusArray));
+                signAndDisplayQR("qr-status", "cred:status:2", priKeyPEM, pubKeyLink, buildPayload(statusArray));
             }
 
             function parseQR(qr) {

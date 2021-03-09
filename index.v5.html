@@ -387,7 +387,22 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = qr.split(':');
             }
 
+            function getPayloadTypes() {
+                let client = new XMLHttpRequest();
+                try {
+                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/main/payloads", false);
+                    client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                    client.send();
+
+                    console.log(client.response);
+                } catch(err) {
+                    console.error(err);
+                }
+            }
+
             function verifyQRCode() {
+
+                getPayloadTypes();
                 e("qr-verify-result").innerHTML = "";
                 e('qr-verify-verified').innerHTML = "";
 
@@ -399,7 +414,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 } catch (err) {
                     e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
                     return;
-                }
+                }                
 
                 const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr);
                 

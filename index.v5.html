@@ -229,7 +229,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     const verified = key.verify(payloadSHA256, signatureDER);
 
                     // Updates screen. 
-                    e(feedback_elem_id).innerHTML = "Signature Verified: " + verified;
+                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
                 } catch(err) {
                     e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
                     console.error(err);
@@ -323,8 +323,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='message'>" + payload + "</span><br><br>";
                 //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
                 //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
-                e(elemPref+"-verified").innerHTML = "Signature Verified: false";
-                e(elemPref+"-bytes").innerHTML = "Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
+                e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
+                e(elemPref+"-bytes").innerHTML = "QR Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
 
                 // Verifies URI is valid
                 downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
@@ -339,7 +339,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Build PassKeyHash
                 const hashedPassKey = buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]);
-                console.log(hashedPassKey);
                 const digest = CryptoJS.SHA256(hashedPassKey);
 
                 // Converts a cryptjs WordArray Digest -> native Uint8Array -> Base32 -> remove padding
@@ -390,27 +389,39 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function getPayloadTypes() {
                 let client = new XMLHttpRequest();
                 try {
-                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/main/payloads", false);
+                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/main", false);
                     client.setRequestHeader("Accept", "application/vnd.github.v3+json");
                     client.send();
 
-                    console.log(client.response);
+                    const filesRoot = JSON.parse(client.response).tree
+                    const payloadsDir = filesRoot.find(element => element.path === 'payloads');
+
+                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/"+payloadsDir.sha, false);
+                    client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                    client.send();
+
+                    const payloads = JSON.parse(client.response).tree.map(x => x.path.replaceAll(".md","").replaceAll(".",":"));
+
+                    return payloads;
                 } catch(err) {
                     console.error(err);
                 }
             }
 
             function verifyQRCode() {
-
-                getPayloadTypes();
                 e("qr-verify-result").innerHTML = "";
                 e('qr-verify-verified').innerHTML = "";
 
                 const qr = e("qr-verify").value;
                 
+                if (qr === "") {
+                    e('qr-verify-verified').innerHTML += "Field is empty. It's not a valid URI.<br>";
+                    return;
+                }
+
                 try {
                     parseQR(qr);
-                    e('qr-verify-verified').innerHTML += "QR Parsed Sucessfully.<br><br>";
+                    e('qr-verify-verified').innerHTML += "QR was parsed sucessfully!<br><br>";
                 } catch (err) {
                     e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
                     return;
@@ -428,19 +439,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
                 }
 
-                const types = ["coupon", "badge", "status", "passkey"];
-                if (!types.includes(type.toLowerCase())) {
-                    e('qr-verify-verified').innerHTML += "Invalid CRED type: " + type + " was not recognized <br>";
+                const availablePayloads = getPayloadTypes();
+
+                if (!availablePayloads.includes(type.toLowerCase()+":"+version)) {
+                    e('qr-verify-verified').innerHTML += "Type or version <b>" + type + ":" + version + "</b> was not recognized. Make sure this payload type and version are available on <a href='https://github.com/Path-Check/paper-cred/tree/main/payloads'>GitHub</a> <br>";
                 }
 
-                if (version > 2) {
-                    e('qr-verify-verified').innerHTML += "Invalid Version: " + version + " was not released yet <br>";
-                }
-
-                if (e('qr-verify-verified').innerHTML === "QR Parsed Sucessfully.<br><br>") {
+                if (e('qr-verify-verified').innerHTML === "QR was parsed sucessfully!<br><br>") {
                     downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
                 } else {
-                    e('qr-verify-verified').innerHTML += "<br>Signature Verified: false";
+                    e('qr-verify-verified').innerHTML += "<br>Signature: not verified";
                 }
             }
 

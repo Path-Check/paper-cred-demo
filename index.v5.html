@@ -185,24 +185,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return base32Str.replaceAll("=", "");
             }
 
-            /* Converts a cryptjs WordArray to native Uint8Array */                                                                                  
-            function CryptJsWordArrayToUint8Array(wordArray) {                                                                                       
-                const result = new Uint8Array(wordArray.sigBytes);                                                                                                    
-                var i=0, wordIndex=0;
-                while(i < wordArray.sigBytes) {
-                    // here i is a multiple of 4
-                    var w = wordArray.words[wordIndex++];
-                    result[i++] = (w & 0xff000000) >>> 24;
-                    if (i==wordArray.sigBytes) break;
-                    result[i++] = (w & 0x00ff0000) >>> 16;                                                                                            
-                    if (i==wordArray.sigBytes) break;                                                                                                                       
-                    result[i++] = (w & 0x0000ff00) >>> 8;
-                    if (i==wordArray.sigBytes) break; 
-                    result[i++] = (w & 0x000000ff);                                                                                                  
-                }
-                return result;
-            }
-
             function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
                 try {
                     // Decoding the public key to get curve algorithm + key itself
@@ -339,11 +321,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Build PassKeyHash
                 const hashedPassKey = buildHashPayload(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]);
-                const digest = CryptoJS.SHA256(hashedPassKey);
-
-                // Converts a cryptjs WordArray Digest -> native Uint8Array -> Base32 -> remove padding
-                const hashPassKeyBase32 = rmPad(base32.encode(CryptJsWordArrayToUint8Array(digest)));
-
+                const digest = CryptoJS.SHA256(hashedPassKey).toString();
+                const hashPassKeyBase32 = rmPad(base32.encode(digest));
+                
                 if (e("qr-badge-private").checked) {
                     // Update fields on Screen
                     e("qr-badge-vaccinee").value = hashPassKeyBase32;

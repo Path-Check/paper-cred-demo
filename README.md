@@ -8,9 +8,9 @@ The complete specification documentation is [here](https://github.com/Path-Check
 
 <img src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png"/>
 
-## Immunization Certificate
+## Certificate Specification
 
-The certificate is the signed record that prove a patient name has taken a vaccine. It follows the format: 
+The certificate is the signed record that prove a patient name has taken a vaccine. It follows the format of [paper-creds](https://github.com/Path-Check/paper-cred): 
 
 ```
 cred:type:version:signature:publicKeyId:payload

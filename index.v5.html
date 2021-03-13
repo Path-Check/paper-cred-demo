@@ -66,7 +66,10 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <label for="pubkey">Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <label for="pubkey"><small>1. DNS TXT Record FQDN</small></label><br/>
+                    <label for="pubkey"><small>2. Direct URL to PEM Download</small></label><br/>
+                    <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
@@ -232,18 +235,38 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
                         const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
                             
-                        verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
-                        return;
+                        if (noQuotes.includes("-----BEGIN PUBLIC KEY-----")) {   
+                            verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
+                            return;
+                        }
                     }
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
+                }    
 
+                try {
                     // Try to download as a file. 
                     client.open('GET', "https://" + pubkeyURL, false);
                     client.send();
 
-                    verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id);
-                    
+                    if (client.response.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id); 
+                        return;
+                    }
                 } catch(err) {
-                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
+                }
+
+                try {   
+                    console.log("Trying GitHub");
+                    let publicKey = getGitHubDatabase(pubkeyURL.split('.')[0], pubkeyURL.split('.')[1]);
+                    console.log(publicKey);
+                    if (publicKey != undefined && publicKey.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        verifySignature(publicKey, payload, signatureBase32NoPad, feedback_elem_id); 
+                        return;
+                    }
+                } catch(err) {
                     console.error(err);
                 }
             }
@@ -387,6 +410,48 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     console.error(err);
                 }
             }
+
+            function getTXT(url) {
+                let client = new XMLHttpRequest();
+                client.open('GET', url, false);
+                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.send();
+                console.log(client.response);
+                return client.response;
+            }
+
+            function getJSON(url) {
+                return JSON.parse(getTXT(url));
+            }
+
+            function getGitHubDatabase(id, database) {
+                console.log(id, database);
+                const githubTree = "https://api.github.com/repos/Path-Check/paper-cred/git/trees";
+                const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
+                try {
+                    const rootDir = getJSON(githubTree + "/" + "benefits_limitations").tree
+                    const databasesDir = rootDir.find(element => element.path === 'keys');
+
+                    if (databasesDir === undefined) return;
+
+                    const databases = getJSON(githubTree+"/"+databasesDir.sha).tree
+                    const databaseDir = databases.find(element => element.path === database);
+
+                    if (databaseDir === undefined) return;
+
+                    const idsFiles = getJSON(githubTree+"/"+databaseDir.sha).tree
+                    const idFile = idsFiles.find(element => element.path === id+'.pem');
+
+                    if (idFile === undefined) return;
+
+                    const publicKeyPem = atob(getJSON(githubBlob+"/"+idFile.sha).content)
+
+                    return publicKeyPem;
+                } catch(err) {
+                    console.error(err);
+                }
+            }
+
 
             function verifyQRCode() {
                 e("qr-verify-result").innerHTML = "";

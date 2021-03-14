@@ -70,7 +70,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="pubkey"><small>1. DNS TXT Record FQDN</small></label><br/>
                     <label for="pubkey"><small>2. Direct URL to PEM Download</small></label><br/>
                     <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
-                    <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
+                    <textarea id="qr-link" rows="1" cols="30">1a9.pcf</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
@@ -296,8 +296,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds URI
                 const uri = protocol.toUpperCase()+":"+signature+":"+pubKeyLink.toUpperCase()+":"+payload;
 
+                const params = { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+
                 // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
                     if (e("include-logos").checked) {
                         //adding a logo at center        
                         const imgDim={width:50,height:50}; //logo dimention
@@ -329,8 +331,19 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
                 //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
-                e(elemPref+"-bytes").innerHTML = "QR Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
+                
+                //e(elemPref+"-bytes").innerHTML = "QR Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
 
+                let qr = QRCode.create(uri, params);
+
+                e(elemPref+"-bytes").innerHTML = "QR Version: " + qr.version;
+                e(elemPref+"-bytes").innerHTML += " (" + qr.modules.size + "x" + qr.modules.size + "bits, " + Math.round((qr.modules.size*qr.modules.size)/8) + "bytes)";
+
+                e(elemPref+"-bytes").innerHTML += "<br><br>Using " + qr.segments.length + " segments";
+                for (i=0; i<qr.segments.length; i++) {
+                    e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
+                }
+                
                 // Verifies URI is valid
                 downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
             }

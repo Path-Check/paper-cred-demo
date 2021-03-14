@@ -48,21 +48,37 @@
             function e(elem) {
                 return document.getElementById(elem);
             }
+
+            function describe(qr) {
+                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes"
+            }
+
             function generateCode(elemIdSource, elemPrefix) {
                 let uri = e(elemIdSource).value;
-                let params = {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}
-                let qr = QRCode.create(uri, params);
+                let params = {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                let qr = QRCode.create(uri, );
                 
                 QRCode.toCanvas(e(elemPrefix), uri, params, function (error) {
                     e(elemPrefix + "-error").innerHTML = error;
                     e(elemPrefix + "-url").innerHTML = uri;
                 });
                 
+                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+
+                e(elemPrefix+"-bytes").innerHTML += "QR Size Analysis: ";
+                e(elemPrefix+"-bytes").innerHTML += "<br>- ECC L  7% " + describe(qrL);
+                e(elemPrefix+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
+                e(elemPrefix+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
+                e(elemPrefix+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
+
                 e(elemPrefix + "-mode").innerHTML = "Broken in " + qr.segments.length + " segments";
                 for (i=0; i<qr.segments.length; i++) {
                     e(elemPrefix + "-mode").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
                 }
-                e(elemPrefix + "-bytes").innerHTML = "QR Version: " + qr.version + " with size " + qr.modules.size + "x" + qr.modules.size + " bits => " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes";
+                //e(elemPrefix + "-bytes").innerHTML = "QR Version: " + qr.version + " with size " + qr.modules.size + "x" + qr.modules.size + " bits => " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes";
             }
             function generateQRCode() {
                 generateCode('text-qr1', "qr-code1");

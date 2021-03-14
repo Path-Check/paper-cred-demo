@@ -316,7 +316,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds URI
                 const uri = protocol.toUpperCase()+":"+signature+":"+pubKeyLink.toUpperCase()+":"+payload;
 
-                const params = { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
@@ -347,7 +347,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 
                                             "<span class='signature'>" + signature + "</span>" + ":" +
                                             "<span class='pub-key'>" + pubKeyLink.toUpperCase() + "</span>" + ":" +
-                                            "<span class='message'>" + payload + "</span><br><br>";
+                                            "<span class='message'>" + payload + "</span><br>";
                 //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
                 //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
@@ -356,16 +356,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 let qr = QRCode.create(uri, params);
 
-                e(elemPref+"-bytes").innerHTML = "QR Version: " + qr.version;
-                e(elemPref+"-bytes").innerHTML += " (" + qr.modules.size + "x" + qr.modules.size + "bits, " + Math.round((qr.modules.size*qr.modules.size)/8) + "bytes)";
+                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
-                e(elemPref+"-bytes").innerHTML += "<br><br>Using " + qr.segments.length + " segments";
+                e(elemPref+"-bytes").innerHTML += "QR Size Analysis: ";
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
+                
+                e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qr.segments.length + " segments";
                 for (i=0; i<qr.segments.length; i++) {
                     e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
                 }
                 
                 // Verifies URI is valid
                 downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
+            }
+
+            function describe(qr) {
+                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes"
             }
 
             function generateQRCodes() {

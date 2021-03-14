@@ -48,35 +48,25 @@
             function e(elem) {
                 return document.getElementById(elem);
             }
+            function generateCode(elemIdSource, elemPrefix) {
+                let uri = e(elemIdSource).value;
+                let params = {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}
+                let qr = QRCode.create(uri, params);
+                
+                QRCode.toCanvas(e(elemPrefix), uri, params, function (error) {
+                    e(elemPrefix + "-error").innerHTML = error;
+                    e(elemPrefix + "-url").innerHTML = uri;
+                });
+                
+                e(elemPrefix + "-mode").innerHTML = "Broken in " + qr.segments.length + " segments";
+                for (i=0; i<qr.segments.length; i++) {
+                    e(elemPrefix + "-mode").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
+                }
+                e(elemPrefix + "-bytes").innerHTML = "QR Version: " + qr.version + " with size " + qr.modules.size + "x" + qr.modules.size + " bits => " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes";
+            }
             function generateQRCode() {
-                var uri1 = e('text-qr1').value;
-                var uri2 = e('text-qr2').value;
-
-                qr1 = QRCode.create(uri1, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-                qr2 = QRCode.create(uri2, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-
-                QRCode.toCanvas(e('qr-code1'), uri1, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
-                    e("qr-code1-error").innerHTML = error;
-                    e("qr-code1-url").innerHTML = uri1;
-                });
-                QRCode.toCanvas(e('qr-code2'), uri2, { margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
-                    e("qr-code2-error").innerHTML = error;
-                    e("qr-code2-url").innerHTML = uri2;
-                });
-                console.log(qr1);
-                console.log(qr2);
-
-                e("qr-code1-mode").innerHTML = "Broken in " + qr1.segments.length + " segments";
-                for (i=0; i<qr1.segments.length; i++) {
-                    e("qr-code1-mode").innerHTML += "<br>- " + i + ": " + qr1.segments[i].mode.id + " " + qr1.segments[i].data;
-                }
-                e("qr-code2-mode").innerHTML = "Broken in " + qr2.segments.length + " segments";
-                for (i=0; i<qr2.segments.length; i++) {
-                    e("qr-code2-mode").innerHTML += "<br>- " + i + ": " + qr2.segments[i].mode.id + " " + qr2.segments[i].data;
-                }
-
-                e("qr-code1-bytes").innerHTML = "QR Version: " + qr1.version + " with size " + qr1.modules.size + "x" + qr1.modules.size + " bits => " + Math.round((qr1.modules.size*qr1.modules.size)/8) + " bytes";
-                e("qr-code2-bytes").innerHTML = "QR Version: " + qr2.version + " with size " + qr2.modules.size + "x" + qr2.modules.size + " bits => " + Math.round((qr2.modules.size*qr2.modules.size)/8) + " bytes";
+                generateCode('text-qr1', "qr-code1");
+                generateCode('text-qr2', "qr-code2");
             }
         </script>
 	</body>

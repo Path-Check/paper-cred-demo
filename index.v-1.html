@@ -1,0 +1,83 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v0.css">
+		<title>QR Code Generator</title>
+	</head>
+	<body>
+        <div class="center">
+            <h3>QR Code Generator</h3>
+            <div class="full-div">
+                <h4>Message to Include</h4>
+                <div class="left-div">
+                    <textarea id="text-qr1" rows="10" cols="65">jxt:example.com:w3vc:1:MoH/J07BX03/1183738569/OPL/NZ/BgLv0g/Bwtkpo/SMITH/Male/JOHN/urn%3Auvci%3Aaf5vshde843jf831j128fj/Bd5lLo/eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..a3UqIuKSOmCKrdn2knl_hCjiN4f4Ud1eO5ckwEHb623V9vdCwWCDB7GBHlRBYSI8ek2E-By7xysVFwutcpOeDg</textarea> 
+                </div>
+                <div class="right-div">
+                    <textarea id="text-qr2" rows="10" cols="65">JXT:EXAMPLE.COM:W3VC:1:MOH/J07BX03/1183738569/OPL/NZ/BGLV0G/BWTKPO/SMITH/MALE/JOHN/XK465POITJ7ZX3EF266OG6G76N6WHV3PD6H7AXPGKLUP33EJQWYZZCHIREKZCEKNASELBCMI3DIIR2MZQWY43FFQRGG4TJOQRDUWZCMI3DIIS5PVVXKKRC4KJDUYEKVXM7NETZMEFDRDPB7YKHOV4O4XETAEDW7LNXK7N52CYFQIGB5RQEPFIQLBEI6HUTMEA4XPDSWFIXBOWXFE46BQ</textarea> 
+                </div>
+
+            </div>
+
+            <div class="full-div">
+                <br/><br/>
+                <div class="center">
+                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Generate QR</button>
+                    <br/><br/>
+                    <div class="left-div">
+                        <canvas id="qr-code1"></canvas><br/>
+                        <pre id="qr-code1-url"></pre>
+                        <pre id="qr-code1-bytes"></pre>
+                        <pre id="qr-code1-mode"></pre>
+                        <pre id="qr-code1-error"></pre>
+                        
+                    </div>
+                    <div class="right-div">
+                        <canvas id="qr-code2"></canvas><br/>
+                        <pre id="qr-code2-url"></pre>
+                        <pre id="qr-code2-bytes"></pre>
+                        <pre id="qr-code2-mode"></pre>
+                        <pre id="qr-code2-error"></pre>
+                        
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrcode.min.js"></script>
+        <script>
+            function e(elem) {
+                return document.getElementById(elem);
+            }
+            function generateQRCode() {
+                var uri1 = e('text-qr1').value;
+                var uri2 = e('text-qr2').value;
+
+                qr1 = QRCode.create(uri1, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                qr2 = QRCode.create(uri2, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+
+                QRCode.toCanvas(e('qr-code1'), uri1, {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                    e("qr-code1-error").innerHTML = error;
+                    e("qr-code1-url").innerHTML = uri1;
+                });
+                QRCode.toCanvas(e('qr-code2'), uri2, { margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                    e("qr-code2-error").innerHTML = error;
+                    e("qr-code2-url").innerHTML = uri2;
+                });
+                console.log(qr1);
+                console.log(qr2);
+
+                e("qr-code1-mode").innerHTML = "Broken in " + qr1.segments.length + " segments";
+                for (i=0; i<qr1.segments.length; i++) {
+                    e("qr-code1-mode").innerHTML += "<br>- " + i + ": " + qr1.segments[i].mode.id + " " + qr1.segments[i].data;
+                }
+                e("qr-code2-mode").innerHTML = "Broken in " + qr2.segments.length + " segments";
+                for (i=0; i<qr2.segments.length; i++) {
+                    e("qr-code2-mode").innerHTML += "<br>- " + i + ": " + qr2.segments[i].mode.id + " " + qr2.segments[i].data;
+                }
+
+                e("qr-code1-bytes").innerHTML = "QR Version: " + qr1.version + " with size " + qr1.modules.size + "x" + qr1.modules.size + " bits => " + Math.round((qr1.modules.size*qr1.modules.size)/8) + " bytes";
+                e("qr-code2-bytes").innerHTML = "QR Version: " + qr2.version + " with size " + qr2.modules.size + "x" + qr2.modules.size + " bits => " + Math.round((qr2.modules.size*qr2.modules.size)/8) + " bytes";
+            }
+        </script>
+	</body>
+</html>

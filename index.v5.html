@@ -37,20 +37,20 @@
                         <tr><td>Site</td><td><input id="qr-badge-site" type="text" placeholder="LA, RA,  ..."/></td></tr>
                         <tr><td>Dosage</td><td><input id="qr-badge-dose" type="text" placeholder="1000, 500, ..."/></td></tr>
                         <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="28, 21, 0, ..."/></td></tr>
-                        <tr><td>Private?</td><td><input id="qr-badge-private" type="checkbox" checked></td></tr>
-                        <tr id="qr-badge-line-passkey"><td>Pass #</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
-                        <tr id="qr-badge-line-passkey2" style="visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
-                        <tr id="qr-badge-line-name" style="display: none;"><td>Name</td><td><input id="qr-badge-name" type="text" placeholder="Patient Name" readonly/></td></tr>
-                        <tr id="qr-badge-line-dob"  style="display: none;"><td>DoB</td><td><input id="qr-badge-dob" type="text" placeholder="YYYYMMDD" readonly/></td></tr>
+                        <tr><td>Private?</td><td><input id="qr-badge-private" type="checkbox"></td></tr>
+                        <tr id="qr-badge-line-passkey" style="display: none;"><td>Pass #</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-badge-line-passkey2" style="display: none;" style="visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-badge-line-name"><td>Name</td><td><input id="qr-badge-name" type="text" placeholder="Patient Name" readonly/></td></tr>
+                        <tr id="qr-badge-line-dob"><td>DoB</td><td><input id="qr-badge-dob" type="text" placeholder="YYYYMMDD" readonly/></td></tr>
                     </table>
                 </div>
                 <div class="quarter">
                     <h4>Status</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0, 1, 2"/></td></tr>
-                        <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox" checked></td></tr>
-                        <tr id="qr-status-line-passkey"><td>Pass #</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
-                        <tr id="qr-status-line-name" style="display: none;"><td>Holder</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="FLYY" readonly/></td></tr>
+                        <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox"></td></tr>
+                        <tr id="qr-status-line-passkey" style="display: none;"><td>Pass #</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-status-line-name"><td>Holder</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="FLYY" readonly/></td></tr>
                     </table>
                 </div>
                 
@@ -82,8 +82,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <br><br>
                 <div style="margin: 0 auto; width:500px; height:50px;">
                     <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
-                        <button class="qr-btn" onclick="generateQRCodes()">Sign All Certificates</button>
+                        <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                     </div>
                 </div>
                 <br><br>
@@ -584,6 +583,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-status-vaccinated").value = "1";
                 e("qr-status-vaccinee").value = "";
             }
+
+            loadDemo();
+            generateQRCodes();
         </script>
 	</body>
 </html>

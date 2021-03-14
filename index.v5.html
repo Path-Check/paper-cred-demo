@@ -39,7 +39,7 @@
                         <tr><td>Boosts</td><td><input id="qr-badge-required_doses" type="text" placeholder="28, 21, 0, ..."/></td></tr>
                         <tr><td>Private?</td><td><input id="qr-badge-private" type="checkbox"></td></tr>
                         <tr id="qr-badge-line-passkey" style="display: none;"><td>Pass #</td><td><input id="qr-badge-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
-                        <tr id="qr-badge-line-passkey2" style="display: none;" style="visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
+                        <tr id="qr-badge-line-passkey2" style="display: none; visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
                         <tr id="qr-badge-line-name"><td>Name</td><td><input id="qr-badge-name" type="text" placeholder="Patient Name" readonly/></td></tr>
                         <tr id="qr-badge-line-dob"><td>DoB</td><td><input id="qr-badge-dob" type="text" placeholder="YYYYMMDD" readonly/></td></tr>
                     </table>
@@ -70,15 +70,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="pubkey"><small>1. DNS TXT Record FQDN</small></label><br/>
                     <label for="pubkey"><small>2. Direct URL to PEM Download</small></label><br/>
                     <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
-                    <textarea id="qr-link" rows="1" cols="30">1a9.pcf</textarea>
+                    <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1a9.pcf"></input>
                     <br><br>
-                    <label for="privkey">QR Code Format</label><br/>
+                    <label for="protocol">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
 
                     <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
                 </div>
             </div>
-            <div class="full-div">
+            <!--div class="full-div">
                 <br><br>
                 <div style="margin: 0 auto; width:500px; height:50px;">
                     <div class="center-in-div"> 
@@ -86,7 +86,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     </div>
                 </div>
                 <br><br>
-            </div>
+            </div-->
             <div class="full-div">
                 <div class="quarter">
                     <canvas id="qr-coupon-code"></canvas><br/>
@@ -132,6 +132,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/base32.min.js"></script>
 
 		<script>
+            var localPubKeyDB = {};
             const EC = elliptic.ec;
             const ANS1 = asn1;
 
@@ -220,9 +221,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }
 
+            function clearQR(elemPrefix) {
+                e(elemPrefix+'-code').getContext('2d').clearRect(0, 0, e(elemPrefix+'-code').width, e(elemPrefix+'-code').height);
+                e(elemPrefix+'-result').innerHTML = "";
+                e(elemPrefix+'-verified').innerHTML = "";
+                e(elemPrefix+'-bytes').innerHTML = "";
+            }
+
+            async function clear() {
+                clearQR('qr-status');
+                clearQR('qr-passkey');
+                clearQR('qr-badge');
+                clearQR('qr-coupon');
+            }
+
             function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
                 // Download pubkey to verify
                 let client = new XMLHttpRequest();
+
+                if (localPubKeyDB[pubkeyURL]) {
+                    verifySignature(localPubKeyDB[pubkeyURL], payload, signatureBase32NoPad, feedback_elem_id);
+                    return;
+                }
                     
                 try {
                     // Try to download from the DNS TXT record. 
@@ -234,7 +254,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
                         const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
                             
-                        if (noQuotes.includes("-----BEGIN PUBLIC KEY-----")) {   
+                        if (noQuotes) {   
+                            localPubKeyDB[pubkeyURL] = noQuotes;
                             verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
                             return;
                         }
@@ -250,6 +271,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     client.send();
 
                     if (client.response.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        localPubKeyDB[pubkeyURL] = client.response;
                         verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id); 
                         return;
                     }
@@ -258,10 +280,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
 
                 try {   
-                    console.log("Trying GitHub");
                     let publicKey = getGitHubDatabase(pubkeyURL.split('.')[0], pubkeyURL.split('.')[1]);
-                    console.log(publicKey);
                     if (publicKey != undefined && publicKey.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        localPubKeyDB[pubkeyURL] = publicKey;
                         verifySignature(publicKey, payload, signatureBase32NoPad, feedback_elem_id); 
                         return;
                     }
@@ -348,6 +369,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
+                clear();
+
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
 
@@ -428,7 +451,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 client.open('GET', url, false);
                 client.setRequestHeader("Accept", "application/vnd.github.v3+json");
                 client.send();
-                console.log(client.response);
                 return client.response;
             }
 
@@ -437,7 +459,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function getGitHubDatabase(id, database) {
-                console.log(id, database);
                 const githubTree = "https://api.github.com/repos/Path-Check/paper-cred/git/trees";
                 const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
                 try {
@@ -586,6 +607,19 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             loadDemo();
             generateQRCodes();
+
+            e('privkey').onchange = function(){
+                generateQRCodes();
+            }
+            var inputList = document.getElementsByTagName("input");
+            for(var i=0;i<inputList.length;i++){
+                inputList[i].onchange = function(){
+                    generateQRCodes();
+                }
+                inputList[i].onblur = function(){
+                    generateQRCodes();
+                }
+            }
         </script>
 	</body>
 </html>

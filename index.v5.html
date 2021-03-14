@@ -361,7 +361,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
                 let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
-                e(elemPref+"-bytes").innerHTML += "QR Size Analysis: ";
+                e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
+
+                e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
                 e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
                 e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
                 e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
@@ -377,7 +379,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function describe(qr) {
-                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes"
+                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
             }
 
             function generateQRCodes() {

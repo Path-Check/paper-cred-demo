@@ -379,7 +379,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
                 
                 // Verifies URI is valid
-                downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
+                downloadAndVerify(pubKeyLink.toUpperCase(), payload, signature, elemPref + "-verified");
             }
 
             function describe(qr) {

@@ -216,7 +216,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     const verified = key.verify(payloadSHA256, signatureDER);
 
                     // Updates screen. 
-                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
+                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
                 } catch(err) {
                     e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
                     console.error(err);
@@ -287,6 +287,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         localPubKeyDB[pubkeyURL] = publicKey;
                         verifySignature(publicKey, payload, signatureBase32NoPad, feedback_elem_id); 
                         return;
+                    } else {
+                        console.error("GitHub Not Found: "+ publicKey);
                     }
                 } catch(err) {
                     console.error(err);
@@ -477,21 +479,31 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function getGitHubDatabase(id, database) {
                 const githubTree = "https://api.github.com/repos/Path-Check/paper-cred/git/trees";
                 const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
+
                 try {
                     const rootDir = getJSON(githubTree + "/" + "benefits_limitations").tree
                     const databasesDir = rootDir.find(element => element.path === 'keys');
 
-                    if (databasesDir === undefined) return;
+                    if (databasesDir === undefined) {
+                        console.debug("Keys Directory not Found on GitHub");
+                        return;
+                    }
 
                     const databases = getJSON(githubTree+"/"+databasesDir.sha).tree
                     const databaseDir = databases.find(element => element.path === database);
 
-                    if (databaseDir === undefined) return;
-
+                    if (databaseDir === undefined) {
+                        console.debug("Database not found on GitHub " + database);
+                        return;
+                    } 
+                    
                     const idsFiles = getJSON(githubTree+"/"+databaseDir.sha).tree
                     const idFile = idsFiles.find(element => element.path === id+'.pem');
 
-                    if (idFile === undefined) return;
+                    if (idFile === undefined) {
+                        console.debug("Id not found on GitHub " + id);
+                        return;
+                    }
 
                     const publicKeyPem = atob(getJSON(githubBlob+"/"+idFile.sha).content)
 

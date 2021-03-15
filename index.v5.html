@@ -6,7 +6,7 @@
 	<body>
         <div class="center">
             <div class="full-div">
-                <h3>Vaccine Distribution Certificates Generator (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>)</h3>
+                <h3>Vaccine Distribution Certificates Generator (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>)</h3>
                 <div class="quarter">
                     <h4>Coupon</h4>
                     <table>
@@ -72,10 +72,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
                     <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1a9.pcf"></input>
                     <br><br>
-                    <label for="protocol">QR Code Format</label><br/>
-                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
-
                     <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
+
+                    <h4>Read More: <a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a></h4> 
+                    
                 </div>
             </div>
             <div class="full-div">
@@ -114,6 +114,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
                 <div class="quarter">
                     <label for="verify">Verify a QR Code</small></label><br/>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+
                     <textarea id="qr-verify" rows="10" cols="30" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
                     <button class="qr-btn" onclick="verifyQRCode()">Verify</button>

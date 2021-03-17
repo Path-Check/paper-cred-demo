@@ -113,13 +113,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-status-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <label for="verify">Verify a QR Code</small></label><br/>
-                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+                    <label for="verify">Verify a QR Code</label>
+                    <div id="reader" style="margin-top: 10px;"></div>
 
-                    <textarea id="qr-verify" rows="10" cols="30" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
                     <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     <br><br>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
                 </div>
@@ -132,6 +133,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
+        <script src="js/html5-qrcode.min.js"></script>
 
 		<script>
             var localPubKeyDB = {};
@@ -568,6 +570,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 return initials + dob.substring(2,4);
             };
+
+            function onScanSuccess(qrMessage) {
+                e("qr-verify").value = qrMessage;
+                verifyQRCode();
+            }
+
+            function onScanFailure(error) {
+                // handle scan failure, usually better to ignore and keep scanning
+                console.warn(`QR error = ${error}`);
+            }
         </script>
         
         <script>
@@ -649,6 +661,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     generateQRCodes();
                 }
             }*/
+
+            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, /* verbose= */ true);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         </script>
 	</body>
 </html>

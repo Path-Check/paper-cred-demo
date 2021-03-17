@@ -10,6 +10,11 @@ body {
   margin: 0 auto;
 }
 
+.center2 {
+  width: 800px;
+  margin: 0 auto;
+}
+
 input {
   padding: 5px;
   margin: 3px;

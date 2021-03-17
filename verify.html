@@ -1,0 +1,356 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+		<title>Certificate Verfier and Decoder</title>
+	</head>
+	<body>
+        <div class="center2">
+            <div class="full-div">
+                <h3>Certificate Verfier and Decoder (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
+            
+                <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
+                <label for="verify">Or Paste the Code here:</label><br>
+                <textarea id="qr-verify" rows="10" cols="97" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                <br><br>
+                <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                <br><br>
+                <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+                <pre id="qr-verify-result"></pre>
+                <pre id="qr-verify-verified"></pre>
+            </div>
+        </div>
+        
+        <script src="js/qrcode.min.js"></script>
+        
+        <script src="js/elliptic.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script src="js/asn1.min.js"></script>
+        <script src="js/base32.min.js"></script>
+        <script src="js/html5-qrcode.min.js"></script>
+
+		<script>
+            var localPubKeyDB = {};
+            const EC = elliptic.ec;
+            const ANS1 = asn1;
+
+            // PEM Definitions
+            const ECPublicKey = ANS1.define("PublicKey", function() {
+                this.seq().obj(
+                    this.key("algorithm").seq().obj(
+                        this.key("id").objid(),
+                        this.key("curve").objid()
+                    ),
+                    this.key("pub").bitstr()
+                );
+            });
+            const ECPrivateKey = ANS1.define("ECPrivateKey", function() {
+                this.seq().obj(
+                    this.key('version').int().def(1),
+                    this.key('privateKey').octstr(),
+                    this.key('parameters').explicit(0).objid().optional(),
+                    this.key('publicKey').explicit(1).bitstr().optional()
+                );
+            });
+
+            const algos = {'1.2.840.10045.2.1':'Elliptic curve public key cryptography'};
+            const curves = {'1.3.132.0.10': 'secp256k1'};
+
+            function e(elem) { return document.getElementById(elem); }
+
+            function buildPayload(elemArray) {
+                const fields = elemArray.map(function(elemId) {
+                    return encodeURIComponent(e(elemId).value.toUpperCase());
+                })
+                return fields.join('/');
+            }
+            function buildHashPayload(elemArray) {
+                const RS = String.fromCharCode(30);
+                let fields = elemArray.map(function(elemId) {
+                    return e(elemId).value.toUpperCase();
+                })
+                return fields.join(RS);
+            }
+
+            function pad(base32Str) {
+                switch (base32Str.length % 8) {
+                    case 2: return base32Str + "======"; 
+                    case 4: return base32Str + "===="; 
+                    case 5: return base32Str + "==="; 
+                    case 7: return base32Str + "="; 
+                }
+                return base32Str;
+            }
+
+            function rmPad(base32Str) {
+                return base32Str.replaceAll("=", "");
+            }
+
+            function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
+                try {
+                    // Decoding the public key to get curve algorithm + key itself
+                    const pubk = ECPublicKey.decode(pubkey, 'pem', {label: 'PUBLIC KEY'});
+
+                    // Get Encryption Algorithm: EC
+                    const algoCode = pubk.algorithm.id.join('.');
+                    // Get Curve Algorithm: secp256k1
+                    const curveCode = pubk.algorithm.curve.join('.');
+                    
+                    // Prepare EC with assigned curve
+                    const ec = new EC(curves[curveCode]);
+                    
+                    // Load public key from PEM as DER
+                    const key = ec.keyFromPublic(pubk.pub.data, 'der');
+
+                    // Converts to UTF-8 -> WorldArray -> SHA256 Hash 
+                    const payloadSHA256 = CryptoJS.SHA256(payload).toString();
+
+                    // Gets the Base32 enconded, add padding and convert to DER.
+                    const signatureDER = base32.decode.asBytes(pad(signatureBase32NoPad));
+
+                    // Verifies Signature. 
+                    const verified = key.verify(payloadSHA256, signatureDER);
+
+                    // Updates screen. 
+                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
+                    console.error(err);
+                }
+            }
+
+            function clearQR(elemPrefix) {
+                e(elemPrefix+'-code').getContext('2d').clearRect(0, 0, e(elemPrefix+'-code').width, e(elemPrefix+'-code').height);
+                e(elemPrefix+'-result').innerHTML = "";
+                e(elemPrefix+'-verified').innerHTML = "";
+                e(elemPrefix+'-bytes').innerHTML = "";
+            }
+
+            async function clear() {
+                clearQR('qr-status');
+                clearQR('qr-passkey');
+                clearQR('qr-badge');
+                clearQR('qr-coupon');
+            }
+
+            function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
+                // Download pubkey to verify
+                let client = new XMLHttpRequest();
+
+                if (localPubKeyDB[pubkeyURL]) {
+                    verifySignature(localPubKeyDB[pubkeyURL], payload, signatureBase32NoPad, feedback_elem_id);
+                    return;
+                }
+                    
+                try {
+                    // Try to download from the DNS TXT record. 
+                    client.open('GET', "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT', false);
+                    client.send();
+
+                    const jsonResponse = JSON.parse(client.response);
+                    if (jsonResponse.Answer) {
+                        const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
+                        const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
+                            
+                        if (noQuotes) {   
+                            localPubKeyDB[pubkeyURL] = noQuotes;
+                            verifySignature(noQuotes, payload, signatureBase32NoPad, feedback_elem_id);
+                            return;
+                        }
+                    }
+                } catch(err) {
+                    e(feedback_elem_id).innerHTML += "Verification Failed: " + err;
+                    console.error(err);
+                }    
+
+                try {
+                    // Try to download as a file. 
+                    client.open('GET', "https://" + pubkeyURL, false);
+                    client.send();
+
+                    if (client.response.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        localPubKeyDB[pubkeyURL] = client.response;
+                        verifySignature(client.response, payload, signatureBase32NoPad, feedback_elem_id); 
+                        return;
+                    }
+                } catch(err) {
+                    console.error(err);
+                }
+
+                try {   
+                    let publicKey = getGitHubDatabase(pubkeyURL.split('.')[0], pubkeyURL.split('.')[1]);
+                    if (publicKey != undefined && publicKey.includes("-----BEGIN PUBLIC KEY-----")) { 
+                        localPubKeyDB[pubkeyURL] = publicKey;
+                        verifySignature(publicKey, payload, signatureBase32NoPad, feedback_elem_id); 
+                        return;
+                    } else {
+                        console.error("GitHub Not Found: "+ publicKey);
+                    }
+                } catch(err) {
+                    console.error(err);
+                }
+            }
+
+            function describe(qr) {
+                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
+            }
+
+            function parseQR(qr) {
+                return [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = qr.split(':');
+            }
+
+            function getPayloadTypes() {
+                let client = new XMLHttpRequest();
+                try {
+                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/main", false);
+                    client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                    client.send();
+
+                    const filesRoot = JSON.parse(client.response).tree
+                    const payloadsDir = filesRoot.find(element => element.path === 'payloads');
+
+                    client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/"+payloadsDir.sha, false);
+                    client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                    client.send();
+
+                    const payloads = JSON.parse(client.response).tree.map(x => x.path.replaceAll(".md","").replaceAll(".",":"));
+
+                    return payloads;
+                } catch(err) {
+                    console.error(err);
+                }
+            }
+
+            function getTXT(url) {
+                let client = new XMLHttpRequest();
+                client.open('GET', url, false);
+                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.send();
+                return client.response;
+            }
+
+            function getJSON(url) {
+                return JSON.parse(getTXT(url));
+            }
+
+            function getGitHubDatabase(id, database) {
+                const githubTree = "https://api.github.com/repos/Path-Check/paper-cred/git/trees";
+                const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
+
+                try {
+                    const rootDir = getJSON(githubTree + "/" + "benefits_limitations").tree
+                    const databasesDir = rootDir.find(element => element.path === 'keys');
+
+                    if (databasesDir === undefined) {
+                        console.debug("Keys Directory not Found on GitHub");
+                        return;
+                    }
+
+                    const databases = getJSON(githubTree+"/"+databasesDir.sha).tree
+                    const databaseDir = databases.find(element => element.path === database);
+
+                    if (databaseDir === undefined) {
+                        console.debug("Database not found on GitHub " + database);
+                        return;
+                    } 
+                    
+                    const idsFiles = getJSON(githubTree+"/"+databaseDir.sha).tree
+                    const idFile = idsFiles.find(element => element.path === id+'.pem');
+
+                    if (idFile === undefined) {
+                        console.debug("Id not found on GitHub " + id);
+                        return;
+                    }
+
+                    const publicKeyPem = atob(getJSON(githubBlob+"/"+idFile.sha).content)
+
+                    return publicKeyPem;
+                } catch(err) {
+                    console.error(err);
+                }
+            }
+
+
+            function verifyQRCode() {
+                e("qr-verify-result").innerHTML = "";
+                e('qr-verify-verified').innerHTML = "";
+
+                const qr = e("qr-verify").value;
+                
+                if (qr === "") {
+                    e('qr-verify-verified').innerHTML += "Field is empty. It's not a valid URI.<br>";
+                    return;
+                }
+
+                try {
+                    parseQR(qr);
+                    e('qr-verify-verified').innerHTML += "QR was parsed sucessfully!<br><br>";
+                } catch (err) {
+                    e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
+                    return;
+                }                
+
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr);
+                
+                // Updates screen elements. 
+                e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
+                                            "<span class='signature'>" + signatureBase32NoPad + "</span>" + ":" +
+                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
+                                            "<span class='message'>" + payload + "</span><br><br>";
+                                            
+                if (schema.toLowerCase() !== "cred") {
+                    e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
+                }
+
+                const availablePayloads = getPayloadTypes();
+
+                if (!availablePayloads.includes(type.toLowerCase()+":"+version)) {
+                    e('qr-verify-verified').innerHTML += "Type or version <b>" + type + ":" + version + "</b> was not recognized. Make sure this payload type and version are available on <a href='https://github.com/Path-Check/paper-cred/tree/main/payloads'>GitHub</a> <br>";
+                }
+
+                if (e('qr-verify-verified').innerHTML === "QR was parsed sucessfully!<br><br>") {
+                    downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
+                } else {
+                    e('qr-verify-verified').innerHTML += "<br>Signature: not verified";
+                }
+            }
+
+            function getInitialsAndYear(fullName, dob) {
+                var names = fullName.split(' '),
+                    initials = names[0].substring(0, 1).toUpperCase();
+                
+                if (names.length > 1) {
+                    initials += names[names.length - 1].substring(0, 1).toUpperCase();
+                }
+
+                return initials + dob.substring(2,4);
+            };
+
+            function onScanSuccess(qrMessage) {
+                e("qr-verify").value = qrMessage;
+                verifyQRCode();
+            }
+
+            function onScanFailure(error) {
+                // handle scan failure, usually better to ignore and keep scanning
+                console.warn(`QR error = ${error}`);
+            }
+        </script>
+        
+        <script>
+            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 150 }, /* verbose= */ true);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+            const queryString = window.location.search;
+            console.log(queryString);
+            const urlParams = new URLSearchParams(queryString);
+            const qr = urlParams.get('qr')
+
+            if (qr !== "") {
+                e("qr-verify").value = qr;
+                verifyQRCode();
+            }
+        </script>
+	</body>
+</html>
+
+

@@ -14,7 +14,7 @@
                 <br><br>
                 <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                 <br><br>
-                <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+                <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                 <pre id="qr-verify-result"></pre>
                 <pre id="qr-verify-verified"></pre>
             </div>
@@ -290,13 +290,23 @@
                 }                
 
                 const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr);
-                
+
+
+                const encodedFields = payload.split("/");
+                const decodedFields = encodedFields.map(function(field) {
+                    return decodeURIComponent(field);
+                })
+
                 // Updates screen elements. 
-                e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
-                                            "<span class='signature'>" + signatureBase32NoPad + "</span>" + ":" +
-                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
-                                            "<span class='message'>" + payload + "</span><br><br>";
-                                            
+                e("qr-verify-result").innerHTML = "<span class='protocol'>Type: " + type+":"+version+"</span><br>" + 
+                                            "<span class='signature'>Signature: " + signatureBase32NoPad.substr(0,20) + ".." + signatureBase32NoPad.substr(signatureBase32NoPad.length-20,20) + "</span>" + "<br>" +
+                                            "<span class='pub-key'>Public Keys: " + pubKeyLink + "</span>" + "<br>" +
+                                            "<span class='message'>Fields: </span><br>";
+
+                decodedFields.forEach(function(field) {
+                    e("qr-verify-result").innerHTML += "  " + field + "<br>" 
+                })          
+
                 if (schema.toLowerCase() !== "cred") {
                     e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
                 }

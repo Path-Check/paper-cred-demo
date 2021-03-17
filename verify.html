@@ -346,7 +346,16 @@
             const qr = urlParams.get('qr')
 
             if (qr !== "") {
-                e("qr-verify").value = qr;
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr);
+                decodedFields = payload.split('/');
+
+                const encodedFields = decodedFields.map(function(field) {
+                    return encodeURIComponent(field);
+                })
+                
+                const decodedFieldsStr = encodedFields.join('/');
+
+                e("qr-verify").value = [schema, type, version, signatureBase32NoPad, pubKeyLink, decodedFieldsStr].join(":")
                 verifyQRCode();
             }
         </script>

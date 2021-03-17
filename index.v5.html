@@ -114,8 +114,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
                 <div class="quarter">
                     <label for="verify">Verify a QR Code</label>
-                    <div id="reader" style="margin-top: 10px;"></div>
-
+                    <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
+                    <label for="verify">Or Paste the Code here:</label>
                     <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
                     <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
@@ -662,7 +662,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }*/
 
-            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 }, /* verbose= */ true);
+            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 150 }, /* verbose= */ true);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         </script>
 	</body>

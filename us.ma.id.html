@@ -253,7 +253,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='signature'>" + signature + "</span>" + ":" +
                                             "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
                                             "<span class='message'>" + payload + "</span><br>";
-                e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
+                e(elemPref+"-verified").innerHTML = "Signature: Not Verified. ";
                 
                 let qr = QRCode.create(uri, params);
 
@@ -317,9 +317,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     "qr-dcf",
                     "qr-dcg",
                     "qr-dch",
-                    //"qr-dde",
-                    //"qr-ddf",
-                    //"qr-ddg",
+                    //"qr-dde", //Truncated Flags
+                    //"qr-ddf", //Truncated Flags
+                    //"qr-ddg", //Truncated Flags
                     "qr-dah",
                     "qr-daz",
                     "qr-dci",

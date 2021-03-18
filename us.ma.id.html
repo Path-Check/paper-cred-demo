@@ -133,16 +133,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div">
                 <div class="two-quarter">
-                    <h4>PCF's Format</h4>
+                    <h4>QR Format</h4>
                     <canvas id="qr-massid-code"></canvas><br/>
                     <pre id="qr-massid-result"></pre>
                     <pre id="qr-massid-verified"></pre>
                     <pre id="qr-massid-bytes"></pre>
                 </div>
                 <div class="two-quarter">
-                    <h4></h4>
-                    <canvas id="qr-massid-code"></canvas><br/>
-                    
+                    <h4>PDF 417 Format</h4>
+                    <canvas id="pdf-massid-code"></canvas><br/>
                 </div>
                 <div class="quarter">
                     <label for="verify">Verify a QR Code</label>
@@ -166,6 +165,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
         <script src="js/html5-qrcode.min.js"></script>
+
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
+
 
 		<script>
             var localPubKeyDB = {};
@@ -378,6 +382,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         }; 
                     } 
                 })
+
+                PDF417.draw(uri, e("pdf-massid-code"), 3, 2, 2);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 

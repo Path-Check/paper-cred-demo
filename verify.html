@@ -54,10 +54,6 @@
                 }
             }
 
-            function describe(qr) {
-                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
-            }
-
             function verifyQRCode() {
                 e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
                 e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);

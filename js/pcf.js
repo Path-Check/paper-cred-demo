@@ -302,7 +302,7 @@ var PCF = {
 
         const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
 
-        if (schema.toLowerCase() !== "cred") {
+        if (schema !== "CRED") {
             formattedMessages += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
             return formattedMessages;
         }

@@ -89,25 +89,37 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div">
                 <div class="quarter">
+                    <h4>QR Format</h4>
                     <canvas id="qr-coupon-code"></canvas><br/>
+                    <h4>PDF 417 Format</h4>
+                    <canvas id="qr-coupon-pdf"></canvas><br/>
                     <pre id="qr-coupon-result"></pre>
                     <pre id="qr-coupon-verified"></pre>
                     <pre id="qr-coupon-bytes"></pre>
                 </div>
                 <div class="quarter">
+                    <h4>QR Format</h4>
                     <canvas id="qr-passkey-code"></canvas><br/>
+                    <h4>PDF 417 Format</h4>
+                    <canvas id="qr-passkey-pdf"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
                     <pre id="qr-passkey-verified"></pre>
                     <pre id="qr-passkey-bytes"></pre>
                 </div>
                 <div class="quarter">
+                    <h4>QR Format</h4>
                     <canvas id="qr-badge-code"></canvas><br/>
+                    <h4>PDF 417 Format</h4>
+                    <canvas id="qr-badge-pdf"></canvas><br/>
                     <pre id="qr-badge-result"></pre>
                     <pre id="qr-badge-verified"></pre>
                     <pre id="qr-badge-bytes"></pre>
                 </div>
                 <div class="quarter">
+                    <h4>QR Format</h4>
                     <canvas id="qr-status-code"></canvas><br/>
+                    <h4>PDF 417 Format</h4>
+                    <canvas id="qr-status-pdf"></canvas><br/>
                     <pre id="qr-status-result"></pre>
                     <pre id="qr-status-verified"></pre>
                     <pre id="qr-status-bytes"></pre>
@@ -134,6 +146,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
         <script src="js/html5-qrcode.min.js"></script>
+
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
 
 		<script>
             var localPubKeyDB = {};
@@ -348,6 +364,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         }; 
                     } 
                 })
+
+                PDF417.draw(uri, e(elemPref+"-pdf"), 6, 1, 1);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 

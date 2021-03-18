@@ -170,7 +170,7 @@ var PCF = {
         const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
 
         try {
-            const rootDir = this.getJSON(githubTree + "/" + "benefits_limitations").tree
+            const rootDir = this.getJSON(githubTree + "/" + "main").tree
             const databasesDir = rootDir.find(element => element.path === 'keys');
 
             if (databasesDir === undefined) {

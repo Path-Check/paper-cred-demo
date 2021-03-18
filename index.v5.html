@@ -89,36 +89,36 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div">
                 <div class="quarter">
-                    <h4>QR Format</h4>
+                    <h4 id="qr-coupon-code-label" style="display: none;">QR Format</h4>
                     <canvas id="qr-coupon-code"></canvas><br/>
-                    <h4>PDF 417 Format</h4>
+                    <h4 id="qr-coupon-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-coupon-pdf"></canvas><br/>
                     <pre id="qr-coupon-result"></pre>
                     <pre id="qr-coupon-verified"></pre>
                     <pre id="qr-coupon-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4>QR Format</h4>
+                    <h4 id="qr-passkey-code-label" style="display: none;">QR Format</h4>
                     <canvas id="qr-passkey-code"></canvas><br/>
-                    <h4>PDF 417 Format</h4>
+                    <h4 id="qr-passkey-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-passkey-pdf"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
                     <pre id="qr-passkey-verified"></pre>
                     <pre id="qr-passkey-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4>QR Format</h4>
+                    <h4 id="qr-badge-code-label" style="display: none;">QR Format</h4>
                     <canvas id="qr-badge-code"></canvas><br/>
-                    <h4>PDF 417 Format</h4>
+                    <h4 id="qr-badge-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-badge-pdf"></canvas><br/>
                     <pre id="qr-badge-result"></pre>
                     <pre id="qr-badge-verified"></pre>
                     <pre id="qr-badge-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4>QR Format</h4>
+                    <h4 id="qr-status-code-label" style="display: none;">QR Format</h4>
                     <canvas id="qr-status-code"></canvas><br/>
-                    <h4>PDF 417 Format</h4>
+                    <h4 id="qr-status-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-status-pdf"></canvas><br/>
                     <pre id="qr-status-result"></pre>
                     <pre id="qr-status-verified"></pre>
@@ -366,6 +366,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 })
 
                 PDF417.draw(uri, e(elemPref+"-pdf"), 6, 1, 1);
+
+                e(elemPref+"-code-label").style.display = '';
+                e(elemPref+"-pdf-label").style.display = '';
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<span class='protocol'>"+protocol.toUpperCase()+"</span>:" + 

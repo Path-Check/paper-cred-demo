@@ -91,6 +91,14 @@ pre {
   word-wrap: break-word;       /* Internet Explorer 5.5+ */
 }
 
+.third {
+  float: left;
+  width: 25.5%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .quarter {
   float: left;
   width: 19%;

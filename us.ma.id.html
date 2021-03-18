@@ -355,46 +355,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = "";
-                e('qr-verify-verified').innerHTML = "";
-
-                const qr = e("qr-verify").value;
-                
-                if (qr === "") {
-                    e('qr-verify-verified').innerHTML += "Field is empty. It's not a valid URI.<br>";
-                    return;
-                }
-
-                try {
-                    PCF.parseURI(qr);
-                    e('qr-verify-verified').innerHTML += "QR was parsed sucessfully!<br><br>";
-                } catch (err) {
-                    e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
-                    console.error(err);
-                    return;
-                }                
-
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(qr);
-                
-                // Updates screen elements. 
-                e("qr-verify-result").innerHTML = "<span class='protocol'>"+schema+":"+type+":"+version+"</span>:" + 
-                                            "<span class='signature'>" + signatureBase32NoPad + "</span>" + ":" +
-                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
-                                            "<span class='message'>" + payload + "</span><br><br>";
-                                            
-                if (schema.toLowerCase() !== "cred") {
-                    e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
-                }
-
-                if (!PCF.getPayloadTypes().includes(type.toLowerCase()+":"+version)) {
-                    e('qr-verify-verified').innerHTML += "Type or version <b>" + type + ":" + version + "</b> was not recognized. Make sure this payload type and version are available on <a href='https://github.com/Path-Check/paper-cred/tree/main/payloads'>GitHub</a> <br>";
-                }
-
-                if (e('qr-verify-verified').innerHTML.includes("QR was parsed sucessfully!")) {
-                    downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
-                } else {
-                    e('qr-verify-verified').innerHTML += "<br>Signature: not verified";
-                }
+                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
+                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
             }
 
             function onScanSuccess(qrMessage) {

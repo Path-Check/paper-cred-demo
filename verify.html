@@ -66,63 +66,9 @@
             }
 
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = "";
-                e('qr-verify-verified').innerHTML = "";
-
-                const qr = e("qr-verify").value;
-                
-                if (qr === "") {
-                    e('qr-verify-verified').innerHTML += "Field is empty. It's not a valid URI.<br>";
-                    return;
-                }
-
-                try {
-                    PCF.parseURI(qr);
-                    e('qr-verify-verified').innerHTML += "QR was parsed sucessfully!<br><br>";
-                } catch (err) {
-                    e('qr-verify-verified').innerHTML += "Could not parse string into the URI format.<br>";
-                    console.error(err);
-                    return;
-                }                
-
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(qr);
-                const decodedFields = PCF.parsePayload(payload);
-
-                // Updates screen elements. 
-                e("qr-verify-result").innerHTML = "Type: <span class='protocol'>" + type+":"+version+"</span><br>" + 
-                                            "Signature: <span class='signature'>" + signatureBase32NoPad.substr(0,20) + ".." + signatureBase32NoPad.substr(signatureBase32NoPad.length-20,20) + "</span>" + "<br>" +
-                                            "Public Keys: <span class='pub-key'>" + pubKeyLink + "</span>" + "<br>" +
-                                            "Fields: <br>";
-
-                decodedFields.forEach(function(field) {
-                    e("qr-verify-result").innerHTML += "  <span class='message'>" + field + "</span><br>" 
-                })          
-
-                if (schema.toLowerCase() !== "cred") {
-                    e('qr-verify-verified').innerHTML += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
-                }
-
-                if (!PCF.getPayloadTypes().includes(type.toLowerCase()+":"+version)) {
-                    e('qr-verify-verified').innerHTML += "Type or version <b>" + type + ":" + version + "</b> was not recognized. Make sure this payload type and version are available on <a href='https://github.com/Path-Check/paper-cred/tree/main/payloads'>GitHub</a> <br>";
-                }
-
-                if (e('qr-verify-verified').innerHTML.includes("QR was parsed sucessfully!")) {
-                    downloadAndVerify(pubKeyLink, payload, signatureBase32NoPad, 'qr-verify-verified');
-                } else {
-                    e('qr-verify-verified').innerHTML += "<br>Signature: not verified";
-                }
+                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
+                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
             }
-
-            function getInitialsAndYear(fullName, dob) {
-                var names = fullName.split(' '),
-                    initials = names[0].substring(0, 1).toUpperCase();
-                
-                if (names.length > 1) {
-                    initials += names[names.length - 1].substring(0, 1).toUpperCase();
-                }
-
-                return initials + dob.substring(2,4);
-            };
 
             function onScanSuccess(qrMessage) {
                 e("qr-verify").value = qrMessage;
@@ -130,15 +76,16 @@
             }
 
             function onScanFailure(error) {
-                // handle scan failure, usually better to ignore and keep scanning
                 console.warn(`QR error = ${error}`);
             }
         </script>
         
         <script>
+            // Starting Scanner
             let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
+            // Loading URI from qr parameter. 
             const queryString = window.location.search;
             const urlParams = new URLSearchParams(queryString);
             const qr = urlParams.get('qr')
@@ -147,6 +94,7 @@
                 const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(qr);
                 decodedFields = payload.split('/');
 
+                // Making sure the fields have not been decoded by the browser. 
                 const encodedFields = decodedFields.map(function(field) {
                     return encodeURIComponent(field);
                 })

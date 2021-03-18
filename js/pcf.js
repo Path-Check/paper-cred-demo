@@ -146,11 +146,15 @@ var PCF = {
             client.setRequestHeader("Accept", "application/vnd.github.v3+json");
             client.send();
 
-            this.localPayloadsDB = JSON.parse(client.response).tree.map(x => x.path.replaceAll(".md","").replaceAll(".",":"));
+            this.localPayloadsDB = JSON.parse(client.response).tree.map(x => x.path.replaceAll(".md",""));
             return this.localPayloadsDB;
         } catch(err) {
             console.error(err);
         }
+    },
+
+    payloadTypeExist: function(type, version) {
+      return this.getPayloadTypes().includes(type.toLowerCase()+"."+version);
     },
 
     getTXT: function(url) {
@@ -255,7 +259,77 @@ var PCF = {
         }
 
         return null;
-    }    
+    },    
+
+    debugParseURI: function(uri) {
+        try {
+          const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
+          const decodedFields = this.parsePayload(payload);
+
+          // Updates screen elements. 
+          let formattedResult = "Type: <span class='protocol'>" + type+":"+version+"</span><br>" + 
+                                "Signature: <span class='signature'>" + signatureBase32NoPad.substr(0,10) + ".." + signatureBase32NoPad.substr(signatureBase32NoPad.length-10,10) + "</span>" + "<br>" +
+                                "Public Keys: <span class='pub-key'>" + pubKeyLink + "</span>" + "<br>" +
+                                "Fields: <br>";
+
+          // Decodes all fields
+          decodedFields.forEach(function(field) {
+              formattedResult += "  <span class='message'>" + field + "</span><br>" 
+          });
+
+          return formattedResult;
+        } catch (err) {
+          console.error(err);
+          return "";
+        }
+    },
+
+    debugVerify: function(uri) {
+        let formattedMessages = "";
+        
+        if (uri === "") {
+            formattedMessages += "Field is empty. It's not a valid URI.<br>";
+            return;
+        }
+
+        try {
+            this.parseURI(uri);
+            formattedMessages += "QR was parsed sucessfully!<br><br>";
+        } catch (err) {
+            formattedMessages += "Could not parse string into the URI format.<br>";
+            return formattedMessages;
+        }                
+
+        const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
+
+        if (schema.toLowerCase() !== "cred") {
+            formattedMessages += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
+            return formattedMessages;
+        }
+
+        if (!this.payloadTypeExist(type, version)) {
+            formattedMessages += "Type or version <b>" + type + ":" + version + "</b> was not recognized. Make sure this payload type and version are available on <a href='https://github.com/Path-Check/paper-cred/tree/main/payloads'>GitHub</a> <br><br>";
+        }
+
+        if (formattedMessages.includes("QR was parsed sucessfully!")) {
+            let publicKeyPEM = this.getKeyId(pubKeyLink);
+            if (publicKeyPEM !== null) {
+                try{
+                    let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
+                    formattedMessages += "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                } catch(err) {
+                    formattedMessages += "Signature Verification Failed: " + err;
+                    console.error(err);
+                }
+            } else {
+                formattedMessages += "<br>Verification Failed: Public Key not found.";
+            }
+        } else {
+            formattedMessages += "<br>Signature: not verified";
+        }
+
+        return formattedMessages;
+    }
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined')

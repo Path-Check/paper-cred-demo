@@ -33,13 +33,6 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            function getValueArray(elemArray) {
-                const fields = elemArray.map(function(elemId) {
-                    return e(elemId).value;
-                })
-                return fields;
-            }
-
             function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
                 try {
                     const verified = PCF.verify(pubkey, payload, signatureBase32NoPad, feedback_elem_id)

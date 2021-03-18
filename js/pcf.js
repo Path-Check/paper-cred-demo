@@ -284,6 +284,21 @@ var PCF = {
         }
     },
 
+    debugDownloadVerify: function(pubkeyURL, payload, signatureBase32NoPad) {
+      let publicKeyPEM = this.getKeyId(pubKeyLink);
+      if (publicKeyPEM !== null) {
+          try{
+              let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
+              return "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+          } catch(err) {
+              return "Signature Verification Failed: " + err;
+              console.error(err);
+          }
+      } else {
+          return "Verification Failed: Public Key not found.";
+      }
+    },
+
     debugVerify: function(uri) {
         let formattedMessages = "";
         
@@ -312,18 +327,7 @@ var PCF = {
         }
 
         if (formattedMessages.includes("QR was parsed sucessfully!")) {
-            let publicKeyPEM = this.getKeyId(pubKeyLink);
-            if (publicKeyPEM !== null) {
-                try{
-                    let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
-                    formattedMessages += "Signature: " + (verified ? "Independently Verified" : "Not Valid");
-                } catch(err) {
-                    formattedMessages += "Signature Verification Failed: " + err;
-                    console.error(err);
-                }
-            } else {
-                formattedMessages += "<br>Verification Failed: Public Key not found.";
-            }
+            formattedMessages += this.debugDownloadVerify(pubKeyLink, payload, signatureBase32NoPad);
         } else {
             formattedMessages += "<br>Signature: not verified";
         }

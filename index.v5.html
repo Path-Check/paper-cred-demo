@@ -163,17 +163,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return fields;
             }
 
-            function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
-                try {
-                    const verified = PCF.verify(pubkey, payload, signatureBase32NoPad, feedback_elem_id);
-                    
-                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
-                } catch(err) {
-                    e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
-                    console.error(err);
-                }
-            }
-
             function clearQR(elemPrefix) {
                 e(elemPrefix+'-code').getContext('2d').clearRect(0, 0, e(elemPrefix+'-code').width, e(elemPrefix+'-code').height);
                 e(elemPrefix+'-result').innerHTML = "";
@@ -186,16 +175,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 clearQR('qr-passkey');
                 clearQR('qr-badge');
                 clearQR('qr-coupon');
-            }
-
-            function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
-                let publicKeyPEM = PCF.getKeyId(pubkeyURL);
-
-                if (publicKeyPEM !== null) {
-                    verifySignature(publicKeyPEM, payload, signatureBase32NoPad, feedback_elem_id);
-                } else {
-                    e(feedback_elem_id).innerHTML += "Verification Failed: Public Key not found.";
-                }
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
@@ -265,8 +244,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
                 }
                 
-                // Verifies URI is valid
-                downloadAndVerify(pubKeyLink, payload, signature, elemPref + "-verified");
+                e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
             }
 
             function describe(qr) {

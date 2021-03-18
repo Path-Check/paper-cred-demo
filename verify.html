@@ -33,27 +33,6 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            function verifySignature(pubkey, payload, signatureBase32NoPad, feedback_elem_id) {
-                try {
-                    const verified = PCF.verify(pubkey, payload, signatureBase32NoPad, feedback_elem_id)
-
-                    e(feedback_elem_id).innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
-                } catch(err) {
-                    e(feedback_elem_id).innerHTML += "Signature Verification Failed: " + err;
-                    console.error(err);
-                }
-            }
-
-            function downloadAndVerify(pubkeyURL, payload, signatureBase32NoPad, feedback_elem_id) {
-                let publicKeyPEM = PCF.getKeyId(pubkeyURL);
-
-                if (publicKeyPEM !== null) {
-                    verifySignature(publicKeyPEM, payload, signatureBase32NoPad, feedback_elem_id);
-                } else {
-                    e(feedback_elem_id).innerHTML += "Verification Failed: Public Key not found.";
-                }
-            }
-
             function verifyQRCode() {
                 e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
                 e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);

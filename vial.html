@@ -8,7 +8,7 @@
             <div class="full-div">
                 <h3>Vial Signed Certificate Generator (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
                 
-                <div class="two-quarter">
+                <div class="third">
                     <h4>Vial Information</h4>
                     <table>
                         <tr><td>Manuf</td><td><input id="qr-manuf" type="text" placeholder="Pfizer, Moderna, ..."/></td></tr>
@@ -19,11 +19,19 @@
                         <tr><td>Beyond Use Date</td><td><input id="qr-bud" type="text" placeholder="YYYYMMDD"/></td></tr>
                     </table>
                 </div>
-
-                <div class="two-quarter">
+                <div class="third">
+                    <h4>Optional Information</h4>
+                    <table>
+                        <tr><td>Route</td><td><input id="qr-route" type="text" placeholder="C38238, C38276, ..."/></td></tr>
+                        <tr><td>Dosage (ul)</td><td><input id="qr-dose" type="text" placeholder="1000, 500, ..."/></td></tr>
+                        <tr><td>Doses (#)</td><td><input id="qr-doses" type="text" placeholder="10, ..."/></td></tr>
+                        <tr><td>Serial #</td><td><input id="qr-serial" type="text" placeholder="Pfizer, Moderna, ..."/></td></tr>
+                    </table> 
+                </div>
+                <div class="third">
                     <h4>Design Restrictions</h4>
                     <ul>
-                        <li>Must be printable (300DPI) to 8x8mm curved area</li>
+                        <li>Must be printable to 8x8mm curved area</li>
                         <li>Must be readable by a regular phone</li>
                     </ul>
                     <a href="https://lh3.googleusercontent.com/9HKRm5Sgt8Hc-eOiQDvGpc4fcEfd2y9oaJN0Fk-JUFD5qaeD2ib2EVvg25_mifdb0jAqfX-eeZAyCx4NBY-epQzvN9btBxhEJ0uOLNAnHOgXMm-YQWn2zwnZZB9ht6xg6Q2S2vjv-wk=w2400?source=screenshot.guru"> <img src="https://lh3.googleusercontent.com/9HKRm5Sgt8Hc-eOiQDvGpc4fcEfd2y9oaJN0Fk-JUFD5qaeD2ib2EVvg25_mifdb0jAqfX-eeZAyCx4NBY-epQzvN9btBxhEJ0uOLNAnHOgXMm-YQWn2zwnZZB9ht6xg6Q2S2vjv-wk=w200-h200-p-k" /> </a>
@@ -46,13 +54,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
             </div>
             <div class="full-div">
-                <br><br>
-                <div style="margin: 0 auto; width:500px; height:50px;">
+                <br>
+                <div style="margin: 0 auto; height:50px;">
                     <div class="center-in-div"> 
                         <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                     </div>
                 </div>
-                <br><br>
+                <br>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
@@ -177,6 +185,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     "qr-ndc", 
                     "qr-exp",
                     "qr-bud",
+                    "qr-route",
+                    "qr-dose",
+                    "qr-doses",
+                    "qr-serial",
                 ];
 
                 signAndDisplayQR("qr-vial", "vial", "1", priKeyPEM, pubKeyLink, getValueArray(valueArray));
@@ -200,12 +212,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         
         <script>
             function loadDemo() {
-                e("qr-manuf").value = "Pfizer"; 
+                e("qr-manuf").value = "Moderna"; 
                 e("qr-product").value = "COVID-19"; 
-                e("qr-lot").value = "EL9264"; 
-                e("qr-ndc").value = "29267-1000-1"; 
+                e("qr-lot").value = "012L20A"; 
+                e("qr-ndc").value = "80777-273-10"; 
                 e("qr-exp").value = "20210501"; 
                 e("qr-bud").value = "20210208"; 
+                e("qr-route").value = "C28161"; 
+                e("qr-dose").value = "500";
+                e("qr-doses").value = "10";
+                e("qr-serial").value = "701861";
             }
 
             loadDemo();

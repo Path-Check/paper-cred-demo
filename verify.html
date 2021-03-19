@@ -6,7 +6,7 @@
 	<body>
         <div class="center2">
             <div class="full-div">
-                <h3>Certificate Verifier <small>(<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source</a>)</small></small></h3>
+                <h1>Certificate Verifier</h1>
             
                 <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
                 <label for="verify">Or Paste the Code here:</label><br>
@@ -34,16 +34,22 @@
             function e(elem) { return document.getElementById(elem); }
 
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
-                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                let qr = e("qr-verify").value;
+                let uri = qr.substring(qr.indexOf("CRED:"));
+                if (uri !== "" && uri != null) {
+                    e("qr-verify-result").innerHTML = PCF.debugParseURI(qr);
+                    e('qr-verify-verified').innerHTML = PCF.debugVerify(qr);
+                } else {
+                    e('qr-verify-verified').innerHTML = "Certificate not found. ";
+                }
             }
 
             function onScanSuccess(qrMessage) {
-                console.log(qrMessage);
-                let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
-                console.log(uri);
-                e("qr-verify").value = uri;
-                verifyQRCode();
+                if (qrMessage !== "" && qrMessage != null) {
+                    let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
+                    e("qr-verify").value = uri;
+                    verifyQRCode();
+                }
             }
 
             function onScanFailure(error) {

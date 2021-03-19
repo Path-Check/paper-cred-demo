@@ -9,9 +9,10 @@ body {
 }
 
 .center2 {
-  width: 800px;
+  max-width: 800px;
   margin: 0 auto;
 }
+
 li {
   line-height: 22px;
 }

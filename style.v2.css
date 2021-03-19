@@ -107,6 +107,14 @@ pre {
   padding-left: 5px;
 }
 
+.half {
+  float: left;
+  width: 49%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .four-quarter {
   float: left;
   width: 78%;

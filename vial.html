@@ -48,14 +48,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             <div class="full-div">
                 <div class="two-quarter">
                     <h4>QR Format</h4>
-                    <canvas id="qr-massid-code"></canvas><br/>
-                    <pre id="qr-massid-result"></pre>
-                    <pre id="qr-massid-verified"></pre>
-                    <pre id="qr-massid-bytes"></pre>
+                    <canvas id="qr-vial-code"></canvas><br/>
+                    <pre id="qr-vial-result"></pre>
+                    <pre id="qr-vial-verified"></pre>
+                    <pre id="qr-vial-bytes"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>PDF 417 Format</h4>
-                    <canvas id="pdf-massid-code"></canvas><br/>
+                    <canvas id="pdf-vial-code"></canvas><br/>
                 </div>
                 <div class="quarter">
                     <label for="verify">Verify a QR Code</label>
@@ -104,7 +104,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             async function clear() {
-                clearQR('qr-massid');
+                clearQR('qr-vial');
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
@@ -116,7 +116,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)
 
-                PDF417.draw(uri, e("pdf-massid-code"), 3, 2, 2);
+                PDF417.draw(uri, e("pdf-vial-code"), 3, 2, 2);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 
@@ -170,7 +170,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     "qr-bud",
                 ];
 
-                signAndDisplayQR("qr-massid", "us.ma.id", "3", priKeyPEM, pubKeyLink, getValueArray(valueArray));
+                signAndDisplayQR("qr-vial", "vial", "1", priKeyPEM, pubKeyLink, getValueArray(valueArray));
             }
 
             function verifyQRCode() {

@@ -1,6 +1,5 @@
 body {
   margin-top: 50px;
-
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
@@ -12,6 +11,9 @@ body {
 .center2 {
   width: 800px;
   margin: 0 auto;
+}
+li {
+  line-height: 22px;
 }
 
 input {

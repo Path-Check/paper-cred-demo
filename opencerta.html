@@ -342,6 +342,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-practitioner-prefix").value = "Dr.";
             }
         </script>
+
+        <script>
+            async function preloadKey() {
+                PCF.getKeyId(e('privkey').value);
+            }
+            window.onload = function() {
+                preloadKey();
+            }
+        </script>
 	</body>
 </html>
 

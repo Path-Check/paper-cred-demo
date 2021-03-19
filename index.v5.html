@@ -396,6 +396,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 150 }, /* verbose= */ true);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         </script>
+
+        <script>
+            async function preloadKey() {
+                PCF.getKeyId(e('privkey').value);
+            }
+            window.onload = function() {
+                preloadKey();
+            }
+        </script>
 	</body>
 </html>
 

@@ -410,14 +410,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         </script>
 
-<script>
-    async function preloadKey() {
-        PCF.getKeyId(e('privkey').value);
-    }
-    window.onload = function() {
-        preloadKey();
-    }
-</script>
+        <script>
+            async function preloadKey() {
+                PCF.getKeyId(e('privkey').value);
+            }
+            window.onload = function() {
+                preloadKey();
+            }
+        </script>
 	</body>
 </html>
 

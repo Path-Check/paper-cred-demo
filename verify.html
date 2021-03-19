@@ -39,7 +39,10 @@
             }
 
             function onScanSuccess(qrMessage) {
-                e("qr-verify").value = qrMessage;
+                console.log(qrMessage);
+                let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
+                console.log(uri);
+                e("qr-verify").value = uri;
                 verifyQRCode();
             }
 
@@ -55,11 +58,14 @@
 
             // Loading URI from qr parameter. 
             const queryString = window.location.search;
+
             const urlParams = new URLSearchParams(queryString);
             const qr = urlParams.get('qr')
 
             if (qr !== "" && qr != null) {
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(qr);
+                uri = qr.substring(qr.indexOf("CRED:"));
+
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);
                 decodedFields = payload.split('/');
 
                 // Making sure the fields have not been decoded by the browser. 

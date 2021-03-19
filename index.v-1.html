@@ -9,10 +9,10 @@
             <div class="full-div">
                 <h4>Message to Include</h4>
                 <div class="left-div">
-                    <textarea id="text-qr1" rows="10" cols="65">jxt:example.com:w3vc:1:MoH/J07BX03/1183738569/OPL/NZ/BgLv0g/Bwtkpo/SMITH/Male/JOHN/urn%3Auvci%3Aaf5vshde843jf831j128fj/Bd5lLo/eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..a3UqIuKSOmCKrdn2knl_hCjiN4f4Ud1eO5ckwEHb623V9vdCwWCDB7GBHlRBYSI8ek2E-By7xysVFwutcpOeDg</textarea> 
+                    <textarea id="text-qr1" rows="10" style="width:100%;">jxt:example.com:w3vc:1:MoH/J07BX03/1183738569/OPL/NZ/BgLv0g/Bwtkpo/SMITH/Male/JOHN/urn%3Auvci%3Aaf5vshde843jf831j128fj/Bd5lLo/eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..a3UqIuKSOmCKrdn2knl_hCjiN4f4Ud1eO5ckwEHb623V9vdCwWCDB7GBHlRBYSI8ek2E-By7xysVFwutcpOeDg</textarea> 
                 </div>
                 <div class="right-div">
-                    <textarea id="text-qr2" rows="10" cols="65">JXT:EXAMPLE.COM:W3VC:1:MOH/J07BX03/1183738569/OPL/NZ/BGLV0G/BWTKPO/SMITH/MALE/JOHN/XK465POITJ7ZX3EF266OG6G76N6WHV3PD6H7AXPGKLUP33EJQWYZZCHIREKZCEKNASELBCMI3DIIR2MZQWY43FFQRGG4TJOQRDUWZCMI3DIIS5PVVXKKRC4KJDUYEKVXM7NETZMEFDRDPB7YKHOV4O4XETAEDW7LNXK7N52CYFQIGB5RQEPFIQLBEI6HUTMEA4XPDSWFIXBOWXFE46BQ</textarea> 
+                    <textarea id="text-qr2" rows="10" style="width:100%;">JXT:EXAMPLE.COM:W3VC:1:MOH/J07BX03/1183738569/OPL/NZ/BGLV0G/BWTKPO/SMITH/MALE/JOHN/XK465POITJ7ZX3EF266OG6G76N6WHV3PD6H7AXPGKLUP33EJQWYZZCHIREKZCEKNASELBCMI3DIIR2MZQWY43FFQRGG4TJOQRDUWZCMI3DIIS5PVVXKKRC4KJDUYEKVXM7NETZMEFDRDPB7YKHOV4O4XETAEDW7LNXK7N52CYFQIGB5RQEPFIQLBEI6HUTMEA4XPDSWFIXBOWXFE46BQ</textarea> 
                 </div>
 
             </div>
@@ -55,7 +55,7 @@
 
             function generateCode(elemIdSource, elemPrefix) {
                 let uri = e(elemIdSource).value;
-                let params = {margin:0, width:550, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                let params = {margin:0, width:540, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                 let qr = QRCode.create(uri, );
                 
                 QRCode.toCanvas(e(elemPrefix), uri, params, function (error) {

@@ -1,6 +1,7 @@
 var PCF = {
     localPubKeyDB: {},
     localPayloadsDB: [],
+    localPayloadsSpecFiles: {},
 
     // PEM Definitions
     ECPublicKey: asn1.define("PublicKey", function() {
@@ -133,20 +134,15 @@ var PCF = {
     getPayloadTypes: function() {
         if (this.localPayloadsDB.length > 0) return this.localPayloadsDB;
 
-        let client = new XMLHttpRequest();
         try {
-            client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/main", false);
-            client.setRequestHeader("Accept", "application/vnd.github.v3+json");
-            client.send();
-
-            const filesRoot = JSON.parse(client.response).tree
+            const filesRoot = this.getJSON("https://api.github.com/repos/Path-Check/paper-cred/git/trees/main").tree
             const payloadsDir = filesRoot.find(element => element.path === 'payloads');
 
-            client.open('GET', "https://api.github.com/repos/Path-Check/paper-cred/git/trees/"+payloadsDir.sha, false);
-            client.setRequestHeader("Accept", "application/vnd.github.v3+json");
-            client.send();
+            const filesPayloads = this.getJSON("https://api.github.com/repos/Path-Check/paper-cred/git/trees/"+payloadsDir.sha).tree;
 
-            this.localPayloadsDB = JSON.parse(client.response).tree.map(x => x.path.replaceAll(".md",""));
+            this.localPayloadsSpecFiles = filesPayloads.filter(x => x.path.includes(".fields") )
+            this.localPayloadsDB = this.localPayloadsSpecFiles.map(x => x.path.replaceAll(".fields","") );
+
             return this.localPayloadsDB;
         } catch(err) {
             console.error(err);
@@ -155,6 +151,20 @@ var PCF = {
 
     payloadTypeExist: function(type, version) {
       return this.getPayloadTypes().includes(type.toLowerCase()+"."+version);
+    },
+
+    getPayloadHeader: function(type, version) {
+        if (this.localPayloadsDB.length == 0) this.getPayloadTypes();
+        if (!this.payloadTypeExist(type, version)) return undefined;
+
+        const headerFile = this.localPayloadsSpecFiles.find(element => element.path === type.toLowerCase()+"."+version+'.fields');
+
+        try {
+            return atob(this.getJSON(headerFile.url).content).split("/");
+        } catch(err) {
+            console.error(err);
+            return undefined;
+        }
     },
 
     getTXT: function(url) {
@@ -208,18 +218,13 @@ var PCF = {
 
     getKeyId: function (pubkeyURL) {
         // Download pubkey to verify
-        let client = new XMLHttpRequest();
-
         if (this.localPubKeyDB[pubkeyURL]) {
             return this.localPubKeyDB[pubkeyURL];
         }
             
         try {
             // Try to download from the DNS TXT record. 
-            client.open('GET', "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT', false);
-            client.send();
-
-            const jsonResponse = JSON.parse(client.response);
+            const jsonResponse = this.getJSON("https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT');
             if (jsonResponse.Answer) {
                 const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
                 const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
@@ -235,11 +240,10 @@ var PCF = {
 
         try {
             // Try to download as a file. 
-            client.open('GET', "https://" + pubkeyURL, false);
-            client.send();
+            const txtResponse = this.getTXT("https://" + pubkeyURL);
 
-            if (client.response.includes("-----BEGIN PUBLIC KEY-----")) { 
-                this.localPubKeyDB[pubkeyURL] = client.response;
+            if (txtResponse.includes("-----BEGIN PUBLIC KEY-----")) { 
+                this.localPubKeyDB[pubkeyURL] = txtResponse;
                 return this.localPubKeyDB[pubkeyURL];
             }
         } catch(err) {
@@ -272,9 +276,11 @@ var PCF = {
                                 "Public Keys: <span class='pub-key'>" + pubKeyLink + "</span>" + "<br>" +
                                 "Fields: <br>";
 
+          const header = this.getPayloadHeader(type, version);  
+
           // Decodes all fields
-          decodedFields.forEach(function(field) {
-              formattedResult += "  <span class='message'>" + field + "</span><br>" 
+          decodedFields.forEach(function(field, index) {
+              formattedResult += "  "+header[index].replace(/^\w/, (c) => c.toUpperCase())+": <span class='message'>" + field + "</span><br>" 
           });
 
           return formattedResult;

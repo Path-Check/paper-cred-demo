@@ -1,4 +1,6 @@
 var PCF = {
+    githubTree: "https://api.github.com/repos/Path-Check/paper-cred/git/trees",
+
     localPubKeyDB: {},
     localPayloadsDB: [],
     localPayloadsSpecFiles: {},
@@ -180,11 +182,8 @@ var PCF = {
     },
 
     getGitHubDatabase: function(id, database) {
-        const githubTree = "https://api.github.com/repos/Path-Check/paper-cred/git/trees";
-        const githubBlob = "https://api.github.com/repos/Path-Check/paper-cred/git/blobs";
-
         try {
-            const rootDir = this.getJSON(githubTree + "/" + "main").tree
+            const rootDir = this.getJSON(this.githubTree + "/" + "main").tree
             const databasesDir = rootDir.find(element => element.path === 'keys');
 
             if (databasesDir === undefined) {
@@ -192,7 +191,7 @@ var PCF = {
                 return;
             }
 
-            const databases = this.getJSON(githubTree+"/"+databasesDir.sha).tree
+            const databases = this.getJSON(this.githubTree+"/"+databasesDir.sha).tree
             const databaseDir = databases.find(element => element.path === database);
 
             if (databaseDir === undefined) {
@@ -200,7 +199,7 @@ var PCF = {
                 return;
             } 
             
-            const idsFiles = this.getJSON(githubTree+"/"+databaseDir.sha).tree
+            const idsFiles = this.getJSON(this.githubTree+"/"+databaseDir.sha).tree
             const idFile = idsFiles.find(element => element.path === id+'.pem');
 
             if (idFile === undefined) {
@@ -208,7 +207,7 @@ var PCF = {
                 return;
             }
 
-            const publicKeyPem = atob(this.getJSON(githubBlob+"/"+idFile.sha).content)
+            const publicKeyPem = atob(this.getJSON(idFile.url).content)
 
             return publicKeyPem;
         } catch(err) {

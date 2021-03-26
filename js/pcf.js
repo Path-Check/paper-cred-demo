@@ -156,7 +156,6 @@ var PCF = {
     },
 
     getPayloadHeader: function(type, version) {
-        if (this.localPayloadsDB.length == 0) this.getPayloadTypes();
         if (!this.payloadTypeExist(type, version)) return undefined;
 
         const headerFile = this.localPayloadsSpecFiles.find(element => element.path === type.toLowerCase()+"."+version+'.fields');
@@ -225,11 +224,11 @@ var PCF = {
             // Try to download from the DNS TXT record. 
             const jsonResponse = this.getJSON("https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT');
             if (jsonResponse.Answer) {
-                const pubKeyTxtLookup = JSON.parse(client.response).Answer[0].data
+                const pubKeyTxtLookup = jsonResponse.Answer[0].data
                 const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
                     
                 if (noQuotes) {   
-                    this.localPubKeyDB[pubkeyURL] = noQuotes;
+                    this.localPubKeyDB[pubkeyURL] = { type: "DNS", key: noQuotes, debugPath: "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT'};
                     return this.localPubKeyDB[pubkeyURL];
                 }
             }
@@ -242,7 +241,7 @@ var PCF = {
             const txtResponse = this.getTXT("https://" + pubkeyURL);
 
             if (txtResponse.includes("-----BEGIN PUBLIC KEY-----")) { 
-                this.localPubKeyDB[pubkeyURL] = txtResponse;
+                this.localPubKeyDB[pubkeyURL] = { type: "URL", key: txtResponse, debugPath: "https://" + pubkeyURL };
                 return this.localPubKeyDB[pubkeyURL];
             }
         } catch(err) {
@@ -250,9 +249,11 @@ var PCF = {
         }
 
         try {   
-            let publicKey = this.getGitHubDatabase(pubkeyURL.split('.')[0], pubkeyURL.split('.')[1]);
+            const id = pubkeyURL.split('.')[0];
+            const group = pubkeyURL.split('.')[1];
+            let publicKey = this.getGitHubDatabase(id, group);
             if (publicKey != undefined && publicKey.includes("-----BEGIN PUBLIC KEY-----")) { 
-                this.localPubKeyDB[pubkeyURL] = publicKey;
+                this.localPubKeyDB[pubkeyURL] = { type: "Git", key: publicKey, debugPath: "https://github.com/Path-Check/paper-cred/tree/main/keys/" + group + "/" + id + ".pem" };
                 return this.localPubKeyDB[pubkeyURL];
             } else {
                 console.error("GitHub Not Found: "+ publicKey);
@@ -264,15 +265,25 @@ var PCF = {
         return null;
     },    
 
+    debugPayloadURL: function(type, version) {
+       const rightCaseVersion = this.getPayloadTypes().find(element => element.toUpperCase().includes(type.toUpperCase()+"."+version));
+       return "https://github.com/Path-Check/paper-cred/blob/main/payloads/"+rightCaseVersion+".md";
+    },
+
     debugParseURI: function(uri) {
         try {
           const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
           const decodedFields = this.parsePayload(payload);
 
+          const keyID = this.getKeyId(pubKeyLink)
+
           // Updates screen elements. 
-          let formattedResult = "Type: <span class='protocol'>" + type+":"+version+"</span><br>" + 
+          let formattedResult = "Type: <span class='protocol'>" + type + ":" + version +
+                                          " (<a href='" + this.debugPayloadURL(type, version) + "'>spec</a>)" +
+                                      "</span><br>" + 
                                 "Signature: <span class='signature'>" + signatureBase32NoPad.substr(0,10) + ".." + signatureBase32NoPad.substr(signatureBase32NoPad.length-10,10) + "</span>" + "<br>" +
-                                "Public Keys: <span class='pub-key'>" + pubKeyLink + "</span>" + "<br>" +
+                                "Public Key: <span class='pub-key'>" + pubKeyLink + "</span>" +
+                                     " (<a href='" + keyID.debugPath + "'>"+keyID.type+"</a>)" + "<br>" +
                                 "Fields: <br>";
 
           const header = this.getPayloadHeader(type, version);  
@@ -290,8 +301,9 @@ var PCF = {
     },
 
     debugDownloadVerify: function(pubkeyURL, payload, signatureBase32NoPad) {
-      let publicKeyPEM = this.getKeyId(pubKeyLink);
-      if (publicKeyPEM !== null) {
+      let keyID = this.getKeyId(pubKeyLink);
+      if (keyID !== null) {
+          let publicKeyPEM = this.getKeyId(pubKeyLink).key;
           try{
               let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
               return "Signature: " + (verified ? "Independently Verified" : "Not Valid");

@@ -253,7 +253,7 @@ var PCF = {
             const group = pubkeyURL.split('.')[1];
             let publicKey = this.getGitHubDatabase(id, group);
             if (publicKey != undefined && publicKey.includes("-----BEGIN PUBLIC KEY-----")) { 
-                this.localPubKeyDB[pubkeyURL] = { type: "Git", key: publicKey, debugPath: "https://github.com/Path-Check/paper-cred/tree/main/keys/" + group + "/" + id + ".pem" };
+                this.localPubKeyDB[pubkeyURL] = { type: "GITDB", key: publicKey, debugPath: "https://github.com/Path-Check/paper-cred/tree/main/keys/" + group + "/" + id + ".pem" };
                 return this.localPubKeyDB[pubkeyURL];
             } else {
                 console.error("GitHub Not Found: "+ publicKey);

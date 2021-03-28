@@ -219,6 +219,37 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return new Date(y,m,d);
             }
 
+            // Convert a hex string to a byte array
+            function hexToBytes(hex) {
+                for (var bytes = [], c = 0; c < hex.length; c += 2)
+                bytes.push(parseInt(hex.substr(c, 2), 16));
+                return bytes;
+            }
+
+            // Convert a byte array to a hex string
+            function bytesToHex(bytes) {
+                for (var hex = [], i = 0; i < bytes.length; i++) {
+                    var current = bytes[i] < 0 ? bytes[i] + 256 : bytes[i];
+                    hex.push((current >>> 4).toString(16));
+                    hex.push((current & 0xF).toString(16));
+                }
+                return hex.join("");
+            }
+
+            function didHexToBase32(did) {
+                [did, schema, one, two] = did.split(":");
+                oneB32 = PCF.rmPad(base32.encode(hexToBytes(one)));
+                twoB32 = PCF.rmPad(base32.encode(hexToBytes(two)));
+                return [did, schema, oneB32, twoB32].join(":");
+            }
+
+            function didBase32ToHex(did) {
+                [did, schema, one, two] = did.split(":");
+                oneHex = bytesToHex(base32.decode.asBytes(PCF.pad(one)));
+                twoHex = bytesToHex(base32.decode.asBytes(PCF.pad(two)));
+                return [did, schema, oneHex, twoHex].join(":");
+            }
+
             function generateQRCodes() {
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
@@ -234,18 +265,18 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 signAndDisplayQR("qr-ibm", "liberty", "1", priKeyPEM, pubKeyLink, getValueArray(fieldArray));
 
-                let issuerHex = "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac";
+                let issuerHex = didBase32ToHex(e("qr-head-issuer").value);
 
                 let ibmW3C = { 
-                    "@context": ["https://www.w3.org/2018/credentials/v1"],
+                    "@context": e("qr-head-context").value,
                     "id": issuerHex + "#vc-" + e("qr-head-id").value,
                     "issuer": issuerHex,
-                    "type": ["VerifiableCredential"],
+                    "type": [e("qr-head-type").value],
                     "issuanceDate":  parse(e("qr-head-issuance-date").value).toJSON(),
                     "expirationDate":  parse(e("qr-head-expiration-date").value).toJSON(),
                     "credentialSchema": {
-                        "id": issuerHex + ";id=libertyhealthpass;version=0.1",
-                        "type": "JsonSchemaValidator2018",
+                        "id": issuerHex  + ";" +  e("qr-credschema-id").value,
+                        "type": e("qr-credschema-type").value,
                     },
                     "credentialSubject": {
                         "display": e("qr-cred-display").value,
@@ -257,7 +288,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                 "given": e("qr-pat-firstname").value
                             }
                         },
-                        "type": "Liberty HealthPass",
+                        "type": e("qr-cred-type").value,
                     },
                     "proof": {
                         "created": parse(e("qr-head-issuance-date").value).toJSON(),
@@ -287,11 +318,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         
         <script>
             function loadDemo() {
+                let issuerHex = "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac";
+
                 e("qr-head-context").value = "https://www.w3.org/2018/credentials/v1";
                 e("qr-head-issuance-date").value = "20210228";
                 e("qr-head-type").value = "VerifiableCredential";
                 e("qr-head-expiration-date").value = "20210328";
-                e("qr-head-issuer").value = "did:hpass:WOURRKQ6YKYPBVMKNSR6PSHLW2TDDS5SICFNL2HMVSU73NEO4S7Q:OIIAE2TJDDRSKDA5CCKGG3AKRHGAMRUM6MBLZYRBNYQMOVOQECWA";
+                e("qr-head-issuer").value = didHexToBase32(issuerHex);
                 e("qr-head-id").value = "SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS";
 
                 e("qr-pat-firstname").value = "Jane";
@@ -302,7 +335,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-cred-display").value = "#999999E";
                 e("qr-cred-passtype").value = "COVID-19 Vaccination";
                 e("qr-credschema-type").value = "JsonSchemaValidator2018";
-                e("qr-credschema-id").value = "${ISSUER};id=libertyhealthpass;version=0.1";
+                e("qr-credschema-id").value = "id=libertyhealthpass;version=0.1";
             }
 
             loadDemo();

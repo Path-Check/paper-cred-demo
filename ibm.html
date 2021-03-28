@@ -1,0 +1,281 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+        <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
+		<title>IBM Liberty Pass with PCF Certificates Generator</title>
+
+        <style>
+            input {
+  width: 420px;
+}
+            </style>
+	</head>
+	<body>
+        <div class="center">
+            <div class="full-div">
+                <h3>IBM Liberty Pass Example Schema using PCF's spec (<a href="https://github.com/Path-Check/paper-cred/blob/main/SPECIFICATION.md">Spec</a>)</h3>
+                <div class="two-quarter"> 
+                    <h4>VC Overhead</h4>
+                    <table>
+                        <tr><td>Context</td><td><input id="qr-head-context" type="text" placeholder="https://www.w3.org/2018/credentials/v1"/></td></tr>
+                        <tr><td>Type</td><td><input id="qr-head-type" type="text" placeholder="VerifiableCredential"/></td></tr>
+                        <tr><td>Issue Date</td><td><input id="qr-head-issuance-date" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>Expiration</td><td><input id="qr-head-expiration-date" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>Issuer</td><td><input id="qr-head-issuer" type="text" placeholder="did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac"/></td></tr>
+                        <tr><td>ID</td><td><input id="qr-head-id" type="text" placeholder="did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac#vc-[UUID]"/></td></tr>
+                    </table>
+
+                    <h4>Credential Schema</h4>
+                    <table>
+                        <tr><td>Type</td><td><input id="qr-credschema-type" type="text" placeholder="JsonSchemaValidator2018"/></td></tr>
+                        <tr><td>Id</td><td><input id="qr-credschema-id" type="text" placeholder="did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac;id=libertyhealthpass;version=0.1"></td></tr>
+                    </table>
+                </div>
+
+                <div class="two-quarter">
+                    <h4>Subject</h4>
+                    <table>
+                        <tr><td>FirstName</td><td><input id="qr-pat-firstname" type="text" placeholder="First Name ..."/></td></tr>
+                        <tr><td>LastName</td><td><input id="qr-pat-lastname" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>Date</td><td><input id="qr-pat-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
+                    </table>
+
+                    <h4>Credential</h4>
+                    <table>
+                        <tr><td>Display</td><td><input id="qr-cred-display" type="text" placeholder="#99999E"/></td></tr>
+                        <tr><td>PassType</td><td><input id="qr-cred-passtype" type="text" placeholder="COVID-19 Vaccination"></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>Credentials</h4>
+                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+<textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
+oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
+DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
+-----END EC PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
+                    <br><br>
+                    <label for="privkey">QR Code Format</label><br/>
+                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
+                </div>
+            </div> 
+            <div class="full-div"></div>
+            <div class="four-quarter">
+                <br><br>
+                <div style="margin: 0 auto; width:240px; height:50px;">
+                    <button class="qr-btn" onclick="generateQRCodes()">Generate Certificates</button>
+                </div>
+                <br><br>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4>PCF's Format</h4>
+                    <canvas id="qr-ibm-code"></canvas><br/>
+                    <pre id="qr-ibm-result"></pre>
+                    <pre id="qr-ibm-verified"></pre>
+                    <pre id="qr-ibm-bytes"></pre>
+                </div>
+                <div class="two-quarter">
+                    <h4>Original IBM Format</h4>
+                    <canvas id="qr-ibm-orig-code"></canvas><br/>
+                    <pre id="qr-ibm-orig-result" style="display: none;">
+{
+    "@context": ["https://www.w3.org/2018/credentials/v1"],
+    "id": "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac#vc-SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS",
+    "type": ["VerifiableCredential"],
+    "issuer": "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac",
+    "issuanceDate": "2021-02-28T11:31:10Z",
+    "expirationDate": "2021-02-28T02:21:39Z",
+    "credentialSchema": {
+        "id": "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac;id=libertyhealthpass;version=0.1",
+        "type": "JsonSchemaValidator2018"
+    },
+    "credentialSubject": {
+        "display": "#999999E",
+        "passType": "COVID-19 Vaccination",
+        "subject": {
+            "birthDate": "1981-01-01",
+            "name": {
+                "family": "Doe",
+                "given": "Jane"
+            }
+        },
+        "type": "Liberty HealthPass"
+    },
+    "proof": {
+        "created": "2021-02-28T12:12:40Z",
+        "creator": "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac#key-1",
+        "nonce": "SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS",
+        "signatureValue": "SOME-SUPER-SECURE-BUT-EXTREMELY-LONG-SIGNATURE-THAT-CONTAINS-AT-LEAST-THIS-MANY-CHARACTERS-IN-IT",
+        "type": "EcdsaSecp256r1Signature2019"
+    }
+}
+
+                    </pre>
+                    <pre id="qr-ibm-orig-verified"></pre>
+                    <pre id="qr-ibm-orig-bytes"></pre>
+                </div>
+                
+                <div class="quarter">
+                    <label for="verify">Verify a QR Code</small></label><br/>
+                    <textarea id="qr-verify" rows="10" cols="30" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    <br><br>
+                    <pre id="qr-verify-result"></pre>
+                    <pre id="qr-verify-verified"></pre>
+                </div>
+            </div>
+        </div>
+        
+        <script src="js/qrcode.min.js"></script>
+        
+        <script src="js/elliptic.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script src="js/asn1.min.js"></script>
+        <script src="js/base32.min.js"></script>
+
+        <script src="js/pcf.js"></script>
+
+		<script>
+            const params = { margin:0, width:520, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+
+            function e(elem) { return document.getElementById(elem); }
+
+            function getValueArray(elemArray) {
+                const fields = elemArray.map(function(elemId) {
+                    return e(elemId).value;
+                })
+                return fields;
+            }
+
+            function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
+                const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
+                const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
+
+                drawsQR(elemPref, uri);
+
+                // Updates screen elements. 
+                e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 
+                                            "<span class='signature'>" + signature + "</span>" + ":" +
+                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
+                                            "<span class='message'>" + payload + "</span><br>";
+                //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
+                //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
+                e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
+
+                // Verifies URI is valid
+                e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
+            }
+
+            function drawsQR(elemPref, value) {
+                // Builds QR Element
+                QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) { });
+
+                let qr = QRCode.create(value, params);
+
+                let qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrH = null;
+                try {
+                    let qrH = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                } catch (err) {
+                    console.error(err);
+                }
+                let qrM = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+                
+                e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(value.length * 5.5/8) + " bytes<br>";
+
+                e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
+                e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
+                
+                e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qr.segments.length + " segments";
+                for (i=0; i<qr.segments.length; i++) {
+                    e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
+                }
+            }
+
+            function describe(qr) {
+                if (!(qr === undefined)) return "Data is too big to be stored in a QR";
+                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
+            }
+
+            function generateQRCodes() {
+                // Where to Download the public key
+                const pubKeyLink = e("qr-link").value.trim().replace("http://","");
+
+                // PEM code of the private key
+                const priKeyPEM = e('privkey').value;
+
+                // Coupon QR
+                const fieldArray = [
+                    "qr-pat-firstname", "qr-pat-lastname", "qr-pat-dob", 
+                    "qr-cred-display", "qr-cred-passtype", 
+                    "qr-credschema-type", "qr-credschema-id",
+                    "qr-head-context", "qr-head-issuance-date", "qr-head-type", 
+                    "qr-head-expiration-date", "qr-head-issuer", "qr-head-id"
+                ];
+
+                signAndDisplayQR("qr-ibm", "liberty", "1", priKeyPEM, pubKeyLink, getValueArray(fieldArray));
+
+                let ibmURI = e('qr-ibm-orig-result').innerHTML.replaceAll(" ","").replaceAll("\n","");
+                drawsQR("qr-ibm-orig", ibmURI);
+                // Updates screen elements. 
+                e("qr-ibm-orig-result").innerHTML= ibmURI;
+
+                e("qr-ibm-orig-code").style.display='block';
+                e("qr-ibm-orig-result").style.display='block';
+                e("qr-ibm-orig-bytes").style.display='block';
+            }
+
+            function verifyQRCode() {
+                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
+                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+            }
+        </script>
+        
+        <script>
+            function loadDemo() {
+                e("qr-head-context").value = "https://www.w3.org/2018/credentials/v1";
+                e("qr-head-issuance-date").value = "20210228";
+                e("qr-head-type").value = "VerifiableCredential";
+                e("qr-head-expiration-date").value = "20210328";
+                e("qr-head-issuer").value = "did:hpass:WOURRKQ6YKYPBVMKNSR6PSHLW2TDDS5SICFNL2HMVSU73NEO4S7Q:OIIAE2TJDDRSKDA5CCKGG3AKRHGAMRUM6MBLZYRBNYQMOVOQECWA";
+                e("qr-head-id").value = "ISSUER+#vc-SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS";
+
+                e("qr-pat-firstname").value = "Jane";
+                e("qr-pat-lastname").value = "Doe";
+                e("qr-pat-dob").value = "19810101";
+
+                //e("qr-cred-type").value = "Liberty HealthPass";
+                e("qr-cred-display").value = "#999999E";
+                e("qr-cred-passtype").value = "COVID-19 Vaccination";
+                e("qr-credschema-type").value = "JsonSchemaValidator2018";
+                e("qr-credschema-id").value = "ISSUER+;id=libertyhealthpass;version=0.1";
+            }
+
+            loadDemo();
+        </script>
+
+        <script>
+            async function preloadKey() {
+                PCF.getKeyId(e("qr-link").value);
+            }
+            window.onload = function() {
+                preloadKey();
+            }
+        </script>
+	</body>
+</html>
+
+

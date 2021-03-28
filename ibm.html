@@ -119,7 +119,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         "type": "EcdsaSecp256r1Signature2019"
     }
 }
-
                     </pre>
                     <pre id="qr-ibm-orig-verified"></pre>
                     <pre id="qr-ibm-orig-bytes"></pre>
@@ -212,6 +211,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
             }
 
+            function parse(str) {
+                if(!/^(\d){8}$/.test(str)) return "invalid date";
+                var y = str.substr(0,4),
+                    m = str.substr(4,2),
+                    d = str.substr(6,2);
+                return new Date(y,m,d);
+            }
+
             function generateQRCodes() {
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
@@ -227,7 +234,42 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 signAndDisplayQR("qr-ibm", "liberty", "1", priKeyPEM, pubKeyLink, getValueArray(fieldArray));
 
-                let ibmURI = e('qr-ibm-orig-result').innerHTML.replaceAll(" ","").replaceAll("\n","");
+                let issuerHex = "did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac";
+
+                let ibmW3C = { 
+                    "@context": ["https://www.w3.org/2018/credentials/v1"],
+                    "id": issuerHex + "#vc-" + e("qr-head-id").value,
+                    "issuer": issuerHex,
+                    "type": ["VerifiableCredential"],
+                    "issuanceDate":  parse(e("qr-head-issuance-date").value).toJSON(),
+                    "expirationDate":  parse(e("qr-head-expiration-date").value).toJSON(),
+                    "credentialSchema": {
+                        "id": issuerHex + ";id=libertyhealthpass;version=0.1",
+                        "type": "JsonSchemaValidator2018",
+                    },
+                    "credentialSubject": {
+                        "display": e("qr-cred-display").value,
+                        "passType": e("qr-cred-passtype").value,
+                        "subject": {
+                            "birthDate": parse(e("qr-pat-dob").value).toJSON(),
+                            "name": {
+                                "family": e("qr-pat-lastname").value,
+                                "given": e("qr-pat-firstname").value
+                            }
+                        },
+                        "type": "Liberty HealthPass",
+                    },
+                    "proof": {
+                        "created": parse(e("qr-head-issuance-date").value).toJSON(),
+                        "creator": issuerHex + "#key-1",
+                        "nonce": "0b5eccfa-36c3-45ea-8c39-0894d7121797",
+                        "signatureValue": "MEUCIQCeawS4pV6o-3q6PPZAIcBiKKPMzy6sRMbBx_Y_KfImgwIgGwfHdbcR2wWF5tKn3sjR3AyiTMH_1lBmpPFYl9gntjo",
+                        "type": "EcdsaSecp256r1Signature2019",
+                    }
+                };
+
+                let ibmURI = JSON.stringify(ibmW3C);
+                
                 drawsQR("qr-ibm-orig", ibmURI);
                 // Updates screen elements. 
                 e("qr-ibm-orig-result").innerHTML= ibmURI;

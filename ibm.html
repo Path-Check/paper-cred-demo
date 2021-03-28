@@ -208,7 +208,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function describe(qr) {
-                if (!(qr === undefined)) return "Data is too big to be stored in a QR";
+                if (qr === undefined) return "Data is too big to be stored in a QR";
                 return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
             }
 

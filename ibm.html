@@ -186,7 +186,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
                 let qrH = null;
                 try {
-                    let qrH = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                    qrH = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
                 } catch (err) {
                     console.error(err);
                 }

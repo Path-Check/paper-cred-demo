@@ -42,6 +42,7 @@
 
                     <h4>Credential</h4>
                     <table>
+                        <tr><td>Display</td><td><input id="qr-cred-type" type="text" placeholder="Liberty HealthPass"/></td></tr>
                         <tr><td>Display</td><td><input id="qr-cred-display" type="text" placeholder="#99999E"/></td></tr>
                         <tr><td>PassType</td><td><input id="qr-cred-passtype" type="text" placeholder="COVID-19 Vaccination"></td></tr>
                     </table>
@@ -61,6 +62,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
+                    <label for="pubkey">When ready, change to: <span class='pub-key'>ISSUER#key-1</span></label><br/>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
@@ -217,12 +219,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // PEM code of the private key
                 const priKeyPEM = e('privkey').value;
 
-                // Coupon QR
                 const fieldArray = [
                     "qr-pat-firstname", "qr-pat-lastname", "qr-pat-dob", 
                     "qr-cred-display", "qr-cred-passtype", 
-                    "qr-credschema-type", "qr-credschema-id",
-                    "qr-head-context", "qr-head-issuance-date", "qr-head-type", 
+                    "qr-credschema-id",
+                    "qr-head-issuance-date",
                     "qr-head-expiration-date", "qr-head-issuer", "qr-head-id"
                 ];
 
@@ -257,7 +258,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-pat-lastname").value = "Doe";
                 e("qr-pat-dob").value = "19810101";
 
-                //e("qr-cred-type").value = "Liberty HealthPass";
+                e("qr-cred-type").value = "Liberty HealthPass";
                 e("qr-cred-display").value = "#999999E";
                 e("qr-cred-passtype").value = "COVID-19 Vaccination";
                 e("qr-credschema-type").value = "JsonSchemaValidator2018";

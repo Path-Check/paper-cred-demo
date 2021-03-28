@@ -6,8 +6,8 @@
 
         <style>
             input {
-  width: 420px;
-}
+                width: 420px;
+            }
             </style>
 	</head>
 	<body>
@@ -147,7 +147,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
 		<script>
-            const params = { margin:0, width:520, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+            const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
             function e(elem) { return document.getElementById(elem); }
 
@@ -221,9 +221,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 const fieldArray = [
                     "qr-pat-firstname", "qr-pat-lastname", "qr-pat-dob", 
-                    "qr-cred-display", "qr-cred-passtype", 
-                    "qr-credschema-id",
-                    "qr-head-issuance-date",
+                    "qr-cred-display", "qr-cred-passtype", "qr-head-issuance-date",
                     "qr-head-expiration-date", "qr-head-issuer", "qr-head-id"
                 ];
 
@@ -252,7 +250,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-head-type").value = "VerifiableCredential";
                 e("qr-head-expiration-date").value = "20210328";
                 e("qr-head-issuer").value = "did:hpass:WOURRKQ6YKYPBVMKNSR6PSHLW2TDDS5SICFNL2HMVSU73NEO4S7Q:OIIAE2TJDDRSKDA5CCKGG3AKRHGAMRUM6MBLZYRBNYQMOVOQECWA";
-                e("qr-head-id").value = "ISSUER+#vc-SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS";
+                e("qr-head-id").value = "SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS";
 
                 e("qr-pat-firstname").value = "Jane";
                 e("qr-pat-lastname").value = "Doe";

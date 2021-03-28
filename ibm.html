@@ -251,7 +251,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         "display": e("qr-cred-display").value,
                         "passType": e("qr-cred-passtype").value,
                         "subject": {
-                            "birthDate": parse(e("qr-pat-dob").value).toJSON(),
+                            "birthDate": parse(e("qr-pat-dob").value).toJSON().substr(0,10),
                             "name": {
                                 "family": e("qr-pat-lastname").value,
                                 "given": e("qr-pat-firstname").value
@@ -262,14 +262,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     "proof": {
                         "created": parse(e("qr-head-issuance-date").value).toJSON(),
                         "creator": issuerHex + "#key-1",
-                        "nonce": "0b5eccfa-36c3-45ea-8c39-0894d7121797",
-                        "signatureValue": "MEUCIQCeawS4pV6o-3q6PPZAIcBiKKPMzy6sRMbBx_Y_KfImgwIgGwfHdbcR2wWF5tKn3sjR3AyiTMH_1lBmpPFYl9gntjo",
+                        "nonce": "SOME-LONG-UUID-THAT-LOOKS-LIKE-THIS",
+                        "signatureValue": "SOME-SUPER-SECURE-BUT-EXTREMELY-LONG-SIGNATURE-THAT-CONTAINS-AT-LEAST-THIS-MANY-CHARACTERS-IN-IT",
                         "type": "EcdsaSecp256r1Signature2019",
                     }
                 };
 
                 let ibmURI = JSON.stringify(ibmW3C);
-                
+
                 drawsQR("qr-ibm-orig", ibmURI);
                 // Updates screen elements. 
                 e("qr-ibm-orig-result").innerHTML= ibmURI;

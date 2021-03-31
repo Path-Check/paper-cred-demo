@@ -286,11 +286,11 @@ var PCF = {
                                      " (<a href='" + keyID.debugPath + "'>"+keyID.type+"</a>)" + "<br>" +
                                 "Fields: <br>";
 
-          const header = this.getPayloadHeader(type, version);  
+          const headers = this.getPayloadHeader(type, version);  
 
           // Decodes all fields
           decodedFields.forEach(function(field, index) {
-              formattedResult += "  "+header[index].replace(/^\w/, (c) => c.toUpperCase())+": <span class='message'>" + field + "</span><br>" 
+              formattedResult += "  "+headers[index].replace(/^\w/, (c) => c.toUpperCase())+": <span class='message'>" + field + "</span><br>" 
           });
 
           return formattedResult;
@@ -298,6 +298,38 @@ var PCF = {
           console.error(err);
           return "";
         }
+    },
+
+    getPayloadFields: function(payload){
+        const decodedFields = this.parsePayload(payload);
+        const headers = this.getPayloadHeader(type, version);  
+
+        let fields = {};
+        decodedFields.forEach(function(field, index) {
+            fields[headers[index]] = field;
+        });
+        return fields;
+    },
+
+    downloadKeyVerify: function(pubkeyURL, payload, signatureBase32NoPad) {
+      let keyID = this.getKeyId(pubKeyLink);
+      if (keyID !== null) {
+          let publicKeyPEM = this.getKeyId(pubKeyLink).key;
+          try{
+              let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
+              return verified;
+          } catch(err) {
+              return false;
+              console.error(err);
+          }
+      } else {
+          return null;
+      }
+    },
+
+    parseDownloadKeyVerify: function(uri) {
+        const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);  
+        return this.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
     },
 
     debugDownloadVerify: function(pubkeyURL, payload, signatureBase32NoPad) {

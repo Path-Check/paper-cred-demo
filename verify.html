@@ -9,15 +9,25 @@
             <div class="full-div">
                 <h1>Certificate Verifier</h1>
             
-                <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
-                <label for="verify">Or Paste the Code here:</label><br>
-                <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                <div id="pre-verify-section">
+                    <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
+                    <label for="verify">Or Paste the Code here:</label><br>
+                    <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+                    <div class="center-in-div"> 
+                        <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    </div>
+                </div>
+
                 <br><br>
-                <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
-                <br><br>
-                <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>signature</span>:<span class='pub-key'>pubkey</span>:<span class='message'>payload</span></pre>
-                <pre id="qr-verify-result"></pre>
-                <pre id="qr-verify-verified"></pre>
+
+                <div id=post-Verify>
+                    <div class="center-in-div"> 
+                        <canvas id="qr"></canvas><br/>
+                        <h2 id="qr-verify-name" style="text-align: center;"></h2>
+                        <h2 id="qr-verify-verified" style="text-align: center;"></h2>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -38,8 +48,44 @@
                 let qr = e("qr-verify").value;
                 let uri = qr.substring(qr.indexOf("CRED:"));
                 if (uri !== "" && uri != null) {
-                    e("qr-verify-result").innerHTML = PCF.debugParseURI(qr);
-                    e('qr-verify-verified').innerHTML = PCF.debugVerify(qr);
+                    e("pre-verify-section").style.display = 'none';
+
+                    let params = {margin:0, width:540, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    QRCode.toCanvas(e('qr'), uri, params, function (error) {});
+
+                    const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  
+                    const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
+                    if (result == null) {
+                        e('qr-verify-verified').innerHTML = "Unable to Verify";
+                    } else if (result) {
+                        e('qr-verify-verified').innerHTML = "Credential Verified";
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+
+                    const fields = PCF.getPayloadFields(payload);
+                    console.log(fields);
+
+                    if (type == 'BADGE') {
+                        e('qr-verify-name').innerHTML = "Badge for: " + fields['name'] + "<br>";
+                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                    }
+                    if (type == 'STATUS') {
+                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : "Not Vaccinated") + "<br />";
+                        e('qr-verify-name').innerHTML += "Initials: " + fields['initials'] + "<br>";
+                    }
+                    if (type == 'PASSKEY') {
+                        e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
+                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                    }
+                    if (type == 'PASSKEY') {
+                        e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
+                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                    }
+                    if (type == 'LIBERTY') {
+                        e('qr-verify-name').innerHTML = "Liberty Pass for: " + fields['firstName'] + " " + fields['lastName'] + "<br>";
+                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                    }
                 } else {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";
                 }

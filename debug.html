@@ -1,0 +1,92 @@
+<!doctype html>
+	<head>
+		<link rel="stylesheet" href="style.v2.css">
+        <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
+		<title>Certificate Verifier</title>
+	</head>
+	<body>
+        <div class="center2">
+            <div class="full-div">
+                <h1>Certificate Verifier</h1>
+            
+                <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
+                <label for="verify">Or Paste the Code here:</label><br>
+                <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                <br><br>
+                <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                <br><br>
+                <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>signature</span>:<span class='pub-key'>pubkey</span>:<span class='message'>payload</span></pre>
+                <pre id="qr-verify-result"></pre>
+                <pre id="qr-verify-verified"></pre>
+            </div>
+        </div>
+        
+        <script src="js/qrcode.min.js"></script>
+        
+        <script src="js/elliptic.min.js"></script>
+        <script src="js/sha256.js"></script>
+        <script src="js/asn1.min.js"></script>
+        <script src="js/base32.min.js"></script>
+        <script src="js/html5-qrcode.min.js"></script>
+
+        <script src="js/pcf.js"></script>
+
+		<script>
+            function e(elem) { return document.getElementById(elem); }
+
+            function verifyQRCode() {
+                let qr = e("qr-verify").value;
+                let uri = qr.substring(qr.indexOf("CRED:"));
+                if (uri !== "" && uri != null) {
+                    e("qr-verify-result").innerHTML = PCF.debugParseURI(uri);
+                    e('qr-verify-verified').innerHTML = PCF.debugVerify(uri);
+                } else {
+                    e('qr-verify-verified').innerHTML = "Certificate not found. ";
+                }
+            }
+
+            function onScanSuccess(qrMessage) {
+                if (qrMessage !== "" && qrMessage != null) {
+                    let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
+                    e("qr-verify").value = uri;
+                    verifyQRCode();
+                }
+            }
+
+            function onScanFailure(error) {
+                console.warn(`QR error = ${error}`);
+            }
+        </script>
+        
+        <script>
+            // Starting Scanner
+            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+
+            // Loading URI from qr parameter. 
+            const queryString = window.location.search;
+
+            const urlParams = new URLSearchParams(queryString);
+            const qr = urlParams.get('qr')
+
+            if (qr !== "" && qr != null) {
+                uri = qr.substring(qr.indexOf("CRED:"));
+
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);
+                decodedFields = payload.split('/');
+
+                // Making sure the fields have not been decoded by the browser. 
+                const encodedFields = decodedFields.map(function(field) {
+                    return encodeURIComponent(field);
+                })
+                
+                const decodedFieldsStr = encodedFields.join('/');
+
+                e("qr-verify").value = [schema, type, version, signatureBase32NoPad, pubKeyLink, decodedFieldsStr].join(":")
+                verifyQRCode();
+            }
+        </script>
+	</body>
+</html>
+
+

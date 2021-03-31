@@ -1,11 +1,11 @@
 <!doctype html>
 	<head>
-		<link rel="stylesheet" href="style.v2.css">
+		<link rel="stylesheet" href="style.verify.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Certificate Verifier</title>
 	</head>
 	<body>
-        <div class="center2">
+        <div class="center">
             <div class="full-div">
                 <h1>Certificate Verifier</h1>
             
@@ -21,8 +21,8 @@
 
                 <br><br>
 
-                <div id=post-Verify>
-                    <div class="center-in-div"> 
+                <div id="post-Verify">
+                    <div class="card center-in-div"> 
                         <canvas id="qr"></canvas><br/>
                         <h2 id="qr-verify-name" style="text-align: center;"></h2>
                         <h2 id="qr-verify-verified" style="text-align: center;"></h2>
@@ -50,7 +50,7 @@
                 if (uri !== "" && uri != null) {
                     e("pre-verify-section").style.display = 'none';
 
-                    let params = {margin:0, width:540, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:500, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {});
 
                     const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  

@@ -21,7 +21,7 @@
 
                 <br><br>
 
-                <div id="post-Verify">
+                <div id="post-verify-section" style="display: none;">
                     <div class="card center-in-div"> 
                         <canvas id="qr"></canvas><br/>
                         <h2 id="qr-verify-name" style="text-align: center;"></h2>
@@ -49,6 +49,7 @@
                 let uri = qr.substring(qr.indexOf("CRED:"));
                 if (uri !== "" && uri != null) {
                     e("pre-verify-section").style.display = 'none';
+                    e("post-verify-section").style.display = '';
 
                     let params = {margin:0, width:500, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {});

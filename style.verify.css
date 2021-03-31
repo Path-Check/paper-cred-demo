@@ -3,6 +3,10 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+h1 {
+  font-size: 3em;
+}
+
 .center {
   max-width: 600px;
   margin: 0 auto;
@@ -36,8 +40,8 @@ canvas {
 
 .qr-btn {
   background-color: #3654DD;
-  padding: 8px;
-  font-size: 20px;
+  padding: 10px 20px;
+  font-size: 25px;
   color: white;
   border: none;
   border-radius: 4px;

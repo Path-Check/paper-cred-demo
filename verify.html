@@ -24,8 +24,8 @@
                 <div id="post-verify-section" style="display: none;">
                     <div class="card center-in-div"> 
                         <canvas id="qr"></canvas><br/>
-                        <h2 id="qr-verify-name" style="text-align: center;"></h2>
-                        <h2 id="qr-verify-verified" style="text-align: center;"></h2>
+                        <h1 id="qr-verify-name" style="text-align: center;"></h1>
+                        <h1 id="qr-verify-verified" style="text-align: center;"></h1>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     e("pre-verify-section").style.display = 'none';
                     e("post-verify-section").style.display = '';
 
-                    let params = {margin:0, width:500, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:700, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {});
 
                     const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  

@@ -23,9 +23,10 @@
 
                 <div id="post-verify-section" style="display: none;">
                     <div class="card center-in-div"> 
-                        <canvas id="qr"></canvas><br/>
+                        <h1 id="qr-verify-title" style="text-align: center;"></h1>
+                        <canvas style="padding:0px 50px" id="qr"></canvas><br/>
                         <h1 id="qr-verify-name" style="text-align: center;"></h1>
-                        <h1 id="qr-verify-verified" style="text-align: center;"></h1>
+                        <h2 id="qr-verify-verified" style="text-align: center;"></h2>
                     </div>
                 </div>
             </div>
@@ -44,6 +45,16 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
+            const monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+
+            function parseDate(str) {
+                if(!/^(\d){8}$/.test(str)) return "invalid date";
+                var y = str.substr(0,4),
+                    m = str.substr(4,2),
+                    d = str.substr(6,2);
+                return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
+            }
+
             function verifyQRCode() {
                 let qr = e("qr-verify").value;
                 let uri = qr.substring(qr.indexOf("CRED:"));
@@ -51,41 +62,51 @@
                     e("pre-verify-section").style.display = 'none';
                     e("post-verify-section").style.display = '';
 
-                    let params = {margin:0, width:700, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
-                    QRCode.toCanvas(e('qr'), uri, params, function (error) {});
-
                     const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  
                     const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
+                    const fields = PCF.getPayloadFields(payload);
+
+                    let params = {margin:0, width:700, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    QRCode.toCanvas(e('qr'), uri, params, function (error) {
+                        if (result) {
+                            const imgDim={width:150,height:150}; //logo dimention
+                            var context = e('qr').getContext('2d');
+                            var imageObj = new Image();  
+                            imageObj.src = './img/ok-256.png';      
+                            imageObj.onload = function() {
+                                context.drawImage(imageObj, 
+                                e('qr').width / 2 - imgDim.width / 2 +1,
+                                e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                            }; 
+                        }
+                    });
+
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = "Credential Verified";
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + ' on ' + parseDate(fields['date']);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
-
-                    const fields = PCF.getPayloadFields(payload);
-                    console.log(fields);
-
+                    
                     if (type == 'BADGE') {
-                        e('qr-verify-name').innerHTML = "Badge for: " + fields['name'] + "<br>";
-                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                        e('qr-verify-name').innerHTML = fields['name'] + "<br>";
+                        e('qr-verify-name').innerHTML += parseDate(fields['dob']) + "<br>";
                     }
                     if (type == 'STATUS') {
+                        e('qr-verify-title').innerHTML = "COVID-19 Pass"
                         e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : "Not Vaccinated") + "<br />";
                         e('qr-verify-name').innerHTML += "Initials: " + fields['initials'] + "<br>";
                     }
                     if (type == 'PASSKEY') {
                         e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
-                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
-                    }
-                    if (type == 'PASSKEY') {
-                        e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
-                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                        e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dob']);
                     }
                     if (type == 'LIBERTY') {
-                        e('qr-verify-name').innerHTML = "Liberty Pass for: " + fields['firstName'] + " " + fields['lastName'] + "<br>";
-                        e('qr-verify-name').innerHTML += "DoB: " + fields['dob'];
+                        e('qr-verify-title').innerHTML = "COVID-19 Pass"
+                        e('qr-verify-name').innerHTML = fields['firstName'] + " " + fields['lastName'] + "<br>";
+                        e('qr-verify-name').innerHTML += fields['dob'];
                     }
                 } else {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";

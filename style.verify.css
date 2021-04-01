@@ -12,6 +12,10 @@ h1 {
   margin: 0 auto;
 }
 
+.green {
+  color: #0F7F12;
+}
+
 .center-in-div {
   margin: 0;
   position: absolute;

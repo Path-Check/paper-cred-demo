@@ -124,6 +124,18 @@
             function onScanFailure(error) {
                 console.warn(`QR error = ${error}`);
             }
+
+            function getQueryVariable(variable) {
+                var query = window.location.search.substring(1);
+                var vars = query.split('&');
+                for (var i = 0; i < vars.length; i++) {
+                    var pair = vars[i].split('=');
+                    if (pair[0] == variable) {
+                        return pair[1];
+                    }
+                }
+                console.log('Query variable %s not found', variable);
+            }
         </script>
         
         <script>
@@ -134,23 +146,14 @@
             // Loading URI from qr parameter. 
             const queryString = window.location.search;
 
-            const urlParams = new URLSearchParams(queryString);
-            const qr = urlParams.get('qr')
+            const qr = getQueryVariable("qr")
 
             if (qr !== "" && qr != null) {
                 uri = qr.substring(qr.indexOf("CRED:"));
 
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);
-                decodedFields = payload.split('/');
+                console.log(uri);
 
-                // Making sure the fields have not been decoded by the browser. 
-                const encodedFields = decodedFields.map(function(field) {
-                    return encodeURIComponent(field);
-                })
-                
-                const decodedFieldsStr = encodedFields.join('/');
-
-                e("qr-verify").value = [schema, type, version, signatureBase32NoPad, pubKeyLink, decodedFieldsStr].join(":")
+                e("qr-verify").value = uri;
                 verifyQRCode();
             }
         </script>

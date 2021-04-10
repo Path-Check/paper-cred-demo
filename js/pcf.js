@@ -225,9 +225,13 @@ var PCF = {
             const jsonResponse = this.getJSON("https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT');
             if (jsonResponse.Answer) {
                 const pubKeyTxtLookup = jsonResponse.Answer[0].data
-                const noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
+                let noQuotes = pubKeyTxtLookup.substring(1, pubKeyTxtLookup.length - 1).replaceAll("\\n","\n");
                     
-                if (noQuotes) {   
+                if (noQuotes) {  
+                    if (!noQuotes.includes("-----BEGIN PUBLIC KEY-----")) {
+                        noQuotes = "-----BEGIN PUBLIC KEY-----" + "\n" + noQuotes + "\n" + "-----END PUBLIC KEY-----\n"
+                    } 
+
                     this.localPubKeyDB[pubkeyURL] = { type: "DNS", key: noQuotes, debugPath: "https://dns.google/resolve?name=" + pubkeyURL + '&type=TXT'};
                     return this.localPubKeyDB[pubkeyURL];
                 }

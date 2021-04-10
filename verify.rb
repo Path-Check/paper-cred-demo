@@ -25,7 +25,11 @@ end
 def download(pub_key_link)
   Resolv::DNS.open do |dns|
     resource = dns.getresource(pub_key_link, Resolv::DNS::Resource::IN::TXT)
-    return resource.data.split('\n').join("\n")
+    key = resource.data.split('\n').join("\n")
+    unless key.include? '-----BEGIN PUBLIC KEY-----'
+      key = "-----BEGIN PUBLIC KEY-----\n#{key}\n-----END PUBLIC KEY-----\n"
+    end
+    return key
   end
   nil
 end

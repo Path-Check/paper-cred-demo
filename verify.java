@@ -39,7 +39,11 @@ public class verify {
     Attributes attrs = dirContext.getAttributes(pubKeyLink, new String[] { "TXT" });
     Attribute txt = attrs.get("TXT");
     String e = txt.get(0).toString();
-    return e.replaceAll("\"","").replaceAll("\\\\n", "n").replaceAll("\\\\n", "\n");
+    String key = e.replaceAll("\"","").replaceAll("\\\\n", "n").replaceAll("\\\\n", "\n");
+    if (!key.contains("-----BEGIN PUBLIC KEY-----")) {
+      key = "-----BEGIN PUBLIC KEY-----" + "\n" + key + "\n" + "-----END PUBLIC KEY-----\n";
+    }
+    return key;
   }
 
   public static PrivateKey getPrivateKey() throws Exception {

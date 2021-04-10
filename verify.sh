@@ -35,6 +35,10 @@ parseAndVerifyQR () {
   local pubKeyNewLine=${pubkey//\\n/\n}
   local pubKeyNoQuotes=${pubKeyNewLine//\"/}
   
+  if [[ ! $pubKeyNoQuotes == "-----BEGIN PUBLIC KEY-----"* ]]; then
+    pubKeyNoQuotes=$(echo -n "-----BEGIN PUBLIC KEY-----\n"$pubKeyNoQuotes"\n-----END PUBLIC KEY-----\n")
+  fi
+
   echo $pubKeyNoQuotes > /tmp/pubkey.pem
 
   # Verifying

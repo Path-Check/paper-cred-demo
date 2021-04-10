@@ -24,7 +24,10 @@ def parseQR(qr):
   return qr.split(':')
 
 def download(pubKeyLink):
-  return dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n")
+  key = dns.resolver.resolve(pubKeyLink, 'TXT')[0].strings[0].decode("utf-8").replace("\\n","\n");
+  if ("-----BEGIN PUBLIC KEY-----" not in key):
+    key = "-----BEGIN PUBLIC KEY-----" + "\n" + key + "\n" + "-----END PUBLIC KEY-----\n"
+  return key
 
 def parseAndVerifyQR(qr): 
   [schema, qrtype, version, signatureBase32NoPad, pubKeyLink, payload] = parseQR(qr)

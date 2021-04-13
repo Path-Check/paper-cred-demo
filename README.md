@@ -83,7 +83,8 @@ Clone this Repository
 git clone https://github.com/Path-Check/paper-cred-demo
 ```
 
+and run with
 ```
-javac -classpath commons-codec-1.15.jar verify.java 
-java -classpath commons-codec-1.15.jar:. verify
+javac -classpath libs/commons-codec-1.15.jar verify.java 
+java -classpath libs/commons-codec-1.15.jar:. verify
 ```

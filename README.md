@@ -1,27 +1,13 @@
-# Signed Vaccine Certificate Generator
+# Paper-first Verifiable Credentials URI Demos
 
-JavaScipt-based web app to generate a Vaccine Certification in a alphanumeric QR Code that is signed by the Health Provider. 
-
-Users can distribute their certificates to prove they have been vaccinated and are free of COVID-19. 
-
-The complete specification documentation is [here](https://github.com/Path-Check/paper-cred)
+This repository includes a set of demos to sign and verify QR-based credentials created with the PathCheck Foundation URI specification: [here](https://github.com/Path-Check/paper-cred). Demos are available for multiple payloads in HTML+JavaScript and minimum implementations in Ruby, Java, Python and Shell Script. 
 
 <img src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png"/>
 
-## Certificate Specification
+# Try it out!
 
-The certificate is the signed record that prove a patient name has taken a vaccine. It follows the format of [paper-creds](https://github.com/Path-Check/paper-cred): 
-
-```
-cred:type:version:signature:publicKeyId:payload
-```
-
-Example:
-
-```
-CRED:BADGE:1:GBCAEIBOFEBIZUXYC2D6EYOBJURKOQ5KQ3F4YLAUBMO3MY52E6QSVNMIAQBCAOTWMM5VZTWW3USVQLNCNNNAGXJ4PW3JYKL6TWMKZXDJA5E2CPPC:PCF.VITORPAMPLONA.COM:20210303/MODERNA/COVID-19/012L20A/28/TCXRTFWS4NAADDA5N76GOUIYUP54BCY5DLYUVU2YIISKVKNTR7VA/C28161/RA/500
-````
-
-## Try it out!
-
-This webapp has been deployed [here](https://vitorpamplona.com/vaccine-certificate-qrcode-generator/). 
+* [Signer and Verifiers in HTML/JavaScript](https://github.pathcheck.org/index.html)
+* [Signer and Verifier Snippet in Python](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.py)
+* [Signer and Verifier Snippet in Ruby](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.rb)
+* [Signer and Verifier Snippet in Java](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.java)
+* [Signer and Verifier Snippet in zSh Script](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.sh)

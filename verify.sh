@@ -48,7 +48,7 @@ parseAndVerifyQR () {
 }
 
 signAndFormatQR () {
-  local signatureBase32=$(echo -n $5 | openssl dgst -sign ecdsa_private_key | base32 --wrap=0 | sed s/=//g)
+  local signatureBase32=$(echo -n $5 | openssl dgst -sign keys/ecdsa_private_key | base32 --wrap=0 | sed s/=//g)
 
   newQR=$(echo "$1:$2:$3:$signatureBase32:$4:$5")
 }

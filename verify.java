@@ -49,7 +49,7 @@ public class verify {
   public static PrivateKey getPrivateKey() throws Exception {
     KeyFactory kf = KeyFactory.getInstance("EC");
 
-    String privKeyPEM = new String(Files.readAllBytes(Paths.get("ecdsa_private_key8.pem")));
+    String privKeyPEM = new String(Files.readAllBytes(Paths.get("keys/ecdsa_private_key8.pem")));
     privKeyPEM = privKeyPEM.replaceAll("\\n", "")
                            .replace("-----BEGIN PRIVATE KEY-----", "")
                            .replace("-----END PRIVATE KEY-----", "");

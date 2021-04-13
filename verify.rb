@@ -75,7 +75,7 @@ puts 'Resigning same payload'
 puts ''
 
 (schema, qrtype, version, _, pub_key_link, payload) = uri.split(/:/)
-sk = OpenSSL::PKey::EC.new(File.read('ecdsa_private_key'))
+sk = OpenSSL::PKey::EC.new(File.read('keys/ecdsa_private_key'))
 new_qr = sign_and_format_qr(sk, schema, qrtype, version, pub_key_link, payload)
 
 puts "New QR Signed\t #{new_qr}"

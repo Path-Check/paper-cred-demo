@@ -69,7 +69,7 @@ print("Resigning same payload")
 print("")
 
 # Loading private key
-with open("ecdsa_private_key") as f:
+with open("keys/ecdsa_private_key") as f:
   sk = SigningKey.from_pem(f.read())
 
 [schema, qrtype, version, _, pubKeyLink, payload] = parseQR(qr)

@@ -84,7 +84,7 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + ' on ' + parseDate(fields['date']);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
@@ -107,6 +107,11 @@
                         e('qr-verify-title').innerHTML = "COVID-19 Pass"
                         e('qr-verify-name').innerHTML = fields['firstName'] + " " + fields['lastName'] + "<br>";
                         e('qr-verify-name').innerHTML += fields['dob'];
+                    }
+                    if (type == 'COWIN') {
+                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                        e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
+                        e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
                     }
                 } else {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";

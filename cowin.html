@@ -174,7 +174,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..mJlHZZRD7VQwVJchfI21ZavjxNKglbf3LSaF1SAjELOWn9MARALkugsmOzG0mBon9R7zXSVPkPM8EDbUZxR4FsRlAFFszFv-0BjyAeIqRv-9MRnlm4cScQi8aCBgBnvsWfNIE175cGNbPUluVv5n6G66tVinioL5IL6uCZNQnSGp4jJrEAZa0t5s3jXfq7soHz1LTfQbLs7cH5-fDi3JW1-WeF4_ELy_9l_OxAc2CoACqYLOLJB-NnPsnz2bwAvH8yXHsjZJphzaBNqpn8DmJvcRHzhz7OjpGfhyouiOyGo_XncadFmftqwfilJkC1EISkSb6QVsyhHLOudY4PTTaA"
     }
 }</pre>
-                    <pre id="qr-divoc-orig-result-non-zipped" style="display: none;"></pre>
                     <pre id="qr-divoc-orig-verified"></pre>
                     <pre id="qr-divoc-orig-bytes"></pre>
                 </div>
@@ -241,16 +240,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 let qrQ = null;
                 try {
-                    let qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                    qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
                 } catch (err) {
-                    console.error(err);
+                    console.error("Q " + err);
                 }
                 
                 let qrH = null;
                 try {
                     qrH = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
                 } catch (err) {
-                    console.error(err);
+                    console.error("H " + err);
                 }
                 let qrM = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
                 let qrL = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
@@ -375,14 +374,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 });
             
                 zip.generateAsync({type: "binarystring"}).then(function (bin) {
-                    console.log(bin);  
                     drawsQR("qr-divoc-orig", bin);
                     e("qr-divoc-orig-result").innerHTML= bin;
                 });
 
-                e("qr-divoc-orig-result-non-zipped").innerHTML= cert;
-
-                e("qr-divoc-orig-result-non-zipped").style.display='block';
+                e("qr-divoc-orig-result").setAttribute('data-title', cert);
                 e("qr-divoc-orig-code").style.display='block';
                 e("qr-divoc-orig-result").style.display='block';
                 e("qr-divoc-orig-bytes").style.display='block';

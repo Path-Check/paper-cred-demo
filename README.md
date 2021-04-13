@@ -1,13 +1,89 @@
 # Paper-first Verifiable Credentials URI Demos
 
-This repository includes a set of demos to sign and verify QR-based credentials created with the PathCheck Foundation URI specification: [here](https://github.com/Path-Check/paper-cred). Demos are available for multiple payloads in HTML+JavaScript and minimum implementations in Ruby, Java, Python and Shell Script. 
+This repository hosts a set of demos to sign and verify QR-based credentials created with the [PathCheck's URI specification](https://github.com/Path-Check/paper-cred) in multiple languages. Demos are available for in HTML+JavaScript, Ruby, Java, Python and Shell Script, computing locally. 
 
 <img src="./docs/QRCodeGenerator.png" data-canonical-src="./docs/QRCodeGenerator.png"/>
 
 # Try it out!
 
 * [Signer and Verifiers in HTML/JavaScript](https://github.pathcheck.org/index.html)
-* [Signer and Verifier Snippet in Python](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.py)
-* [Signer and Verifier Snippet in Ruby](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.rb)
-* [Signer and Verifier Snippet in Java](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.java)
-* [Signer and Verifier Snippet in zSh Script](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.sh)
+
+# Run locally: 
+
+The following scripts cryptographically sign and verify hardcoded payload you will find in the code. 
+
+## Python 
+
+See it [here](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.py). 
+
+Clone this Repository
+```
+git clone https://github.com/Path-Check/paper-cred-demo
+```
+
+Install the dependencies: 
+
+```
+pip3 install ecdsa
+pip3 install dnspython
+```
+
+and run with
+
+```
+python verify.py
+```
+
+# Ruby
+
+See it [here](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.rb). 
+
+Clone this Repository
+```
+git clone https://github.com/Path-Check/paper-cred-demo
+```
+
+Install the dependencies: 
+
+```
+gem install base32
+```
+
+and run with
+
+```
+ruby verify.rb
+```
+
+# Shell Script
+
+See it [here](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.sh). 
+
+Clone this Repository
+```
+git clone https://github.com/Path-Check/paper-cred-demo
+```
+
+Give permissions:  
+```
+chmod 777 verify.sh
+```
+
+and run with
+```
+./verify.sh
+```
+
+# Java
+
+See it [here](https://github.com/Path-Check/paper-cred-demo/blob/main/verify.java). 
+
+Clone this Repository
+```
+git clone https://github.com/Path-Check/paper-cred-demo
+```
+
+```
+javac -classpath commons-codec-1.15.jar verify.java 
+java -classpath commons-codec-1.15.jar:. verify
+```

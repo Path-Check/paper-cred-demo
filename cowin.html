@@ -88,7 +88,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
-                    <label for="pubkey">When ready, change to: <span class='pub-key'>ISSUER#key-1</span></label><br/>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
@@ -98,7 +97,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             <div class="four-quarter">
                 <br><br>
                 <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Certificates</button>
+                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
                 </div>
                 <br><br>
             </div>
@@ -175,6 +174,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..mJlHZZRD7VQwVJchfI21ZavjxNKglbf3LSaF1SAjELOWn9MARALkugsmOzG0mBon9R7zXSVPkPM8EDbUZxR4FsRlAFFszFv-0BjyAeIqRv-9MRnlm4cScQi8aCBgBnvsWfNIE175cGNbPUluVv5n6G66tVinioL5IL6uCZNQnSGp4jJrEAZa0t5s3jXfq7soHz1LTfQbLs7cH5-fDi3JW1-WeF4_ELy_9l_OxAc2CoACqYLOLJB-NnPsnz2bwAvH8yXHsjZJphzaBNqpn8DmJvcRHzhz7OjpGfhyouiOyGo_XncadFmftqwfilJkC1EISkSb6QVsyhHLOudY4PTTaA"
     }
 }</pre>
+                    <pre id="qr-divoc-orig-result-non-zipped" style="display: none;"></pre>
                     <pre id="qr-divoc-orig-verified"></pre>
                     <pre id="qr-divoc-orig-bytes"></pre>
                 </div>
@@ -282,37 +282,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 return new Date(y,m,d);
             }
 
-            // Convert a hex string to a byte array
-            function hexToBytes(hex) {
-                for (var bytes = [], c = 0; c < hex.length; c += 2)
-                bytes.push(parseInt(hex.substr(c, 2), 16));
-                return bytes;
-            }
-
-            // Convert a byte array to a hex string
-            function bytesToHex(bytes) {
-                for (var hex = [], i = 0; i < bytes.length; i++) {
-                    var current = bytes[i] < 0 ? bytes[i] + 256 : bytes[i];
-                    hex.push((current >>> 4).toString(16));
-                    hex.push((current & 0xF).toString(16));
-                }
-                return hex.join("");
-            }
-
-            function didHexToBase32(did) {
-                [did, schema, one, two] = did.split(":");
-                oneB32 = PCF.rmPad(base32.encode(hexToBytes(one)));
-                twoB32 = PCF.rmPad(base32.encode(hexToBytes(two)));
-                return [did, schema, oneB32, twoB32].join(":");
-            }
-
-            function didBase32ToHex(did) {
-                [did, schema, one, two] = did.split(":");
-                oneHex = bytesToHex(base32.decode.asBytes(PCF.pad(one)));
-                twoHex = bytesToHex(base32.decode.asBytes(PCF.pad(two)));
-                return [did, schema, oneHex, twoHex].join(":");
-            }
-
             function generateQRCodes() {
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
@@ -332,8 +301,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 signAndDisplayQR("qr-divoc", "cowin", "1", priKeyPEM, pubKeyLink, getValueArray(fieldArray));
 
                 let divocW3C = { 
-                    "@context": "["+e("qr-head-context").value+"]",
-                    "type": "["+e("qr-head-type").value+"]",
+                    "@context": [e("qr-head-context").value.split(', ')],
+                    "type": [e("qr-head-type").value.split(', ')],
                     "issuer": e("qr-head-issuer").value,
                     "issuanceDate":  parse(e("qr-head-issuance-date").value).toJSON(),
                     "nonTransferable": e("qr-head-nontransfer").value,
@@ -411,6 +380,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e("qr-divoc-orig-result").innerHTML= bin;
                 });
 
+                e("qr-divoc-orig-result-non-zipped").innerHTML= cert;
+
+                e("qr-divoc-orig-result-non-zipped").style.display='block';
                 e("qr-divoc-orig-code").style.display='block';
                 e("qr-divoc-orig-result").style.display='block';
                 e("qr-divoc-orig-bytes").style.display='block';

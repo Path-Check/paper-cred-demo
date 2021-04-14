@@ -32,6 +32,8 @@
         <script src="js/pcf.js"></script>
 
 		<script>
+            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+
             function e(elem) { return document.getElementById(elem); }
 
             function verifyQRCode() {
@@ -51,6 +53,8 @@
                     e("qr-verify").value = uri;
                     verifyQRCode();
                 }
+
+                html5QrcodeScanner.clear();
             }
 
             function onScanFailure(error) {
@@ -60,7 +64,6 @@
         
         <script>
             // Starting Scanner
-            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
             // Loading URI from qr parameter. 

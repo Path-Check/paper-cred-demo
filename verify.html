@@ -105,8 +105,8 @@
                     }
                     if (type == 'LIBERTY') {
                         e('qr-verify-title').innerHTML = "COVID-19 Pass"
-                        e('qr-verify-name').innerHTML = fields['firstName'] + " " + fields['lastName'] + "<br>";
-                        e('qr-verify-name').innerHTML += fields['dob'];
+                        e('qr-verify-name').innerHTML = fields['credentialSubject.subject.name.given'] + " " + fields['credentialSubject.subject.name.family'] + "<br>";
+                        e('qr-verify-name').innerHTML += fields['credentialSubject.subject.birthDate'];
                     }
                     if (type == 'COWIN') {
                         e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"

@@ -42,6 +42,18 @@
 
         <script src="js/pcf.js"></script>
 
+        <script src="js/jszip.min.js"></script>        
+        <script src="js/DIVOC/jsonld-signatures.min.js"></script>
+        <script src="js/DIVOC/crypto-ld.min.js"></script>
+        <script src="js/DIVOC/jsonld.js"></script>
+        <script src="js/DIVOC/rsa-signature-2018.min.js"></script>
+        <script src="js/DIVOC/VaccinationContext.js"></script>
+        <script src="js/DIVOC/security-context.min.js"></script>
+        <script src="js/DIVOC/Credentials.js"></script>
+        <script src="js/DIVOC/forge.js"></script>
+        <script src="js/DIVOC/RSAKeyPair.js"></script>
+        <script src="js/DIVOC/divoc.js"></script>
+
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
@@ -55,10 +67,16 @@
                 return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
             }
 
+
+            function parseISODate(str) {
+                const d = new Date(str);
+                return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
+            }
+
             function verifyQRCode() {
                 let qr = e("qr-verify").value;
                 let uri = qr.substring(qr.indexOf("CRED:"));
-                if (uri !== "" && uri != null) {
+                if (uri !== "" && uri != null && uri.startsWith("CRED:")) {
                     e("pre-verify-section").style.display = 'none';
                     e("post-verify-section").style.display = '';
 
@@ -113,6 +131,47 @@
                         e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
                         e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
                     }
+                } else if (uri !== "" && uri != null && uri.startsWith("{")) {
+                    let json = '';
+                    
+                    if (uri.includes("%22")) {
+                        json = JSON.parse(decodeURIComponent(uri))
+                    } else {
+                        json = JSON.parse(uri);
+                    }
+
+                    DIVOC.verify(json).then(result => {
+                        let params = {margin:0, width:700, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                        QRCode.toCanvas(e('qr'), uri, params, function (error) {
+                            if (result) {
+                                const imgDim={width:150,height:150}; //logo dimention
+                                var context = e('qr').getContext('2d');
+                                var imageObj = new Image();  
+                                imageObj.src = './img/ok-256.png';      
+                                imageObj.onload = function() {
+                                    context.drawImage(imageObj, 
+                                    e('qr').width / 2 - imgDim.width / 2 +1,
+                                    e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                                }; 
+                            }
+                        });
+                        console.log(json);
+
+                        if (result == null) {
+                            e('qr-verify-verified').innerHTML = "Unable to Verify";
+                        } else if (result) {
+                            e('qr-verify-verified').innerHTML = 'Signed by ' + json.evidence[0].facility.name + ' on ' + parseISODate(json.issuanceDate);
+                        } else {
+                            e('qr-verify-verified').innerHTML = "Credential Invalid";
+                        }
+
+                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                        e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
+                        e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
+                    });
+
+                    e("pre-verify-section").style.display = 'none';
+                    e("post-verify-section").style.display = '';
                 } else {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";
                 }

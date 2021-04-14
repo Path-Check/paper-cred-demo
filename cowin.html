@@ -199,6 +199,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
         <script src="js/jszip.min.js"></script>
+        
+        <script src="js/DIVOC/jsonld-signatures.min.js"></script>
+        <script src="js/DIVOC/crypto-ld.min.js"></script>
+        <script src="js/DIVOC/jsonld.js"></script>
+        <script src="js/DIVOC/rsa-signature-2018.min.js"></script>
+        <script src="js/DIVOC/VaccinationContext.js"></script>
+        <script src="js/DIVOC/security-context.min.js"></script>
+        <script src="js/DIVOC/Credentials.js"></script>
+        <script src="js/DIVOC/forge.js"></script>
+        <script src="js/DIVOC/RSAKeyPair.js"></script>
+        <script src="js/DIVOC/divoc.js"></script>
 
 		<script>
             const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
@@ -300,8 +311,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 signAndDisplayQR("qr-divoc", "cowin", "1", priKeyPEM, pubKeyLink, getValueArray(fieldArray));
 
                 let divocW3C = { 
-                    "@context": [e("qr-head-context").value.split(', ')],
-                    "type": [e("qr-head-type").value.split(', ')],
+                    "@context": e("qr-head-context").value.split(', '),
+                    "type": e("qr-head-type").value.split(', '),
                     "issuer": e("qr-head-issuer").value,
                     "issuanceDate":  parse(e("qr-head-issuance-date").value).toJSON(),
                     "nonTransferable": e("qr-head-nontransfer").value,
@@ -353,32 +364,33 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                 }
                             }
                         }
-                    ],
-                    "proof": {
-                        "type": "RsaSignature2018",
-                        "created": parse(e("qr-head-issuance-date").value).toJSON(),
-                        "verificationMethod": "did:india",
-                        "proofPurpose": "assertionMethod",
-                        "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..mJlHZZRD7VQwVJchfI21ZavjxNKglbf3LSaF1SAjELOWn9MARALkugsmOzG0mBon9R7zXSVPkPM8EDbUZxR4FsRlAFFszFv-0BjyAeIqRv-9MRnlm4cScQi8aCBgBnvsWfNIE175cGNbPUluVv5n6G66tVinioL5IL6uCZNQnSGp4jJrEAZa0t5s3jXfq7soHz1LTfQbLs7cH5-fDi3JW1-WeF4_ELy_9l_OxAc2CoACqYLOLJB-NnPsnz2bwAvH8yXHsjZJphzaBNqpn8DmJvcRHzhz7OjpGfhyouiOyGo_XncadFmftqwfilJkC1EISkSb6QVsyhHLOudY4PTTaA"
-                    }
+                    ]
                 };    
 
-                let cert = JSON.stringify(divocW3C);
-                var zip = new JSZip();
+                DIVOC.sign(divocW3C).then(signed => {
+                    let cert = JSON.stringify(signed);
+                    console.log(cert);
+                    var zip = new JSZip();
 
-                zip.file("certificate.json", cert, {
-                    compression: "DEFLATE",
-                    compressionOptions: {
-                        level: 9
-                    }
-                });
-            
-                zip.generateAsync({type: "binarystring"}).then(function (bin) {
-                    drawsQR("qr-divoc-orig", bin);
-                    e("qr-divoc-orig-result").innerHTML= bin;
-                });
+                    zip.file("certificate.json", cert, {
+                        compression: "DEFLATE",
+                        compressionOptions: {
+                            level: 9
+                        }
+                    });
+                
+                    zip.generateAsync({type: "binarystring"}).then(function (bin) {
+                        drawsQR("qr-divoc-orig", bin);
+                        e("qr-divoc-orig-result").innerHTML= bin;
+                    });
 
-                e("qr-divoc-orig-result").setAttribute('data-title', cert);
+                    e("qr-divoc-orig-result").setAttribute('data-title', cert);
+
+                    DIVOC.verify(signed).then(verified => {
+                        e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                    });
+                });
+                
                 e("qr-divoc-orig-code").style.display='block';
                 e("qr-divoc-orig-result").style.display='block';
                 e("qr-divoc-orig-bytes").style.display='block';

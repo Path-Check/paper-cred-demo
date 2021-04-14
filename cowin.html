@@ -198,8 +198,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/base32.min.js"></script>
         <script src="js/pcf.js"></script>
 
-        <script src="js/jszip.min.js"></script>
-        
+        <script src="js/jszip.min.js"></script>        
         <script src="js/DIVOC/jsonld-signatures.min.js"></script>
         <script src="js/DIVOC/crypto-ld.min.js"></script>
         <script src="js/DIVOC/jsonld.js"></script>
@@ -289,7 +288,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 var y = str.substr(0,4),
                     m = str.substr(4,2),
                     d = str.substr(6,2);
-                return new Date(y,m,d);
+                return new Date(y,m-1,d);
             }
 
             function generateQRCodes() {

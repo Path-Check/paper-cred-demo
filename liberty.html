@@ -216,7 +216,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 var y = str.substr(0,4),
                     m = str.substr(4,2),
                     d = str.substr(6,2);
-                return new Date(y,m,d);
+                return new Date(y,m-1,d);
             }
 
             // Convert a hex string to a byte array

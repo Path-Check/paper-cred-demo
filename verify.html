@@ -57,6 +57,8 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
+            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+            
             const monthNames = [ " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
             function parseDate(str) {
@@ -133,7 +135,7 @@
                     }
                 } else if (uri !== "" && uri != null && uri.startsWith("{")) {
                     let json = '';
-                    
+
                     if (uri.includes("%22")) {
                         json = JSON.parse(decodeURIComponent(uri))
                     } else {
@@ -183,6 +185,7 @@
                     e("qr-verify").value = uri;
                     verifyQRCode();
                 }
+                html5QrcodeScanner.clear();
             }
 
             function onScanFailure(error) {
@@ -204,7 +207,6 @@
         
         <script>
             // Starting Scanner
-            let html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
             html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
             // Loading URI from qr parameter. 

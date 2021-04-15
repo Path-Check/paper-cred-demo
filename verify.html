@@ -124,7 +124,7 @@
                     }
                 } else if (uri !== "" && uri != null && (uri.startsWith("{") || uri.startsWith("PK"))) {
                     if (uri.startsWith("PK")) {
-                        uri = unZipVerifyDisplayDIVOC(uri);
+                        unZipVerifyDisplayDIVOC(uri);
                     } else {
                         // Make sure it's not encoded. 
                         let json = '';
@@ -148,31 +148,41 @@
                     return contents.files["certificate.json"].async('text')
                 }).then(function (contents) {
                     console.log(contents);
-                    verifyDisplayDIVOC(contents);
+                    verifyDisplayDIVOC(JSON.parse(contents));
                 }).catch(err => {
                         console.log(err);
                     }
                 );
-                return uri;
             }
 
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
                     let params = {margin:0, width:700, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
-                    QRCode.toCanvas(e('qr'), json, params, function (error) {
-                        if (result) {
-                            const imgDim={width:150,height:150}; //logo dimention
-                            var context = e('qr').getContext('2d');
-                            var imageObj = new Image();  
-                            imageObj.src = './img/ok-256.png';      
-                            imageObj.onload = function() {
-                                context.drawImage(imageObj, 
-                                e('qr').width / 2 - imgDim.width / 2 +1,
-                                e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                            }; 
+
+                    var zip = new JSZip();
+
+                    zip.file("certificate.json", JSON.stringify(json), {
+                        compression: "DEFLATE",
+                        compressionOptions: {
+                            level: 9
                         }
                     });
-                    console.log(json);
+                
+                    zip.generateAsync({type: "binarystring"}).then(function (bin) {
+                        QRCode.toCanvas(e('qr'), bin, params, function (error) {
+                            if (result) {
+                                const imgDim={width:150,height:150}; //logo dimention
+                                var context = e('qr').getContext('2d');
+                                var imageObj = new Image();  
+                                imageObj.src = './img/ok-256.png';      
+                                imageObj.onload = function() {
+                                    context.drawImage(imageObj, 
+                                    e('qr').width / 2 - imgDim.width / 2 +1,
+                                    e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                                }; 
+                            }
+                        });
+                    });
 
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";

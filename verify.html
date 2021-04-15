@@ -17,6 +17,7 @@
                     <div class="center-in-div"> 
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
+                    <video id="preview"></video>
                 </div>
 
                 <br><br>
@@ -43,6 +44,8 @@
         <script src="js/pcf.js"></script>
         <script src="js/jszip.min.js"></script>        
         <script src="js/divoc.min.js"></script>
+
+        <script type="text/javascript" src="js/instascan.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -245,6 +248,22 @@
                 e("qr-verify").value = uri;
                 verifyQRCode();
             }
+        </script>
+
+        <script type="text/javascript">
+            let scanner = new Instascan.Scanner({ video: e('preview') });
+            scanner.addListener('scan', function (content) {
+                console.log(content);
+            });
+            Instascan.Camera.getCameras().then(function (cameras) {
+                if (cameras.length > 0) {
+                    scanner.start(cameras[0]);
+                } else {
+                    console.error('No cameras found.');
+                }
+            }).catch(function (e) {
+                console.error(e);
+            });
         </script>
 	</body>
 </html>

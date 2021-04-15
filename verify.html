@@ -136,7 +136,7 @@
                     if (type == 'STATUS') {
                         e('qr-verify-title').innerHTML = "COVID-19 Pass"
                         e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : fields['status'] === '1' ? "One Dose" : "Not Vaccinated") + "<br />";
-                        e('qr-verify-name').innerHTML += "Initials: " + fields['initials'] + "<br>";
+                        e('qr-verify-name').innerHTML += (fields['initials'] ? "Initials: " + fields['initials'] : "Key: " +  short(fields['passkey']))  + "<br>";
                     }
                     if (type == 'PASSKEY') {
                         e('qr-verify-title').innerHTML = "COVID-19 PassKey"

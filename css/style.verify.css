@@ -58,7 +58,7 @@ canvas {
   position:relative;
   float:left;
   min-width: 200px;
-  padding-right: 20px;
+  margin-right: 20px;
 }
 
 #preview {

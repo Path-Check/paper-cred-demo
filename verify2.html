@@ -271,18 +271,23 @@
             }
 
             Instascan.Camera.getCameras().then(function (cameras) {
+                console.log(cameras);
                 cameras.forEach(function(camera, index) {
                     console.log(camera);
+                    
                     let newInput = document.createElement("input");
                     newInput.setAttribute('class',"selectopt");
                     newInput.setAttribute('name',"test");
                     newInput.setAttribute('type',"radio");
-                    newInput.setAttribute('id',"opt"+camera.id);
-                    newInput.setAttribute('checked',true);
+                    newInput.setAttribute('id',"opt"+index);
+                    
+                    if (index == 0)
+                        newInput.setAttribute('checked',true);
+                    
                     e('cameras').appendChild(newInput);
 
                     newInput = document.createElement("label");
-                    newInput.setAttribute('for',"opt"+camera.id);
+                    newInput.setAttribute('for',"opt"+index);
                     newInput.setAttribute('class',"option");
                     newInput.innerHTML = camera.name;
                     e('cameras').appendChild(newInput);

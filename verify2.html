@@ -10,12 +10,10 @@
                 <div id="pre-verify-section">
                     <h1>Certificate Verifier</h1>
                     
-                    <div class="center-in-div"> 
-                        <div class="select" tabindex="1" id="cameras">
-                        </div>
-                        <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
-                    </div>
-                    <br><br><br><br>
+                    <div class="select" tabindex="1" id="cameras"></div>
+                    <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
+                    <br><br>
+
                     <video id="preview" width="100%" height="300"></video>
                     
                     <h2>Or Paste the QR Code here:</h2>
@@ -239,10 +237,9 @@
 
             function startQR() {
                 if (e('camera-btn').innerHTML === "Open Camera") {
-                    console.log(document.querySelector('input[name="camera"]:checked').value);
                     Instascan.Camera.getCameras().then(function (cameras) {
                         if (cameras.length > 0) {
-                            scanner.start(cameras[1]);
+                            scanner.start(cameras[document.querySelector('input[name="camera"]:checked').id.substr(3)]);
                         } else {
                             console.error('No cameras found.');
                         }
@@ -274,6 +271,9 @@
 
             Instascan.Camera.getCameras().then(function (cameras) {
                 console.log(cameras);
+
+                //cameras2 = [{name:"Cam1"}, {name:"Cam2"}];
+
                 cameras.forEach(function(camera, index) {
                     console.log(camera);
                     
@@ -292,6 +292,7 @@
                     newInput.setAttribute('for',"opt"+index);
                     newInput.setAttribute('class',"option");
                     newInput.innerHTML = camera.name;
+
                     e('cameras').appendChild(newInput);
                 });
             });

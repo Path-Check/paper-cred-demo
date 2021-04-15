@@ -112,7 +112,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="two-quarter">
                     <h4>Original DIVOC Format</h4>
                     <canvas id="qr-divoc-orig-code"></canvas>
-                    <pre id="qr-divoc-orig-result" style="display: none;">
+                    <pre id="qr-divoc-orig-result" style="display: none;" onclick="copyToClipboard();">
 {
     "@context": ["https://www.w3.org/2018/credentials/v1", "https://cowin.gov.in/credentials/vaccination/v1"],
     "type": ["VerifiableCredential", "ProofOfVaccinationCredential"],
@@ -357,11 +357,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };    
 
-                console.log(JSON.stringify(divocW3C));
-
                 DIVOC.sign(divocW3C).then(signed => {
                     let cert = JSON.stringify(signed);
-                    console.log(cert);
                     var zip = new JSZip();
 
                     zip.file("certificate.json", cert, {
@@ -386,6 +383,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-divoc-orig-code").style.display='block';
                 e("qr-divoc-orig-result").style.display='block';
                 e("qr-divoc-orig-bytes").style.display='block';
+            }
+
+            function copyToClipboard() {
+                navigator.permissions.query({name: "clipboard-write"}).then(result => {
+                    if (result.state == "granted" || result.state == "prompt") {
+                        var copyText = e("qr-divoc-orig-result").getAttribute('data-title');
+                        navigator.clipboard.writeText(copyText);
+                    }
+                });
             }
 
             function verifyQRCode() {

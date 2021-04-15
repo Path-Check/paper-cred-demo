@@ -159,7 +159,7 @@
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
                     let params = {margin:0, width:700, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
-                    QRCode.toCanvas(e('qr'), uri, params, function (error) {
+                    QRCode.toCanvas(e('qr'), json, params, function (error) {
                         if (result) {
                             const imgDim={width:150,height:150}; //logo dimention
                             var context = e('qr').getContext('2d');

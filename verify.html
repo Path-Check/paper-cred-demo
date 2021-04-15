@@ -194,11 +194,10 @@
             function onScanSuccess(qrMessage) {
                 html5QrcodeScanner.clear();
 
+                console.log(qrMessage);
+
                 if (qrMessage !== "" && qrMessage != null) {
-                    unZipVerifyDisplayDIVOC(qrMessage);
-                    
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
-                    console.log(uri);
                     e("qr-verify").value = uri;
                     verifyQRCode();
                 }

@@ -2,19 +2,24 @@
 	<head>
 		<link rel="stylesheet" href="css/style.verify.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
-		<title>Certificate Verifier</title>
+		<title>Certificate Verifier v2</title>
 	</head>
 	<body>
         <div class="center">
             <div class="full-div">
                 <div id="pre-verify-section">
                     <h1>Certificate Verifier</h1>
+                    
+                    <div class="select" tabindex="1" id="cameras"></div>
+                    <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
+                    <br><br>
 
-                    <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
-                    <h2>Or Paste the Code here:</h2>
+                    <video id="preview" width="600px" height="375px"></video>
+                    
+                    <h2>Or Paste the QR Code here:</h2>
                     <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
-                    
+
                     <div class="center-in-div"> 
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
@@ -39,20 +44,32 @@
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
-        <script src="js/html5-qrcode.min.js"></script>
-
+        
         <script src="js/pcf.js"></script>
         <script src="js/jszip.min.js"></script>        
         <script src="js/divoc.min.js"></script>
 
-        <script>
+        <script type="text/javascript" src="js/instascan.min.js"></script>
+
+		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+            const args = { video: document.getElementById('preview'), mirror: false };
+
+            window.URL.createObjectURL = (stream) => {
+                args.video.srcObject = stream;
+                return stream;
+            };
+
+            var scanner = new Instascan.Scanner(args);
+            scanner.addListener('scan', function (content) {
+                onScanSuccess(content);
+            });
             
             const monthNames = [ " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
             function parseDate(str) {
+                console.log(str)
                 if(!/^(\d){8}$/.test(str)) return "invalid date";
                 var y = str.substr(0,4),
                     m = str.substr(4,2),
@@ -65,10 +82,13 @@
                 return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
             }
 
-            function verifyQRCode() {
-                let qr = e("qr-verify").value;
-                let uri = qr.substring(qr.indexOf("CRED:"));
-                if (uri !== "" && uri != null && uri.startsWith("CRED:")) {
+            function verifyQRCode(data) {
+                if (!data)
+                    data = e("qr-verify").value;
+
+                if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("CRED:")) {
+                    let uri = data.substring(data.indexOf("CRED:"));
+                
                     e("pre-verify-section").style.display = 'none';
                     e("post-verify-section").style.display = '';
 
@@ -94,7 +114,7 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + (fields['date'] || fields['issuanceDate'] ? ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']) : '');
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
@@ -104,13 +124,19 @@
                         e('qr-verify-name').innerHTML = fields['name'] + "<br>";
                         e('qr-verify-name').innerHTML += parseDate(fields['dob']) + "<br>";
                     }
+                    if (type == 'COUPON') {
+                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Coupon"
+                        e('qr-verify-name').innerHTML = "Coupon " + fields['number'] + "/" + fields['total'] + "<br>";
+                        e('qr-verify-name').innerHTML += "<small>Phase " + fields['phase'] + " in " + fields['city'] + "</small><br>";
+                    }
                     if (type == 'STATUS') {
                         e('qr-verify-title').innerHTML = "COVID-19 Pass"
-                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : "Not Vaccinated") + "<br />";
+                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : fields['status'] === '1' ? "One Dose" : "Not Vaccinated") + "<br />";
                         e('qr-verify-name').innerHTML += "Initials: " + fields['initials'] + "<br>";
                     }
                     if (type == 'PASSKEY') {
-                        e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
+                        e('qr-verify-title').innerHTML = "COVID-19 PassKey"
+                        e('qr-verify-name').innerHTML = "Name: " + fields['name'] + "<br>";
                         e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dob']);
                     }
                     if (type == 'LIBERTY') {
@@ -123,16 +149,18 @@
                         e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
                         e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
                     }
-                } else if (uri !== "" && uri != null && (uri.startsWith("{") || uri.startsWith("PK"))) {
-                    if (uri.startsWith("PK")) {
-                        unZipVerifyDisplayDIVOC(uri);
+
+                    processed();
+                } else if (data !== "" && data != null && (data.startsWith("{") || data.startsWith("PK"))) {
+                    if (data.startsWith("PK")) {
+                        unZipVerifyDisplayDIVOC(data);
                     } else {
                         // Make sure it's not encoded. 
                         let json = '';
-                        if (uri.includes("%22")) {
-                            json = JSON.parse(decodeURIComponent(uri))
+                        if (data.includes("%22")) {
+                            json = JSON.parse(decodeURIComponent(data))
                         } else {
-                            json = JSON.parse(uri);
+                            json = JSON.parse(data);
                         }
 
                         verifyDisplayDIVOC(json);
@@ -140,15 +168,18 @@
                 } else {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";
                 }
+
+                // Update the page's address without causing a reload
+                window.location.hash = '#processed'
             }
 
             function unZipVerifyDisplayDIVOC(data) {
                 var zip = new JSZip();
                 zip.loadAsync(data).then((contents) => {
-                    console.log(contents);
+                    console.log("unzipped", contents);
                     return contents.files["certificate.json"].async('text')
                 }).then(function (contents) {
-                    console.log(contents);
+                    console.log("json", contents);
                     verifyDisplayDIVOC(JSON.parse(contents));
                 }).catch(err => {
                         console.log(err);
@@ -197,18 +228,15 @@
                     e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
                     e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
 
-                    e("pre-verify-section").style.display = 'none';
-                    e("post-verify-section").style.display = '';
+                    processed();
                 });
             }
 
             function onScanSuccess(qrMessage) {
-                html5QrcodeScanner.clear();
-
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
                     e("qr-verify").value = uri;
-                    verifyQRCode();
+                    verifyQRCode(qrMessage);
                 }
             }
 
@@ -227,12 +255,40 @@
                 }
                 console.log('Query variable %s not found', variable);
             }
+
+            function startQR() {
+                if (e('camera-btn').innerHTML === "Open Camera") {
+                    Instascan.Camera.getCameras().then(function (cameras) {
+                        if (cameras.length > 0) {
+                            scanner.start(cameras[document.querySelector('input[name="camera"]:checked').id.substr(3)]);
+                        } else {
+                            console.error('No cameras found.');
+                        }
+                    }).catch(function (e) {
+                        console.error(e);
+                    });
+                    e('camera-btn').innerHTML = "Close Camera";
+                } else {
+                    scanner.stop();
+                    e('preview').pause();
+                    e('preview').removeAttribute('src'); // empty source
+                    e('preview').load();
+                    e('camera-btn').innerHTML = "Open Camera";
+                }
+            }
+
+            function home() {
+                e("pre-verify-section").style.display = '';
+                e("post-verify-section").style.display = 'none';
+            }
+
+            function processed() {
+                e("pre-verify-section").style.display = 'none';
+                e("post-verify-section").style.display = '';
+            }
         </script>
         
         <script>
-            // Starting Scanner
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
             // Loading URI from qr parameter. 
             const queryString = window.location.search;
 
@@ -244,8 +300,41 @@
                 console.log(uri);
 
                 e("qr-verify").value = uri;
-                verifyQRCode();
+                verifyQRCode(uri);
             }
+
+            Instascan.Camera.getCameras().then(function (cameras) {
+                cameras.forEach(function(camera, index) {
+                    let newInput = document.createElement("input");
+                    newInput.setAttribute('class',"selectopt");
+                    newInput.setAttribute('name',"camera");
+                    newInput.setAttribute('type',"radio");
+                    newInput.setAttribute('id',"opt"+index);
+                    
+                    if (index == 0)
+                        newInput.setAttribute('checked',true);
+                    
+                    e('cameras').appendChild(newInput);
+
+                    newInput = document.createElement("label");
+                    newInput.setAttribute('for',"opt"+index);
+                    newInput.setAttribute('class',"option");
+                    newInput.innerHTML = camera.name;
+
+                    e('cameras').appendChild(newInput);
+                });
+            });
+
+            window.onpopstate = function() {
+                switch(location.hash) {
+                    case '#processed':
+                        processed();
+                        break
+                    default:
+                        home();
+                }
+            }
+
         </script>
 	</body>
 </html>

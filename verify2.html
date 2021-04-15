@@ -69,6 +69,7 @@
             const monthNames = [ " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
             function parseDate(str) {
+                console.log(str)
                 if(!/^(\d){8}$/.test(str)) return "invalid date";
                 var y = str.substr(0,4),
                     m = str.substr(4,2),
@@ -110,7 +111,7 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + (fields['date'] || fields['issuanceDate'] ? ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']) : '');
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
@@ -120,13 +121,19 @@
                         e('qr-verify-name').innerHTML = fields['name'] + "<br>";
                         e('qr-verify-name').innerHTML += parseDate(fields['dob']) + "<br>";
                     }
+                    if (type == 'COUPON') {
+                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Coupon"
+                        e('qr-verify-name').innerHTML = "Coupon " + fields['number'] + "/" + fields['total'] + "<br>";
+                        e('qr-verify-name').innerHTML += "<small>Phase " + fields['phase'] + " in " + fields['city'] + "</small><br>";
+                    }
                     if (type == 'STATUS') {
                         e('qr-verify-title').innerHTML = "COVID-19 Pass"
-                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : "Not Vaccinated") + "<br />";
+                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : fields['status'] === '1' ? "One Dose" : "Not Vaccinated") + "<br />";
                         e('qr-verify-name').innerHTML += "Initials: " + fields['initials'] + "<br>";
                     }
                     if (type == 'PASSKEY') {
-                        e('qr-verify-name').innerHTML = "PassKey for: " + fields['name'] + "<br>";
+                        e('qr-verify-title').innerHTML = "COVID-19 PassKey"
+                        e('qr-verify-name').innerHTML = "Name: " + fields['name'] + "<br>";
                         e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dob']);
                     }
                     if (type == 'LIBERTY') {

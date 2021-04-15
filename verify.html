@@ -170,6 +170,10 @@
                         verifyDisplayDIVOC(json);
                     }
                 } else {
+                    e('qr-verify-title').innerHTML = '';
+                    e('qr-verify-name').innerHTML = '';
+                    let canvas = e('qr');
+                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";
                 }
 

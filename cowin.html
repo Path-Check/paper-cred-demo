@@ -199,16 +199,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
         <script src="js/jszip.min.js"></script>        
-        <script src="js/DIVOC/jsonld-signatures.min.js"></script>
-        <script src="js/DIVOC/crypto-ld.min.js"></script>
-        <script src="js/DIVOC/jsonld.js"></script>
-        <script src="js/DIVOC/rsa-signature-2018.min.js"></script>
-        <script src="js/DIVOC/VaccinationContext.js"></script>
-        <script src="js/DIVOC/security-context.min.js"></script>
-        <script src="js/DIVOC/Credentials.js"></script>
-        <script src="js/DIVOC/forge.js"></script>
-        <script src="js/DIVOC/RSAKeyPair.js"></script>
-        <script src="js/DIVOC/divoc.js"></script>
+        <script src="js/divoc.min.js"></script>
 
 		<script>
             const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
@@ -366,6 +357,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };    
 
+                console.log(JSON.stringify(divocW3C));
+
                 DIVOC.sign(divocW3C).then(signed => {
                     let cert = JSON.stringify(signed);
                     console.log(cert);
@@ -396,8 +389,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
-                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                const payload = e("qr-verify").value;
+                if (payload.startsWith("CRED:")) {
+                    e("qr-verify-result").innerHTML = PCF.debugParseURI(payload);
+                    e('qr-verify-verified').innerHTML = PCF.debugVerify(payload);
+                } if (payload.startsWith("{")) {
+                    DIVOC.verify(JSON.parse(payload)).then(verified => {
+                        e("qr-verify-result").innerHTML = "W3C VC Payload";
+                        e("qr-verify-verified").innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                    });
+                }
             }
         </script>
         

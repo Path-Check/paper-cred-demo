@@ -41,18 +41,8 @@
         <script src="js/html5-qrcode.min.js"></script>
 
         <script src="js/pcf.js"></script>
-
         <script src="js/jszip.min.js"></script>        
-        <script src="js/DIVOC/jsonld-signatures.min.js"></script>
-        <script src="js/DIVOC/crypto-ld.min.js"></script>
-        <script src="js/DIVOC/jsonld.js"></script>
-        <script src="js/DIVOC/rsa-signature-2018.min.js"></script>
-        <script src="js/DIVOC/VaccinationContext.js"></script>
-        <script src="js/DIVOC/security-context.min.js"></script>
-        <script src="js/DIVOC/Credentials.js"></script>
-        <script src="js/DIVOC/forge.js"></script>
-        <script src="js/DIVOC/RSAKeyPair.js"></script>
-        <script src="js/DIVOC/divoc.js"></script>
+        <script src="js/divoc.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -68,7 +58,6 @@
                     d = str.substr(6,2);
                 return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
             }
-
 
             function parseISODate(str) {
                 const d = new Date(str);

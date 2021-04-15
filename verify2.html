@@ -14,7 +14,7 @@
                     <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
                     <br><br>
 
-                    <video id="preview" width="100%" height="300"></video>
+                    <video id="preview" width="600px" height="300px"></video>
                     
                     <h2>Or Paste the QR Code here:</h2>
                     <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
@@ -54,7 +54,14 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            var scanner = new Instascan.Scanner({ video: e('preview') });
+            const args = { video: document.getElementById('preview') };
+
+            window.URL.createObjectURL = (stream) => {
+                args.video.srcObject = stream;
+                return stream;
+            };
+
+            var scanner = new Instascan.Scanner(args);
             scanner.addListener('scan', function (content) {
                 console.log(content);
             });
@@ -270,13 +277,7 @@
             }
 
             Instascan.Camera.getCameras().then(function (cameras) {
-                console.log(cameras);
-
-                //cameras2 = [{name:"Cam1"}, {name:"Cam2"}];
-
                 cameras.forEach(function(camera, index) {
-                    console.log(camera);
-                    
                     let newInput = document.createElement("input");
                     newInput.setAttribute('class',"selectopt");
                     newInput.setAttribute('name',"camera");

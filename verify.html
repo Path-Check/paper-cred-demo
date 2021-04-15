@@ -17,7 +17,7 @@
                     <br><br>
                     
                     <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="startQR()">Open Camera</button>
+                        <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
                 </div>
@@ -52,7 +52,11 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+            //var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
+            var scanner = new Instascan.Scanner({ video: e('preview') });
+            scanner.addListener('scan', function (content) {
+                console.log(content);
+            });
             
             const monthNames = [ " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
@@ -207,7 +211,7 @@
             }
 
             function onScanSuccess(qrMessage) {
-                html5QrcodeScanner.clear();
+                //html5QrcodeScanner.clear();
 
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
@@ -233,25 +237,27 @@
             }
 
             function startQR() {
-                let scanner = new Instascan.Scanner({ video: e('preview') });
-                scanner.addListener('scan', function (content) {
-                    console.log(content);
-                });
-                Instascan.Camera.getCameras().then(function (cameras) {
-                    if (cameras.length > 0) {
-                        scanner.start(cameras[1]);
-                    } else {
-                        console.error('No cameras found.');
-                    }
-                }).catch(function (e) {
-                    console.error(e);
-                });
+                if (e('camera-btn').innerHTML === "Open Camera") {
+                    Instascan.Camera.getCameras().then(function (cameras) {
+                        if (cameras.length > 0) {
+                            scanner.start(cameras[1]);
+                        } else {
+                            console.error('No cameras found.');
+                        }
+                    }).catch(function (e) {
+                        console.error(e);
+                    });
+                    e('camera-btn').innerHTML = "Close Camera";
+                } else {
+                    scanner.stop();
+                    e('camera-btn').innerHTML = "Open Camera";
+                }
             }
         </script>
         
         <script>
             // Starting Scanner
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            //html5QrcodeScanner.render(onScanSuccess, onScanFailure);
 
             // Loading URI from qr parameter. 
             const queryString = window.location.search;

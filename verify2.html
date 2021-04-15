@@ -169,7 +169,7 @@
 
             function unZipVerifyDisplayDIVOC(data) {
                 var zip = new JSZip();
-                zip.loadAsync(MyQR).then((contents) => {
+                zip.loadAsync(data).then((contents) => {
                     console.log("unzipped", contents);
                     return contents.files["certificate.json"].async('text')
                 }).then(function (contents) {

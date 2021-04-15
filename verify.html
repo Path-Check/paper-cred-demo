@@ -82,6 +82,10 @@
                 return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
             }
 
+            function short(hash) {
+                return hash.substr(0,10) + ".." + hash.substr(hash.length-10,10)
+            }
+
             function verifyQRCode(data) {
                 if (!data)
                     data = e("qr-verify").value;
@@ -121,8 +125,8 @@
                     
                     if (type == 'BADGE') {
                         e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
-                        e('qr-verify-name').innerHTML = fields['name'] + "<br>";
-                        e('qr-verify-name').innerHTML += parseDate(fields['dob']) + "<br>";
+                        e('qr-verify-name').innerHTML = (fields['name'] ? fields['name'] : short(fields['passkey'])) + "<br>";
+                        e('qr-verify-name').innerHTML += fields['dob'] ? parseDate(fields['dob']) : "" + "<br>";
                     }
                     if (type == 'COUPON') {
                         e('qr-verify-title').innerHTML = "COVID-19 Vaccine Coupon"

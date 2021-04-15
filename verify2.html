@@ -9,14 +9,19 @@
             <div class="full-div">
                 <div id="pre-verify-section">
                     <h1>Certificate Verifier</h1>
-
-                    <video id="preview" width="100%" height="300"></video>
-                    <h2>Or Paste the Code here:</h2>
-                    <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
-                    <br><br>
                     
                     <div class="center-in-div"> 
+                        <div class="select" tabindex="1" id="cameras"></div>
                         <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
+                    </div>
+                    <br><br><br><br>
+                    <video id="preview" width="100%" height="300"></video>
+                    
+                    <h2>Or Paste the QR Code here:</h2>
+                    <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+
+                    <div class="center-in-div"> 
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
                 </div>
@@ -264,6 +269,26 @@
                 e("qr-verify").value = uri;
                 verifyQRCode();
             }
+
+            Instascan.Camera.getCameras().then(function (cameras) {
+                cameras.forEach(function(camera, index) {
+                    console.log(camera);
+                    let newInput = document.createElement("input");
+                    newInput.setAttribute('class',"selectopt");
+                    newInput.setAttribute('name',"test");
+                    newInput.setAttribute('type',"radio");
+                    newInput.setAttribute('id',"opt"+camera.id);
+                    newInput.setAttribute('checked',true);
+                    e('cameras').appendChild(newInput);
+
+                    newInput = document.createElement("label");
+                    newInput.setAttribute('for',"opt"+camera.id);
+                    newInput.setAttribute('class',"option");
+                    newInput.innerHTML = camera.name;
+                    e('cameras').appendChild(newInput);
+                });
+            });
+
         </script>
 	</body>
 </html>

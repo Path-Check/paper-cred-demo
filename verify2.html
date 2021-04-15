@@ -10,7 +10,6 @@
                 <div id="pre-verify-section">
                     <h1>Certificate Verifier</h1>
 
-                    <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
                     <video id="preview" width="100%" height="300" autoplay="autoplay" src=""></video>
                     <h2>Or Paste the Code here:</h2>
                     <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
@@ -41,8 +40,7 @@
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
-        <script src="js/html5-qrcode.min.js"></script>
-
+        
         <script src="js/pcf.js"></script>
         <script src="js/jszip.min.js"></script>        
         <script src="js/divoc.min.js"></script>
@@ -52,7 +50,6 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            //var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
             var scanner = new Instascan.Scanner({ video: e('preview') });
             scanner.addListener('scan', function (content) {
                 console.log(content);
@@ -211,8 +208,6 @@
             }
 
             function onScanSuccess(qrMessage) {
-                //html5QrcodeScanner.clear();
-
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
                     e("qr-verify").value = uri;
@@ -256,9 +251,6 @@
         </script>
         
         <script>
-            // Starting Scanner
-            //html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
             // Loading URI from qr parameter. 
             const queryString = window.location.search;
 

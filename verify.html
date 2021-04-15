@@ -194,8 +194,6 @@
             function onScanSuccess(qrMessage) {
                 html5QrcodeScanner.clear();
 
-                console.log(qrMessage);
-
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
                     e("qr-verify").value = uri;

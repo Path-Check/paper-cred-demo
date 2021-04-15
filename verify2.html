@@ -167,11 +167,11 @@
 
             function unZipVerifyDisplayDIVOC(data) {
                 var zip = new JSZip();
-                zip.loadAsync(data).then((contents) => {
-                    console.log(contents);
+                zip.loadAsync(MyQR).then((contents) => {
+                    console.log("unzipped", contents);
                     return contents.files["certificate.json"].async('text')
                 }).then(function (contents) {
-                    console.log(contents);
+                    console.log("json", contents);
                     verifyDisplayDIVOC(JSON.parse(contents));
                 }).catch(err => {
                         console.log(err);
@@ -225,7 +225,10 @@
                 });
             }
 
+            var MyQR;
+
             function onScanSuccess(qrMessage) {
+                MyQR = qrMessage;
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
                     e("qr-verify").value = uri;

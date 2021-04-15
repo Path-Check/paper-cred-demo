@@ -54,7 +54,7 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            const args = { video: document.getElementById('preview') };
+            const args = { video: document.getElementById('preview'), mirror: false };
 
             window.URL.createObjectURL = (stream) => {
                 args.video.srcObject = stream;

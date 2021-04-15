@@ -191,12 +191,14 @@
             }
 
             function onScanSuccess(qrMessage) {
+                html5QrcodeScanner.clear();
+
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
+                    console.log(uri);
                     e("qr-verify").value = uri;
                     verifyQRCode();
                 }
-                html5QrcodeScanner.clear();
             }
 
             function onScanFailure(error) {

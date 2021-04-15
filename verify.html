@@ -203,7 +203,7 @@
             }
 
             function onScanSuccess(qrMessage) {
-                //html5QrcodeScanner.clear();
+                html5QrcodeScanner.clear();
 
                 if (qrMessage !== "" && qrMessage != null) {
                     let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));

@@ -144,6 +144,7 @@
             function unZipVerifyDisplayDIVOC(data) {
                 var zip = new JSZip();
                 zip.loadAsync(data).then((contents) => {
+                    console.log(contents);
                     return contents.files["certificate.json"].async('text')
                 }).then(function (contents) {
                     console.log(contents);

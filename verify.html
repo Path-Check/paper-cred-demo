@@ -17,7 +17,7 @@
                     <div class="center-in-div"> 
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
-                    <video id="preview"></video>
+                    <video id="preview" width="300" height="300"></video>
                 </div>
 
                 <br><br>
@@ -257,7 +257,7 @@
             });
             Instascan.Camera.getCameras().then(function (cameras) {
                 if (cameras.length > 0) {
-                    scanner.start(cameras[0]);
+                    scanner.start(cameras[1]);
                 } else {
                     console.error('No cameras found.');
                 }

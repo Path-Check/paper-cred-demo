@@ -11,7 +11,8 @@
                     <h1>Certificate Verifier</h1>
                     
                     <div class="center-in-div"> 
-                        <div class="select" tabindex="1" id="cameras"></div>
+                        <div class="select" tabindex="1" id="cameras">
+                        </div>
                         <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
                     </div>
                     <br><br><br><br>
@@ -238,6 +239,7 @@
 
             function startQR() {
                 if (e('camera-btn').innerHTML === "Open Camera") {
+                    console.log(document.querySelector('input[name="camera"]:checked').value);
                     Instascan.Camera.getCameras().then(function (cameras) {
                         if (cameras.length > 0) {
                             scanner.start(cameras[1]);
@@ -277,7 +279,7 @@
                     
                     let newInput = document.createElement("input");
                     newInput.setAttribute('class',"selectopt");
-                    newInput.setAttribute('name',"test");
+                    newInput.setAttribute('name',"camera");
                     newInput.setAttribute('type',"radio");
                     newInput.setAttribute('id',"opt"+index);
                     

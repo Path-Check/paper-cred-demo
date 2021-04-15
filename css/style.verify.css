@@ -57,7 +57,7 @@ canvas {
   flex-direction: column;
   position:relative;
   float:left;
-  min-width: 200px;
+  min-width: 350px;
   margin-right: 20px;
 }
 
@@ -79,7 +79,7 @@ canvas {
   width: 100%;
   pointer-events:none;
   order:2;
-  z-index:1;
+  z-index: 99 !important; 
   transition:background .4s ease-in-out;
   box-sizing:border-box;
   overflow:hidden;

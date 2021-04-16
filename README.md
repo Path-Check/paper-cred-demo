@@ -1,4 +1,4 @@
-# Paper-first Verifiable Credentials URI Demos
+# URI-based Verifiable Credentials Demos
 
 This repository hosts a set of demos to sign and verify QR-based credentials created with the [PathCheck's URI specification](https://github.com/Path-Check/paper-cred) in multiple languages. Demos are available for in HTML+JavaScript, Ruby, Java, Python and Shell Script, computing locally. 
 
@@ -6,11 +6,11 @@ This repository hosts a set of demos to sign and verify QR-based credentials cre
 
 # Try it out!
 
-* [Signer and Verifiers in HTML/JavaScript](https://github.pathcheck.org/index.html)
+* [Signer and Verifiers in Static HTML/JavaScript](https://github.pathcheck.org/index.html)
 
 # Run locally: 
 
-The following scripts cryptographically sign and verify hardcoded payload you will find in the code. 
+The following scripts cryptographically sign and verify hardcoded payload you will find in the code. They were designed to look similar among each other and facilitate developer training as opposed to the best version they could be in each language. 
 
 ## Python 
 

@@ -11,8 +11,6 @@ import java.util.Base64;
 import java.util.Hashtable;
 
 import javax.naming.directory.Attribute;
-import javax.naming.directory.Attributes;
-import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 
 import org.apache.commons.codec.binary.Base32;
@@ -32,42 +30,39 @@ public class verify {
     return base32Str.replaceAll("=", "");
   }
 
-  public static String downloadPubKeyFromTXTRecord(String pubKeyLink) throws Exception {
-    Hashtable<String, String> env = new Hashtable<String, String>();
-    env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
-    DirContext dirContext = new InitialDirContext(env);
-    Attributes attrs = dirContext.getAttributes(pubKeyLink, new String[] { "TXT" });
-    Attribute txt = attrs.get("TXT");
-    String e = txt.get(0).toString();
-    String key = e.replaceAll("\"","").replaceAll("\\\\n", "n").replaceAll("\\\\n", "\n");
+  public static String buildPEMFromDNS(String encodedKey) {
+    String key = encodedKey.replaceAll("\"","").replaceAll("\\\\n", "n").replaceAll("\\\\n", "\n");
     if (!key.contains("-----BEGIN PUBLIC KEY-----")) {
       key = "-----BEGIN PUBLIC KEY-----" + "\n" + key + "\n" + "-----END PUBLIC KEY-----\n";
     }
     return key;
   }
 
-  public static PrivateKey getPrivateKey() throws Exception {
-    KeyFactory kf = KeyFactory.getInstance("EC");
+  public static String downloadPubKeyFromTXTRecord(String pubKeyLink) throws Exception {
+    Hashtable<String, String> env = new Hashtable<String, String>();
+    env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
+    Attribute txt = new InitialDirContext(env).getAttributes(pubKeyLink, new String[] { "TXT" }).get("TXT");
+    return buildPEMFromDNS(txt.get(0).toString());
+  }
 
+  public static PrivateKey getPrivateKey() throws Exception {
     String privKeyPEM = new String(Files.readAllBytes(Paths.get("keys/ecdsa_private_key8.pem")));
     privKeyPEM = privKeyPEM.replaceAll("\\n", "")
                            .replace("-----BEGIN PRIVATE KEY-----", "")
                            .replace("-----END PRIVATE KEY-----", "");
 
     PKCS8EncodedKeySpec keySpecPKCS8 = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(privKeyPEM));
-    return kf.generatePrivate(keySpecPKCS8);
+    return KeyFactory.getInstance("EC").generatePrivate(keySpecPKCS8);
   }
 
   public static PublicKey getPublicKey(String pubKeyLink) throws Exception {
-    KeyFactory kf = KeyFactory.getInstance("EC");
-
     String pubKeyPEM = downloadPubKeyFromTXTRecord(pubKeyLink);
     pubKeyPEM = pubKeyPEM.replaceAll("\\n", "")
                          .replace("-----BEGIN PUBLIC KEY-----", "")
                          .replace("-----END PUBLIC KEY-----", "");
 
     X509EncodedKeySpec x509 = new X509EncodedKeySpec(Base64.getDecoder().decode(pubKeyPEM));
-    return kf.generatePublic(x509);
+    return KeyFactory.getInstance("EC").generatePublic(x509);
   }
 
   public static String[] parseQR(String qr) {

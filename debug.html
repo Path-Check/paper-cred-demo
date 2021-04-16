@@ -9,8 +9,7 @@
             <div class="full-div">
                 <h1>Certificate Verifier</h1>
             
-                <div id="reader" style="margin-top: 10px;margin-bottom: 10px;"></div>
-                <label for="verify">Or Paste the Code here:</label><br>
+                <label for="verify">Paste the Code here:</label><br>
                 <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                 <br><br>
                 <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
@@ -27,13 +26,10 @@
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
-        <script src="js/html5-qrcode.min.js"></script>
 
         <script src="js/pcf.js"></script>
 
 		<script>
-            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 350 }, /* verbose= */ true);
-
             function e(elem) { return document.getElementById(elem); }
 
             function verifyQRCode() {
@@ -53,8 +49,6 @@
                     e("qr-verify").value = uri;
                     verifyQRCode();
                 }
-
-                html5QrcodeScanner.clear();
             }
 
             function onScanFailure(error) {
@@ -63,9 +57,6 @@
         </script>
         
         <script>
-            // Starting Scanner
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-
             // Loading URI from qr parameter. 
             const queryString = window.location.search;
 

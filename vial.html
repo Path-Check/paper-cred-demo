@@ -103,8 +103,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/sha256.js"></script>
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
-        <script src="js/html5-qrcode.min.js"></script>
-
+    
         <script src="js/libbcmath.js" type="text/javascript"></script>
         <script src="js/bcmath.js" type="text/javascript"></script>
         <script src="js/pdf417.js" type="text/javascript"></script>
@@ -112,8 +111,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
 		<script>
-            var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 150 }, /* verbose= */ true);
-
             function e(elem) { return document.getElementById(elem); }
 
             function getValueArray(elemArray) {
@@ -207,8 +204,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function verifyQRCode() {
                 e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
                 e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
-
-                html5QrcodeScanner.clear();
             }
 
             function onScanSuccess(qrMessage) {
@@ -237,8 +232,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             loadDemo();
-            
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
         </script>
 
         <script>

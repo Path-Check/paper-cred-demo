@@ -97,7 +97,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <canvas id="qr-ibm-code"></canvas>
                     <pre id="qr-ibm-result"></pre>
                     <pre id="qr-ibm-verified"></pre>
-                    <pre id="qr-ibm-bytes"></pre>
+                    <pre id="qr-ibm-bytes" class="xs-hidden"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>Original IBM Format</h4>
@@ -136,10 +136,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 }
                     </pre>
                     <pre id="qr-ibm-orig-verified"></pre>
-                    <pre id="qr-ibm-orig-bytes"></pre>
+                    <pre id="qr-ibm-orig-bytes" class="xs-hidden"></pre>
                 </div>
                 
-                <div class="quarter">
+                <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</small></label><br/>
                     <textarea id="qr-verify" rows="10" cols="30" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
@@ -186,6 +186,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
                 //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
+
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
+                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
 
                 // Verifies URI is valid
                 e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
@@ -322,7 +326,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 e("qr-ibm-orig-code").style.display='block';
                 e("qr-ibm-orig-result").style.display='block';
-                e("qr-ibm-orig-bytes").style.display='block';
             }
 
             function verifyQRCode() {

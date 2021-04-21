@@ -34,7 +34,7 @@
             <h1>PCF Vaccination Journey</h1>
             <div class="full-div">
                 <div class="quarter">
-                    <h4>Coupon</h4>
+                    <h4>Eligibility Coupon</h4>
                     <table>
                         <tr><td>ID</td><td><input id="qr-coupon-id" type="text" placeholder="2"/></td></tr>
                         <tr><td>Coupons</td><td><input id="qr-coupon-coupons" type="text" placeholder="5000"/></td></tr>
@@ -44,16 +44,16 @@
                     </table>
                 </div>
                 <div class="quarter"> 
-                    <h4>PassKey</h4>
+                    <h4>PassKey (Identity)</h4>
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Your Full Name ..."/></td></tr>
                         <tr><td>Phone #</td><td><input id="qr-passkey-phone" type="text" placeholder="1617 .."/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>Birthdate</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
                 </div>
                 <div class="quarter">
-                    <h4>Badge</h4>
+                    <h4>Badge (Immunization Record)</h4>
                     <table>
                         <tr><td>Date</td><td><input id="qr-badge-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-badge-manuf" type="text" placeholder="Pfizer, Moderna, ..."/></td></tr>
@@ -71,7 +71,7 @@
                     </table>
                 </div>
                 <div class="quarter">
-                    <h4>Status</h4>
+                    <h4>Status (Health Pass)</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0, 1, 2"/></td></tr>
                         <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox"></td></tr>
@@ -108,7 +108,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <canvas id="qr-coupon-pdf"></canvas><br/>
                     <pre id="qr-coupon-result"></pre>
                     <pre id="qr-coupon-verified"></pre>
-                    <pre id="qr-coupon-bytes"></pre>
+                    <pre id="qr-coupon-bytes" class="xs-hidden"></pre>
                 </div>
                 <div class="quarter">
                     <h4 id="qr-passkey-code-label" style="display: none;">PassKey QR</h4>
@@ -117,7 +117,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <canvas id="qr-passkey-pdf"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
                     <pre id="qr-passkey-verified"></pre>
-                    <pre id="qr-passkey-bytes"></pre>
+                    <pre id="qr-passkey-bytes" class="xs-hidden"></pre>
                 </div>
                 <div class="quarter">
                     <h4 id="qr-badge-code-label" style="display: none;">Badge QR</h4>
@@ -126,7 +126,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <canvas id="qr-badge-pdf"></canvas><br/>
                     <pre id="qr-badge-result"></pre>
                     <pre id="qr-badge-verified"></pre>
-                    <pre id="qr-badge-bytes"></pre>
+                    <pre id="qr-badge-bytes" class="xs-hidden"></pre>
                 </div>
                 <div class="quarter">
                     <h4 id="qr-status-code-label" style="display: none;">Status QR</h4>
@@ -135,15 +135,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <canvas id="qr-status-pdf"></canvas><br/>
                     <pre id="qr-status-result"></pre>
                     <pre id="qr-status-verified"></pre>
-                    <pre id="qr-status-bytes"></pre>
+                    <pre id="qr-status-bytes" class="xs-hidden"></pre>
                 </div>
-                <div class="quarter">
+                <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</label>
                     <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
                     <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     <br><br>
-                    <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
                 </div>
@@ -209,6 +208,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='message'>" + payload + "</span><br>";
                 //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
                 //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
+                
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
+                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
+                    
+                
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
                 
                 //e(elemPref+"-bytes").innerHTML = "QR Size: "+ Math.round((uri.length / 2) * 11/8) + " bytes";
@@ -220,7 +225,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
                 let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
-                e(elemPref+"-bytes").innerHTML = "URI in A/N: "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
+                e(elemPref+"-bytes").innerHTML = "URI Size (A/N): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
 
                 e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
                 e(elemPref+"-bytes").innerHTML += "<br>-ECC L  7% "  + describe(qrL);

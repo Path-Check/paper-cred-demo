@@ -2,13 +2,9 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Banknote Signed Certificate Proposal</title>
-        <style>
-            input {
-                width: 270px;
-            }
-        </style>
 	</head>
 	<body>
         <div class="topnav">
@@ -36,9 +32,8 @@
         </div>
 
         <div class="center">
+            <h1>Verifiable Banknote</h1>
             <div class="full-div">
-                <h1>Verifiable Banknote Schema</h1>
-                
                 <div class="two-quarter">
                     <h4>Note Information</h4>
                     <table>
@@ -79,7 +74,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -89,16 +84,13 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
+                    <label for="pubkey">Public Key</label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                 </div>
             </div>
-            <div class="full-div"></div>
             <div class="four-quarter">
-                <br><br>
-                <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                </div>
+                <br>
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
@@ -163,7 +155,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:e('qr-banknote-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)

@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="css/style.verify.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Certificate Verifier</title>
 	</head>
@@ -22,7 +23,7 @@
             <div class="full-div">
                 <div id="pre-verify-section">
                     <h1>Certificate Verifier</h1>
-                    
+            
                     <div class="select" tabindex="1" id="cameras"></div>
                     <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
                     <br><br>
@@ -30,22 +31,22 @@
                     <video id="preview"></video>
                     
                     <h2>Or Paste the QR Code here:</h2>
-                    <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <textarea id="qr-verify" rows="10" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
 
-                    <div class="center-in-div"> 
+                    <div class="align-center"> 
                         <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     </div>
                 </div>
 
-                <br><br>
-
                 <div id="post-verify-section" style="display: none;">
-                    <div class="card center-in-div"> 
-                        <h1 id="qr-verify-title" style="text-align: center;"></h1>
-                        <canvas style="padding:0px 50px" id="qr"></canvas><br/>
-                        <h1 id="qr-verify-name" style="text-align: center;"></h1>
-                        <h2 id="qr-verify-verified" style="text-align: center;"></h2>
+                    <div class="auto-margin">
+                        <div class="card align-center"> 
+                            <h2 id="qr-verify-title" style="text-align: center;"></h1>
+                            <canvas id="qr"></canvas><br/>
+                            <h2 id="qr-verify-name" style="text-align: center;"></h1>
+                            <h3 id="qr-verify-verified" style="text-align: center;"></h2>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -113,7 +114,7 @@
                     const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
                     const fields = PCF.getPayloadFields(payload);
 
-                    let params = {margin:0, width:700, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:e('qr').scrollWidth-40, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {
                         if (result) {
                             const imgDim={width:150,height:150}; //logo dimention
@@ -210,7 +211,7 @@
 
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
-                    let params = {margin:0, width:700, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:e('qr').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                     var zip = new JSZip();
 

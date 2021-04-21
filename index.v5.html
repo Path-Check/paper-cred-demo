@@ -2,13 +2,8 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
-        <style>
-            input {
-                width: 130px;
-            }
-        </style>
-
 		<title>Vaccine Distribution Credentials Generator</title>
 	</head>
 	<body>
@@ -37,8 +32,8 @@
         </div>
 
         <div class="center">
+            <h1>PathCheck's Vaccine Distribution Credentials</h1>
             <div class="full-div">
-                <h1>PathCheck's Vaccine Distribution Credentials</h1>
                 <div class="quarter">
                     <h4>Coupon</h4>
                     <table>
@@ -53,7 +48,7 @@
                     <h4>PassKey</h4>
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Your Full Name ..."/></td></tr>
-                        <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="1617 .."/></td></tr>
+                        <tr><td>Phone #</td><td><input id="qr-passkey-phone" type="text" placeholder="1617 .."/></td></tr>
                         <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
@@ -88,7 +83,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -98,26 +93,17 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <label for="pubkey"><small>1. DNS TXT Record FQDN</small></label><br/>
-                    <label for="pubkey"><small>2. Direct URL to PEM Download</small></label><br/>
-                    <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
-                    <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
-                    <br><br>
-                    <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
+                    <label for="pubkey">Public Key</label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">1A9.PCF</textarea>
                 </div>
             </div>
-            <div class="full-div">
-                <br><br>
-                <div style="margin: 0 auto; width:500px; height:50px;">
-                    <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                    </div>
-                </div>
+            <br>
+            <div class="four-quarter">
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
             </div>
             <div class="full-div">
                 <div class="quarter">
-                    <h4 id="qr-coupon-code-label" style="display: none;">QR Format</h4>
+                    <h4 id="qr-coupon-code-label" style="display: none;">Coupon QR</h4>
                     <canvas id="qr-coupon-code"></canvas><br/>
                     <h4 id="qr-coupon-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-coupon-pdf"></canvas><br/>
@@ -126,7 +112,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-coupon-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4 id="qr-passkey-code-label" style="display: none;">QR Format</h4>
+                    <h4 id="qr-passkey-code-label" style="display: none;">PassKey QR</h4>
                     <canvas id="qr-passkey-code"></canvas><br/>
                     <h4 id="qr-passkey-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-passkey-pdf"></canvas><br/>
@@ -135,7 +121,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-passkey-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4 id="qr-badge-code-label" style="display: none;">QR Format</h4>
+                    <h4 id="qr-badge-code-label" style="display: none;">Badge QR</h4>
                     <canvas id="qr-badge-code"></canvas><br/>
                     <h4 id="qr-badge-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-badge-pdf"></canvas><br/>
@@ -144,7 +130,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-badge-bytes"></pre>
                 </div>
                 <div class="quarter">
-                    <h4 id="qr-status-code-label" style="display: none;">QR Format</h4>
+                    <h4 id="qr-status-code-label" style="display: none;">Status QR</h4>
                     <canvas id="qr-status-code"></canvas><br/>
                     <h4 id="qr-status-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-status-pdf"></canvas><br/>
@@ -206,31 +192,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:200, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:e('qr-badge-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
-                    if (e("include-logos").checked) {
-                        //adding a logo at center        
-                        const imgDim={width:50,height:50}; //logo dimention
-                        var context = e(elemPref+'-code').getContext('2d');
-                        var imageObj = new Image();  
-                        if (e(elemPref+'-private')) {
-                            if (e(elemPref+'-private').checked)
-                                imageObj.src = './img/closelocker.jpg';  
-                            else
-                                imageObj.src = './img/openlocker.jpg';
-                        } else if (elemPref === 'qr-passkey') {
-                            imageObj.src = './img/passkey.png'; 
-                        } else {
-                            imageObj.src = './img/logo.jpg';  
-                        }      
-                        imageObj.onload = function() {
-                            context.drawImage(imageObj, 
-                            e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
-                            e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                        }; 
-                    } 
                 })
 
                 PDF417.draw(uri, e(elemPref+"-pdf"), 2, 1, 1.2);

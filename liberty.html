@@ -2,14 +2,9 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>NY Liberty Pass with PCF Certificates Generator</title>
-
-        <style>
-            input {
-                width: 320px;
-            }
-        </style>
 	</head>
 	<body>
         <div class="topnav">
@@ -37,8 +32,8 @@
         </div>
 
         <div class="center">
+            <h1>NYC Excelsior Liberty Pass Schema</h1>
             <div class="full-div">
-                <h1>NYC Excelsior Liberty Pass Schema</h1>
                 <div class="two-quarter"> 
                     <h4>VC Overhead</h4>
                     <table>
@@ -53,7 +48,7 @@
                     <h4>Credential Schema</h4>
                     <table>
                         <tr><td>Type</td><td><input id="qr-credschema-type" type="text" placeholder="JsonSchemaValidator2018"/></td></tr>
-                        <tr><td>Id</td><td><input id="qr-credschema-id" type="text" placeholder="did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac;id=libertyhealthpass;version=0.1"></td></tr>
+                        <tr><td>Schema Id</td><td><input id="qr-credschema-id" type="text" placeholder="did:hpass:b3a918aa1ec2b0f0d58a6ca3e7c8ebb6a631cbb2408ad5e8ecaca9fdb48ee4bf:7210026a6918e3250c1d1094636c0a89cc06468cf302bce2216e20c755d020ac;id=libertyhealthpass;version=0.1"></td></tr>
                     </table>
                 </div>
 
@@ -75,7 +70,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -84,10 +79,10 @@ MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
 oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
-                    <br>
-                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <br><br>
+                    <label for="pubkey">Public Key</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
-                    <label for="pubkey">When ready, change to: <span class='pub-key'>ISSUER#key-1</span></label><br/>
+                    <br><label for="pubkey">When ready, change to: <span class='pub-key'>ISSUER#key-1</span></label><br/>
                     <br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
@@ -95,21 +90,19 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div> 
             <div class="full-div"></div>
             <div class="four-quarter">
-                <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
-                </div>
+                <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
                     <h4>PCF's Format</h4>
-                    <canvas id="qr-ibm-code"></canvas><br/>
+                    <canvas id="qr-ibm-code"></canvas>
                     <pre id="qr-ibm-result"></pre>
                     <pre id="qr-ibm-verified"></pre>
                     <pre id="qr-ibm-bytes"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>Original IBM Format</h4>
-                    <canvas id="qr-ibm-orig-code"></canvas><br/>
+                    <canvas id="qr-ibm-orig-code"></canvas>
                     <pre id="qr-ibm-orig-result" style="display: none;">
 {
     "@context": ["https://www.w3.org/2018/credentials/v1"],
@@ -169,7 +162,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
 		<script>
-            const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+            const params = { margin:0, width:e('qr-ibm-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
             function e(elem) { return document.getElementById(elem); }
 

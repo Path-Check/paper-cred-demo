@@ -4,13 +4,28 @@ body {
 }
 
 h1 {
-  font-size: 3em;
+  margin: 20px 0px 10px 0px;
+}
+
+h4 {
+  margin: 20px 0px 10px 0px;
 }
 
 .center {
-  width: 1100px;
+  max-width: 1100px;
   margin: 30px auto 0 auto;
 }
+
+.align-center {
+  text-align: center;
+}
+
+.auto-margin {
+  position: relative;
+  margin: 0 auto;
+  max-width: 650px;
+}
+
 
 .green {
   color: #0F7F12;
@@ -28,18 +43,41 @@ h1 {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 15px;
+  padding: 5px;
+  max-width: 600px;
 }
 
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
-canvas {
-  border-radius: 15px 15px 0px 0px;
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
 }
 
 .container {
   padding: 2px 16px;
+}
+
+#qr {
+  width: 100%;
+}
+
+#preview {
+  width: 100%;
+  border-radius: 2px;
+  border:#222 solid 1px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
+#post-verify-section {
+  width: 100%;
 }
 
 .qr-btn {
@@ -59,12 +97,6 @@ canvas {
   float:left;
   min-width: 350px;
   margin-right: 20px;
-}
-
-#preview {
-  width: 1100px;
-  border-radius: 2px;
-  border:#222 solid 1px;
 }
 
 .option {
@@ -138,4 +170,20 @@ input:checked + label:before {
   width: 40px;
   content: '';
   background:#3654DD;
+}
+
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 1000px) {
+  .center {
+    width: 100%;
+    margin: 30px 0px 0px 0px;
+    padding: 0px 10px 0px 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+  }
+  .full-div {
+    flex-direction: column;
+  }
 }

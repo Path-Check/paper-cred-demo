@@ -2,13 +2,9 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>DIVOC Credentials Generator and Verifier</title>
-        <style>
-            input {
-                width: 280px;
-            }
-        </style>
 	</head>
 	<body>
         <div class="topnav">
@@ -36,16 +32,16 @@
         </div>
 
         <div class="center">
+            <h1>DIVOC's India Cowin</h1>
             <div class="full-div">
-                <h1>DIVOC's India Cowin Schema</h1>
                 <div class="two-quarter"> 
                     <h4>W3C VC Overhead</h4>
                     <table>
                         <tr><td>Context</td><td><input id="qr-head-context" type="text" placeholder="https://www.w3.org/2018/credentials/v1, https://cowin.gov.in/credentials/vaccination/v1"/></td></tr>
-                        <tr><td>IssuanceDate</td><td><input id="qr-head-issuance-date" type="text" placeholder="YYMMDD"/></td></tr>
+                        <tr><td>IssueDate</td><td><input id="qr-head-issuance-date" type="text" placeholder="YYMMDD"/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-head-issuer" type="text" placeholder="https://cowin.gov.in/"/></td></tr>
                         <tr><td>Type</td><td><input id="qr-head-type" type="text" placeholder="VerifiableCredential, ProofOfVaccinationCredential"/></td></tr>
-                        <tr><td>NonTransfer</td><td><input id="qr-head-nontransfer" type="text" placeholder="true"/></td></tr>
+                        <tr><td>NonTrans</td><td><input id="qr-head-nontransfer" type="text" placeholder="true"/></td></tr>
                     </table>
                     <h4>Patient</h4>
                     <table>
@@ -79,10 +75,10 @@
                         <tr><td>Product</td><td><input id="qr-immunization-product" type="text" placeholder="COVID19"/></td></tr>
                         <tr><td>Batch#</td><td><input id="qr-immunization-lot" type="text" placeholder="012L20A, ..."/></td></tr>
                         <tr><td>Date</td><td><input id="qr-immunization-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>EffectiveStart</td><td><input id="qr-immunization-eff-start" type="text" placeholder="YYYYMMDD"/></td></tr>
-                        <tr><td>EffectiveEnd</td><td><input id="qr-immunization-eff-end" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>EffectStart</td><td><input id="qr-immunization-eff-start" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>EffectEnd</td><td><input id="qr-immunization-eff-end" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Dose</td><td><input id="qr-immunization-dose" type="text" placeholder="1, ..."/></td></tr>
-                        <tr><td>Total Doses</td><td><input id="qr-immunization-total-doses" type="text" placeholder="2, ..."/></td></tr>
+                        <tr><td>Doses</td><td><input id="qr-immunization-total-doses" type="text" placeholder="2, ..."/></td></tr>
 
                         <tr><td>Verifier</td><td><input id="qr-immunization-verifier" type="text" placeholder="Name"/></td></tr>
                     </table>
@@ -102,7 +98,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -112,7 +108,7 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <label for="pubkey">Public Key</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
@@ -122,9 +118,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             <div class="full-div"></div>
             <div class="four-quarter">
                 <br><br>
-                <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
-                </div>
+                <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
                 <br><br>
             </div>
             <div class="full-div">
@@ -228,7 +222,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/divoc.min.js"></script>
 
 		<script>
-            const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+            const params = { margin:0, width:e('qr-divoc-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
             function e(elem) { return document.getElementById(elem); }
 

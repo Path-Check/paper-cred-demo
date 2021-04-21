@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Vaccine Distribution Certificates Generator</title>
 	</head>
@@ -31,13 +32,14 @@
         </div>
 
         <div class="center">
+            <h1>OpenCerta Credential</h1>
+                
             <div class="full-div">
-                <h1>OpenCerta Certificate Schema</h1>
                 <div class="third"> 
                     <h4>VC Overhead</h4>
                     <table>
                         <tr><td>Context</td><td><input id="qr-head-context" type="text" placeholder="https://www.w3.org/2018/credentials/v1"/></td></tr>
-                        <tr><td>IssuanceDate</td><td><input id="qr-head-issuance-date" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>IssueDate</td><td><input id="qr-head-issuance-date" type="text" placeholder="Last Name ..."/></td></tr>
                         <tr><td>Type</td><td><input id="qr-head-type" type="text" placeholder="VerifiableCredential, Immunization"/></td></tr>
                     </table>
 
@@ -48,7 +50,7 @@
                         <tr><td>Status</td><td><input id="qr-fhir-status" type="text" placeholder="Completed"/></td></tr>
                         <tr><td>NotGiven</td><td><input id="qr-fhir-not-given" type="text" placeholder="false"/></td></tr>
                         <tr><td>VaxCode</td><td><input id="qr-fhir-vax-code" type="text" placeholder="AZD1222"/></td></tr>
-                        <tr><td>VaxCodeText</td><td><input id="qr-fhir-vax-code-text" type="text" placeholder="SARS-CoV-2"/></td></tr>
+                        <tr><td>VaxText</td><td><input id="qr-fhir-vax-code-text" type="text" placeholder="SARS-CoV-2"/></td></tr>
                     </table>
                 </div>
                 <div class="third">
@@ -74,7 +76,7 @@
                         <tr><td>Product</td><td><input id="qr-immunization-product" type="text" placeholder="SARS-CoV-2"/></td></tr>
                         <tr><td>Lot#</td><td><input id="qr-immunization-lot" type="text" placeholder="012L20A, ..."/></td></tr>
                         <tr><td>Expiration</td><td><input id="qr-immunization-expiration" type="text" placeholder=""/></td></tr>
-                        <tr><td>PrimarySource</td><td><input id="qr-immunization-primary-source" type="text" placeholder="true"/></td></tr>
+                        <tr><td>Pri Src</td><td><input id="qr-immunization-primary-source" type="text" placeholder="true"/></td></tr>
                     </table>
                     <h4>Practitioner</h4>
                     <table>
@@ -86,7 +88,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -96,19 +98,16 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <label for="pubkey">Public Key</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                 </div>
             </div> 
-            <div class="full-div"></div>
             <div class="four-quarter">
-                <br><br>
-                <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Certificates</button>
-                </div>
+                <br>
+                <button class="qr-btn" onclick="generateQRCodes()">Generate Certificates</button>
                 <br><br>
             </div>
             <div class="full-div">
@@ -121,7 +120,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
                 <div class="two-quarter">
                     <h4>Original OpenCerta Format</h4>
-                    <img id="qr-certa-orig-code" width="420px" src='img/open-certa-original.png' style="display: none;"/>
+                    <img id="qr-certa-orig-code" width="100%" src='img/open-certa-original.png' style="display: none;"/>
                     <pre id="qr-certa-orig-result" style="display: none;">
 {
     "@context": "https://www.w3.org/2018/credentials/v1",
@@ -255,11 +254,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:e('qr-certa-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:420, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
-                })
+                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 

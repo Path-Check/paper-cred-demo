@@ -4,7 +4,7 @@ body {
 }
 
 .center {
-  width: 1100px;
+  max-width: 1100px;
   margin: 30px auto 0 auto;
 }
 
@@ -17,21 +17,51 @@ li {
   line-height: 22px;
 }
 
+h1 {
+  margin: 20px 0px 10px 0px;
+}
+
+h4 {
+  margin: 20px 0px 10px 0px;
+}
+
+table {
+  width: 100%;
+}
+
+table tbody {
+  width: 100%;
+}
+
+tr {
+  width: 100%;
+}
+
+canvas {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
+}
+
 input {
   padding: 5px;
-  margin: 3px;
+  margin: 0px;
   background-color: transparent;
   border: none;
   border-bottom: solid 2px #3654DD;
-  width: 160px;
+  width: 100%;
   font-size: 16px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
 }
 
 input[type="checkbox"] {
   padding: 5px;
   margin: 3px;
   height: 22px;
-  width: 160px;
+  width: 100%;
   font-size: 16px;
 }
 
@@ -54,6 +84,7 @@ input[type="checkbox"] {
 }
 
 textarea {
+  width: 100%;
   margin-top: 10px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -147,11 +178,9 @@ pre {
 }
 
 .four-quarter {
-  float: left;
   width: 78%;
   margin: 0px;
-  padding-right: 5px;
-  padding-left: 5px;
+  text-align: center;
 }
 
 .two-quarter {
@@ -165,6 +194,8 @@ pre {
 .full-div {
   clear: both;
   width: 100%;
+  display: flex;
+  flex-direction: row;
 }
 
 .protocol {
@@ -181,4 +212,43 @@ pre {
 }
 .message {
   color: rgb(197, 107, 197);
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media (max-width: 1000px) {
+  .center {
+    width: 100%;
+    margin: 30px 0px 0px 0px;
+    padding: 0px 10px 0px 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+         box-sizing: border-box;
+  }
+  .full-div {
+    flex-direction: column;
+  }
+  .four-quarter {
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .two-quarter {
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .third {
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .quarter {
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }

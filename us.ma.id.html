@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Massachusetts Signed Driver's License Proposal</title>
 	</head>
@@ -31,9 +32,9 @@
         </div>
 
         <div class="center">
-            <div class="full-div">
-                <h1>US Massachusetts Verifiable Driver's License</h1>
+            <h1>US Massachusetts Verifiable Driver's License</h1>
                 
+            <div class="full-div">
                 <div class="third">
                     <h4>License</h4>
                     <table>
@@ -126,7 +127,7 @@
 
                     <h4>Protocol</h4>
                     <table>
-                        <tr><td>AAMVAVersion</td><td><input id="qr-aam-version" type="text" placeholder=""/></td></tr>
+                        <tr><td>AAMVA Ver</td><td><input id="qr-aam-version" type="text" placeholder=""/></td></tr>
                         <tr><td>Juris Version</td><td><input id="qr-version" type="text" placeholder=""/></td></tr>
                         <tr><td>IIN</td><td><input id="qr-iin" type="text" placeholder=""/></td></tr>
                     </table>
@@ -145,23 +146,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
                     <label for="pubkey">Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <label for="pubkey"><small>1. DNS TXT Record FQDN</small></label><br/>
-                    <label for="pubkey"><small>2. Direct URL to PEM Download</small></label><br/>
-                    <label for="pubkey"><small>3. ID.DATABASE from <a href="https://github.com/Path-Check/paper-cred/tree/benefits_limitations/keys/pcf">PCF</a></small></label><br/>
-                    <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
-                    <br><br>
-                    <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
-
-                    <h4>Read More: <a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Project</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source</a></h4> 
-                    
+                    <label for="qr-link">KeyID: </label>
+                    <textarea id="qr-link" rows="1" cols="30">1A9.PCF</textarea>
                 </div>
             </div>
-            <div class="full-div"></div>
             <div class="four-quarter">
                 <br><br>
-                <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
-                </div>
+                <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
                 <br><br>
             </div>
             <div class="full-div">
@@ -227,32 +218,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:e('qr-massid-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
-                    if (e("include-logos").checked) {
-                        //adding a logo at center        
-                        const imgDim={width:50,height:50}; //logo dimention
-                        var context = e(elemPref+'-code').getContext('2d');
-                        var imageObj = new Image();  
-                        if (e(elemPref+'-private')) {
-                            if (e(elemPref+'-private').checked)
-                                imageObj.src = './img/closelocker.jpg';  
-                            else
-                                imageObj.src = './img/openlocker.jpg';
-                        } else if (elemPref === 'qr-passkey') {
-                            imageObj.src = './img/passkey.png'; 
-                        } else {
-                            imageObj.src = './img/logo.jpg';  
-                        }      
-                        imageObj.onload = function() {
-                            context.drawImage(imageObj, 
-                            e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
-                            e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                        }; 
-                    } 
-                })
+                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
 
                 PDF417.draw(uri, e("pdf-massid-code"), 2, 10, 1.5);
 

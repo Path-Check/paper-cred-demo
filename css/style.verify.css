@@ -103,9 +103,19 @@ textarea {
   margin-right: 20px;
 }
 
+.camera-btn {
+  background-color: #3654DD;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 .option {
   padding:0 30px 0 10px;
-  min-height:48px;
+  min-height:41px;
   font-size: 18px;
   display:flex;
   align-items:center;

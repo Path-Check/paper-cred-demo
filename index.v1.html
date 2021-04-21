@@ -1,13 +1,26 @@
 <!doctype html>
 	<head>
-		<link rel="stylesheet" href="css/style.v1.css">
+		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Signed Vaccine Certificate Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
         <div class="center">
-            <h3>Signed Vaccine Certificate Generator</h3>
-            <div class="left-div">
+            <h1>Verifiable Vax Certificate (RSA)</h1>
+            <div class="half">
                 <table>
                     <tr><td class="input-label">Immunization Date</td><td><input id="qr-date" type="text" placeholder=""/></td></tr>
                     <tr><td class="input-label">Manufacturer</td><td><input id="qr-manuf" type="text" placeholder="Pfizer, Moderna, etc"/></td></tr>
@@ -22,8 +35,9 @@
                     <tr><td class="input-label">Vaccinee ID</td><td><input id="qr-vaccineeid" type="text" placeholder="Name, Phone Number, ID, Coupon, ..."/></td></tr>
                 </table>
             </div>
-            <div class="right-div">
-                <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+            <div class="half">
+                <br/>
+                <label for="privkey">Private Key</label><br/>
                 <textarea id="privkey" rows="16" cols="63">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
@@ -41,30 +55,21 @@ psLBYuApa66NcVHJpCECQQDTjI2AQhFc1yRnCU/YgDnSpJVm1nASoRUnU8Jfm3Oz
 uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 -----END RSA PRIVATE KEY-----
                 </textarea><br><br>
-                <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
-                <textarea id="qr-link" rows="1" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                <label for="pubkey">Link to Public Key</label><br/>
+                <textarea id="qr-link" rows="1" cols="63">github.pathcheck.org/keys/rsa_pub_key</textarea>
                 <br><br>
-                <label for="privkey">QR Code Format</label>
-                <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
             </div>
-            <div class="full-div">
-                <br/><br/>
-                <div style="margin: 0 auto; width:500px;">
-                    <button class="qr-btn center-in-div" onclick="loadDemo()">Load Demo Data</button>
-                    <br/><br/><br/><br/>
-                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Sign Vaccine Certificate</button>
-                    <br/><br/>
+            <div class="full-div-align-center">
+                <br/>
+                <button class="qr-btn" onclick="generateQRCode()">Create Credentials</button>
+            </div>
+            <div class="full-div-align-center">
                     <canvas id="qr-code"></canvas><br/>
+            </div>
+            <div class="full-div-align-left">
                     <pre id="qr-result" class="qr-data"></pre>
                     <pre id="qr-format" class="invisible"><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
                     <p id="qr-verified"></p>
-                    <br/>
-                    <button 
-                        class="qr-btn center-in-div" 
-                        onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">
-                        Download the Reader App
-                    </button>
-                </div>
             </div>
 
         </div>
@@ -121,7 +126,7 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 
                 qr.set({
                     foreground: '#3654DD',
-                    size: 500,
+                    size: e("qr-link").scrollWidth,
                     value: uri
                 });
 
@@ -155,6 +160,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 e("qr-next_dose_in_days").value = "28";
                 e("qr-vaccineeid").value = "John Doe";
             }
+
+            loadDemo();
         </script>
 	</body>
 </html>

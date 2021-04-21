@@ -183,6 +183,20 @@ pre {
   text-align: center;
 }
 
+.full-div-align-center {
+  clear: both;
+  width: 100%;
+  margin: 0px;
+  text-align: center;
+}
+
+.full-div-align-left {
+  clear: both;
+  width: 100%;
+  margin: 0px;
+  text-align: left;
+}
+
 .two-quarter {
   float: left;
   width: 38.5%;
@@ -246,6 +260,12 @@ pre {
     margin-right: 0px;
   }
   .quarter {
+    width: 100%;
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .half {
     width: 100%;
     padding: 0px;
     margin-left: 0px;

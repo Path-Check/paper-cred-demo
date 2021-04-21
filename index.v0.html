@@ -1,18 +1,31 @@
 <!doctype html>
 	<head>
-		<link rel="stylesheet" href="css/style.v0.css">
+		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>QR Code Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
         <div class="center">
-            <h3>Signed QR Code Generator</h3>
-            <div class="left-div">
+            <h1>Signed QR Code Generator</h1>
+            <div class="half">
                 <h4>Message to Sign</h4>
-                <textarea id="india-data" rows="40" cols="65"></textarea> 
+                <textarea id="india-data" rows="28" cols="65"></textarea> 
             </div>
 
-            <div class="right-div">
+            <div class="half">
                 <h4>Credentials</h4>
                 <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
                 <textarea id="privkey" rows="16" cols="63">
@@ -34,12 +47,10 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 </textarea>
                 <br><br>
                 <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
-                <textarea id="qr-link" rows="3" cols="63">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
+                <textarea id="qr-link" rows="3" cols="63">github.pathcheck.org/keys/rsa_pub_key</textarea>
                 <br><br>
                 <label for="privkey">QR Code Format</label><br/>
                 <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
-                <br>               
-                <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
             </div>
 
             <div class="full-div">
@@ -180,6 +191,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
     }
 }`;
             }
+
+            loadDemo();
         </script>
 	</body>
 </html>

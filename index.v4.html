@@ -1,13 +1,27 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Vaccine Distribution Certificates Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
         <div class="center">
+            <h1>Vaccine Journey (CRED)</h1>
             <div class="full-div">
-                <h3>Vaccine Distribution Certificates Generator (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>)</h3>
+                
                 <div class="quarter">
                     <h4>Coupon</h4>
                     <table>
@@ -23,7 +37,7 @@
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
                         <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td>Brithdate</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
                 </div>
@@ -51,7 +65,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" cols="30">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -61,21 +75,18 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">Link to Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
+                    <label for="pubkey">Link to Public Key</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">www.pathcheck.org/hubfs/pub</textarea>
                     <br><br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>.<span class='pub-key'>PubKey</span>?<span class='message'>Payload</span></pre>
                 </div>
             </div>
-            <div class="full-div">
+            <br>
+            <div class="four-quarter">
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                 <br>
-                <div style="margin: 0 auto; width:500px; height:50px;">
-                    <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="loadDemo()">Load Demo Data</button>
-                        <button class="qr-btn" onclick="generateQRCodes()">Sign All Certificates</button>
-                    </div>
-                </div>
+                <br>
             </div>
             <div class="full-div">
                 <div class="quarter">
@@ -283,6 +294,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 e("qr-status-vaccinated").value = "1";
             }
+
+            loadDemo();
         </script>
 	</body>
 </html>

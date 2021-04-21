@@ -1,13 +1,27 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Vaccine Distribution Certificates Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
         <div class="center">
+            <h1>PCF Vaccination Journey (RSA)</h1>
+                
             <div class="full-div">
-                <h3>Vaccine Distribution Certificates Generator</h3>
                 <div class="quarter">
                     <h4>Coupon</h4>
                     <table>
@@ -25,7 +39,7 @@
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Patient Name"/></td></tr>
                         <tr><td>Phone</td><td><input id="qr-passkey-phone" type="text" placeholder="617 .."/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
+                        <tr><td>Birthdate</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYY-MM-DD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
                     </table>
                 </div>
@@ -55,7 +69,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl genrsa -out rsa_1024_priv.pem 1024)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
                     <textarea id="privkey" rows="10" cols="30">
 -----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQDlOJu6TyygqxfWT7eLtGDwajtNFOb9I5XRb6khyfD1Yt3YiCgQ
@@ -74,45 +88,35 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 -----END RSA PRIVATE KEY-----
                     </textarea>
                     <br><br>
-                    <label for="pubkey">Link to Public Key <small>(must be visible to any QR Reader app)</small></label><br/>
-                    <textarea id="qr-link" rows="3" cols="30">vitorpamplona.com/vaccine-certificate-qrcode-generator/pub_key</textarea>
-                    <br><br>
-                    <label for="privkey">QR Code Format</label><br/>
-                    <pre><span class='protocol'>Protocol</span>:<span class='crypto-algo'>HashAlgo</span>\<span class='signature'>Signature</span>@<span class='pub-key'>PubKey</span>?<span class='message'>Message</span></pre>
-                    <br>
-                    <small><button class="qr-btn" onclick="loadDemo()">Load Demo Data</button></small>
-                    <br><br>
-                    <button 
-                        class="qr-btn" 
-                        onclick="window.open('https://github.com/vitorpamplona/vaccine-certificate-tracking-app/releases','_blank')">
-                        Download the Reader App
-                        </button>
+                    <label for="pubkey">Link to Public Key</label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">github.pathcheck.org/keys/rsa_pub_key</textarea>
                 </div>
             </div>
-            <div class="full-div">
-                <br/><br/>
-                <div style="margin: 0 auto; width:500px;">
-                    <button class="qr-btn center-in-div" onclick="generateQRCodes()">Sign All Certificates</button>
-                    <br/><br/>
-                </div>
+            <br>
+            <div class="four-quarter">
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
             </div>
             <div class="full-div">
                 <div class="quarter">
+                    <h4>Coupon</h4>
                     <canvas id="qr-coupon-code"></canvas><br/>
                     <pre id="qr-coupon-result"></pre>
                     <p id="qr-coupon-verified"></p>
                 </div>
                 <div class="quarter">
+                    <h4>Passkey</h4>
                     <canvas id="qr-passkey-code"></canvas><br/>
                     <pre id="qr-passkey-result"></pre>
                     <p id="qr-passkey-verified"></p>
                 </div>
                 <div class="quarter">
+                    <h4>Badge</h4>
                     <canvas id="qr-badge-code"></canvas><br/>
                     <pre id="qr-badge-result"></pre>
                     <p id="qr-badge-verified"></p>
                 </div>
                 <div class="quarter">
+                    <h4>Status</h4>
                     <canvas id="qr-status-code"></canvas><br/>
                     <pre id="qr-status-result"></pre>
                     <p id="qr-status-verified"></p>
@@ -161,8 +165,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 var qr = new QRious({ element: e(elemPref+'-code') });
                 qr.set({
                     foreground: '#3654DD',
-                    size: 290,
-                    level: 'M',
+                    size: e(elemPref+'-code').scrollWidth,
+                    level: 'L',
                     value: uri
                 });
 
@@ -261,6 +265,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
 
                 e("qr-status-vaccinated").value = "1";
             }
+
+            loadDemo();
         </script>
 	</body>
 </html>

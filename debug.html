@@ -1,22 +1,36 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
-		<title>Certificate Verifier</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Verifiable Credential Debugger</title>
 	</head>
 	<body>
-        <div class="center2">
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
+        <div class="center">
+            <h1>Verifiable Credential Debugger</h1>
             <div class="full-div">
-                <h1>Certificate Verifier</h1>
-            
-                <label for="verify">Paste the Code here:</label><br>
-                <textarea id="qr-verify" rows="10" style="width:100%;" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
-                <br><br>
-                <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
-                <br><br>
-                <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>signature</span>:<span class='pub-key'>pubkey</span>:<span class='message'>payload</span></pre>
-                <pre id="qr-verify-result"></pre>
-                <pre id="qr-verify-verified"></pre>
+                <div>
+                    <label for="verify">Paste the Code here:</label><br>
+                    <textarea id="qr-verify" rows="10" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    <br><br>
+                    <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>signature</span>:<span class='pub-key'>pubkey</span>:<span class='message'>payload</span></pre>
+                    <pre id="qr-verify-result"></pre>
+                    <pre id="qr-verify-verified"></pre>
+                </div>
             </div>
         </div>
         

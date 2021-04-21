@@ -1,45 +1,54 @@
 <!doctype html>
 	<head>
-		<link rel="stylesheet" href="css/style.v0.css">
+		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>QR Code Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a href="index.html">Signer</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+
         <div class="center">
-            <h3>QR Code Generator</h3>
+            <h1>QR Code Generator</h1>
             <div class="full-div">
-                <h4>Message to Include</h4>
-                <div class="left-div">
+                <div class="half">
                     <textarea id="text-qr1" rows="10" style="width:100%;">jxt:example.com:w3vc:1:MoH/J07BX03/1183738569/OPL/NZ/BgLv0g/Bwtkpo/SMITH/Male/JOHN/urn%3Auvci%3Aaf5vshde843jf831j128fj/Bd5lLo/eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..a3UqIuKSOmCKrdn2knl_hCjiN4f4Ud1eO5ckwEHb623V9vdCwWCDB7GBHlRBYSI8ek2E-By7xysVFwutcpOeDg</textarea> 
                 </div>
-                <div class="right-div">
+                <div class="half">
                     <textarea id="text-qr2" rows="10" style="width:100%;">JXT:EXAMPLE.COM:W3VC:1:MOH/J07BX03/1183738569/OPL/NZ/BGLV0G/BWTKPO/SMITH/MALE/JOHN/XK465POITJ7ZX3EF266OG6G76N6WHV3PD6H7AXPGKLUP33EJQWYZZCHIREKZCEKNASELBCMI3DIIR2MZQWY43FFQRGG4TJOQRDUWZCMI3DIIS5PVVXKKRC4KJDUYEKVXM7NETZMEFDRDPB7YKHOV4O4XETAEDW7LNXK7N52CYFQIGB5RQEPFIQLBEI6HUTMEA4XPDSWFIXBOWXFE46BQ</textarea> 
                 </div>
-
             </div>
-
-            <div class="full-div">
+            <div class="full-div-align-center">
+                <br/>
+                <button class="qr-btn" onclick="generateQRCodes()">Create & Study QRs</button>
                 <br/><br/>
-                <div class="center">
-                    <button class="qr-btn center-in-div" onclick="generateQRCode()">Generate QR</button>
-                    <br/><br/>
-                    <div class="left-div">
-                        <canvas id="qr-code1"></canvas><br/>
-                        <pre id="qr-code1-url"></pre>
-                        <pre id="qr-code1-bytes"></pre>
-                        <pre id="qr-code1-mode"></pre>
-                        <pre id="qr-code1-error"></pre>
-                        
-                    </div>
-                    <div class="right-div">
-                        <canvas id="qr-code2"></canvas><br/>
-                        <pre id="qr-code2-url"></pre>
-                        <pre id="qr-code2-bytes"></pre>
-                        <pre id="qr-code2-mode"></pre>
-                        <pre id="qr-code2-error"></pre>
-                        
-                    </div>
-                   
+            </div>
+            <div class="full-div">
+                <div class="half">
+                    <canvas id="qr-code1"></canvas><br/>
+                    <pre id="qr-code1-url"></pre>
+                    <pre id="qr-code1-bytes"></pre>
+                    <pre id="qr-code1-mode"></pre>
+                    <pre id="qr-code1-error"></pre>
+                    
+                </div>
+                <div class="half">
+                    <canvas id="qr-code2"></canvas><br/>
+                    <pre id="qr-code2-url"></pre>
+                    <pre id="qr-code2-bytes"></pre>
+                    <pre id="qr-code2-mode"></pre>
+                    <pre id="qr-code2-error"></pre>
+                    
                 </div>
             </div>
         </div>
@@ -56,7 +65,7 @@
 
             function generateCode(elemIdSource, elemPrefix) {
                 let uri = e(elemIdSource).value;
-                let params = {margin:0, width:540, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                let params = {margin:0, width:e('qr-code1').scrollWidth, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                 let qr = QRCode.create(uri, );
                 
                 QRCode.toCanvas(e(elemPrefix), uri, params, function (error) {
@@ -81,7 +90,7 @@
                 }
                 //e(elemPrefix + "-bytes").innerHTML = "QR Version: " + qr.version + " with size " + qr.modules.size + "x" + qr.modules.size + " bits => " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes";
             }
-            function generateQRCode() {
+            function generateQRCodes() {
                 generateCode('text-qr1', "qr-code1");
                 generateCode('text-qr2', "qr-code2");
             }

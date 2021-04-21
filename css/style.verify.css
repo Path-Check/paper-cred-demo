@@ -7,9 +7,14 @@ h1 {
   margin: 20px 0px 10px 0px;
 }
 
+h2 {
+  margin: 15px 0px 7px 0px;
+}
+
 h4 {
   margin: 20px 0px 10px 0px;
 }
+
 
 .center {
   max-width: 1100px;
@@ -185,5 +190,8 @@ input:checked + label:before {
   }
   .full-div {
     flex-direction: column;
+  }
+  .xs-hidden {
+    display: none;
   }
 }

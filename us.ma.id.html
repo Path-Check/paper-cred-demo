@@ -1,42 +1,72 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Massachusetts Signed Driver's License Proposal</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a href="liberty.html">Excelsior</a>
+                <a href="vial.html">Vial Label</a>
+                <a class="active"  href="us.ma.id.html">Mass ID</a>
+                <a href="banknote.html">BankNote</a>
+                <a href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>Massachusetts Signed Driver's License Proposal (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
+                <h1>US Massachusetts Verifiable Driver's License</h1>
                 
                 <div class="third">
                     <h4>License</h4>
                     <table>
                         <tr><td>Issue</td><td><input id="qr-dbd" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Expiration</td><td><input id="qr-dba" type="text" placeholder="YYYYMMDD"/></td></tr>
-                        
-                        <tr><td>Juris Vehicle Class</td><td><input id="qr-dca" type="text" placeholder="2"/></td></tr>
-                        <tr><td>Juris Restrictions</td><td><input id="qr-dcb" type="text" placeholder="Glasses, ..."/></td></tr>
-                        <tr><td>Juris Privileges</td><td><input id="qr-dcd" type="text" placeholder="1A, 2A, ..."/></td></tr>
-                        
-                        <tr><td>Juris Vehicle Class Desc</td><td><input id="qr-dcp" type="text" placeholder="2"/></td></tr>
-                        <tr><td>Juris Endorsement Desc</td><td><input id="qr-dcq" type="text" placeholder="Glasses, ..."/></td></tr>
-                        <tr><td>Juris Restriction Desc</td><td><input id="qr-dcr" type="text" placeholder="1A, 2A, ..."/></td></tr>
 
-                        <tr><td>Fed Commercial Vehicle</td><td><input id="qr-dch" type="text" placeholder=""/></td></tr>
+                        <tr><td>Compl. Type</td><td><input id="qr-dda" type="text" placeholder="F, N, ..."/></td></tr>
+                        <tr><td>Rev Date</td><td><input id="qr-ddb" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>Hazard Exp</td><td><input id="qr-ddc" type="text" placeholder="YYYYMMDD"/></td></tr>
 
-                        <tr><td>Std Vehicle Class</td><td><input id="qr-dcm" type="text" placeholder=""/></td></tr>
-                        <tr><td>Std Endorsement</td><td><input id="qr-dcn" type="text" placeholder=""/></td></tr>
-                        <tr><td>Std Restriction</td><td><input id="qr-dco" type="text" placeholder=""/></td></tr>
-
-                        <tr><td>Compliance Type</td><td><input id="qr-dda" type="text" placeholder="F, N, ..."/></td></tr>
-                        <tr><td>Card Revision Date</td><td><input id="qr-ddb" type="text" placeholder="YYYYMMDD"/></td></tr>
-                        <tr><td>Card Hazardous Exp.</td><td><input id="qr-ddc" type="text" placeholder="YYYYMMDD"/></td></tr>
-
-                        <tr><td>Audit Information</td><td><input id="qr-dcj" type="text" placeholder=""/></td></tr>
-                        <tr><td>Inventory Control</td><td><input id="qr-dck" type="text" placeholder=""/></td></tr>
+                        <tr><td>Audit Info</td><td><input id="qr-dcj" type="text" placeholder=""/></td></tr>
+                        <tr><td>Inventory Ctr</td><td><input id="qr-dck" type="text" placeholder=""/></td></tr>
                         <tr><td>Customer ID</td><td><input id="qr-daq" type="text" placeholder=""/></td></tr>
-                        <tr><td>Document Discriminator</td><td><input id="qr-dcf" type="text" placeholder=""/></td></tr>
+                        <tr><td>Discriminator</td><td><input id="qr-dcf" type="text" placeholder=""/></td></tr>
+                    </table>
+                    <h4>Jurisdiction</h4> 
+                    <table>  
+                        <tr><td>VehicleClass</td><td><input id="qr-dca" type="text" placeholder="2"/></td></tr>
+                        <tr><td>Restrictions</td><td><input id="qr-dcb" type="text" placeholder="Glasses, ..."/></td></tr>
+                        <tr><td>Privileges</td><td><input id="qr-dcd" type="text" placeholder="1A, 2A, ..."/></td></tr>
+                        
+                        <tr><td>Class Desc</td><td><input id="qr-dcp" type="text" placeholder="2"/></td></tr>
+                        <tr><td>Endor. Desc</td><td><input id="qr-dcq" type="text" placeholder="Glasses, ..."/></td></tr>
+                        <tr><td>Restr. Desc</td><td><input id="qr-dcr" type="text" placeholder="1A, 2A, ..."/></td></tr>
+                    </table>
+                    <h4>Federal</h4> 
+                    <table>  
+                        <tr><td>CommVehicle</td><td><input id="qr-dch" type="text" placeholder=""/></td></tr>
+
+                        <tr><td>VehicleClass</td><td><input id="qr-dcm" type="text" placeholder=""/></td></tr>
+                        <tr><td>Endorsement</td><td><input id="qr-dcn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Restriction</td><td><input id="qr-dco" type="text" placeholder=""/></td></tr>
+
                     </table>
                 </div>
                 
@@ -44,7 +74,7 @@
                     <h4>Driver</h4>
                     <table>
                         <tr><td>First Name</td><td><input id="qr-dac" type="text" placeholder="First Name ..."/></td></tr>
-                        <tr><td>Middle Name</td><td><input id="qr-dad" type="text" placeholder="Middle Name ..."/></td></tr>
+                        <tr><td>Middl Name</td><td><input id="qr-dad" type="text" placeholder="Middle Name ..."/></td></tr>
                         <tr><td>Last Name</td><td><input id="qr-dcs" type="text" placeholder="Last Name ..."/></td></tr>
                         <tr><td>Given Name</td><td><input id="qr-dct" type="text" placeholder="Given Name ..."/></td></tr>
                         <tr><td>Suffix</td><td><input id="qr-dcu" type="text" placeholder="Dr. Jr. ..."/></td></tr>
@@ -52,20 +82,23 @@
                         <tr><td>DoB</td><td><input id="qr-dbb" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Gender</td><td><input id="qr-dbc" type="text" placeholder="Gender ..."/></td></tr>
 
-                        <tr><td>Lawful Status</td><td><input id="qr-ddd" type="text" placeholder=""/></td></tr>
+                        <tr><td>Lawful Stat</td><td><input id="qr-ddd" type="text" placeholder=""/></td></tr>
                         <tr><td>Organ Donor</td><td><input id="qr-ddk" type="text" placeholder=""/></td></tr>
                         <tr><td>Veteran</td><td><input id="qr-ddl" type="text" placeholder=""/></td></tr>
 
-                        <tr><td>Place of Birth</td><td><input id="qr-dci" type="text" placeholder=""/></td></tr>
-
-                        <tr><td>Last Name Alias</td><td><input id="qr-dbn" type="text" placeholder="Last Name ..."/></td></tr>
-                        <tr><td>Given Name Alias</td><td><input id="qr-dbg" type="text" placeholder="Given Name ..."/></td></tr>
-                        <tr><td>Suffix Alias</td><td><input id="qr-dbs" type="text" placeholder="Dr. Jr. ..."/></td></tr>            
+                        <tr><td>Place Birth</td><td><input id="qr-dci" type="text" placeholder=""/></td></tr>          
                         
-                        <tr><td>18Y Anniversary</td><td><input id="qr-ddh" type="text" placeholder="YYYYMMDD"/></td></tr>
-                        <tr><td>19Y Anniversary</td><td><input id="qr-ddi" type="text" placeholder="YYYYMMDD"/></td></tr>
-                        <tr><td>21Y Anniversary</td><td><input id="qr-ddj" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>18Y Anniver</td><td><input id="qr-ddh" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>19Y Anniver</td><td><input id="qr-ddi" type="text" placeholder="YYYYMMDD"/></td></tr>
+                        <tr><td>21Y Anniver</td><td><input id="qr-ddj" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>ZVA</td><td><input id="qr-zva" type="text" placeholder="YYYYMMDD"/></td></tr>
+                    </table>
+                    
+                    <h4>Aliases</h4> 
+                    <table>  
+                        <tr><td>Last Name</td><td><input id="qr-dbn" type="text" placeholder="Last Name ..."/></td></tr>
+                        <tr><td>Given Name</td><td><input id="qr-dbg" type="text" placeholder="Given Name ..."/></td></tr>
+                        <tr><td>Suffix</td><td><input id="qr-dbs" type="text" placeholder="Dr. Jr. ..."/></td></tr>  
                     </table>
                 </div>
                 
@@ -76,15 +109,15 @@
                         <tr><td>Hair Color</td><td><input id="qr-daz" type="text" placeholder=""/></td></tr>
                         <tr><td>Race</td><td><input id="qr-dcl" type="text" placeholder=""/></td></tr> 
                         <tr><td>Height</td><td><input id="qr-dau" type="text" placeholder=""/></td></tr>
-                        <tr><td>Weight Range</td><td><input id="qr-dce" type="text" placeholder=""/></td></tr>
+                        <tr><td>WeightRange</td><td><input id="qr-dce" type="text" placeholder=""/></td></tr>
                         <tr><td>Weight (lbs)</td><td><input id="qr-daw" type="text" placeholder=""/></td></tr>
                         <tr><td>Weight (kgs)</td><td><input id="qr-dax" type="text" placeholder=""/></td></tr>
                     </table>
 
                     <h4>Location</h4>
                     <table>
-                        <tr><td>Address 1</td><td><input id="qr-dag" type="text" placeholder="3rd St"/></td></tr>
-                        <tr><td>Address 2</td><td><input id="qr-dah" type="text" placeholder="Apt xx"/></td></tr>
+                        <tr><td>Address Lin1</td><td><input id="qr-dag" type="text" placeholder="3rd St"/></td></tr>
+                        <tr><td>Address Lin2</td><td><input id="qr-dah" type="text" placeholder="Apt xx"/></td></tr>
                         <tr><td>City</td><td><input id="qr-dai" type="text" placeholder="Somerville"/></td></tr>
                         <tr><td>State</td><td><input id="qr-daj" type="text" placeholder="MA"/></td></tr>
                         <tr><td>Zip</td><td><input id="qr-dak" type="text" placeholder="02141"/></td></tr>
@@ -123,12 +156,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     
                 </div>
             </div>
-            <div class="full-div">
+            <div class="full-div"></div>
+            <div class="four-quarter">
                 <br><br>
-                <div style="margin: 0 auto; width:500px; height:50px;">
-                    <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                    </div>
+                <div style="margin: 0 auto; width:240px; height:50px;">
+                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
                 </div>
                 <br><br>
             </div>
@@ -195,7 +227,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
@@ -222,7 +254,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     } 
                 })
 
-                PDF417.draw(uri, e("pdf-massid-code"), 3, 2, 2);
+                PDF417.draw(uri, e("pdf-massid-code"), 2, 10, 1.5);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 

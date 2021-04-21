@@ -1,19 +1,44 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>NY Liberty Pass with PCF Certificates Generator</title>
 
         <style>
             input {
-                width: 420px;
+                width: 320px;
             }
-            </style>
+        </style>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a class="active" href="liberty.html">Excelsior</a>
+                <a href="vial.html">Vial Label</a>
+                <a href="us.ma.id.html">Mass ID</a>
+                <a href="banknote.html">BankNote</a>
+                <a href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>NY Liberty Pass Example Schema using PCF's spec (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>)</h3>
+                <h1>NYC Excelsior Liberty Pass Schema</h1>
                 <div class="two-quarter"> 
                     <h4>VC Overhead</h4>
                     <table>
@@ -59,22 +84,20 @@ MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
 oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
-                    <br><br>
+                    <br>
                     <label for="pubkey">DNS TXT Record of the Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
                     <textarea id="qr-link" rows="1" cols="30">keys.pathcheck.org</textarea>
                     <label for="pubkey">When ready, change to: <span class='pub-key'>ISSUER#key-1</span></label><br/>
-                    <br><br>
+                    <br>
                     <label for="privkey">QR Code Format</label><br/>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                 </div>
             </div> 
             <div class="full-div"></div>
             <div class="four-quarter">
-                <br><br>
                 <div style="margin: 0 auto; width:240px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Generate Certificates</button>
+                    <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
                 </div>
-                <br><br>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
@@ -146,7 +169,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pcf.js"></script>
 
 		<script>
-            const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+            const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
             function e(elem) { return document.getElementById(elem); }
 

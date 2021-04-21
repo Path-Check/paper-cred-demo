@@ -1,15 +1,45 @@
 <!doctype html>
 	<head>
-		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Banknote Signed Certificate Proposal</title>
+        <style>
+            input {
+                width: 270px;
+            }
+        </style>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a href="liberty.html">Excelsior</a>
+                <a href="vial.html">Vial Label</a>
+                <a href="us.ma.id.html">Mass ID</a>
+                <a class="active"  href="banknote.html">BankNote</a>
+                <a href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>Banknote Signed Certificate Proposal (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
+                <h1>Verifiable Banknote Schema</h1>
                 
-                <div class="third">
+                <div class="two-quarter">
                     <h4>Note Information</h4>
                     <table>
                         <tr><td>Issuing Country</td><td><input id="qr-country" type="text" placeholder="United States of America"/></td></tr>
@@ -21,8 +51,7 @@
                         <tr><td>Denomination</td><td><input id="qr-denomination" type="text" placeholder="10.00"/></td></tr>
                         <tr><td>Currency Name</td><td><input id="qr-currency-name" type="text" placeholder="Dollar"/></td></tr>
                     </table>
-                </div>
-                <div class="third">
+
                     <h4>Printing & Distribution Information</h4>
                     <table>
                         <tr><td>FED Bank #</td><td><input id="qr-indicator" type="text" placeholder="E12"/></td></tr>
@@ -31,14 +60,14 @@
                         <tr><td>Note Position</td><td><input id="qr-position" type="text" placeholder="5E"/></td></tr>
                     </table> 
                 </div>
-                <div class="third">
+                <div class="two-quarter">
                     <h4>Design Restrictions</h4>
                     <ul>
                         <li>QR must fit a 10x10mm area on a bank note</li>
                         <li>QR must contain all the fields of the note</li>
                         <li>Must be readable by a regular phone</li>
                     </ul>
-
+                    
                     <h4>Benefits</h4>
                     <ul>
                         <li>Counterfeiters can only duplicate notes (changing serial number breaks the signature)</li>
@@ -64,14 +93,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
                 </div>
             </div>
-            <div class="full-div">
-                <br>
-                <div style="margin: 0 auto; height:50px;">
-                    <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                    </div>
+            <div class="full-div"></div>
+            <div class="four-quarter">
+                <br><br>
+                <div style="margin: 0 auto; width:240px; height:50px;">
+                    <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                 </div>
-                <br>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
@@ -136,12 +163,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)
 
-                PDF417.draw(uri, e("pdf-banknote-code"), 3, 2, 2);
+                PDF417.draw(uri, e("pdf-banknote-code"), 3, 10, 2);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 

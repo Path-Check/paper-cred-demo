@@ -1,13 +1,38 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Vial Signed Certificate Proposal</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a href="liberty.html">Excelsior</a>
+                <a class="active" href="vial.html">Vial Label</a>
+                <a href="us.ma.id.html">Mass ID</a>
+                <a href="banknote.html">BankNote</a>
+                <a href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>Vial Signed Certificate Proposal (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
+                <h1>Moderna's Verifiable Vial Schema</h1>
                 
                 <div class="third">
                     <h4>Vial Information</h4>
@@ -61,12 +86,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
                 </div>
             </div>
-            <div class="full-div">
-                <br>
-                <div style="margin: 0 auto; height:50px;">
-                    <div class="center-in-div"> 
-                        <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                    </div>
+            <div class="full-div"></div>
+            <div class="four-quarter">
+                <br><br>
+                <div style="margin: 0 auto; width:190px; height:50px;">
+                    <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                 </div>
                 <br>
             </div>
@@ -135,7 +159,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:520, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:420, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)

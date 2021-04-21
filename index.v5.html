@@ -1,13 +1,44 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
+        <style>
+            input {
+                width: 130px;
+            }
+        </style>
+
 		<title>Vaccine Distribution Credentials Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a class="active" href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a href="liberty.html">Excelsior</a>
+                <a href="vial.html">Vial Label</a>
+                <a href="us.ma.id.html">Mass ID</a>
+                <a href="banknote.html">BankNote</a>
+                <a href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>Vaccine Distribution Credentials Generator (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Main Page</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source Code</a>)</h3>
+                <h1>PathCheck's Vaccine Distribution Credentials</h1>
                 <div class="quarter">
                     <h4>Coupon</h4>
                     <table>
@@ -74,9 +105,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <label for="qr-link">KeyID: </label><input id="qr-link" type="text" value="1A9.PCF"></input>
                     <br><br>
                     <span class="checkboxes" ><input id="include-logos" type="checkbox"><label for="include-logos">Draw Symbols</label></span>
-
-                    <h4>Read More: <a href="https://github.com/Path-Check/paper-cred/">Spec</a>, <a href="https://vaccine-docs.pathcheck.org/">Project</a>, <a href="https://github.com/Path-Check/paper-cred-demo/">Source</a></h4> 
-                    
                 </div>
             </div>
             <div class="full-div">
@@ -86,7 +114,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                     </div>
                 </div>
-                <br><br>
             </div>
             <div class="full-div">
                 <div class="quarter">
@@ -179,7 +206,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
-                const params = { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:200, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
@@ -206,7 +233,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     } 
                 })
 
-                PDF417.draw(uri, e(elemPref+"-pdf"), 6, 1, 1);
+                PDF417.draw(uri, e(elemPref+"-pdf"), 2, 1, 1.2);
 
                 e(elemPref+"-code-label").style.display = '';
                 e(elemPref+"-pdf-label").style.display = '';
@@ -232,10 +259,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
 
                 e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
+                e(elemPref+"-bytes").innerHTML += "<br>-ECC L  7% "  + describe(qrL);
+                e(elemPref+"-bytes").innerHTML += "<br>-ECC M 15% " + describe(qrM);
+                e(elemPref+"-bytes").innerHTML += "<br>-ECC Q 25% " + describe(qrQ);
+                e(elemPref+"-bytes").innerHTML += "<br>-ECC H 30% " + describe(qrH);
                 
                 e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qr.segments.length + " segments";
                 for (i=0; i<qr.segments.length; i++) {
@@ -246,7 +273,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function describe(qr) {
-                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
+                return qr.modules.size + "x" + qr.modules.size + " " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
             }
 
             function generateQRCodes() {

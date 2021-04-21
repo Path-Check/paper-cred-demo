@@ -1,14 +1,39 @@
 <!doctype html>
 	<head>
 		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
         <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
 		<title>Vaccine Distribution Certificates Generator</title>
 	</head>
 	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">All Demos</a>
+              <a href="verify.html">Verifier</a>
+              <a href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred">QR Specs</a>
+              
+              <a href="http://vaccine-docs.pathcheck.org">Vaccine Docs</a>
+              <a href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF's 4 QRs</a>
+                <a href="cowin.html">COWIN</a>
+                <a href="liberty.html">Excelsior</a>
+                <a href="vial.html">Vial Label</a>
+                <a href="us.ma.id.html">Mass ID</a>
+                <a href="banknote.html">BankNote</a>
+                <a class="active"  href="opencerta.html">OpenCerta</a>
+            </div>
+        </div>
+
         <div class="center">
             <div class="full-div">
-                <h3>OpenCerta Certificate Example Schema using PCF's spec (<a href="https://github.com/Path-Check/paper-cred/">Spec</a>)</h3>
-                <div class="quarter"> 
+                <h1>OpenCerta Certificate Schema</h1>
+                <div class="third"> 
                     <h4>VC Overhead</h4>
                     <table>
                         <tr><td>Context</td><td><input id="qr-head-context" type="text" placeholder="https://www.w3.org/2018/credentials/v1"/></td></tr>
@@ -26,7 +51,7 @@
                         <tr><td>VaxCodeText</td><td><input id="qr-fhir-vax-code-text" type="text" placeholder="SARS-CoV-2"/></td></tr>
                     </table>
                 </div>
-                <div class="quarter">
+                <div class="third">
                     <h4>Patient</h4>
                     <table>
                         <tr><td>FirstName</td><td><input id="qr-pat-firstname" type="text" placeholder="First Name ..."/></td></tr>
@@ -41,7 +66,7 @@
                         <tr><td>Country</td><td><input id="qr-location-country" type="text" placeholder="USA"/></td></tr>
                     </table>
                 </div>
-                <div class="quarter">
+                <div class="third">
                     <h4>Immunization</h4>
                     <table>
                         <tr><td>Date</td><td><input id="qr-immunization-date" type="text" placeholder=""/></td></tr>
@@ -51,9 +76,6 @@
                         <tr><td>Expiration</td><td><input id="qr-immunization-expiration" type="text" placeholder=""/></td></tr>
                         <tr><td>PrimarySource</td><td><input id="qr-immunization-primary-source" type="text" placeholder="true"/></td></tr>
                     </table>
-                </div>
-                
-                <div class="quarter">
                     <h4>Practitioner</h4>
                     <table>
                         <tr><td>FirstName</td><td><input id="qr-practitioner-firstname" type="text" placeholder="First Name ..."/></td></tr>
@@ -99,7 +121,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 </div>
                 <div class="two-quarter">
                     <h4>Original OpenCerta Format</h4>
-                    <img id="qr-certa-orig-code" src='img/open-certa-original.png' style="display: none;"/>
+                    <img id="qr-certa-orig-code" width="420px" src='img/open-certa-original.png' style="display: none;"/>
                     <pre id="qr-certa-orig-result" style="display: none;">
 {
     "@context": "https://www.w3.org/2018/credentials/v1",
@@ -236,7 +258,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const params = { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:520, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
+                QRCode.toCanvas(e(elemPref+'-code'), uri, { margin:0, width:420, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }}, function (error) {
                 })
 
                 // Updates screen elements. 

@@ -1,6 +1,6 @@
 body {
-  margin-top: 50px;
   font-family: 'IBM Plex Sans', sans-serif;
+  margin: 0px;
 }
 
 h1 {
@@ -8,8 +8,8 @@ h1 {
 }
 
 .center {
-  max-width: 600px;
-  margin: 0 auto;
+  width: 1100px;
+  margin: 30px auto 0 auto;
 }
 
 .green {
@@ -62,6 +62,7 @@ canvas {
 }
 
 #preview {
+  width: 1100px;
   border-radius: 2px;
   border:#222 solid 1px;
 }

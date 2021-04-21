@@ -11,6 +11,10 @@ h2 {
   margin: 15px 0px 7px 0px;
 }
 
+h3 {
+  margin: 15px 0px 7px 0px;
+}
+
 h4 {
   margin: 20px 0px 10px 0px;
 }
@@ -28,7 +32,7 @@ h4 {
 .auto-margin {
   position: relative;
   margin: 0 auto;
-  max-width: 650px;
+  max-width: 500px;
 }
 
 
@@ -48,7 +52,7 @@ h4 {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 15px;
-  padding: 5px;
+  padding: 15px;
   max-width: 600px;
 }
 

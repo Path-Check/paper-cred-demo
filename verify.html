@@ -30,7 +30,7 @@
                     <video id="preview"></video>
                     
                     <h2>Or Paste the QR Code here:</h2>
-                    <textarea id="qr-verify" rows="10" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <textarea id="qr-verify" rows="5" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
 
                     <div class="align-center"> 
@@ -113,7 +113,7 @@
                     const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
                     const fields = PCF.getPayloadFields(payload);
 
-                    let params = {margin:0, width:e('qr').scrollWidth-40, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:e('qr').scrollWidth-20, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {
                         if (result) {
                             const imgDim={width:150,height:150}; //logo dimention

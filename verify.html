@@ -24,7 +24,7 @@
                     <h1>Certificate Verifier</h1>
             
                     <div class="select" tabindex="1" id="cameras"></div>
-                    <button class="qr-btn" id='camera-btn' onclick="toggleCamera()">Open Camera</button>
+                    <button class="qr-btn" id='camera-btn' onclick="toggleCamera()">Go</button>
                     <br><br>
 
                     <video id="preview"></video>
@@ -279,7 +279,7 @@
             }
 
             function toggleCamera() {
-                if (e('camera-btn').innerHTML === "Open Camera") {
+                if (e('camera-btn').innerHTML === "Go") {
                     startCamera();
                 } else {
                     stopCamera();
@@ -296,7 +296,7 @@
                 }).catch(function (e) {
                     console.error(e);
                 });
-                e('camera-btn').innerHTML = "Close Camera";
+                e('camera-btn').innerHTML = "Stop";
             }
 
             function stopCamera() {
@@ -304,7 +304,7 @@
                 e('preview').pause();
                 e('preview').removeAttribute('src'); // empty source
                 e('preview').load();
-                e('camera-btn').innerHTML = "Open Camera";
+                e('camera-btn').innerHTML = "Go";
             }
 
             function home() {

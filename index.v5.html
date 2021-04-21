@@ -220,7 +220,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
                 let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
-                e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
+                e(elemPref+"-bytes").innerHTML = "URI in A/N: "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
 
                 e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
                 e(elemPref+"-bytes").innerHTML += "<br>-ECC L  7% "  + describe(qrL);

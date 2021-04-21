@@ -342,7 +342,7 @@ var PCF = {
           let publicKeyPEM = this.getKeyId(pubKeyLink).key;
           try{
               let verified = this.verify(publicKeyPEM, payload, signatureBase32NoPad);
-              return "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+              return "Signature: " + (verified ? "Verified" : "Not Valid");
           } catch(err) {
               return "Signature Verification Failed: " + err;
               console.error(err);

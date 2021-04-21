@@ -395,7 +395,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e("qr-divoc-orig-result").setAttribute('data-title', cert);
 
                     DIVOC.verify(signed).then(verified => {
-                        e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                        e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
                     });
                 });
                 

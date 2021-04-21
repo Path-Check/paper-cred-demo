@@ -25,7 +25,7 @@
                     <h1>Certificate Verifier</h1>
             
                     <div class="select" tabindex="1" id="cameras"></div>
-                    <button class="qr-btn" id='camera-btn' onclick="startQR()">Open Camera</button>
+                    <button class="qr-btn" id='camera-btn' onclick="toggleCamera()">Open Camera</button>
                     <br><br>
 
                     <video id="preview"></video>
@@ -193,6 +193,7 @@
 
                 // Update the page's address without causing a reload
                 window.location.hash = '#processed'
+                stopCamera();
             }
 
             function unZipVerifyDisplayDIVOC(data) {
@@ -278,25 +279,33 @@
                 console.log('Query variable %s not found', variable);
             }
 
-            function startQR() {
+            function toggleCamera() {
                 if (e('camera-btn').innerHTML === "Open Camera") {
-                    Instascan.Camera.getCameras().then(function (cameras) {
-                        if (cameras.length > 0) {
-                            scanner.start(cameras[document.querySelector('input[name="camera"]:checked').id.substr(3)]);
-                        } else {
-                            console.error('No cameras found.');
-                        }
-                    }).catch(function (e) {
-                        console.error(e);
-                    });
-                    e('camera-btn').innerHTML = "Close Camera";
+                    startCamera();
                 } else {
-                    scanner.stop();
-                    e('preview').pause();
-                    e('preview').removeAttribute('src'); // empty source
-                    e('preview').load();
-                    e('camera-btn').innerHTML = "Open Camera";
+                    stopCamera();
                 }
+            }
+
+            function startCamera() {
+                Instascan.Camera.getCameras().then(function (cameras) {
+                    if (cameras.length > 0) {
+                        scanner.start(cameras[document.querySelector('input[name="camera"]:checked').id.substr(3)]);
+                    } else {
+                        console.error('No cameras found.');
+                    }
+                }).catch(function (e) {
+                    console.error(e);
+                });
+                e('camera-btn').innerHTML = "Close Camera";
+            }
+
+            function stopCamera() {
+                scanner.stop();
+                e('preview').pause();
+                e('preview').removeAttribute('src'); // empty source
+                e('preview').load();
+                e('camera-btn').innerHTML = "Open Camera";
             }
 
             function home() {

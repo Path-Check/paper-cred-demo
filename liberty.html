@@ -92,8 +92,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div">
                 <div class="two-quarter">
-                    <h4>PCF's Format</h4>
+                    <h4>PCF's QR Format</h4>
                     <canvas id="qr-ibm-code"></canvas>
+                    <h4 id="qr-ibm-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-ibm-pdf"></canvas>
                     <pre id="qr-ibm-result"></pre>
                     <pre id="qr-ibm-verified"></pre>
                     <pre id="qr-ibm-bytes" class="xs-hidden"></pre>
@@ -101,6 +103,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="two-quarter">
                     <h4>Original IBM Format</h4>
                     <canvas id="qr-ibm-orig-code"></canvas>
+                    <h4 id="qr-ibm-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-ibm-orig-pdf" style="display: none;"></canvas>
                     <pre id="qr-ibm-orig-result" style="display: none;">
 {
     "@context": ["https://www.w3.org/2018/credentials/v1"],
@@ -159,6 +163,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
         <script src="js/pcf.js"></script>
 
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
+
 		<script>
             const params = { margin:0, width:e('qr-ibm-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
@@ -197,6 +205,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function drawsQR(elemPref, value) {
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) { });
+
+                if (PDF417.draw(value, e(elemPref+"-pdf"), 4, 1, 2) === undefined) {
+                    e(elemPref+"-pdf-label").style.display = '';
+                    e(elemPref+"-pdf").style.display = '';
+                } 
 
                 let qr = QRCode.create(value, params);
 

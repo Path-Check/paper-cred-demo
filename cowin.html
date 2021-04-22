@@ -122,6 +122,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="two-quarter">
                     <h4>PCF's Format (<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/cowin.1.md'>Spec</a>)</h4>
                     <canvas id="qr-divoc-code"></canvas><br/>
+                    <h4 id="qr-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-divoc-pdf" style="display: none;"></canvas>
                     <pre id="qr-divoc-result"></pre>
                     <pre id="qr-divoc-verified"></pre>
                     <pre id="qr-divoc-bytes"  class="xs-hidden"></pre>
@@ -129,6 +131,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="two-quarter">
                     <h4>Original DIVOC Format</h4>
                     <canvas id="qr-divoc-orig-code"></canvas>
+                    <h4 id="qr-divoc-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-divoc-orig-pdf" style="display: none;"></canvas>
                     <pre id="qr-divoc-orig-result" style="display: none;" onclick="copyToClipboard();">
 {
     "@context": ["https://www.w3.org/2018/credentials/v1", "https://cowin.gov.in/credentials/vaccination/v1"],
@@ -218,6 +222,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/jszip.min.js"></script>        
         <script src="js/divoc.min.js"></script>
 
+
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
+
 		<script>
             const params = { margin:0, width:e('qr-divoc-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
@@ -257,6 +266,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function drawsQR(elemPref, value) {
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) { });
+
+                if (PDF417.draw(value, e(elemPref+"-pdf"), 4, 1, 2) === undefined) {
+                    e(elemPref+"-pdf-label").style.display = '';
+                    e(elemPref+"-pdf").style.display = '';
+                } 
 
                 let qr = QRCode.create(value, params);
 

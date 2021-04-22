@@ -134,7 +134,7 @@
                 
                 <div class="quarter">
                     <h4>Credentials</h4>
-                    <label for="privkey">Private Key <small>(openssl ecparam -name secp256k1 -genkey -out private.key)</small></label><br/>
+                    <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
@@ -144,29 +144,25 @@ oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
-                    <label for="pubkey">Public Key <small>(openssl ec -in private.key -pubout -out public.key)</small></label><br/>
-                    <label for="qr-link">KeyID: </label>
+                    <label for="pubkey">Public Key</label>
                     <textarea id="qr-link" rows="1" cols="30">1A9.PCF</textarea>
                 </div>
             </div>
             <div class="four-quarter">
-                <br><br>
+                <br>
                 <button class="qr-btn" onclick="generateQRCodes()">Generate Credentials</button>
-                <br><br>
+                <br>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
                     <h4>QR Format</h4>
                     <canvas id="qr-massid-code"></canvas><br/>
-                    <pre id="qr-massid-result"></pre>
-                    <pre id="qr-massid-verified"></pre>
-                    <pre id="qr-massid-bytes"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>PDF 417 Format</h4>
                     <canvas id="pdf-massid-code"></canvas><br/>
                 </div>
-                <div class="quarter">
+                <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</label>
                     <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
@@ -175,7 +171,16 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
+                </div>    
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <pre id="qr-massid-result"></pre>
+                    <pre id="qr-massid-verified"></pre>
+                    <pre id="qr-massid-bytes" class="xs-hidden"></pre>
                 </div>
+                <div class="two-quarter"></div>
+                <div class="quarter"></div>
             </div>
         </div>
         
@@ -222,7 +227,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
 
-                PDF417.draw(uri, e("pdf-massid-code"), 2, 10, 1.5);
+                PDF417.draw(uri, e("pdf-massid-code"), 3, 6, 3);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 
@@ -231,6 +236,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='message'>" + payload + "</span><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified. ";
                 
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
+                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
+
                 let qr = QRCode.create(uri, params);
 
                 let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});

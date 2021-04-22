@@ -95,15 +95,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="two-quarter">
                     <h4>QR Format</h4>
                     <canvas id="qr-banknote-code"></canvas><br/>
-                    <pre id="qr-banknote-result"></pre>
-                    <pre id="qr-banknote-verified"></pre>
-                    <pre id="qr-banknote-bytes"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>PDF 417 Format</h4>
                     <canvas id="pdf-banknote-code"></canvas><br/>
                 </div>
-                <div class="quarter">
+                <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</label>
                     <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
@@ -113,6 +110,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
                 </div>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <pre id="qr-banknote-result"></pre>
+                    <pre id="qr-banknote-verified"></pre>
+                    <pre id="qr-banknote-bytes" class="xs-hidden"></pre>
+                </div>
+                <div class="two-quarter"></div>
+                <div class="quarter"></div>
             </div>
         </div>
         
@@ -159,7 +165,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)
 
-                PDF417.draw(uri, e("pdf-banknote-code"), 3, 10, 2);
+                PDF417.draw(uri, e("pdf-banknote-code"), 3, 1, 2);
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 
@@ -168,6 +174,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='message'>" + payload + "</span><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified. ";
                 
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
+                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
+
                 let qr = QRCode.create(uri, params);
 
                 let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});

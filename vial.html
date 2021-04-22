@@ -85,25 +85,20 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div"></div>
             <div class="four-quarter">
-                <br><br>
-                <div style="margin: 0 auto; width:190px; height:50px;">
-                    <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
-                </div>
+                <br>
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
                 <br>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
                     <h4>QR Format</h4>
                     <canvas id="qr-vial-code"></canvas><br/>
-                    <pre id="qr-vial-result"></pre>
-                    <pre id="qr-vial-verified"></pre>
-                    <pre id="qr-vial-bytes"></pre>
                 </div>
                 <div class="two-quarter">
                     <h4>PDF 417 Format</h4>
                     <canvas id="pdf-vial-code"></canvas><br/>
                 </div>
-                <div class="quarter">
+                <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</label>
                     <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
                     <br><br>
@@ -112,6 +107,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
+                </div>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <pre id="qr-vial-result"></pre>
+                    <pre id="qr-vial-verified"></pre>
+                    <pre id="qr-vial-bytes" class="xs-hidden"></pre>
+                </div>
+                <div class="two-quarter">
+                </div>
+                <div class="quarter xs-hidden">
                 </div>
             </div>
         </div>
@@ -168,6 +174,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='message'>" + payload + "</span><br>";
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified. ";
                 
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
+                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
+
                 let qr = QRCode.create(uri, params);
 
                 let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});

@@ -166,7 +166,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params)
 
-                PDF417.draw(uri, e("pdf-vial-code"), 3, 2, 2);
+                PDF417.draw(uri, e("pdf-vial-code"));
 
                 // Updates screen elements. 
                 e(elemPref+"-result").innerHTML= "<a href='https://github.com/Path-Check/paper-cred'><span class='schema'>" + schema + "</span></a>:" + 

@@ -207,7 +207,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) { });
 
-                if (PDF417.draw(value, e(elemPref+"-pdf"), 4, 1, 2) === undefined) {
+                if (PDF417.draw(value, e(elemPref+"-pdf")) === undefined) {
                     e(elemPref+"-pdf-label").style.display = '';
                     e(elemPref+"-pdf").style.display = '';
                 } 

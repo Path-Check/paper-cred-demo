@@ -203,7 +203,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-pdf-label").style.display = '';
 
                 // Updates screen elements. 
-                e(elemPref+"-result").innerHTML= schema+":<span class='protocol'>"+type+":"+version+"</span>:" + 
+                e(elemPref+"-result").innerHTML= 
+                                            "<a href='https://github.com/Path-Check/paper-cred'><span class='schema'>" + schema + "</span></a>:" + 
+                                            "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+type.toLowerCase()+"."+version+".md'><span class='protocol'>"+type+":"+version+"</span></a>:" + 
                                             "<span class='signature'>" + signature + "</span>" + ":" +
                                             "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
                                             "<span class='message'>" + payload + "</span><br>";

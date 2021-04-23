@@ -212,6 +212,9 @@ pre {
   flex-direction: row;
 }
 
+.schema {
+  color: black;
+}
 .protocol {
   color: red;
 }

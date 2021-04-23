@@ -113,7 +113,7 @@
                     const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
                     const fields = PCF.getPayloadFields(payload);
 
-                    let params = {margin:0, width:e('qr').scrollWidth-20, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,600)-20, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
                     QRCode.toCanvas(e('qr'), uri, params, function (error) {
                         if (result) {
                             const imgDim={width:150,height:150}; //logo dimention

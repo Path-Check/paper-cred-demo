@@ -214,7 +214,11 @@
 
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
-                    let params = {margin:0, width:e('qr').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+
+                    console.log(e('qr').scrollWidth);
+                    console.log(Math.min(e('qr').scrollWidth,500)-20);
+                    
+                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                     var zip = new JSZip();
 

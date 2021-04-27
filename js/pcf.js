@@ -274,10 +274,19 @@ var PCF = {
        return "https://github.com/Path-Check/paper-cred/blob/main/payloads/"+rightCaseVersion+".md";
     },
 
+    encodeArrayToHTML(array) {
+        return array.map(function(field) {
+            return field.replaceAll('>','&#62;')
+                    .replaceAll('<','&#60;')
+                    .replaceAll('\'','&#39;')
+                    .replaceAll('\"','&#34;');
+        });
+    },
+
     debugParseURI: function(uri) {
         try {
           const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
-          const decodedFields = this.parsePayload(payload);
+          const decodedFields = this.encodeArrayToHTML(this.parsePayload(payload));
 
           const keyID = this.getKeyId(pubKeyLink)
 

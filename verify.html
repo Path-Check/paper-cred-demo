@@ -103,6 +103,8 @@
                 if (!data)
                     data = e("qr-verify").value;
 
+                console.log(data);
+
                 if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("CRED:")) {
                     let uri = data.substring(data.indexOf("CRED:"));
                 

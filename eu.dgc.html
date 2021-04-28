@@ -190,6 +190,41 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="quarter xs-hidden">
                 </div>
             </div>
+            <div class="four-quarter">
+                <h2>Modified EU CBOR COSE ZLIB Base32 QR</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-orig32-code-label" style="display: none;">Immunization QR</h4>
+                    <canvas id="qr-vax-orig32-code"></canvas><br/>
+                    <h4 id="qr-vax-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-orig32-pdf"></canvas><br/>
+                    <pre id="qr-vax-orig32-result"></pre>
+                    <pre id="qr-vax-orig32-verified"></pre>
+                    <pre id="qr-vax-orig32-bytes" class="xs-hidden"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-orig32-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-orig32-code"></canvas><br/>
+                    <h4 id="qr-test-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-orig32-pdf"></canvas><br/>
+                    <pre id="qr-test-orig32-result"></pre>
+                    <pre id="qr-test-orig32-verified"></pre>
+                    <pre id="qr-test-orig32-bytes" class="xs-hidden"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-orig32-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-orig32-code"></canvas><br/>
+                    <h4 id="qr-recov-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-orig32-pdf"></canvas><br/>
+                    <pre id="qr-recov-orig32-result"></pre>
+                    <pre id="qr-recov-orig32-verified"></pre>
+                    <pre id="qr-recov-orig32-bytes" class="xs-hidden"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
         </div>
         
         <script src="js/qrcode.min.js"></script>
@@ -239,9 +274,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {
-                })
-
+                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
                 PDF417.draw(uri, e(elemPref+"-pdf"));
 
                 e(elemPref+"-code-label").style.display = '';
@@ -262,65 +295,66 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
 
-                let qr = QRCode.create(uri, params);
-
-                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
-                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
-
-                e(elemPref+"-bytes").innerHTML = "URI Size (A/N): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
-
-                e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
+                e(elemPref+"-bytes").innerHTML = studyQR(uri);
                 
                 e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
             }
 
             function signAndDisplayEUQR(elemPref, vaxEUJSON, priKeyPEM, pubKeyId) {
                 EU.sign(vaxEUJSON, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
-                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
-
-                    // Builds QR Element
-                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                    PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                    e(elemPref+"-code-label").style.display = '';
-                    e(elemPref+"-pdf-label").style.display = '';
-
-                    // Updates screen elements. 
-                    e(elemPref+"-result").innerHTML= 
-                                                "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
-                                                "<span class='message'>" + uri.substring(4) + "</span><br>";
-                    
-                    e(elemPref+"-result").innerHTML +=
-                        "<pre>HC1:<span class='message'>BASE45Payload</span></pre>"
-                        
-                    
-                    e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
-                    
-                    let qr = QRCode.create(uri, params);
-
-                    let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-                    let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
-                    let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-                    let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
-
-                    e(elemPref+"-bytes").innerHTML = "URI Size (A/N): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
-
-                    e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
-                    e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
-                    e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
-                    e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
-                    e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
-                
-                    if (EU.verify(uri, PUBLIC_KEY_PEM)) {
-                        e(elemPref + "-verified").innerHTML = "Signature Verified";
-                    }
+                    displayEUQR(uri, elemPref)
                 });
+            }
+
+            function sign32AndDisplayEUQR(elemPref, vaxEUJSON, priKeyPEM, pubKeyId) {
+                EU.sign32(vaxEUJSON, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                    displayEUQR(uri, elemPref)
+                });
+            }
+
+            function displayEUQR(uri, elemPref) {
+                const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+
+                // Builds QR Element
+                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                e(elemPref+"-code-label").style.display = '';
+                e(elemPref+"-pdf-label").style.display = '';
+
+                // Updates screen elements. 
+                e(elemPref+"-result").innerHTML= 
+                                            "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
+                                            "<span class='message'>" + uri.substring(4) + "</span><br>";
+                
+                e(elemPref+"-result").innerHTML +=
+                    "<pre>HC1:<span class='message'>BASE45Payload</span></pre>"
+                    
+                
+                e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
+                
+                e(elemPref+"-bytes").innerHTML = studyQR(uri);
+            
+                if (EU.verify(uri, PUBLIC_KEY_PEM)) {
+                    e(elemPref + "-verified").innerHTML = "Signature Verified";
+                }
+            }
+
+            function studyQR(uri) {
+                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+
+                let result = "URI Size (A/N): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
+
+                result += "<br>QR Size Analysis: ";
+                result += "<br>- ECC L  7% "  + describe(qrL);
+                result += "<br>- ECC M 15% " + describe(qrM);
+                result += "<br>- ECC Q 25% " + describe(qrQ);
+                result += "<br>- ECC H 30% " + describe(qrH);
+
+                return result;
             }
 
             function describe(qr) {
@@ -371,6 +405,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 };
 
                 signAndDisplayEUQR("qr-vax-orig", JSON.stringify(vaxEU));
+                sign32AndDisplayEUQR("qr-vax-orig32", JSON.stringify(vaxEU));
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -398,6 +433,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 };
 
                 signAndDisplayEUQR("qr-test-orig", JSON.stringify(testEU));
+                sign32AndDisplayEUQR("qr-test-orig32", JSON.stringify(testEU));
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -422,7 +458,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 };
 
                 signAndDisplayEUQR("qr-recov-orig", JSON.stringify(recovEU));
-
+                sign32AndDisplayEUQR("qr-recov-orig32", JSON.stringify(recovEU));
             }
             
             function verifyQRCode() {

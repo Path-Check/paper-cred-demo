@@ -225,6 +225,57 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <div class="quarter xs-hidden">
                 </div>
             </div>
+            <div class="four-quarter">
+                <h2>Comparison Table</h2>
+                <h4>QR Size in Bytes (bits * bits / 8)</h4>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <table class="comparison">
+                        <tr><th style="text-align: right;">CRED</th><th style="text-align: right;">HC1 B45</th><th style="text-align: right;">HC1 B32</th></th>
+                        <tr><td style="text-align: right;" id="qr-vax-comp-uri"></td><td style="text-align: right;" id="qr-vax-orig-comp-uri"></td><td style="text-align: right;" id="qr-vax-orig32-comp-uri"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-vax-comp-eccl"></td><td style="text-align: right;" id="qr-vax-orig-comp-eccl"></td><td style="text-align: right;" id="qr-vax-orig32-comp-eccl"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-vax-comp-eccm"></td><td style="text-align: right;" id="qr-vax-orig-comp-eccm"></td><td style="text-align: right;" id="qr-vax-orig32-comp-eccm"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-vax-comp-eccq"></td><td style="text-align: right;" id="qr-vax-orig-comp-eccq"></td><td style="text-align: right;" id="qr-vax-orig32-comp-eccq"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-vax-comp-ecch"></td><td style="text-align: right;" id="qr-vax-orig-comp-ecch"></td><td style="text-align: right;" id="qr-vax-orig32-comp-ecch"></td></tr>
+                    </table>
+                </div>
+                <div class="third">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr><th style="text-align: right;">CRED</th><th style="text-align: right;">HC1 B45</th><th style="text-align: right;">HC1 B32</th></th>
+                        <tr><td style="text-align: right;" id="qr-test-comp-uri"></td><td style="text-align: right;" id="qr-test-orig-comp-uri"></td><td style="text-align: right;" id="qr-test-orig32-comp-uri"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-test-comp-eccl"></td><td style="text-align: right;" id="qr-test-orig-comp-eccl"></td><td style="text-align: right;" id="qr-test-orig32-comp-eccl"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-test-comp-eccm"></td><td style="text-align: right;" id="qr-test-orig-comp-eccm"></td><td style="text-align: right;" id="qr-test-orig32-comp-eccm"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-test-comp-eccq"></td><td style="text-align: right;" id="qr-test-orig-comp-eccq"></td><td style="text-align: right;" id="qr-test-orig32-comp-eccq"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-test-comp-ecch"></td><td style="text-align: right;" id="qr-test-orig-comp-ecch"></td><td style="text-align: right;" id="qr-test-orig32-comp-ecch"></td></tr>
+                    </table>
+                </div>
+                <div class="third">
+                    <h4 style="text-align: center;">Recovery QR</h4>
+                    <table class="comparison">
+                        <tr><th style="text-align: right;">CRED</th><th style="text-align: right;">HC1 B45</th><th style="text-align: right;">HC1 B32</th></th>
+                        <tr><td style="text-align: right;" id="qr-recov-comp-uri"></td><td style="text-align: right;" id="qr-recov-orig-comp-uri"></td><td style="text-align: right;" id="qr-recov-orig32-comp-uri"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-recov-comp-eccl"></td><td style="text-align: right;" id="qr-recov-orig-comp-eccl"></td><td style="text-align: right;" id="qr-recov-orig32-comp-eccl"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-recov-comp-eccm"></td><td style="text-align: right;" id="qr-recov-orig-comp-eccm"></td><td style="text-align: right;" id="qr-recov-orig32-comp-eccm"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-recov-comp-eccq"></td><td style="text-align: right;" id="qr-recov-orig-comp-eccq"></td><td style="text-align: right;" id="qr-recov-orig32-comp-eccq"></td></tr>
+                        <tr><td style="text-align: right;" id="qr-recov-comp-ecch"></td><td style="text-align: right;" id="qr-recov-orig-comp-ecch"></td><td style="text-align: right;" id="qr-recov-orig32-comp-ecch"></td></tr>
+                    </table>
+                </div>
+                <div class="quarter">
+                    <h4>Labels</h4>
+                    <table>
+                        <tr><th style="text-align: left;">Metrics</th></tr>
+                        <tr><td style="text-align: left;">URI Length</td></tr>
+                        <tr><td style="text-align: left;">ECC L  7%</td></tr>
+                        <tr><td style="text-align: left;">ECC M 15%</td></tr>
+                        <tr><td style="text-align: left;">ECC Q 25%</td></tr>
+                        <tr><td style="text-align: left;">ECC H 30%</td></tr>
+                    </table>
+                </div>
+            </div>
+
         </div>
         
         <script src="js/qrcode.min.js"></script>
@@ -295,7 +346,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
 
-                e(elemPref+"-bytes").innerHTML = studyQR(uri);
+                e(elemPref+"-bytes").innerHTML = studyQR(uri, elemPref);
                 
                 e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
             }
@@ -333,14 +384,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 
                 e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
                 
-                e(elemPref+"-bytes").innerHTML = studyQR(uri);
+                e(elemPref+"-bytes").innerHTML = studyQR(uri, elemPref);
             
                 if (EU.verify(uri, PUBLIC_KEY_PEM)) {
                     e(elemPref + "-verified").innerHTML = "Signature Verified";
                 }
             }
 
-            function studyQR(uri) {
+            function studyQR(uri, elemPref) {
                 let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
                 let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
                 let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
@@ -354,11 +405,25 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 result += "<br>- ECC Q 25% " + describe(qrQ);
                 result += "<br>- ECC H 30% " + describe(qrH);
 
+                console.log(elemPref);
+
+                if (e(elemPref+"-comp-eccl")) {
+                    e(elemPref+"-comp-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-comp-eccl").innerHTML = qrSizeBytes(qrL);
+                    e(elemPref+"-comp-eccm").innerHTML = qrSizeBytes(qrM);
+                    e(elemPref+"-comp-eccq").innerHTML = qrSizeBytes(qrQ);
+                    e(elemPref+"-comp-ecch").innerHTML = qrSizeBytes(qrH);
+                }
+
                 return result;
             }
 
             function describe(qr) {
-                return qr.modules.size + "x" + qr.modules.size + " " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
+                return qr.modules.size + "x" + qr.modules.size + " " + qrSizeBytes(qr) + " bytes ";
+            }
+
+            function qrSizeBytes(qr) {
+                return Math.round((qr.modules.size*qr.modules.size)/8)
             }
 
             function generateQRCodes() {

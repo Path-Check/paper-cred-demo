@@ -208,7 +208,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="four-quarter">
                 <h2>Comparison Tables</h2>
-                <h4>QR Size (bits x bits)</h4>
+                <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -216,32 +216,35 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">URI Bytes</th>
+                            <th style="text-align: right;">URI Chars</th>
+                            <th style="text-align: right;">Sign Time</th>
+                            <th style="text-align: right;">Verify Time</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-ecch"></td>
+                            <td style="text-align: right;">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-ecch"></td>
+                            <td style="text-align: right;">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-orig-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-ecch"></td>
+                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-time-verify"></td>
+
                         </tr>
                     </table>
                 </div>
@@ -249,32 +252,35 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Test QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">URI Bytes</th>
+                            <th style="text-align: right;">URI Chars</th>
+                            <th style="text-align: right;">Sign Time</th>
+                            <th style="text-align: right;">Verify Time</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-test-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-bits-ecch"></td>
+                            <td style="text-align: right;" >CRED</td>
+                            <td style="text-align: right;" id="qr-test-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-ecch"></td>
+                            <td style="text-align: right;">HC1</td>
+                            <td style="text-align: right;" id="qr-test-orig-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-orig-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-orig-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-ecch"></td>
+                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig32-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-time-verify"></td>
+
                         </tr>
                     </table>
                 </div>
@@ -282,42 +288,36 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Recovery QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">URI Bytes</th>
+                            <th style="text-align: right;">URI Chars</th>
+                            <th style="text-align: right;">Sign Time</th>
+                            <th style="text-align: right;">Verify Time</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-ecch"></td>
+                            <td style="text-align: right;">CRED</td>
+                            <td style="text-align: right;" id="qr-recov-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-ecch"></td>
+                            <td style="text-align: right;">HC1</td>
+                            <td style="text-align: right;" id="qr-recov-orig-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-time-verify"></td>
+
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-ecch"></td>
+                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-time-verify"></td>
+
                         </tr>
-                    </table>
-                </div>
-                <div class="quarter">
-                    <h4>Labels</h4>
-                    <table>
-                        <tr><th style="text-align: left;">Technique<br>(in mm X mm)</th></tr>
-                        <tr><td style="text-align: left;">CRED</td></tr>
-                        <tr><td style="text-align: left;">HC1 B45</td></tr>
-                        <tr><td style="text-align: left;">HC1 B32</td></tr>
                     </table>
                 </div>
             </div>
@@ -330,28 +330,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-comp-uri">CRED</td>
                             <td style="text-align: right;" id="qr-vax-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccq"></td>
@@ -363,28 +363,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Test QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-test-comp-uri">CRED</td>
                             <td style="text-align: right;" id="qr-test-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-test-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-test-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccq"></td>
@@ -396,28 +396,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Recovery QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-comp-uri">CRED</td>
                             <td style="text-align: right;" id="qr-recov-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccq"></td>
@@ -425,18 +425,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         </tr>
                     </table>
                 </div>
-                <div class="quarter">
-                    <h4>Labels</h4>
-                    <table>
-                        <tr><th style="text-align: left;">Technique<br>(in mm X mm)</th></tr>
-                        <tr><td style="text-align: left;">CRED</td></tr>
-                        <tr><td style="text-align: left;">HC1 B45</td></tr>
-                        <tr><td style="text-align: left;">HC1 B32</td></tr>
-                    </table>
-                </div>
             </div>
             <div class="four-quarter">
-                <h4>Minimum Printed Size (in millimiters for a 150 DPI printer)</h4>
+                <h4>QR Size (bits x bits)</h4>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -444,28 +435,134 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-size-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-orig-bits-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-orig-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-bits-ecch"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="third">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-bits-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-test-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-orig-bits-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-test-orig-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig32-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-bits-ecch"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="third">
+                    <h4 style="text-align: center;">Recovery QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-bits-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-recov-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-orig-bits-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-recov-orig-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-bits-ecch"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="four-quarter">
+                <h4>Minimum Printed Size (in millimiters at 150 DPI)</h4>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-size-uri">CRED</td>
                             <td style="text-align: right;" id="qr-vax-size-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-size-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-size-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccq"></td>
@@ -477,28 +574,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Test QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-size-uri"></td>
+                            <td style="text-align: right;" id="qr-test-size-uri">CRED</td>
                             <td style="text-align: right;" id="qr-test-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-size-eccm"></td>
                             <td style="text-align: right;" id="qr-test-size-eccq"></td>
                             <td style="text-align: right;" id="qr-test-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig-size-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-size-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig-size-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-size-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccq"></td>
@@ -510,28 +607,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Recovery QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-size-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-size-uri">CRED</td>
                             <td style="text-align: right;" id="qr-recov-size-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-size-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-size-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccq"></td>
@@ -539,18 +636,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         </tr>
                     </table>
                 </div>
-                <div class="quarter">
-                    <h4>Labels</h4>
-                    <table>
-                        <tr><th style="text-align: left;">Technique<br>(in mm X mm)</th></tr>
-                        <tr><td style="text-align: left;">CRED</td></tr>
-                        <tr><td style="text-align: left;">HC1 B45</td></tr>
-                        <tr><td style="text-align: left;">HC1 B32</td></tr>
-                    </table>
-                </div>
             </div>
             <div class="four-quarter">
-                <h4>Minimum Printed Size (in millimiters for a 300 DPI printer)</h4>
+                <h4>Minimum Printed Size (in millimiters at 300 DPI)</h4>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -558,28 +646,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-size300-uri">CRED</td>
                             <td style="text-align: right;" id="qr-vax-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccq"></td>
@@ -591,28 +679,28 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Test QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-test-size300-uri">CRED</td>
                             <td style="text-align: right;" id="qr-test-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-test-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-test-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccq"></td>
@@ -624,42 +712,33 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 style="text-align: center;">Recovery QR</h4>
                     <table class="comparison">
                         <tr>
-                            <th style="text-align: right;">URI Size</th>
+                            <th style="text-align: right;">Tech</th>
                             <th style="text-align: right;">ECC 7%</th>
                             <th style="text-align: right;">ECC 15%</th>
                             <th style="text-align: right;">ECC 25%</th>
                             <th style="text-align: right;">ECC 30%</th>
                         </th>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-size300-uri">CRED</td>
                             <td style="text-align: right;" id="qr-recov-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-ecch"></td>
                         </tr>
                         <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-ecch"></td>
                         </tr>
-                    </table>
-                </div>
-                <div class="quarter">
-                    <h4>Labels</h4>
-                    <table>
-                        <tr><th style="text-align: left;">Technique<br>(in bytes)</th></tr>
-                        <tr><td style="text-align: left;">CRED</td></tr>
-                        <tr><td style="text-align: left;">HC1 B45</td></tr>
-                        <tr><td style="text-align: left;">HC1 B32</td></tr>
                     </table>
                 </div>
             </div>
@@ -704,7 +783,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
+                const t0 = performance.now();
                 const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
+                const t1 = performance.now();
+
                 const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
 
                 const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
@@ -728,9 +810,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     "<pre>CRED:<span class='protocol'>TYPE:VER</span>:<span class='signature'>SIGNATURE</span>:" +
                     "<span class='pub-key'>KEYID</span>:<span class='message'>DATA</span></pre>"
 
+                e(elemPref+"-time-sign").innerHTML=Math.round(t1-t0);
+                e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
                 studyQR(uri, elemPref);
             
+                const v0 = performance.now();
                 if (PCF.downloadKeyVerify(pubKeyLink, payload, signature)) {
+                    const v1 = performance.now();
+                    e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+
                     const imgDim={width:50,height:50}; 
                     var context = e(elemPref+'-code').getContext('2d');
                     var imageObj = new Image();  
@@ -743,19 +833,23 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }
 
-            function signAndDisplayEUQR(elemPref, vaxEUJSON, priKeyPEM, pubKeyId) {
-                EU.sign(vaxEUJSON, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
-                    displayEUQR(uri, elemPref)
+            function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
+                const t0 = performance.now();
+                EU.sign(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                    const t1 = performance.now();
+                    displayEUQR(uri, elemPref, t1-t0)
                 });
             }
 
-            function sign32AndDisplayEUQR(elemPref, vaxEUJSON, priKeyPEM, pubKeyId) {
-                EU.sign32(vaxEUJSON, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
-                    displayEUQR(uri, elemPref)
+            function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
+                const t0 = performance.now();
+                EU.sign32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                    const t1 = performance.now();
+                    displayEUQR(uri, elemPref, t1-t0);
                 });
             }
 
-            function displayEUQR(uri, elemPref) {
+            function displayEUQR(uri, elemPref, deltaTime) {
                 const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
@@ -775,17 +869,27 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     
                 studyQR(uri, elemPref);
             
-                if (EU.verify(uri, PUBLIC_KEY_PEM)) {
-                    const imgDim={width:50,height:50}; 
-                    var context = e(elemPref+'-code').getContext('2d');
-                    var imageObj = new Image();  
-                    imageObj.src = './img/ok-256.png';      
-                    imageObj.onload = function() {
-                        context.drawImage(imageObj, 
-                        e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
-                        e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                    }; 
-                }
+                e(elemPref+"-time-sign").innerHTML=Math.round(deltaTime);
+                e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                const v0 = performance.now();
+                EU.verify(uri, PUBLIC_KEY_PEM).then(verified => {
+                    const v1 = performance.now();
+                    e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+
+                    if (verified) {
+                        const imgDim={width:50,height:50}; 
+                        var context = e(elemPref+'-code').getContext('2d');
+                        var imageObj = new Image();  
+                        imageObj.src = './img/ok-256.png';      
+                        imageObj.onload = function() {
+                            context.drawImage(imageObj, 
+                            e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
+                            e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                        }; 
+                    }
+                });
             }
 
             function studyQR(uri, elemPref) {
@@ -795,7 +899,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
                 if (e(elemPref+"-comp-eccl")) {
-                    e(elemPref+"-comp-uri").innerHTML = Math.round(uri.length * 5.5/8);
                     e(elemPref+"-comp-eccl").innerHTML = qrSizeBytes(qrL);
                     e(elemPref+"-comp-eccm").innerHTML = qrSizeBytes(qrM);
                     e(elemPref+"-comp-eccq").innerHTML = qrSizeBytes(qrQ);

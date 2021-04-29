@@ -835,7 +835,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.sign(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.sign(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0)
                 });
@@ -843,7 +843,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.sign32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.sign32(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0);
                 });
@@ -989,8 +989,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-vax-orig", JSON.stringify(vaxEU));
-                sign32AndDisplayEUQR("qr-vax-orig32", JSON.stringify(vaxEU));
+                signAndDisplayEUQR("qr-vax-orig", vaxEU);
+                sign32AndDisplayEUQR("qr-vax-orig32", vaxEU);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1017,8 +1017,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-test-orig", JSON.stringify(testEU));
-                sign32AndDisplayEUQR("qr-test-orig32", JSON.stringify(testEU));
+                signAndDisplayEUQR("qr-test-orig", testEU);
+                sign32AndDisplayEUQR("qr-test-orig32", testEU);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1042,8 +1042,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-recov-orig", JSON.stringify(recovEU));
-                sign32AndDisplayEUQR("qr-recov-orig32", JSON.stringify(recovEU));
+                signAndDisplayEUQR("qr-recov-orig", recovEU);
+                sign32AndDisplayEUQR("qr-recov-orig32", recovEU);
             }
             
             function verifyQRCode() {

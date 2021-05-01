@@ -1059,6 +1059,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         </script>
         
         <script>
+            function fillTo(str, toSize) {
+                let missing = toSize - str.length;
+                if (missing == 0) return str;
+                return fillTo(str + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, missing), toSize);
+            }
+
             function loadDemo() {
                 e("qr-vax-nam-fn").value = "d'Arsøns - van Halen";
                 e("qr-vax-nam-gn").value = "François-Joan";
@@ -1105,6 +1111,54 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-recov-co").value = "NL";
                 e("qr-recov-is").value = "Ministry of VWS";
                 e("qr-recov-ci").value = "01:NL:LSP/REC/1289821";
+            }
+
+            function loadMax() {
+                e("qr-vax-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-vax-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-vax-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-vax-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-vax-dob-date").value = "2009-02-28";
+                e("qr-vax-tg").value = "840539006";
+                e("qr-vax-vp").value = "1119349007";
+                e("qr-vax-mp").value = "EU/1/20/1528";
+                e("qr-vax-ma").value = "ORG-100030215";
+                e("qr-vax-dn").value = "2";
+                e("qr-vax-sd").value = "2";
+                e("qr-vax-dt-date").value = new Date().toJSON().slice(0, 10);
+                e("qr-vax-co").value = "NL";
+                e("qr-vax-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-vax-ci").value = fillTo("01:NL:PlA8UWS60Z4RZXVALl6GAZ", 50);
+
+                e("qr-test-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-test-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-test-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-test-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-test-dob-date").value = "2009-02-28";
+                e("qr-test-tg").value = "840539006";
+                e("qr-test-tt").value = "LP217198-3";
+                e("qr-test-nm").value = fillTo("COVID PCR", 50);
+                e("qr-test-ma").value = "1232";
+                e("qr-test-sc-date").value = "2021-04-13T14:20:00+00:00";
+                e("qr-test-dr-date").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-tr").value = "260415000";
+                e("qr-test-tc").value = fillTo("GGD Fryslân, L-Heliconweg", 50);
+                e("qr-test-co").value = "NL";
+                e("qr-test-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-test-ci").value = fillTo("01:NL:GGD/81AAH16AZ", 50);
+
+                e("qr-recov-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-recov-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-recov-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-recov-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-recov-dob-date").value = "2009-02-28";
+                e("qr-recov-tg").value = "840539006";
+                e("qr-recov-fr-date").value = "2021-04-21";
+                e("qr-recov-df-date").value = "2021-05-01";
+                e("qr-recov-du-date").value = "2021-10-21";
+                e("qr-recov-co").value = "NL";
+                e("qr-recov-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-recov-ci").value = fillTo("01:NL:LSP/REC/1289821", 50);
             }
 
             loadDemo();

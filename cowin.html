@@ -126,7 +126,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <h4 id="qr-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-divoc-pdf" style="display: none;"></canvas>
                     <pre id="qr-divoc-result"></pre>
-                    <pre id="qr-divoc-verified"></pre>
                     <pre id="qr-divoc-bytes"  class="xs-hidden"></pre>
                 </div>
                 <div class="two-quarter">
@@ -196,7 +195,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..mJlHZZRD7VQwVJchfI21ZavjxNKglbf3LSaF1SAjELOWn9MARALkugsmOzG0mBon9R7zXSVPkPM8EDbUZxR4FsRlAFFszFv-0BjyAeIqRv-9MRnlm4cScQi8aCBgBnvsWfNIE175cGNbPUluVv5n6G66tVinioL5IL6uCZNQnSGp4jJrEAZa0t5s3jXfq7soHz1LTfQbLs7cH5-fDi3JW1-WeF4_ELy_9l_OxAc2CoACqYLOLJB-NnPsnz2bwAvH8yXHsjZJphzaBNqpn8DmJvcRHzhz7OjpGfhyouiOyGo_XncadFmftqwfilJkC1EISkSb6QVsyhHLOudY4PTTaA"
     }
 }</pre>
-                    <pre id="qr-divoc-orig-verified"></pre>
                     <pre id="qr-divoc-orig-bytes" class="xs-hidden"></pre>
                 </div>
                 
@@ -253,16 +251,22 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                             "<span class='signature'>" + signature + "</span>" + ":" +
                                             "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
                                             "<span class='message'>" + payload + "</span><br>";
-                //                            "Signature DER: <span class='signature'>" + signatureDER + "</span><br><br>"+
-                //                            "Payload SHA256 Hash: <span class='message'>" + payloadSHA256 + "</span><br><br>";
-                e(elemPref+"-verified").innerHTML = "Signature: Not Verified";
-
+                
                 e(elemPref+"-result").innerHTML +=
                     "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
                     "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
 
-                // Verifies URI is valid
-                e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
+                if (PCF.debugDownloadVerify(pubKeyLink, payload, signature)) {
+                    const imgDim={width:50,height:50}; 
+                    var context = e(elemPref+'-code').getContext('2d');
+                    var imageObj = new Image();  
+                    imageObj.src = './img/ok-256.png';      
+                    imageObj.onload = function() {
+                        context.drawImage(imageObj, 
+                        e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
+                        e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                    };
+                }
             }
 
             function drawsQR(elemPref, value) {
@@ -437,7 +441,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 } if (payload.startsWith("{")) {
                     DIVOC.verify(JSON.parse(payload)).then(verified => {
                         e("qr-verify-result").innerHTML = "W3C VC Payload";
-                        e("qr-verify-verified").innerHTML = "Signature: " + (verified ? "Independently Verified" : "Not Valid");
+                        e("qr-verify-verified").innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
                     });
                 }
             }

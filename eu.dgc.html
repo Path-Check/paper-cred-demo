@@ -146,6 +146,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
                     <br><br>
                     <pre id="qr-verify-result"></pre>
+                    <pre id="qr-verify-verified"></pre>
+
                 </div>
             </div>
             <div class="four-quarter">
@@ -835,7 +837,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.sign(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.signAndPack(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0)
                 });
@@ -843,7 +845,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.sign32(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.signAndPack32(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0);
                 });
@@ -874,7 +876,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
                 const v0 = performance.now();
-                EU.verify(uri, PUBLIC_KEY_PEM).then(verified => {
+                EU.unpackAndVerify(uri, PUBLIC_KEY_PEM).then(verified => {
                     const v1 = performance.now();
                     e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
 

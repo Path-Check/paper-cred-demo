@@ -41,14 +41,14 @@
                         <tr><td>Given Name</td><td><input id="qr-vax-nam-gn" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Family</td><td><input id="qr-vax-nam-fnt" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Given</td><td><input id="qr-vax-nam-gnt" type="text" placeholder=""/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-vax-dob" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-vax-dob-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Disease</td><td><input id="qr-vax-tg" type="text" placeholder=""/></td></tr>
                         <tr><td>Prophylaxis</td><td><input id="qr-vax-vp" type="text" placeholder=""/></td></tr>
                         <tr><td>Product</td><td><input id="qr-vax-mp" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-vax-ma" type="text" placeholder=""/></td></tr>
                         <tr><td>Dose #</td><td><input id="qr-vax-dn" type="text" placeholder=""/></td></tr>
                         <tr><td>Doses</td><td><input id="qr-vax-sd" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date</td><td><input id="qr-vax-dt" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date</td><td><input id="qr-vax-dt-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-vax-co" type="text" placeholder=""/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-vax-is" type="text" placeholder=""/></td></tr>
                         <tr><td>Cert ID</td><td><input id="qr-vax-ci" type="text" placeholder=""/></td></tr>
@@ -61,13 +61,13 @@
                         <tr><td>Given Name</td><td><input id="qr-test-nam-gn" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Family</td><td><input id="qr-test-nam-fnt" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Given</td><td><input id="qr-test-nam-gnt" type="text" placeholder=""/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-test-dob" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-test-dob-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Disease</td><td><input id="qr-test-tg" type="text" placeholder=""/></td></tr>
                         <tr><td>Type</td><td><input id="qr-test-tt" type="text" placeholder=""/></td></tr>
                         <tr><td>Test Name</td><td><input id="qr-test-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-ma" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Colect</td><td><input id="qr-test-sc" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Result</td><td><input id="qr-test-dr" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Colect</td><td><input id="qr-test-sc-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Result</td><td><input id="qr-test-dr-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Result</td><td><input id="qr-test-tr" type="text" placeholder=""/></td></tr>
                         <tr><td>Centre</td><td><input id="qr-test-tc" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-test-co" type="text" placeholder=""/></td></tr>
@@ -82,9 +82,9 @@
                         <tr><td>Given Name</td><td><input id="qr-recov-nam-gn" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Family</td><td><input id="qr-recov-nam-fnt" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Given</td><td><input id="qr-recov-nam-gnt" type="text" placeholder=""/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-recov-dob" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-recov-dob-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Disease</td><td><input id="qr-recov-tg" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Valid From</td><td><input id="qr-recov-df" type="text" placeholder=""/></td></tr>
                         <tr><td>Valid Until</td><td><input id="qr-recov-du" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-recov-co" type="text" placeholder=""/></td></tr>
@@ -768,6 +768,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function getValueArray(elemArray) {
                 const fields = elemArray.map(function(elemId) {
+                    if (elemId.endsWith('-date')) {
+                        // Sends dates always in seconds since epoch
+                        return (new Date(e(elemId).value).getTime()/1000).toString();
+                    }
                     return e(elemId).value;
                 })
                 return fields;
@@ -957,13 +961,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // PEM code of the private key
                 const priKeyPEM = e('privkey').value;
 
-                const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
+                const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob-date", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt-date", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
                 signAndDisplayQR("qr-vax", "eu.dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
 
-                const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc", "qr-test-dr", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
+                const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-date", "qr-test-dr-date", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
                 signAndDisplayQR("qr-test", "eu.dgc.test","1", priKeyPEM, pubKeyLink, testArray);
 
-                const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob", "qr-recov-tg", "qr-recov-fr", "qr-recov-df", "qr-recov-du", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
+                const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df", "qr-recov-du", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
                 signAndDisplayQR("qr-recov", "eu.dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
 
                 let vaxEU = { 
@@ -974,7 +978,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         "fnt": e('qr-vax-nam-fnt').value,
                         "gnt": e('qr-vax-nam-gnt').value,
                     },
-                    "dob": e('qr-vax-dob').value,
+                    "dob": e('qr-vax-dob-date').value,
                     "v": [
                         {
                             "tg": e('qr-vax-tg').value,
@@ -983,7 +987,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                             "ma": e('qr-vax-ma').value,
                             "dn": e('qr-vax-dn').value,
                             "sd": e('qr-vax-sd').value,
-                            "dt": e('qr-vax-dt').value,
+                            "dt": e('qr-vax-dt-date').value,
                             "co": e('qr-vax-co').value,
                             "is": e('qr-vax-is').value,
                             "ci": "urn:uvci:"+e('qr-vax-ci').value
@@ -1002,15 +1006,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         "fnt": e('qr-test-nam-fnt').value,
                         "gnt": e('qr-test-nam-gnt').value,
                     },
-                    "dob": e('qr-test-dob').value,
+                    "dob": e('qr-test-dob-date').value,
                     "v": [
                         {
                             "tg": e('qr-test-tg').value,
                             "vp": e('qr-test-tt').value,
                             "mp": e('qr-test-tr').value,
                             "ma": e('qr-test-ma').value,
-                            "dn": e('qr-test-sc').value,
-                            "sd": e('qr-test-dr').value,
+                            "dn": e('qr-test-sc-date').value,
+                            "sd": e('qr-test-dr-date').value,
                             "dt": e('qr-test-tc').value,
                             "co": e('qr-test-co').value,
                             "is": e('qr-test-is').value,
@@ -1030,11 +1034,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         "fnt": e('qr-recov-nam-fnt').value,
                         "gnt": e('qr-recov-nam-gnt').value,
                     },
-                    "dob": e('qr-recov-dob').value,
+                    "dob": e('qr-recov-dob-date').value,
                     "v": [
                         {     
                             "tg": e('qr-recov-tg').value,
-                            "vp": e('qr-recov-fr').value,
+                            "vp": e('qr-recov-fr-date').value,
                             "mp": e('qr-recov-df').value,
                             "ma": e('qr-recov-du').value,
                             "co": e('qr-recov-co').value,
@@ -1060,14 +1064,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-vax-nam-gn").value = "François-Joan";
                 e("qr-vax-nam-fnt").value = "DARSONS<VAN<HALEN";
                 e("qr-vax-nam-gnt").value = "FRANCOIS<JOAN";
-                e("qr-vax-dob").value = "2009-02-28";
+                e("qr-vax-dob-date").value = "2009-02-28";
                 e("qr-vax-tg").value = "840539006";
                 e("qr-vax-vp").value = "1119349007";
                 e("qr-vax-mp").value = "EU/1/20/1528";
                 e("qr-vax-ma").value = "ORG-100030215";
                 e("qr-vax-dn").value = "2";
                 e("qr-vax-sd").value = "2";
-                e("qr-vax-dt").value = new Date().toJSON().slice(0, 10);
+                e("qr-vax-dt-date").value = new Date().toJSON().slice(0, 10);
                 e("qr-vax-co").value = "NL";
                 e("qr-vax-is").value = "Ministry of VWS";
                 e("qr-vax-ci").value = "01:NL:PlA8UWS60Z4RZXVALl6GAZ";
@@ -1076,13 +1080,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-test-nam-gn").value = "François-Joan";
                 e("qr-test-nam-fnt").value = "DARSONS<VAN<HALEN";
                 e("qr-test-nam-gnt").value = "FRANCOIS<JOAN";
-                e("qr-test-dob").value = "2009-02-28";
+                e("qr-test-dob-date").value = "2009-02-28";
                 e("qr-test-tg").value = "840539006";
                 e("qr-test-tt").value = "LP217198-3";
                 e("qr-test-nm").value = "COVID PCR";
                 e("qr-test-ma").value = "1232";
-                e("qr-test-sc").value = "2021-04-13T14:20:00+00:00";
-                e("qr-test-dr").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-sc-date").value = "2021-04-13T14:20:00+00:00";
+                e("qr-test-dr-date").value = "2021-04-13T14:40:01+00:00";
                 e("qr-test-tr").value = "260415000";
                 e("qr-test-tc").value = "GGD Fryslân, L-Heliconweg";
                 e("qr-test-co").value = "NL";
@@ -1093,9 +1097,9 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-recov-nam-gn").value = "François-Joan";
                 e("qr-recov-nam-fnt").value = "DARSONS<VAN<HALEN";
                 e("qr-recov-nam-gnt").value = "FRANCOIS<JOAN";
-                e("qr-recov-dob").value = "2009-02-28";
+                e("qr-recov-dob-date").value = "2009-02-28";
                 e("qr-recov-tg").value = "840539006";
-                e("qr-recov-fr").value = "2021-04-21";
+                e("qr-recov-fr-date").value = "2021-04-21";
                 e("qr-recov-df").value = "2021-05-01";
                 e("qr-recov-du").value = "2021-10-21";
                 e("qr-recov-co").value = "NL";

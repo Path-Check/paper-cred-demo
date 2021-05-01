@@ -841,7 +841,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.signAndPack(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.signAndPack(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0)
                 });
@@ -849,7 +849,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.signAndPack32(JSON.stringify(json), PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EU.signAndPack32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0);
                 });

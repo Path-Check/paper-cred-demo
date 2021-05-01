@@ -398,9 +398,18 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     DIVOC.pack(cert).then(packed => {
                         drawsQR("qr-divoc-orig", packed);
                         e("qr-divoc-orig-result").innerHTML = packed;
-
                         DIVOC.unpackAndVerify(packed).then(verified => {
-                            e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
+                            if (verified) {
+                                const imgDim={width:50,height:50}; 
+                                var context = e('qr-divoc-orig-code').getContext('2d');
+                                var imageObj = new Image();  
+                                imageObj.src = './img/ok-256.png';      
+                                imageObj.onload = function() {
+                                    context.drawImage(imageObj, 
+                                    e('qr-divoc-orig-code').width / 2 - imgDim.width / 2 +1,
+                                    e('qr-divoc-orig-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                                }; 
+                            }
                         });
                     });
 

@@ -202,7 +202,7 @@
             function unZipVerifyDisplayDIVOC(data) {
                 DIVOC.unpack(data).then(function (contents) {
                     console.log("json", contents);
-                    verifyDisplayDIVOC(JSON.parse(contents));
+                    verifyDisplayDIVOC(contents);
                 });
             }
 

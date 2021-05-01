@@ -219,8 +219,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
         <script src="js/pcf.js"></script>
-
-        <script src="js/jszip.min.js"></script>        
+      
         <script src="js/divoc.min.js"></script>
 
 
@@ -395,27 +394,17 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };    
 
-                DIVOC.sign(divocW3C).then(signed => {
-                    let cert = JSON.stringify(signed);
-                    var zip = new JSZip();
+                DIVOC.sign(divocW3C).then(cert => {
+                    DIVOC.pack(cert).then(packed => {
+                        drawsQR("qr-divoc-orig", packed);
+                        e("qr-divoc-orig-result").innerHTML = packed;
 
-                    zip.file("certificate.json", cert, {
-                        compression: "DEFLATE",
-                        compressionOptions: {
-                            level: 9
-                        }
-                    });
-                
-                    zip.generateAsync({type: "binarystring"}).then(function (bin) {
-                        drawsQR("qr-divoc-orig", bin);
-                        e("qr-divoc-orig-result").innerHTML= bin;
+                        DIVOC.unpackAndVerify(packed).then(verified => {
+                            e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
+                        });
                     });
 
-                    e("qr-divoc-orig-result").setAttribute('data-title', cert);
-
-                    DIVOC.verify(signed).then(verified => {
-                        e("qr-divoc-orig-verified").innerHTML = "Signature: " + (verified ? "Verified" : "Not Valid");
-                    });
+                    e("qr-divoc-orig-result").setAttribute('data-title', JSON.stringify(cert));
                 });
                 
                 e("qr-divoc-orig-code").style.display='block';

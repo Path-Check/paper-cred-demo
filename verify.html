@@ -58,8 +58,7 @@
         <script src="js/asn1.min.js"></script>
         <script src="js/base32.min.js"></script>
         
-        <script src="js/pcf.js"></script>
-        <script src="js/jszip.min.js"></script>        
+        <script src="js/pcf.js"></script>    
         <script src="js/divoc.min.js"></script>
 
         <script type="text/javascript" src="js/instascan.min.js"></script>
@@ -201,22 +200,14 @@
             }
 
             function unZipVerifyDisplayDIVOC(data) {
-                var zip = new JSZip();
-                zip.loadAsync(data).then((contents) => {
-                    console.log("unzipped", contents);
-                    return contents.files["certificate.json"].async('text')
-                }).then(function (contents) {
+                DIVOC.unpack(data).then(function (contents) {
                     console.log("json", contents);
                     verifyDisplayDIVOC(JSON.parse(contents));
-                }).catch(err => {
-                        console.log(err);
-                    }
-                );
+                });
             }
 
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
-
                     e("pre-verify-section").style.display = 'none';
                     e("post-verify-section").style.display = '';
 
@@ -225,16 +216,7 @@
 
                     let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
-                    var zip = new JSZip();
-
-                    zip.file("certificate.json", JSON.stringify(json), {
-                        compression: "DEFLATE",
-                        compressionOptions: {
-                            level: 9
-                        }
-                    });
-                
-                    zip.generateAsync({type: "binarystring"}).then(function (bin) {
+                    DIVOC.pack(json).then(function (bin) {
                         QRCode.toCanvas(e('qr'), bin, params, function (error) {
                             if (result) {
                                 const imgDim={width:150,height:150}; //logo dimention

@@ -758,7 +758,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/pdf417.js" type="text/javascript"></script>
 
         <script src="js/pcf.js"></script>
-        <script src="js/eu.min.js"></script>
+        <script src="js/eudgc.sdk.min.js"></script>
 
 		<script>
             const PUBLIC_KEY_PEM = '-----BEGIN CERTIFICATE-----\nMIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV\nBAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y\nMTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i\nZXIgd29ya2VyIG9mIEZyaWVzbGFuZDELMAkGA1UEBhMCRlIwWTATBgcqhkjOPQIB\nBggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1\n9aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgbMAoGCCqGSM49BAMCA0gAMEUC\nIQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN\nAF7zi+d862ePRQ9Lwymr7XfwVm0=\n-----END CERTIFICATE-----';
@@ -841,7 +841,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.signAndPack(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EUDGC.signAndPack(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0)
                 });
@@ -849,7 +849,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
                 const t0 = performance.now();
-                EU.signAndPack32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EUDGC.signAndPack32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
                     const t1 = performance.now();
                     displayEUQR(uri, elemPref, t1-t0);
                 });
@@ -880,7 +880,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
                 const v0 = performance.now();
-                EU.unpackAndVerify(uri, PUBLIC_KEY_PEM).then(verified => {
+                EUDGC.unpackAndVerify(uri, PUBLIC_KEY_PEM).then(verified => {
                     const v1 = performance.now();
                     e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
 

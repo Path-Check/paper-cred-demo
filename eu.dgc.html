@@ -85,8 +85,8 @@
                         <tr><td>DoB</td><td><input id="qr-recov-dob-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Disease</td><td><input id="qr-recov-tg" type="text" placeholder=""/></td></tr>
                         <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Valid From</td><td><input id="qr-recov-df" type="text" placeholder=""/></td></tr>
-                        <tr><td>Valid Until</td><td><input id="qr-recov-du" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid From</td><td><input id="qr-recov-df-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid Until</td><td><input id="qr-recov-du-date" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-recov-co" type="text" placeholder=""/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-recov-is" type="text" placeholder=""/></td></tr>
                         <tr><td>Cert ID</td><td><input id="qr-recov-ci" type="text" placeholder=""/></td></tr>
@@ -967,7 +967,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-date", "qr-test-dr-date", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
                 signAndDisplayQR("qr-test", "eu.dgc.test","1", priKeyPEM, pubKeyLink, testArray);
 
-                const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df", "qr-recov-du", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
+                const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
                 signAndDisplayQR("qr-recov", "eu.dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
 
                 let vaxEU = { 
@@ -1039,8 +1039,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                         {     
                             "tg": e('qr-recov-tg').value,
                             "vp": e('qr-recov-fr-date').value,
-                            "mp": e('qr-recov-df').value,
-                            "ma": e('qr-recov-du').value,
+                            "mp": e('qr-recov-df-date').value,
+                            "ma": e('qr-recov-du-date').value,
                             "co": e('qr-recov-co').value,
                             "is": e('qr-recov-is').value,
                             "ci": "urn:uvci:"+e('qr-recov-ci').value
@@ -1100,8 +1100,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-recov-dob-date").value = "2009-02-28";
                 e("qr-recov-tg").value = "840539006";
                 e("qr-recov-fr-date").value = "2021-04-21";
-                e("qr-recov-df").value = "2021-05-01";
-                e("qr-recov-du").value = "2021-10-21";
+                e("qr-recov-df-date").value = "2021-05-01";
+                e("qr-recov-du-date").value = "2021-10-21";
                 e("qr-recov-co").value = "NL";
                 e("qr-recov-is").value = "Ministry of VWS";
                 e("qr-recov-ci").value = "01:NL:LSP/REC/1289821";

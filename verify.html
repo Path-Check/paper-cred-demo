@@ -257,7 +257,7 @@
                     let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                     //IBM.pack(json).then(function (bin) {
-                        QRCode.toCanvas(e('qr'), json, params, function (error) {
+                        QRCode.toCanvas(e('qr'), JSON.stringify(json), params, function (error) {
                             /*
                             if (result) {
                                 const imgDim={width:150,height:150}; //logo dimention
@@ -282,9 +282,9 @@
                     //    e('qr-verify-verified').innerHTML = "Credential Invalid";
                     //}
 
-                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Pass"
                     e('qr-verify-name').innerHTML = json.credentialSubject.subject.name.given + " " + json.credentialSubject.subject.name.family + "<br>";
-                    e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.birthDate;
+                    e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.subject.birthDate;
 
                     processed();
                 //});

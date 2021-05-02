@@ -61,17 +61,18 @@
         <script src="js/pcf.js"></script>    
         <script src="js/divoc.sdk.min.js"></script>
 
-        <script type="text/javascript" src="js/instascan2.min.js"></script>
+        <script type="text/javascript" src="js/instascan.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
             const args = { video: document.getElementById('preview'), mirror: false };
 
+            /*
             window.URL.createObjectURL = (stream) => {
                 args.video.srcObject = stream;
                 return stream;
-            };
+            };*/
 
             var scanner = new Instascan.Scanner(args);
             scanner.addListener('scan', function (content) {

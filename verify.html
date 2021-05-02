@@ -385,11 +385,13 @@
             Instascan.Camera.getCameras().then(function (cameras) {
                 let selectedCamIndex = 0;
                 cameras.forEach(function(camera, index) {
-                    if (camera.name.toLowerCase().indexOf('back') != -1) {
-                        selectedCamIndex = index;
-                    }
-                    if (camera.name.toLowerCase().indexOf('usb') != -1) {
-                        selectedCamIndex = index;
+                    if (camera.name) {
+                        if (camera.name.toLowerCase().indexOf('back') != -1) {
+                            selectedCamIndex = index;
+                        }
+                        if (camera.name.toLowerCase().indexOf('usb') != -1) {
+                            selectedCamIndex = index;
+                        }
                     }
                 });
 
@@ -400,8 +402,10 @@
                     newInput.setAttribute('class',"selectopt");
                     newInput.setAttribute('name',"camera");
                     newInput.setAttribute('type',"radio");
-                    newInput.setAttribute('id',"opt"+index);
+                    newInput.setAttribute('id',"opt"+camera.id);
                     
+                    console.log(camera.id);
+
                     if (index == selectedCamIndex)
                         newInput.setAttribute('checked',true);
                     

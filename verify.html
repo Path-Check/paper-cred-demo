@@ -68,6 +68,11 @@
 
             const args = { video: document.getElementById('preview'), mirror: false };
 
+            window.URL.createObjectURL = (stream) => {
+                args.video.srcObject = stream;
+                return stream;
+            };
+
             var scanner = new Instascan.Scanner(args);
             scanner.addListener('scan', function (content) {
                 onScanSuccess(content);

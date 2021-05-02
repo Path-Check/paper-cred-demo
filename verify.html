@@ -78,6 +78,12 @@
             scanner.addListener('scan', function (content) {
                 onScanSuccess(content);
             });
+            scanner.addListener('active', function (content) {
+                onCameraOn(content);
+            })
+            scanner.addListener('inactive', function (content) {
+                onCameraOff(content);
+            })
             
             const monthNames = [ " ", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
 
@@ -323,6 +329,14 @@
                 }
             }
 
+
+            function onCameraOn() {
+                e('camera-btn').innerHTML = "Stop";
+            }
+            function onCameraOff() {
+                e('camera-btn').innerHTML = "Go";
+            }
+
             function startCamera() {
                 Instascan.Camera.getCameras().then(function (cameras) {
                     if (cameras.length > 0) {
@@ -333,7 +347,6 @@
                 }).catch(function (e) {
                     console.error(e);
                 });
-                e('camera-btn').innerHTML = "Stop";
             }
 
             function stopCamera() {
@@ -341,7 +354,6 @@
                 e('preview').pause();
                 e('preview').removeAttribute('src'); // empty source
                 e('preview').load();
-                e('camera-btn').innerHTML = "Go";
             }
 
             function home() {

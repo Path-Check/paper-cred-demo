@@ -373,10 +373,10 @@
                 let selectedCamIndex = 0;
                 cameras.forEach(function(camera, index) {
                     if (camera.name.toLowerCase().indexOf('back') != -1) {
-                        selectedCamIndex = c;
+                        selectedCamIndex = index;
                     }
                     if (camera.name.toLowerCase().indexOf('usb') != -1) {
-                        selectedCamIndex = c;
+                        selectedCamIndex = index;
                     }
                 });
 

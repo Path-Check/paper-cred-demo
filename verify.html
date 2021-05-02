@@ -370,6 +370,18 @@
             }
 
             Instascan.Camera.getCameras().then(function (cameras) {
+                let selectedCamIndex = 0;
+                cameras.forEach(function(camera, index) {
+                    if (camera.name.toLowerCase().indexOf('back') != -1) {
+                        selectedCamIndex = c;
+                    }
+                    if (camera.name.toLowerCase().indexOf('usb') != -1) {
+                        selectedCamIndex = c;
+                    }
+                });
+
+                console.log("Camera Index", selectedCamIndex);
+
                 cameras.forEach(function(camera, index) {
                     let newInput = document.createElement("input");
                     newInput.setAttribute('class',"selectopt");

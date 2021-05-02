@@ -61,19 +61,14 @@
         <script src="js/pcf.js"></script>    
         <script src="js/divoc.sdk.min.js"></script>
 
-        <script type="text/javascript" src="js/instascan.js"></script>
+        <script type="text/javascript" src="js/instascan2.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
             const args = { video: document.getElementById('preview'), mirror: false };
 
-            window.URL.createObjectURL = (stream) => {
-                args.video.srcObject = stream;
-                return stream;
-            };
-
-            var scanner = new window.instascan.Scanner(args);
+            var scanner = new Instascan.Scanner(args);
             scanner.addListener('scan', function (content) {
                 onScanSuccess(content);
             });
@@ -323,7 +318,7 @@
             }
 
             function startCamera() {
-                window.instascan.Camera.getCameras().then(function (cameras) {
+                Instascan.Camera.getCameras().then(function (cameras) {
                     if (cameras.length > 0) {
                         scanner.start(cameras[document.querySelector('input[name="camera"]:checked').id.substr(3)]);
                     } else {
@@ -369,7 +364,7 @@
                 verifyQRCode(uri);
             }
 
-            window.instascan.Camera.getCameras().then(function (cameras) {
+            Instascan.Camera.getCameras().then(function (cameras) {
                 let selectedCamIndex = 0;
                 cameras.forEach(function(camera, index) {
                     if (camera.name) {

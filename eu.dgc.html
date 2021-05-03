@@ -228,6 +228,37 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 <div class="quarter xs-hidden">
                 </div>
             </div>
+
+            <div class="four-quarter">
+                <h2>Modified Date As Integers EU CBOR COSE ZLIB Base45 URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-orig45DInt-code-label" style="display: none;">Immunization QR</h4>
+                    <canvas id="qr-vax-orig45DInt-code"></canvas><br/>
+                    <h4 id="qr-vax-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-orig45DInt-pdf"></canvas><br/>
+                    <pre id="qr-vax-orig45DInt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-orig45DInt-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-orig45DInt-code"></canvas><br/>
+                    <h4 id="qr-test-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-orig45DInt-pdf"></canvas><br/>
+                    <pre id="qr-test-orig45DInt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-orig45DInt-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-orig45DInt-code"></canvas><br/>
+                    <h4 id="qr-recov-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-orig45DInt-pdf"></canvas><br/>
+                    <pre id="qr-recov-orig45DInt-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
             <div class="four-quarter">
                 <h2>Comparison Tables</h2>
                 <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
@@ -266,7 +297,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig32-time-json"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-time-sign"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-time-verify"></td>
-
+                        </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-verify"></td>
                         </tr>
                     </table>
                 </div>
@@ -302,8 +338,14 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig32-time-json"></td>
                             <td style="text-align: right;" id="qr-test-orig32-time-sign"></td>
                             <td style="text-align: right;" id="qr-test-orig32-time-verify"></td>
-
                         </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-time-verify"></td>
+                        </tr>
+                    
                     </table>
                 </div>
                 <div class="third">
@@ -339,6 +381,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig32-time-sign"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-time-verify"></td>
 
+                        </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-verify"></td>
                         </tr>
                     </table>
                 </div>
@@ -379,6 +427,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-ecch"></td>
                         </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -412,6 +466,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-ecch"></td>
                         </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -444,6 +504,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-ecch"></td>
+                        </tr>
+                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-ecch"></td>
                         </tr>
                     </table>
                 </div>
@@ -484,6 +550,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig32-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-bits-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -517,6 +590,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig32-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig32-bits-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -549,6 +629,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig32-bits-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-ecch"></td>
                         </tr>
                     </table>
                 </div>
@@ -590,6 +677,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -623,6 +717,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig32-size-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -655,6 +756,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-ecch"></td>
                         </tr>
                     </table>
                 </div>
@@ -695,6 +803,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -727,6 +842,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-ecch"></td>
                         </tr>
                     </table>
                 </div>
@@ -761,6 +883,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-ecch"></td>
                         </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-ecch"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -789,11 +918,15 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const fields = elemArray.map(function(elemId) {
                     if (elemId.endsWith('-date')) {
                         // Sends dates always in seconds since epoch
-                        return (new Date(e(elemId).value).getTime()/1000).toString();
+                        return convertDate(e(elemId).value).toString();
                     }
                     return e(elemId).value;
                 })
                 return fields;
+            }
+
+            function convertDate(str) {
+                return new Date(str).getTime()/1000;
             }
 
             function clearQR(elemPrefix) {
@@ -1018,8 +1151,34 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     ]
                 };
 
+                let vaxEUDInt = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-vax-nam-fn').value,
+                        "gn": e('qr-vax-nam-gn').value,
+                        "fnt": e('qr-vax-nam-fnt').value,
+                        "gnt": e('qr-vax-nam-gnt').value,
+                    },
+                    "dob": convertDate(e('qr-vax-dob-date').value),
+                    "v": [
+                        {
+                            "tg": e('qr-vax-tg').value,
+                            "vp": e('qr-vax-vp').value,
+                            "mp": e('qr-vax-mp').value,
+                            "ma": e('qr-vax-ma').value,
+                            "dn": parseInt(e('qr-vax-dn').value),
+                            "sd": parseInt(e('qr-vax-sd').value),
+                            "dt": convertDate(e('qr-vax-dt-date').value),
+                            "co": e('qr-vax-co').value,
+                            "is": e('qr-vax-is').value,
+                            "ci": "urn:uvci:"+e('qr-vax-ci').value
+                        }
+                    ]
+                };
+
                 signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-vax-orig32", vaxEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayEUQR("qr-vax-orig45DInt", vaxEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1046,8 +1205,34 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     ]
                 };
 
+                let testEUDInt = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-test-nam-fn').value,
+                        "gn": e('qr-test-nam-gn').value,
+                        "fnt": e('qr-test-nam-fnt').value,
+                        "gnt": e('qr-test-nam-gnt').value,
+                    },
+                    "dob": convertDate(e('qr-test-dob-date').value),
+                    "t": [
+                        {
+                            "tg": e('qr-test-tg').value,
+                            "tt": e('qr-test-tt').value,
+                            "tr": e('qr-test-tr').value,
+                            "ma": e('qr-test-ma').value,
+                            "sc": convertDate(e('qr-test-sc-date').value),
+                            "dr": convertDate(e('qr-test-dr-date').value),
+                            "tc": e('qr-test-tc').value,
+                            "co": e('qr-test-co').value,
+                            "is": e('qr-test-is').value,
+                            "ci": "urn:uvci:"+e('qr-test-ci').value
+                        }
+                    ]
+                };
+
                 signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayEUQR("qr-test-orig45DInt", testEUDInt, priKeyEUPEM, pubKeyEUPEM);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1071,8 +1256,31 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     ]
                 };
 
+                let recovEUDInt = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-recov-nam-fn').value,
+                        "gn": e('qr-recov-nam-gn').value,
+                        "fnt": e('qr-recov-nam-fnt').value,
+                        "gnt": e('qr-recov-nam-gnt').value,
+                    },
+                    "dob": convertDate(e('qr-recov-dob-date').value),
+                    "r": [
+                        {     
+                            "tg": e('qr-recov-tg').value,
+                            "fr": convertDate(e('qr-recov-fr-date').value),
+                            "df": convertDate(e('qr-recov-df-date').value),
+                            "du": convertDate(e('qr-recov-du-date').value),
+                            "co": e('qr-recov-co').value,
+                            "is": e('qr-recov-is').value,
+                            "ci": "urn:uvci:"+e('qr-recov-ci').value
+                        }
+                    ]
+                };
+
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayEUQR("qr-recov-orig45DInt", recovEUDInt, priKeyEUPEM, pubKeyEUPEM);
             }
 
             function schemaValidator() {

@@ -94,7 +94,7 @@
                 </div>
                 
                 <div class="quarter">
-                    <h4>Credentials</h4>
+                    <h4>CRED Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
 <textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
@@ -107,6 +107,26 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <label for="pubkey">Public Key</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">1A9.PCF</textarea>
+
+                    <h4>EU HC1 Credentials</h4>
+                    <label for="privkey">P8 Private Key</label><br/>
+<textarea id="privkeyEU" rows="10" style="width: 100%;">-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb
+ZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts
+CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
+-----END PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">PublicKey  Certificate</label><br/>
+<textarea id="pubkeyEU" rows="10" style="width: 100%;">-----BEGIN CERTIFICATE-----
+MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
+BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
+MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
+ZXIgd29ya2VyIG9mIEZyaWVzbGFuZDELMAkGA1UEBhMCRlIwWTATBgcqhkjOPQIB
+BggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1
+9aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgbMAoGCCqGSM49BAMCA0gAMEUC
+IQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN
+AF7zi+d862ePRQ9Lwymr7XfwVm0=
+-----END CERTIFICATE-----</textarea>
                 </div>
             </div>
             <br>
@@ -147,7 +167,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <pre id="qr-verify-result"></pre>
                     <pre id="qr-verify-verified"></pre>
-
                 </div>
             </div>
             <div class="four-quarter">
@@ -176,7 +195,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <pre id="qr-recov-orig-result"></pre>
                 </div>
 
-                <div class="quarter xs-hidden">
+                <div class="quarter">
+
                 </div>
             </div>
             <div class="four-quarter">
@@ -761,9 +781,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/eudgc.sdk.min.js"></script>
 
 		<script>
-            const PUBLIC_KEY_PEM = '-----BEGIN CERTIFICATE-----\nMIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV\nBAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y\nMTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i\nZXIgd29ya2VyIG9mIEZyaWVzbGFuZDELMAkGA1UEBhMCRlIwWTATBgcqhkjOPQIB\nBggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1\n9aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgbMAoGCCqGSM49BAMCA0gAMEUC\nIQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN\nAF7zi+d862ePRQ9Lwymr7XfwVm0=\n-----END CERTIFICATE-----';
-            const PRIVATE_KEY_P8 = '-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb\nZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts\nCrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb\n-----END PRIVATE KEY-----';
-
             function e(elem) { return document.getElementById(elem); }
 
             function getValueArray(elemArray) {
@@ -839,23 +856,23 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 }
             }
 
-            function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
+            function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
-                EUDGC.signAndPack(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EUDGC.signAndPack(json, pubKeyPem, priKeyPEM).then(uri => {
                     const t1 = performance.now();
-                    displayEUQR(uri, elemPref, t1-t0)
+                    displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
                 });
             }
 
-            function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyId) {
+            function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
-                EUDGC.signAndPack32(json, PUBLIC_KEY_PEM, PRIVATE_KEY_P8).then(uri => {
+                EUDGC.signAndPack32(json, pubKeyPem, priKeyPEM).then(uri => {
                     const t1 = performance.now();
-                    displayEUQR(uri, elemPref, t1-t0);
+                    displayEUQR(uri, elemPref, t1-t0, pubKeyPem);
                 });
             }
 
-            function displayEUQR(uri, elemPref, deltaTime) {
+            function displayEUQR(uri, elemPref, deltaTime, pubKeyPem) {
                 const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
@@ -880,7 +897,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
                 const v0 = performance.now();
-                EUDGC.unpackAndVerify(uri, PUBLIC_KEY_PEM).then(verified => {
+                EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
                     const v1 = performance.now();
                     e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
 
@@ -970,6 +987,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
                 signAndDisplayQR("qr-recov", "eu.dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
 
+                // PEM code of the private key
+                const priKeyEUPEM = e('privkeyEU').value;
+                const pubKeyEUPEM = e('pubkeyEU').value;
+
                 let vaxEU = { 
                     "ver": "1.0.0",
                     "nam": {
@@ -995,8 +1016,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-vax-orig", vaxEU);
-                sign32AndDisplayEUQR("qr-vax-orig32", vaxEU);
+                signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
+                sign32AndDisplayEUQR("qr-vax-orig32", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1023,8 +1044,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-test-orig", testEU);
-                sign32AndDisplayEUQR("qr-test-orig32", testEU);
+                signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
+                sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1048,8 +1069,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     ]
                 };
 
-                signAndDisplayEUQR("qr-recov-orig", recovEU);
-                sign32AndDisplayEUQR("qr-recov-orig32", recovEU);
+                signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
+                sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
             }
             
             function verifyQRCode() {

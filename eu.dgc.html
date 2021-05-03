@@ -779,6 +779,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/pcf.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/he.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -1074,8 +1075,20 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
             
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
-                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                if (e("qr-verify").value.startsWith('CRED:')) {
+                    e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
+                    e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                } else {
+                    e("qr-verify-result").innerHTML = "Checking";
+                    EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
+                        if (json) {
+                            e("qr-verify-result").innerHTML = "Data: " + he.encode(JSON.stringify(json));
+                            e('qr-verify-verified').innerHTML = "Signature Verified";
+                        } else {
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
+                    });
+                }
             }
         </script>
         

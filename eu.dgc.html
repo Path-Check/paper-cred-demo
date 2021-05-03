@@ -780,6 +780,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/pcf.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
         <script src="js/he.js"></script>
+        <script src="js/ajv7.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -1073,6 +1074,19 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
             }
+
+            function schemaValidator() {
+                var ajv = new ajv7.default({strict: "log", validateFormats: false});
+
+                let client = new XMLHttpRequest();
+                client.open('GET', 'https://raw.githubusercontent.com/ehn-digital-green-development/ehn-dgc-schema/main/DGC.combined-schema.json', false);
+                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.send();
+
+                const schema = JSON.parse(client.response); 
+                delete schema['$schema'];
+                return ajv.compile(schema);
+            }
             
             function verifyQRCode() {
                 if (e("qr-verify").value.startsWith('CRED:')) {
@@ -1081,9 +1095,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 } else {
                     e("qr-verify-result").innerHTML = "Checking";
                     EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
+                        const validator = schemaValidator();
+                        const valid = validator(json);
+                        console.log(valid);
+                        console.log(validator.errors);
                         if (json) {
                             e("qr-verify-result").innerHTML = "Data: " + he.encode(JSON.stringify(json));
-                            e('qr-verify-verified').innerHTML = "Signature Verified";
+                            e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? " and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                         } else {
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }

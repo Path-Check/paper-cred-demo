@@ -21,15 +21,33 @@
         <div class="center">
             <h1>Verifiable Credential Debugger</h1>
             <div class="full-div">
-                <div>
-                    <label for="verify">Paste the Code here:</label><br>
-                    <textarea id="qr-verify" rows="10" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                <div class="four-quarter-left">
+                    <div>
+                        <h4>Paste the QR Code here:</h4>
+                        <textarea id="qr-verify" rows="10" placeholder="cred:type:version:signature:pubkey:payload
+HC1:payload">HC1:6BFOXN%TSMAHN-H+XO5XF7:UY%FJ.G0II44R4PIQJAZGA2:UG%U:PI/E2$4JY/KF-I2CLSZ2D14$GI2$LQTLW1J1ALCIIVTIE7J92K2BTFZIT4F7GF9:C 1M:/FD.B4JB*D9/RH19AV8O/CMFDJU7KS6HE7I:2C6LF7E9+PB$UKPWM*4DM+H9AO:2CZI9$JAYHIOHGX2MYIIJGI6JC7ZSA KZ*U0I1-I0*OC6H0/VM$NI%S5Z00WN8$M8TJ11ZS8OI6S99K6QJ2BMA:J0*$KLZO.L8$QC0%KD$S3B9%H0AN8MH0PZBXVSQL8IK51I06H07ZDJ42ZXI/VGYND0P2JZG6:IO1BRLNWTNACN2YAY9T2/BU8L.HS5ZTGOJ*IJL6KC2K62K0 J9.SPTIZEB4DUYIJGDBGIASJLA8KN126*3JZI2CB8OABYIPZA 1JG71W0Q1CQ9E1UZH9+G-UKQ6HRHJ UAQO88:B3N3N6M+RN0T3WCB*F91NNXQ3K/KIEE 608DS3-4AS1-RBM05BEE5PMXD9YBP$P7+ HW8TZ0G1TOH9NE1GGMVZ/N+4AC/D/1D2200ZIS2</textarea>
+                        <br><br>
+                        <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                        <br><br>
+                        <pre id="qr-verify-brand"></pre>
+                        <pre id="qr-verify-result"></pre>
+                        <pre id="qr-verify-verified"></pre>
+                    </div>
+                </div>
+
+                <div class="quarter">
+                    <h4>Public Key (for HC1)</h4>
+                    <textarea id="pubkey" rows="10" cols="30">-----BEGIN CERTIFICATE-----
+MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
+BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
+MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
+ZXIgd29ya2VyIG9mIEZyaWVzbGFuZDELMAkGA1UEBhMCRlIwWTATBgcqhkjOPQIB
+BggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1
+9aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgbMAoGCCqGSM49BAMCA0gAMEUC
+IQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN
+AF7zi+d862ePRQ9Lwymr7XfwVm0=
+-----END CERTIFICATE-----</textarea>
                     <br><br>
-                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
-                    <br><br>
-                    <pre>Syntax: cred:<span class='protocol'>type:version</span>:<span class='signature'>signature</span>:<span class='pub-key'>pubkey</span>:<span class='message'>payload</span></pre>
-                    <pre id="qr-verify-result"></pre>
-                    <pre id="qr-verify-verified"></pre>
                 </div>
             </div>
         </div>
@@ -42,56 +60,78 @@
         <script src="js/base32.min.js"></script>
 
         <script src="js/pcf.js"></script>
+        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/he.js"></script>
+        <script src="js/ajv7.min.js"></script>
+
+        <script src="js/divoc.sdk.min.js"></script>
+        <script src="js/json-beautify.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
+            function schemaValidator() {
+                var ajv = new ajv7.default({strict: "log", validateFormats: false});
+
+                let client = new XMLHttpRequest();
+                client.open('GET', 'https://raw.githubusercontent.com/ehn-digital-green-development/ehn-dgc-schema/main/DGC.combined-schema.json', false);
+                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.send();
+
+                const schema = JSON.parse(client.response); 
+                delete schema['$schema'];
+                return ajv.compile(schema);
+            }
+
             function verifyQRCode() {
-                let qr = e("qr-verify").value;
-                let uri = qr.substring(qr.indexOf("CRED:"));
-                if (uri !== "" && uri != null) {
-                    e("qr-verify-result").innerHTML = PCF.debugParseURI(uri);
-                    e('qr-verify-verified').innerHTML = PCF.debugVerify(uri);
-                } else {
-                    e('qr-verify-verified').innerHTML = "Certificate not found. ";
-                }
-            }
-
-            function onScanSuccess(qrMessage) {
-                if (qrMessage !== "" && qrMessage != null) {
-                    let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
-                    e("qr-verify").value = uri;
-                    verifyQRCode();
-                }
-            }
-
-            function onScanFailure(error) {
-                console.warn(`QR error = ${error}`);
-            }
-        </script>
-        
-        <script>
-            // Loading URI from qr parameter. 
-            const queryString = window.location.search;
-
-            const urlParams = new URLSearchParams(queryString);
-            const qr = urlParams.get('qr')
-
-            if (qr !== "" && qr != null) {
-                uri = qr.substring(qr.indexOf("CRED:"));
-
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);
-                decodedFields = payload.split('/');
-
-                // Making sure the fields have not been decoded by the browser. 
-                const encodedFields = decodedFields.map(function(field) {
-                    return encodeURIComponent(field);
-                })
+                e("qr-verify-brand").innerHTML = "";
+                e("qr-verify-result").innerHTML = "Checking";
+                e('qr-verify-verified').innerHTML = "";
                 
-                const decodedFieldsStr = encodedFields.join('/');
+                const qr = e("qr-verify").value;
+                if (qr === "" && qr == null) {
+                    e('qr-verify-verified').innerHTML = "Certificate not found. ";
+                    return;
+                }
 
-                e("qr-verify").value = [schema, type, version, signatureBase32NoPad, pubKeyLink, decodedFieldsStr].join(":")
-                verifyQRCode();
+                if (qr.startsWith('CRED:')) {
+                    e("qr-verify-brand").innerHTML = "PathCheck Verifiable QR"
+                    e("qr-verify-result").innerHTML = PCF.debugParseURI(qr);
+                    e('qr-verify-verified').innerHTML = PCF.debugVerify(qr);
+                } else if (qr.startsWith('HC1:')) {
+                    e("qr-verify-brand").innerHTML = "EU Digital Green Certificate Verifiable QR"
+                    EUDGC.unpackAndVerify(qr, e('pubkey').value).then(json => {
+                        const validator = schemaValidator();
+                        const valid = validator(json);
+                        console.log(validator.errors);
+                        if (json) {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));
+                            e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
+                        } else {
+                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
+                    });
+                } else if (qr.includes('did:india')) {
+                    e("qr-verify-brand").innerHTML = "Divoc Verifiable QR"
+                    DIVOC.verify(qr).then(result => {
+                        if (result) {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
+                            e('qr-verify-verified').innerHTML = "Signature Verified";
+                        } else {
+                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
+                    });
+                } else if (qr.includes('did:hpass')) {
+                    e("qr-verify-brand").innerHTML = "Excelsior Pass Verifiable QR"
+                    e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
+                    e('qr-verify-verified').innerHTML = "IBM's Pass verification has not been implemented yet.";
+                } else {
+                    e("qr-verify-brand").innerHTML = "No idea what this is"
+                    e("qr-verify-result").innerHTML = "";
+                    e('qr-verify-verified').innerHTML = "The payload type has not been implemented yet.";
+                }
             }
         </script>
 	</body>

@@ -188,6 +188,11 @@ pre {
   text-align: center;
 }
 
+.four-quarter-left {
+  width: 78%;
+  margin: 0px;
+}
+
 .full-div-align-center {
   clear: both;
   width: 100%;

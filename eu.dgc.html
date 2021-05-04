@@ -994,17 +994,21 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
-                EUDGC.signAndPack(json, pubKeyPem, priKeyPEM).then(uri => {
-                    const t1 = performance.now();
-                    displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
+                EUDGC.makeCWT(json).then(cwt => {
+                    EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
+                        const t1 = performance.now();
+                        displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
+                    });
                 });
             }
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
-                EUDGC.signAndPack32(json, pubKeyPem, priKeyPEM).then(uri => {
-                    const t1 = performance.now();
-                    displayEUQR(uri, elemPref, t1-t0, pubKeyPem);
+                EUDGC.makeCWT(json).then(cwt => {
+                    EUDGC.signAndPack32(cwt, pubKeyPem, priKeyPEM).then(uri => {
+                        const t1 = performance.now();
+                        displayEUQR(uri, elemPref, t1-t0, pubKeyPem);
+                    });
                 });
             }
 

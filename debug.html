@@ -69,6 +69,25 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/json-beautify.min.js"></script>
 
 		<script>
+            function replacer(key, value) {
+                if(value instanceof Map) {
+                    return {
+                    dataType: 'Map',
+                    value: Array.from(value.entries()), // or with spread: value: [...value]
+                    };
+                } else {
+                    return value;
+                }
+            }
+            function reviver(key, value) {
+                if(typeof value === 'object' && value !== null) {
+                    if (value.dataType === 'Map') {
+                    return new Map(value.value);
+                    }
+                }
+                return value;
+            }
+
             function e(elem) { return document.getElementById(elem); }
 
             function schemaValidator() {
@@ -82,6 +101,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const schema = JSON.parse(client.response); 
                 delete schema['$schema'];
                 return ajv.compile(schema);
+            }
+
+            function getEUPayload(cwt) {
+                if (cwt instanceof Map) {
+                    return cwt.get(-260).get(1);
+                } 
+                return cwt;
             }
 
             function verifyQRCode() {
@@ -103,13 +129,14 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e("qr-verify-brand").innerHTML = "EU Digital Green Certificate Verifiable QR"
                     EUDGC.unpackAndVerify(qr, e('pubkey').value).then(json => {
                         const validator = schemaValidator();
-                        const valid = validator(json);
+                        const valid = validator(getEUPayload(json));
                         console.log(validator.errors);
                         if (json) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));
+                            console.log(json);
+                            e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                         } else {
-                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
@@ -134,6 +161,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e('qr-verify-verified').innerHTML = "The payload type has not been implemented yet.";
                 }
             }
+
+
         </script>
 	</body>
 </html>

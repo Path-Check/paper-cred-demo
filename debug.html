@@ -136,7 +136,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                         } else {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
+                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });

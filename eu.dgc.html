@@ -928,8 +928,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
             function reviver(key, value) {
                 if(typeof value === 'object' && value !== null) {
-                    if (value.dataType === 'Map') {
-                    return new Map(value.value);
+                    if (value.Map) {
+                        return new Map(value.Map);
                     }
                 }
                 return value;
@@ -1015,7 +1015,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
                 EUDGC.makeCWT(json).then(cwt => {
-                    console.log("CWT", cwt);
+                    console.log(elemPref+"CWT", cwt);
+                    console.log(elemPref+"JSON", JSON.stringify(json));
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const t1 = performance.now();
                         displayEUQR(uri, elemPref, t1-t0, pubKeyPem)

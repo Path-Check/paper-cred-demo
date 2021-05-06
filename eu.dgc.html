@@ -1015,8 +1015,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const t0 = performance.now();
                 EUDGC.makeCWT(json).then(cwt => {
-                    console.log(elemPref+"CWT", cwt);
-                    console.log(elemPref+"JSON", JSON.stringify(json));
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const t1 = performance.now();
                         displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
@@ -1339,8 +1337,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
                         const validator = schemaValidator();
                         const valid = validator(getEUPayload(json));
-                        console.log(valid);
-                        console.log(validator.errors);
                         if (json) {
                             e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(json, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? " and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));

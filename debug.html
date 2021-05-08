@@ -135,7 +135,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
-                    EUDGC.debug(qr, e('pubkey').value).then(json => {
+                    EUDGC.debug(qr).then(json => {
                         if (json) {
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
                         } else {

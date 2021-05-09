@@ -117,19 +117,19 @@
                 window.location.hash = '#processed'
                 certView();
 
-                if (data === "" && data == null) {
+                if (data === "" || data == null) {
                     displayCertificateNotFound(data);
-                } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("CRED:")) {
+                } else if (typeof(data) === 'string' && data.startsWith("CRED:")) {
                     verifyDisplayCRED(data); 
-                } else if (data !== "" && data != null && data.startsWith("PK")) {
+                } else if (data.startsWith("PK")) {
                     unZipVerifyDisplayDIVOC(data);
-                } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("{")) {
+                } else if (typeof(data) === 'string' && data.startsWith("{")) {
                     if (data.includes("did:india")) {
                         verifyDisplayDIVOC(json);
                     } else {
                         verifyDisplayIBM(json);
                     }
-                } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("HC1:")) {
+                } else if (typeof(data) === 'string' && data.startsWith("HC1:")) {
                     verifyDisplayEU(data);
                 } else {
                     displayCertificateUnsupported(data);

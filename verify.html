@@ -68,9 +68,9 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            const args = { video: document.getElementById('preview'), mirror: false };
+            function qrParams(elem) { return {margin:0, width:Math.min(e(elem).scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }}; }
 
-            var scanner = new Instascan.Scanner(args);
+            var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
             scanner.addListener('scan', function (content) {
                 onScanSuccess(content);
             });
@@ -92,6 +92,12 @@
                 return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
             }
 
+            // Date in seconds from epoch
+            function parseDInt(str) {
+                const d = new Date(parseInt(str) * 1000);
+                return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
+            }
+
             function parseISODate(str) {
                 const d = new Date(str);
                 return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
@@ -101,111 +107,126 @@
                 return hash.substr(0,10) + ".." + hash.substr(hash.length-10,10)
             }
 
-            function verifyQRCode(data) {
+            function verifyQRCode(data) {               
                 if (!data)
                     data = e("qr-verify").value;
 
                 console.log(data);
 
-                if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("CRED:")) {
-                    let uri = data.substring(data.indexOf("CRED:"));
-                
-                    e("pre-verify-section").style.display = 'none';
-                    e("post-verify-section").style.display = '';
+                // Update the page's address without causing a reload
+                window.location.hash = '#processed'
+                certView();
 
-                    const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  
-                    const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
-                    const fields = PCF.getPayloadFields(payload);
-
-                    console.log(e('qr').scrollWidth);
-                    console.log(Math.min(e('qr').scrollWidth,500)-20);
-
-                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
-                    QRCode.toCanvas(e('qr'), uri, params, function (error) {
-                        if (result) {
-                            const imgDim={width:150,height:150}; //logo dimention
-                            var context = e('qr').getContext('2d');
-                            var imageObj = new Image();  
-                            imageObj.src = './img/ok-256.png';      
-                            imageObj.onload = function() {
-                                context.drawImage(imageObj, 
-                                e('qr').width / 2 - imgDim.width / 2 +1,
-                                e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                            }; 
-                        }
-                    });
-
-                    if (result == null) {
-                        e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + (fields['date'] || fields['issuanceDate'] ? ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']) : '');
+                if (data === "" && data == null) {
+                    displayCertificateNotFound(data);
+                } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("CRED:")) {
+                    verifyDisplayCRED(data); 
+                } else if (data !== "" && data != null && data.startsWith("PK")) {
+                    unZipVerifyDisplayDIVOC(data);
+                } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("{")) {
+                    if (data.includes("did:india")) {
+                        verifyDisplayDIVOC(json);
                     } else {
-                        e('qr-verify-verified').innerHTML = "Credential Invalid";
-                    }
-                    
-                    if (type == 'BADGE') {
-                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
-                        e('qr-verify-name').innerHTML = (fields['name'] ? fields['name'] : short(fields['passkey'])) + "<br>";
-                        e('qr-verify-name').innerHTML += fields['dob'] ? parseDate(fields['dob']) : "" + "<br>";
-                    }
-                    if (type == 'COUPON') {
-                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Coupon"
-                        e('qr-verify-name').innerHTML = "Coupon " + fields['number'] + "/" + fields['total'] + "<br>";
-                        e('qr-verify-name').innerHTML += "<small>Phase " + fields['phase'] + " in " + fields['city'] + "</small><br>";
-                    }
-                    if (type == 'STATUS') {
-                        e('qr-verify-title').innerHTML = "COVID-19 Pass"
-                        e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : fields['status'] === '1' ? "One Dose" : "Not Vaccinated") + "<br />";
-                        e('qr-verify-name').innerHTML += (fields['initials'] ? "Initials: " + fields['initials'] : "Key: " +  short(fields['passkey']))  + "<br>";
-                    }
-                    if (type == 'PASSKEY') {
-                        e('qr-verify-title').innerHTML = "COVID-19 PassKey"
-                        e('qr-verify-name').innerHTML = "Name: " + fields['name'] + "<br>";
-                        e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dob']);
-                    }
-                    if (type == 'LIBERTY') {
-                        e('qr-verify-title').innerHTML = "COVID-19 Pass"
-                        e('qr-verify-name').innerHTML = fields['credentialSubject.subject.name.given'] + " " + fields['credentialSubject.subject.name.family'] + "<br>";
-                        e('qr-verify-name').innerHTML += fields['credentialSubject.subject.birthDate'];
-                    }
-                    if (type == 'COWIN') {
-                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
-                        e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
-                        e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
-                    }
-
-                    processed();
-                } else if (data !== "" && data != null && (data.startsWith("{") || data.startsWith("PK"))) {
-                    if (data.startsWith("PK")) {
-                        unZipVerifyDisplayDIVOC(data);
-                    } else {
-                        // Make sure it's not encoded. 
-                        let json = '';
-                        if (data.includes("%22")) {
-                            json = JSON.parse(decodeURIComponent(data))
-                        } else {
-                            json = JSON.parse(data);
-                        }
-
-                        if (data.includes("did:india")) {
-                            verifyDisplayDIVOC(json);
-                        } else {
-                            verifyDisplayIBM(json);
-                        }
+                        verifyDisplayIBM(json);
                     }
                 } else if (data !== "" && data != null && typeof(data) === 'string' && data.startsWith("HC1:")) {
                     verifyDisplayEU(data);
                 } else {
-                    e('qr-verify-title').innerHTML = '';
-                    e('qr-verify-name').innerHTML = '';
-                    let canvas = e('qr');
-                    canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-                    e('qr-verify-verified').innerHTML = "Certificate not found. ";
+                    displayCertificateUnsupported(data);
                 }
+            }
 
-                // Update the page's address without causing a reload
-                window.location.hash = '#processed'
-                stopCamera();
+            function displayCertificateUnsupported(data) {
+                e('qr-verify-title').innerHTML = '';
+                e('qr-verify-name').innerHTML = '';
+                let canvas = e('qr');
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                e('qr-verify-verified').innerHTML = "Certificate not found.";
+            }
+
+            function displayCertificateUnsupported(data) {
+                e('qr-verify-title').innerHTML = '';
+                e('qr-verify-name').innerHTML = '';
+                let canvas = e('qr');
+                canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+                e('qr-verify-verified').innerHTML = "Unsupported Certificate.";
+            }
+
+            function verifyDisplayCRED(data) {
+                let uri = data.substring(data.indexOf("CRED:"));
+
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  
+                const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
+                const fields = PCF.getPayloadFields(payload);
+
+                QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
+                    drawVerifiedSymbol('qr',result);
+                });
+
+                if (result == null) {
+                    e('qr-verify-verified').innerHTML = "Unable to Verify";
+                } else if (result) {
+                    e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + (fields['date'] || fields['issuanceDate'] ? ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']) : '');
+                } else {
+                    e('qr-verify-verified').innerHTML = "Credential Invalid";
+                }
+                
+                if (type == 'BADGE') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-name').innerHTML = (fields['name'] ? fields['name'] : short(fields['passkey'])) + "<br>";
+                    e('qr-verify-name').innerHTML += fields['dob'] ? parseDate(fields['dob']) : "" + "<br>";
+                } else if (type == 'COUPON') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Coupon"
+                    e('qr-verify-name').innerHTML = "Coupon " + fields['number'] + "/" + fields['total'] + "<br>";
+                    e('qr-verify-name').innerHTML += "<small>Phase " + fields['phase'] + " in " + fields['city'] + "</small><br>";
+                } else if (type == 'STATUS') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Pass"
+                    e('qr-verify-name').innerHTML = "Status: " + (fields['status'] === '2' ? "Vaccinated" : fields['status'] === '1' ? "One Dose" : "Not Vaccinated") + "<br />";
+                    e('qr-verify-name').innerHTML += (fields['initials'] ? "Initials: " + fields['initials'] : "Key: " +  short(fields['passkey']))  + "<br>";
+                } else if (type == 'PASSKEY') {
+                    e('qr-verify-title').innerHTML = "COVID-19 PassKey"
+                    e('qr-verify-name').innerHTML = "Name: " + fields['name'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dob']);
+                } else if (type == 'LIBERTY') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Pass"
+                    e('qr-verify-name').innerHTML = fields['credentialSubject.subject.name.given'] + " " + fields['credentialSubject.subject.name.family'] + "<br>";
+                    e('qr-verify-name').innerHTML += parseDate(fields['credentialSubject.subject.birthDate']);
+                } else if (type == 'COWIN') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
+                    e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
+                } else if (type == 'EU.DGC.VAX') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
+                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
+                } else if (type == 'EU.DGC.TEST') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Test Certificate"
+                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
+                } else if (type == 'EU.DGC.RECV') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
+                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
+                } else if (type == 'EU.DGC.RECV') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
+                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
+                } else if (type == 'VIAL') {
+                    e('qr-verify-title').innerHTML = "Vaccine Vial"
+                    e('qr-verify-name').innerHTML = fields['manuf'] + " " + fields['product'] + "<br>";
+                    e('qr-verify-name').innerHTML += "Lot: #" + fields['lot'];
+                } else if (type == 'US.MA.ID') {
+                    e('qr-verify-title').innerHTML = "Mass ID (demo)"
+                    e('qr-verify-name').innerHTML = fields['dad'] + " " + fields['dct'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDate(fields['dbc']);
+                } else if (type == 'BANKNOTE') {
+                    e('qr-verify-title').innerHTML = "Bank Note (demo)"
+                    e('qr-verify-name').innerHTML = fields['denomination'] + " " + fields['curency-name'] + "<br>";
+                    e('qr-verify-name').innerHTML += fields['country'];
+                } else {
+                    e('qr-verify-title').innerHTML = "Unsupported Credential"
+                    e('qr-verify-name').innerHTML =  "Credential Type " + type + " undefined";
+                } 
             }
 
             function getEUPayload(cwt) {
@@ -217,24 +238,10 @@
 
             function verifyDisplayEU(data) {
                 EUDGC.debug(data).then(obj => {
-                    e("pre-verify-section").style.display = 'none';
-                    e("post-verify-section").style.display = '';
-
-                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
                     let result = null;
 
-                    QRCode.toCanvas(e('qr'), data, params, function (error) {
-                        if (result) {
-                            const imgDim={width:150,height:150}; //logo dimention
-                            var context = e('qr').getContext('2d');
-                            var imageObj = new Image();  
-                            imageObj.src = './img/ok-256.png';      
-                            imageObj.onload = function() {
-                                context.drawImage(imageObj, 
-                                e('qr').width / 2 - imgDim.width / 2 +1,
-                                e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                            }; 
-                        }
+                    QRCode.toCanvas(e('qr'), data, qrParams('qr'), function (error) {
+                        drawVerifiedSymbol('qr',result);
                     });
 
                     if (result == null) {
@@ -259,9 +266,21 @@
 
                     e('qr-verify-name').innerHTML = certificate.nam.gn + " " + certificate.nam.fn + "<br>";
                     e('qr-verify-name').innerHTML += "DOB: " + certificate.dob ;
-
-                    processed();
                 });
+            }
+
+            function drawVerifiedSymbol(element, result) {
+                if (result) {
+                    const imgDim= {width:150,height:150}; //logo dimention
+                    var context = e(element).getContext('2d');
+                    var imageObj = new Image();  
+                    imageObj.src = './img/ok-256.png';      
+                    imageObj.onload = function() {
+                        context.drawImage(imageObj, 
+                        e(element).width / 2 - imgDim.width / 2 +1,
+                        e(element).height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+                    }; 
+                }
             }
 
             function unZipVerifyDisplayDIVOC(data) {
@@ -273,24 +292,9 @@
 
             function verifyDisplayDIVOC(json) {
                 DIVOC.verify(json).then(result => {
-                    e("pre-verify-section").style.display = 'none';
-                    e("post-verify-section").style.display = '';
-
-                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
-
                     DIVOC.pack(json).then(function (bin) {
-                        QRCode.toCanvas(e('qr'), bin, params, function (error) {
-                            if (result) {
-                                const imgDim={width:150,height:150}; //logo dimention
-                                var context = e('qr').getContext('2d');
-                                var imageObj = new Image();  
-                                imageObj.src = './img/ok-256.png';      
-                                imageObj.onload = function() {
-                                    context.drawImage(imageObj, 
-                                    e('qr').width / 2 - imgDim.width / 2 +1,
-                                    e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                                }; 
-                            }
+                        QRCode.toCanvas(e('qr'), bin, qrParams('qr'), function (error) {
+                            drawVerifiedSymbol('qr',result);
                         });
                     });
 
@@ -305,56 +309,38 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
                     e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
-
-                    processed();
                 });
             }
 
             function verifyDisplayIBM(json) {
                 //IBM.verify(json).then(result => {
-                    e("pre-verify-section").style.display = 'none';
-                    e("post-verify-section").style.display = '';
-
-                    let params = {margin:0, width:Math.min(e('qr').scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                    let result = null;
 
                     //IBM.pack(json).then(function (bin) {
-                        QRCode.toCanvas(e('qr'), JSON.stringify(json), params, function (error) {
-                            /*
-                            if (result) {
-                                const imgDim={width:150,height:150}; //logo dimention
-                                var context = e('qr').getContext('2d');
-                                var imageObj = new Image();  
-                                imageObj.src = './img/ok-256.png';      
-                                imageObj.onload = function() {
-                                    context.drawImage(imageObj, 
-                                    e('qr').width / 2 - imgDim.width / 2 +1,
-                                    e('qr').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                                }; 
-                            }
-                            */
+                        QRCode.toCanvas(e('qr'), JSON.stringify(json), qrParams('qr'), function (error) {
+                            drawVerifiedSymbol('qr',result);
                         });
                     //});
 
-                    //if (result == null) {
+                    if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    //} else if (result) {
-                    //    e('qr-verify-verified').innerHTML = 'Signed by ' + json.evidence[0].facility.name + ' on ' + parseISODate(json.issuanceDate);
-                    //} else {
-                    //    e('qr-verify-verified').innerHTML = "Credential Invalid";
-                    //}
+                    } else if (result) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.evidence[0].facility.name + ' on ' + parseISODate(json.issuanceDate);
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
 
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Pass"
                     e('qr-verify-name').innerHTML = json.credentialSubject.subject.name.given + " " + json.credentialSubject.subject.name.family + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.subject.birthDate;
-
-                    processed();
                 //});
             }
 
             function onScanSuccess(qrMessage) {
+                stopCamera();
+                
                 if (qrMessage !== "" && qrMessage != null) {
-                    let uri = qrMessage.substring(qrMessage.indexOf("CRED:"));
-                    e("qr-verify").value = uri;
+                    e("qr-verify").value = qrMessage;
                     verifyQRCode(qrMessage);
                 }
             }
@@ -383,7 +369,6 @@
                 }
             }
 
-
             function onCameraOn() {
                 e('camera-btn').innerHTML = "Stop";
             }
@@ -410,12 +395,12 @@
                 e('preview').load();
             }
 
-            function home() {
+            function homeView() {
                 e("pre-verify-section").style.display = '';
                 e("post-verify-section").style.display = 'none';
             }
 
-            function processed() {
+            function certView() {
                 e("pre-verify-section").style.display = 'none';
                 e("post-verify-section").style.display = '';
             }
@@ -428,12 +413,9 @@
             const qr = getQueryVariable("qr")
 
             if (qr !== "" && qr != null) {
-                uri = qr.substring(qr.indexOf("CRED:"));
-
-                console.log(uri);
-
-                e("qr-verify").value = uri;
-                verifyQRCode(uri);
+                console.log(qr);
+                e("qr-verify").value = qr;
+                verifyQRCode(qr);
             }
 
             Instascan.Camera.getCameras().then(function (cameras) {
@@ -477,10 +459,10 @@
             window.onpopstate = function() {
                 switch(location.hash) {
                     case '#processed':
-                        processed();
+                        certView();
                         break
                     default:
-                        home();
+                        homeView();
                 }
             }
 

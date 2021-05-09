@@ -285,37 +285,45 @@ var PCF = {
 
     debugParseURI: function(uri) {
         try {
-          const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
-          const decodedFields = this.encodeArrayToHTML(this.parsePayload(payload));
+            const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = this.parseURI(uri);
+            const decodedFields = this.encodeArrayToHTML(this.parsePayload(payload));
 
-          const keyID = this.getKeyId(pubKeyLink)
+            const keyID = this.getKeyId(pubKeyLink)
 
-          // Updates screen elements. 
-          let formattedResult = "Type: <span class='protocol'>" + type + ":" + version +
-                                          " (<a href='" + this.debugPayloadURL(type, version) + "'>spec</a>)" +
-                                      "</span><br>" + 
+            // Updates screen elements. 
+            let formattedResult = "Type: <span class='protocol'>" + type + ":" + version +
+                                            " (<a href='" + this.debugPayloadURL(type, version) + "'>spec</a>)" +
+                                        "</span><br>" + 
                                 "Signature: <span class='signature'>" + signatureBase32NoPad.substr(0,10) + ".." + signatureBase32NoPad.substr(signatureBase32NoPad.length-10,10) + "</span>" + "<br>" +
                                 "Public Key: <span class='pub-key'>" + pubKeyLink + "</span>" +
-                                     " (<a href='" + keyID.debugPath + "'>"+keyID.type+"</a>)" + "<br>" +
+                                        " (<a href='" + keyID.debugPath + "'>"+keyID.type+"</a>)" + "<br>" +
                                 "Fields: <br>";
 
-          const headers = this.getPayloadHeader(type, version);  
+            let headers = this.getPayloadHeader(type, version);  
 
-          // Decodes all fields
-          decodedFields.forEach(function(field, index) {
-              formattedResult += "  "+headers[index].replace(/^\w/, (c) => c.toUpperCase())+": <span class='message'>" + field + "</span><br>" 
-          });
+            if (headers == null || headers.length === 0) {
+                headers = new Array(decodedFields.length).fill("undefined");
+            }
 
-          return formattedResult;
+            // Decodes all fields
+            decodedFields.forEach(function(field, index) {
+                formattedResult += "  "+headers[index].replace(/^\w/, (c) => c.toUpperCase())+": <span class='message'>" + field + "</span><br>" 
+            });
+
+            return formattedResult;
         } catch (err) {
-          console.error(err);
-          return "";
+            console.error(err);
+            return "";
         }
     },
 
     getPayloadFields: function(payload){
         const decodedFields = this.parsePayload(payload);
         const headers = this.getPayloadHeader(type, version);  
+
+        if (headers == null || headers.length === 0) {
+            return new Array(decodedFields.length).fill("undefined");
+        }
 
         let fields = {};
         decodedFields.forEach(function(field, index) {

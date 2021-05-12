@@ -166,23 +166,419 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="two-quarter">
-                    <h4 id="qr-vax-orig-code-label" style="display: none;">Immunization QR</h4>
-                    <canvas id="qr-vax-orig-code"></canvas><br/>
-                    <h4 id="qr-vax-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-vax-orig-pdf"></canvas><br/>
-                    <pre id="qr-vax-orig-result"></pre>
+                    <h4 id="qr-vax-icao-code-label" style="display: none;">Immunization QR</h4>
+                    <canvas id="qr-vax-icao-code"></canvas><br/>
+                    <h4 id="qr-vax-icao-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-icao-pdf"></canvas><br/>
+                    <pre id="qr-vax-icao-result"></pre>
                 </div>
                 <div class="two-quarter">
-                    <h4 id="qr-test-orig-code-label" style="display: none;">Test QR</h4>
-                    <canvas id="qr-test-orig-code"></canvas><br/>
-                    <h4 id="qr-test-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-test-orig-pdf"></canvas><br/>
-                    <pre id="qr-test-orig-result"></pre>
+                    <h4 id="qr-test-icao-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-icao-code"></canvas><br/>
+                    <h4 id="qr-test-icao-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-icao-pdf"></canvas><br/>
+                    <pre id="qr-test-icao-result"></pre>
                 </div>
 
                 <div class="quarter">
 
                 </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>Using HC1 EU Model</h2>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 id="qr-vax-hc1-code-label" style="display: none;">Immunization QR</h4>
+                    <canvas id="qr-vax-hc1-code"></canvas><br/>
+                    <h4 id="qr-vax-hc1-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-hc1-pdf"></canvas><br/>
+                    <pre id="qr-vax-hc1-result"></pre>
+                </div>
+                <div class="two-quarter">
+                    <h4 id="qr-test-hc1-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-hc1-code"></canvas><br/>
+                    <h4 id="qr-test-hc1-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-hc1-pdf"></canvas><br/>
+                    <pre id="qr-test-hc1-result"></pre>
+                </div>
+
+                <div class="quarter">
+
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>Comparison Tables</h2>
+                <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">URI Bytes</th>
+                            <th style="text-align: right;">URI Chars</th>
+                            <th style="text-align: right;">Sign Time</th>
+                            <th style="text-align: right;">Verify Time</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">ICAO</td>
+                            <td style="text-align: right;" id="qr-vax-icao-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-hc1-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-time-verify"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">URI Bytes</th>
+                            <th style="text-align: right;">URI Chars</th>
+                            <th style="text-align: right;">Sign Time</th>
+                            <th style="text-align: right;">Verify Time</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" >CRED</td>
+                            <td style="text-align: right;" id="qr-test-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">ICAO</td>
+                            <td style="text-align: right;" id="qr-test-icao-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-icao-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-icao-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-icao-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">HC1</td>
+                            <td style="text-align: right;" id="qr-test-hc1-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-time-verify"></td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="four-quarter">
+                <h4>QR Size in Bytes (bits * bits / 8)</h4>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-comp-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-icao-comp-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-vax-icao-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-hc1-comp-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-hc1-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-comp-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-comp-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-test-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-icao-comp-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-test-icao-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-icao-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-icao-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-icao-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-hc1-comp-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-test-hc1-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-comp-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="four-quarter">
+                <h4>QR Size (bits x bits)</h4>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-bits-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-icao-bits-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-vax-icao-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-hc1-bits-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-hc1-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-bits-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-bits-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-test-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-icao-bits-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-test-icao-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-icao-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-icao-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-icao-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-hc1-bits-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-test-hc1-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-bits-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            
+            <div class="four-quarter">
+                <h4>Minimum Printed Size (in millimiters at 150 DPI)</h4>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-size-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-icao-size-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-vax-icao-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-hc1-size-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-size-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-test-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-icao-size-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-test-icao-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-hc1-size-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-test-hc1-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="four-quarter">
+                <h4>Minimum Printed Size (in millimiters at 300 DPI)</h4>
+            </div>
+            <div class="full-div">
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Immunization QR</h4>
+
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-size300-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-vax-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-icao-size300-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-vax-icao-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-icao-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-hc1-size300-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-hc1-size300-ecch"></td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div class="two-quarter">
+                    <h4 style="text-align: center;">Test QR</h4>
+                    <table class="comparison">
+                        <tr>
+                            <th style="text-align: right;">Tech</th>
+                            <th style="text-align: right;">ECC 7%</th>
+                            <th style="text-align: right;">ECC 15%</th>
+                            <th style="text-align: right;">ECC 25%</th>
+                            <th style="text-align: right;">ECC 30%</th>
+                        </th>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-size300-uri">CRED</td>
+                            <td style="text-align: right;" id="qr-test-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-icao-size300-uri">ICAO</td>
+                            <td style="text-align: right;" id="qr-test-icao-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-icao-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-hc1-size300-uri">HC1</td>
+                            <td style="text-align: right;" id="qr-test-hc1-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-hc1-size300-ecch"></td>
+                        </tr>
+                    </table>
+                </div>
+               
             </div>
         </div>
         
@@ -202,6 +598,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/ui-utils.js"></script>
 
         <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/icao.vds.sdk.min.js"></script>
+       
 
 		<script>
             function e(elem) { 
@@ -270,9 +668,16 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         // Updates screen elements. 
                         e(elemPref+"-result").innerHTML= debugInfo;
 
+                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                        studyQR(uri, elemPref);
+
                         const v0 = performance.now();
                         PCF.unpackAndVerify(uri).then(result => {
                             const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
                         });
                     });
@@ -307,11 +712,87 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e(elemPref+"-result").innerHTML +=
                     "<pre>HC1:<span class='message'>Payload</span></pre>"
 
+                studyQR(uri, elemPref);
+            
+                e(elemPref+"-time-sign").innerHTML=Math.round(deltaTime);
+                e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
                 const v0 = performance.now();
                 EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
                     const v1 = performance.now();
+                    e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                     UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
                 });
+            }
+
+            function signAndDisplayQRICAO(elemPref, payload, prikey, certificate) {
+                const t0 = performance.now();
+                const uri = ICAOVDS.signAndPack(payload, certificate, prikey).then(uri => {
+                    const t1 = performance.now();
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+
+                    // Builds QR Element
+                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                    PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                    e(elemPref+"-code-label").style.display = '';
+                    e(elemPref+"-pdf-label").style.display = '';
+
+                    // Updates screen elements. 
+                    e(elemPref+"-result").innerHTML= "<span class='message'>" + uri + "</span><br>";
+                
+                    e(elemPref+"-result").innerHTML +=
+                        "<pre><span class='message'>iJSON</span></pre>"
+
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    ICAOVDS.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
+            function studyQR(uri, elemPref) {
+                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+
+                if (e(elemPref+"-comp-eccl")) {
+                    e(elemPref+"-comp-eccl").innerHTML = qrSizeBytes(qrL);
+                    e(elemPref+"-comp-eccm").innerHTML = qrSizeBytes(qrM);
+                    e(elemPref+"-comp-eccq").innerHTML = qrSizeBytes(qrQ);
+                    e(elemPref+"-comp-ecch").innerHTML = qrSizeBytes(qrH);
+                }
+
+                if (e(elemPref+"-bits-eccl")) {
+                    e(elemPref+"-bits-eccl").innerHTML = qrSizeBits(qrL);
+                    e(elemPref+"-bits-eccm").innerHTML = qrSizeBits(qrM);
+                    e(elemPref+"-bits-eccq").innerHTML = qrSizeBits(qrQ);
+                    e(elemPref+"-bits-ecch").innerHTML = qrSizeBits(qrH);
+                }
+
+                if (e(elemPref+"-size-eccl")) {
+                    e(elemPref+"-size-eccl").innerHTML = qrSizeMillimiters(qrL, 150);
+                    e(elemPref+"-size-eccm").innerHTML = qrSizeMillimiters(qrM, 150);
+                    e(elemPref+"-size-eccq").innerHTML = qrSizeMillimiters(qrQ, 150);
+                    e(elemPref+"-size-ecch").innerHTML = qrSizeMillimiters(qrH, 150);
+                }
+
+                if (e(elemPref+"-size300-eccl")) {
+                    e(elemPref+"-size300-eccl").innerHTML = qrSizeMillimiters(qrL, 300);
+                    e(elemPref+"-size300-eccm").innerHTML = qrSizeMillimiters(qrM, 300);
+                    e(elemPref+"-size300-eccq").innerHTML = qrSizeMillimiters(qrQ, 300);
+                    e(elemPref+"-size300-ecch").innerHTML = qrSizeMillimiters(qrH, 300);
+                }
             }
 
             function describe(qr) {
@@ -320,6 +801,17 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function qrSizeBytes(qr) {
                 return Math.round((qr.modules.size*qr.modules.size)/8)
+            }
+
+            function qrSizeBits(qr) {
+                return qr.modules.size + "x" + qr.modules.size;
+            }
+
+            function qrSizeMillimiters(qr, dpi) {
+                // 150 DPI Printer
+                // 3x3 printer dots per QR bit.
+                const side = Math.round(qr.modules.size * (25.4/(dpi/3)));
+                return side + "x" + side;
             }
 
             function generateQRCodes() {
@@ -344,15 +836,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 // PEM code of the private key
                 const priKeyEUPEM = e('privkeyEU').value;
                 const pubKeyEUPEM = e('pubkeyEU').value;
-                
-                let vax = {
-                    "data": {
-                        "hdr": {
-                            "t": "icao.vacc",
-                            "v": 1,
-                            "is": "UTO"
-                        },
-                        "msg": {
+
+                const vaxMsg = {
+                    "msg": {
                             "uvci": e("qr-vax-uvci").value,
                             "pid": {
                                 "n": e("qr-vax-pid-n").value,
@@ -375,15 +861,58 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                 ]
                             }]
                         }
-                    },
-                    "sig": {
-                        "alg": "ES256",
-                        "cer": pubKeyEUPEM,
-                        "sigvl": "cxfyi2vq2XJfZF7ksEkIZJtKbGrRE570..."
+                };
+
+                msg = vaxMsg.msg;
+
+                let vax = {
+                    "data": {
+                        "hdr": {
+                            "t": "icao.vacc",
+                            "v": 1,
+                            "is": "UTO"
+                        },
+                        msg,  
                     }
                 };
 
-                signAndDisplayEUQR("qr-vax-orig", vax, priKeyEUPEM, pubKeyEUPEM);
+                console.log(vax);
+
+                signAndDisplayEUQR("qr-vax-hc1", vaxMsg, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRICAO("qr-vax-icao", vax, priKeyEUPEM, pubKeyEUPEM);
+
+                let testMsg = { 
+                    "msg": {
+                        "utci": e("qr-test-utci").value,
+                        "pid": {
+                            "n": e("qr-test-pid-n").value,
+                            "dob": e("qr-test-pid-dob-date").value,
+                            "dt": e("qr-test-pid-dt").value,
+                            "dn": e("qr-test-pid-dn").value
+                        },
+                        "sp": {
+                            "spn": e("qr-test-sp-spn").value,
+                            "ctr": e("qr-test-sp-ctr").value,
+                            "cd": {
+                                "p": e("qr-test-sp-cd-p").value,
+                                "e": e("qr-test-sp-cd-e").value,
+                                "a": e("qr-test-sp-cd-a").value
+                            }
+                        },
+                        "dat": {
+                            "sc": e("qr-test-dat-sc-date").value,
+                            "ri": e("qr-test-dat-ri-date").value 
+                        },
+                        "tr": {
+                            "tc":  e("qr-test-tr-tc").value,
+                            "r": e("qr-test-tr-r").value,
+                            "m": e("qr-test-tr-m").value
+                        },
+                        "opt": e("qr-test-opt").value
+                    }
+                }
+
+                msg = testMsg.msg;
 
                 let test = {
                     "data": {
@@ -392,43 +921,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "v": 1,
                             "is": "UTO"
                         },
-                        "msg": {
-                            "utci": e("qr-test-utci").value,
-                            "pid": {
-                                "n": e("qr-test-pid-n").value,
-                                "dob": e("qr-test-pid-dob-date").value,
-                                "dt": e("qr-test-pid-dt").value,
-                                "dn": e("qr-test-pid-dn").value
-                            },
-                            "sp": {
-                                "spn": e("qr-test-sp-spn").value,
-                                "ctr": e("qr-test-sp-ctr").value,
-                                "cd": {
-                                    "p": e("qr-test-sp-cd-p").value,
-                                    "e": e("qr-test-sp-cd-e").value,
-                                    "a": e("qr-test-sp-cd-a").value
-                                }
-                            },
-                            "dat": {
-                                "sc": e("qr-test-dat-sc-date").value,
-                                "ri": e("qr-test-dat-ri-date").value 
-                            },
-                            "tr": {
-                                "tc":  e("qr-test-tr-tc").value,
-                                "r": e("qr-test-tr-r").value,
-                                "m": e("qr-test-tr-m").value
-                            },
-                            "opt": e("qr-test-opt").value
-                        }
-                    },
-                    "sig": {
-                        "alg": "ES256",
-                        "cer": pubKeyEUPEM,
-                        "sigvl": "z_VZDdMvjjRkg06nYLwHt4BP_APEm3MJ..."
+                        msg, 
                     }
                 };
+                console.log(test);
 
-                signAndDisplayEUQR("qr-test-orig", test, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayEUQR("qr-test-hc1", testMsg, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRICAO("qr-test-icao", vax, priKeyEUPEM, pubKeyEUPEM);
             }
 
             function getEUPayload(cwt) {

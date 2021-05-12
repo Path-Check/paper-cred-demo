@@ -23,6 +23,7 @@
             <div class="subnavContainer">
                 <a href="index.v5.html">PCF<span class="xs-hidden">'s 4 QRs</span></a>
                 <a class="active" href="eu.dgc.html">EU<span class="xs-hidden"> Green Pass</span></a>
+                <a href="icao.html">ICAO<span class="xs-hidden"> Seals</span></a>
                 <a href="cowin.html">DIVOC<span class="xs-hidden">/India</span></a>
                 <a href="liberty.html">IBM/NY<span class="xs-hidden"> Excelsior</span></a>
                 <a href="opencerta.html"><span class="xs-hidden">Open</span>Certa</a>
@@ -1040,18 +1041,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
                     const v1 = performance.now();
                     e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
-
-                    if (verified) {
-                        const imgDim={width:50,height:50}; 
-                        var context = e(elemPref+'-code').getContext('2d');
-                        var imageObj = new Image();  
-                        imageObj.src = './img/ok-256.png';      
-                        imageObj.onload = function() {
-                            context.drawImage(imageObj, 
-                            e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
-                            e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                        }; 
-                    }
+                    UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
                 });
             }
 

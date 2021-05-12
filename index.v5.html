@@ -194,7 +194,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 });
             }
 
-            function generateQRCodes() {
+            async function generateQRCodes() {
                 clear();
 
                 // Where to Download the public key
@@ -204,7 +204,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const priKeyPEM = e('privkey').value;
 
                 // Build PassKeyHash
-                const hashPassKeyBase32 = PCF.hashPayload(getValueArray(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]));
+                const hashPassKeyBase32 = await PCF.hashPayload(getValueArray(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]));
                 
                 if (e("qr-badge-private").checked) {
                     // Update fields on Screen

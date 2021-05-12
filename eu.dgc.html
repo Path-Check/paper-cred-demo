@@ -897,21 +897,20 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         </div>
         
         <script src="js/qrcode.min.js"></script>
-        
-        <script src="js/elliptic.min.js"></script>
-        <script src="js/sha256.js"></script>
-        <script src="js/asn1.min.js"></script>
-        <script src="js/base32.min.js"></script>
 
         <script src="js/libbcmath.js" type="text/javascript"></script>
         <script src="js/bcmath.js" type="text/javascript"></script>
         <script src="js/pdf417.js" type="text/javascript"></script>
 
-        <script src="js/pcf.js"></script>
+        <script src="js/pcf.sdk.min.js"></script>
+
         <script src="js/eudgc.sdk.min.js"></script>
         <script src="js/he.js"></script>
         <script src="js/ajv7.min.js"></script>
         <script src="js/json-beautify.min.js"></script>
+
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -963,53 +962,34 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
                 const t0 = performance.now();
-                const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
-                const t1 = performance.now();
+                const uri = PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
+                    const t1 = performance.now();
+                    PCFUtils.debugURI(uri).then( debugInfo => {
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
-                const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                        PDF417.draw(uri, e(elemPref+"-pdf"));
 
-                const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
 
-                // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                PDF417.draw(uri, e(elemPref+"-pdf"));
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= debugInfo;
+                        
+                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
-                e(elemPref+"-code-label").style.display = '';
-                e(elemPref+"-pdf-label").style.display = '';
+                        studyQR(uri, elemPref);
 
-                // Updates screen elements. 
-                e(elemPref+"-result").innerHTML= 
-                                            "<a href='https://github.com/Path-Check/paper-cred'><span class='schema'>" + schema + "</span></a>:" + 
-                                            "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+type.toLowerCase()+"."+version+".md'><span class='protocol'>"+type+":"+version+"</span></a>:" + 
-                                            "<span class='signature'>" + signature + "</span>" + ":" +
-                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
-                                            "<span class='message'>" + payload + "</span><br>";
-                
-                e(elemPref+"-result").innerHTML +=
-                    "<pre>CRED:<span class='protocol'>TYPE:VER</span>:<span class='signature'>SIGNATURE</span>:" +
-                    "<span class='pub-key'>KEYID</span>:<span class='message'>DATA</span></pre>"
-
-                e(elemPref+"-time-sign").innerHTML=Math.round(t1-t0);
-                e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
-                e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
-
-                studyQR(uri, elemPref);
-            
-                const v0 = performance.now();
-                if (PCF.downloadKeyVerify(pubKeyLink, payload, signature)) {
-                    const v1 = performance.now();
-                    e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
-
-                    const imgDim={width:50,height:50}; 
-                    var context = e(elemPref+'-code').getContext('2d');
-                    var imageObj = new Image();  
-                    imageObj.src = './img/ok-256.png';      
-                    imageObj.onload = function() {
-                        context.drawImage(imageObj, 
-                        e(elemPref+'-code').width / 2 - imgDim.width / 2 +1,
-                        e(elemPref+'-code').height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                    }; 
-                }
+                        const v0 = performance.now();
+                        PCF.unpackAndVerify(uri).then(result => {
+                            const v1 = performance.now();
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                        });
+                    });
+                });
             }
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
@@ -1330,8 +1310,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             
             function verifyQRCode() {
                 if (e("qr-verify").value.startsWith('CRED:')) {
-                    e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
-                    e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                    PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
+                        e("qr-verify-result").innerHTML = result;
+                    });
+                    PCFUtils.debugVerify(e("qr-verify").value).then(debug => {
+                        e('qr-verify-verified').innerHTML = debug;
+                    });
                 } else {
                     e("qr-verify-result").innerHTML = "Checking";
                     EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
@@ -1456,7 +1440,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script>
             async function preloadKey() {
-                PCF.getKeyId(e("qr-link").value);
+                PCF.resolveKey(e("qr-link").value);
             }
             window.onload = function() {
                 preloadKey();

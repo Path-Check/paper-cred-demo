@@ -53,13 +53,11 @@
         </div>
         
         <script src="js/qrcode.min.js"></script>
-        
-        <script src="js/elliptic.min.js"></script>
-        <script src="js/sha256.js"></script>
-        <script src="js/asn1.min.js"></script>
-        <script src="js/base32.min.js"></script>
-        
-        <script src="js/pcf.js"></script>    
+
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
+
+        <script src="js/pcf.sdk.min.js"></script>
         <script src="js/divoc.sdk.min.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
 
@@ -152,23 +150,21 @@
                 e('qr-verify-verified').innerHTML = "Unsupported Certificate.";
             }
 
-            function verifyDisplayCRED(data) {
+            async function verifyDisplayCRED(data) {
                 let uri = data.substring(data.indexOf("CRED:"));
 
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payload] = PCF.parseURI(uri);  
-                const result = PCF.downloadKeyVerify(pubKeyLink, payload, signatureBase32NoPad);
-                const fields = PCF.getPayloadFields(payload);
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payloadStr] = await PCF.unpack(uri);  
+                const payload = await PCF.unpackAndVerify(uri);
+                const fields = await PCF.mapHeaders(payload, type, version);
 
                 QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
-                    drawVerifiedSymbol('qr',result);
+                    UIUtils.drawVerifiedSymbol('qr',payload);
                 });
 
-                if (result == null) {
-                    e('qr-verify-verified').innerHTML = "Unable to Verify";
-                } else if (result) {
+                if (payload) {
                     e('qr-verify-verified').innerHTML = 'Signed by ' + pubKeyLink + (fields['date'] || fields['issuanceDate'] ? ' on ' + parseDate(fields['date'] ?  fields['date'] : fields['issuanceDate']) : '');
                 } else {
-                    e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    e('qr-verify-verified').innerHTML = "Credential Invalid or Not Supported";
                 }
                 
                 if (type == 'BADGE') {
@@ -241,7 +237,7 @@
                     let result = null;
 
                     QRCode.toCanvas(e('qr'), data, qrParams('qr'), function (error) {
-                        drawVerifiedSymbol('qr',result);
+                        UIUtils.drawVerifiedSymbol('qr',result);
                     });
 
                     if (result == null) {
@@ -269,20 +265,6 @@
                 });
             }
 
-            function drawVerifiedSymbol(element, result) {
-                if (result) {
-                    const imgDim= {width:150,height:150}; //logo dimention
-                    var context = e(element).getContext('2d');
-                    var imageObj = new Image();  
-                    imageObj.src = './img/ok-256.png';      
-                    imageObj.onload = function() {
-                        context.drawImage(imageObj, 
-                        e(element).width / 2 - imgDim.width / 2 +1,
-                        e(element).height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
-                    }; 
-                }
-            }
-
             function unZipVerifyDisplayDIVOC(data) {
                 DIVOC.unpack(data).then(function (contents) {
                     console.log("json", contents);
@@ -294,7 +276,7 @@
                 DIVOC.verify(json).then(result => {
                     DIVOC.pack(json).then(function (bin) {
                         QRCode.toCanvas(e('qr'), bin, qrParams('qr'), function (error) {
-                            drawVerifiedSymbol('qr',result);
+                            UIUtils.drawVerifiedSymbol('qr',result);
                         });
                     });
 
@@ -318,7 +300,7 @@
 
                     //IBM.pack(json).then(function (bin) {
                         QRCode.toCanvas(e('qr'), JSON.stringify(json), qrParams('qr'), function (error) {
-                            drawVerifiedSymbol('qr',result);
+                            UIUtils.drawVerifiedSymbol('qr',result);
                         });
                     //});
 

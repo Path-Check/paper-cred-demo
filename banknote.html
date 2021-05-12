@@ -95,12 +95,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             </div>
             <div class="full-div">
                 <div class="two-quarter">
-                    <h4>QR Format</h4>
+                    <h4 id="qr-banknote-code-label">QR Format</h4>
                     <canvas id="qr-banknote-code"></canvas><br/>
                 </div>
                 <div class="two-quarter">
-                    <h4>PDF 417 Format</h4>
-                    <canvas id="pdf-banknote-code"></canvas><br/>
+                    <h4 id="qr-banknote-pdf-label">PDF 417 Format</h4>
+                    <canvas id="qr-banknote-pdf"></canvas><br/>
                 </div>
                 <div class="quarter xs-hidden">
                     <label for="verify">Verify a QR Code</label>
@@ -110,13 +110,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     <br><br>
                     <pre>cred:<span class='protocol'>type:version</span>:<span class='signature'>Signature</span>:<span class='pub-key'>PubKey</span>:<span class='message'>Payload</span></pre>
                     <pre id="qr-verify-result"></pre>
-                    <pre id="qr-verify-verified"></pre>
                 </div>
             </div>
             <div class="full-div">
                 <div class="two-quarter">
                     <pre id="qr-banknote-result"></pre>
-                    <pre id="qr-banknote-verified"></pre>
                     <pre id="qr-banknote-bytes" class="xs-hidden"></pre>
                 </div>
                 <div class="two-quarter"></div>
@@ -125,17 +123,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         </div>
         
         <script src="js/qrcode.min.js"></script>
-        
-        <script src="js/elliptic.min.js"></script>
-        <script src="js/sha256.js"></script>
-        <script src="js/asn1.min.js"></script>
-        <script src="js/base32.min.js"></script>
 
         <script src="js/libbcmath.js" type="text/javascript"></script>
         <script src="js/bcmath.js" type="text/javascript"></script>
         <script src="js/pdf417.js" type="text/javascript"></script>
 
-        <script src="js/pcf.js"></script>
+        <script src="js/pcf.sdk.min.js"></script>
+
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -150,7 +146,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function clearQR(elemPrefix) {
                 e(elemPrefix+'-code').getContext('2d').clearRect(0, 0, e(elemPrefix+'-code').width, e(elemPrefix+'-code').height);
                 e(elemPrefix+'-result').innerHTML = "";
-                e(elemPrefix+'-verified').innerHTML = "";
                 e(elemPrefix+'-bytes').innerHTML = "";
             }
 
@@ -159,54 +154,15 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
-                const uri = PCF.sign(_type, _version, priKeyPEM, pubKeyId, payloadValueArray);
-                const [schema, type, version, signature, pubKeyLink, payload] = PCF.parseURI(uri);
+                PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
+                    PCFUtils.debugURI(uri).then( debugInfo => {
+                        UIUtils.drawsQR(elemPref, uri, debugInfo);
 
-                const params = { margin:0, width:e('qr-banknote-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
-
-                // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, params)
-
-                PDF417.draw(uri, e("pdf-banknote-code"));
-
-                // Updates screen elements. 
-                e(elemPref+"-result").innerHTML= "<a href='https://github.com/Path-Check/paper-cred'><span class='schema'>" + schema + "</span></a>:" + 
-                                            "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+type.toLowerCase()+"."+version+".md'><span class='protocol'>"+type+":"+version+"</span></a>:" + 
-                                            
-                                            "<span class='signature'>" + signature + "</span>" + ":" +
-                                            "<span class='pub-key'>" + pubKeyLink + "</span>" + ":" +
-                                            "<span class='message'>" + payload + "</span><br>";
-                e(elemPref+"-verified").innerHTML = "Signature: Not Verified. ";
-                
-                e(elemPref+"-result").innerHTML +=
-                    "<pre>CRED:<span class='protocol'>TYPE:VERSION</span>:<span class='signature'>SIGNATURE</span>:" +
-                    "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>"
-
-                let qr = QRCode.create(uri, params);
-
-                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
-                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
-
-                e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(uri.length * 5.5/8) + " bytes<br>";
-
-                e(elemPref+"-bytes").innerHTML += "<br>QR Size Analysis: ";
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC L  7% "  + describe(qrL);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC M 15% " + describe(qrM);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC Q 25% " + describe(qrQ);
-                e(elemPref+"-bytes").innerHTML += "<br>- ECC H 30% " + describe(qrH);
-                
-                e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qr.segments.length + " segments";
-                for (i=0; i<qr.segments.length; i++) {
-                    e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
-                }
-                
-                e(elemPref + "-verified").innerHTML = PCF.debugDownloadVerify(pubKeyLink, payload, signature);
-            }
-
-            function describe(qr) {
-                return qr.modules.size + "x" + qr.modules.size + " bits " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes ";
+                        PCF.unpackAndVerify(uri).then(result => {
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                        });
+                    });
+                });
             }
 
             function generateQRCodes() {
@@ -229,8 +185,12 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verifyQRCode() {
-                e("qr-verify-result").innerHTML = PCF.debugParseURI(e("qr-verify").value);
-                e('qr-verify-verified').innerHTML = PCF.debugVerify(e("qr-verify").value);
+                PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
+                    e("qr-verify-result").innerHTML = result;
+                });
+                PCFUtils.debugVerify(e("qr-verify").value).then(debug => {
+                    e('qr-verify-verified').innerHTML = debug;
+                });
             }
 
             function onScanSuccess(qrMessage) {
@@ -264,7 +224,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
         <script>
             async function preloadKey() {
-                PCF.getKeyId(e("qr-link").value);
+                PCF.resolveKey(e("qr-link").value);
             }
             window.onload = function() {
                 preloadKey();

@@ -54,13 +54,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         </div>
         
         <script src="js/qrcode.min.js"></script>
-        
-        <script src="js/elliptic.min.js"></script>
-        <script src="js/sha256.js"></script>
-        <script src="js/asn1.min.js"></script>
-        <script src="js/base32.min.js"></script>
 
-        <script src="js/pcf.js"></script>
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
+
+        <script src="js/pcf.sdk.min.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
         <script src="js/he.js"></script>
         <script src="js/ajv7.min.js"></script>
@@ -68,6 +66,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/divoc.sdk.min.js"></script>
         <script src="js/json-beautify.min.js"></script>
 
+       
 		<script>
             function replacer(key, value) {
                 if  (value instanceof Map) {
@@ -122,8 +121,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (qr.startsWith('CRED:')) {
                     e("qr-verify-brand").innerHTML = "PathCheck Verifiable QR"
-                    e("qr-verify-result").innerHTML = PCF.debugParseURI(qr);
-                    e('qr-verify-verified').innerHTML = PCF.debugVerify(qr);
+                    PCFUtils.debugParseURI(qr).then(result => {
+                        e("qr-verify-result").innerHTML = result;
+                    });
+                    PCFUtils.debugVerify(qr).then(debug => {
+                        e('qr-verify-verified').innerHTML = debug;
+                    });
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Green Certificate Verifiable QR"
                     EUDGC.unpackAndVerify(qr, e('pubkey').value).then(json => {

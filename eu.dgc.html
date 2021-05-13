@@ -68,8 +68,8 @@
                         <tr><td>Type</td><td><input id="qr-test-tt" type="text" placeholder=""/></td></tr>
                         <tr><td>Test Name</td><td><input id="qr-test-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-ma" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Colect</td><td><input id="qr-test-sc-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Result</td><td><input id="qr-test-dr-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Colect</td><td><input id="qr-test-sc-timestamp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Result</td><td><input id="qr-test-dr-timestamp" type="text" placeholder=""/></td></tr>
                         <tr><td>Result</td><td><input id="qr-test-tr" type="text" placeholder=""/></td></tr>
                         <tr><td>Centre</td><td><input id="qr-test-tc" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-test-co" type="text" placeholder=""/></td></tr>
@@ -939,14 +939,25 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const fields = elemArray.map(function(elemId) {
                     if (elemId.endsWith('-date')) {
                         // Sends dates always in seconds since epoch
-                        return convertDate(e(elemId).value).toString();
+                        return dateInYYYYMMDD(e(elemId).value).toString();
+                    }
+                    if (elemId.endsWith('-timestamp')) {
+                        // Sends dates always in seconds since epoch
+                        return dateInSecondsToEpoch(e(elemId).value).toString();
                     }
                     return e(elemId).value;
                 })
                 return fields;
             }
 
-            function convertDate(str) {
+            function dateInYYYYMMDD(str) {
+                let d = new Date(str)
+                return   "" + d.getFullYear() +  
+                        ("0"+(d.getMonth()+1)).slice(-2) +
+                        ("0" + d.getDate()).slice(-2);
+            }
+
+            function dateInSecondsToEpoch(str) {
                 return new Date(str).getTime()/1000;
             }
 
@@ -995,21 +1006,21 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
-                const t0 = performance.now();
+                const eu45t0 = performance.now();
                 EUDGC.makeCWT(json).then(cwt => {
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
-                        const t1 = performance.now();
-                        displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
+                        const eu45t1 = performance.now();
+                        displayEUQR(uri, elemPref, eu45t1-eu45t0, pubKeyPem)
                     });
                 });
             }
 
             function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
-                const t0 = performance.now();
+                const eut0 = performance.now();
                 EUDGC.makeCWT(json).then(cwt => {
                     EUDGC.signAndPack32(cwt, pubKeyPem, priKeyPEM).then(uri => {
-                        const t1 = performance.now();
-                        displayEUQR(uri, elemPref, t1-t0, pubKeyPem);
+                        const eut1 = performance.now();
+                        displayEUQR(uri, elemPref, eut1-eut0, pubKeyPem);
                     });
                 });
             }
@@ -1112,7 +1123,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob-date", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt-date", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
                 signAndDisplayQR("qr-vax", "eu.dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
 
-                const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-date", "qr-test-dr-date", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
+                const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-timestamp", "qr-test-dr-timestamp", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
                 signAndDisplayQR("qr-test", "eu.dgc.test","1", priKeyPEM, pubKeyLink, testArray);
 
                 const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
@@ -1155,7 +1166,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         "fnt": e('qr-vax-nam-fnt').value,
                         "gnt": e('qr-vax-nam-gnt').value,
                     },
-                    "dob": convertDate(e('qr-vax-dob-date').value),
+                    "dob": dateInSecondsToEpoch(e('qr-vax-dob-date').value),
                     "v": [
                         {
                             "tg": e('qr-vax-tg').value,
@@ -1164,7 +1175,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "ma": e('qr-vax-ma').value,
                             "dn": parseInt(e('qr-vax-dn').value),
                             "sd": parseInt(e('qr-vax-sd').value),
-                            "dt": convertDate(e('qr-vax-dt-date').value),
+                            "dt": dateInSecondsToEpoch(e('qr-vax-dt-date').value),
                             "co": e('qr-vax-co').value,
                             "is": e('qr-vax-is').value,
                             "ci": "urn:uvci:"+e('qr-vax-ci').value
@@ -1191,8 +1202,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "tt": e('qr-test-tt').value,
                             "tr": e('qr-test-tr').value,
                             "ma": e('qr-test-ma').value,
-                            "sc": e('qr-test-sc-date').value,
-                            "dr": e('qr-test-dr-date').value,
+                            "sc": e('qr-test-sc-timestamp').value,
+                            "dr": e('qr-test-dr-timestamp').value,
                             "tc": e('qr-test-tc').value,
                             "co": e('qr-test-co').value,
                             "is": e('qr-test-is').value,
@@ -1209,15 +1220,15 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         "fnt": e('qr-test-nam-fnt').value,
                         "gnt": e('qr-test-nam-gnt').value,
                     },
-                    "dob": convertDate(e('qr-test-dob-date').value),
+                    "dob": dateInSecondsToEpoch(e('qr-test-dob-date').value),
                     "t": [
                         {
                             "tg": e('qr-test-tg').value,
                             "tt": e('qr-test-tt').value,
                             "tr": e('qr-test-tr').value,
                             "ma": e('qr-test-ma').value,
-                            "sc": convertDate(e('qr-test-sc-date').value),
-                            "dr": convertDate(e('qr-test-dr-date').value),
+                            "sc": dateInSecondsToEpoch(e('qr-test-sc-timestamp').value),
+                            "dr": dateInSecondsToEpoch(e('qr-test-dr-timestamp').value),
                             "tc": e('qr-test-tc').value,
                             "co": e('qr-test-co').value,
                             "is": e('qr-test-is').value,
@@ -1260,13 +1271,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         "fnt": e('qr-recov-nam-fnt').value,
                         "gnt": e('qr-recov-nam-gnt').value,
                     },
-                    "dob": convertDate(e('qr-recov-dob-date').value),
+                    "dob": dateInSecondsToEpoch(e('qr-recov-dob-date').value),
                     "r": [
                         {     
                             "tg": e('qr-recov-tg').value,
-                            "fr": convertDate(e('qr-recov-fr-date').value),
-                            "df": convertDate(e('qr-recov-df-date').value),
-                            "du": convertDate(e('qr-recov-du-date').value),
+                            "fr": dateInSecondsToEpoch(e('qr-recov-fr-date').value),
+                            "df": dateInSecondsToEpoch(e('qr-recov-df-date').value),
+                            "du": dateInSecondsToEpoch(e('qr-recov-du-date').value),
                             "co": e('qr-recov-co').value,
                             "is": e('qr-recov-is').value,
                             "ci": "urn:uvci:"+e('qr-recov-ci').value
@@ -1356,8 +1367,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-tt").value = "LP217198-3";
                 e("qr-test-nm").value = "COVID PCR";
                 e("qr-test-ma").value = "1232";
-                e("qr-test-sc-date").value = "2021-04-13T14:20:00+00:00";
-                e("qr-test-dr-date").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00+00:00";
+                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01+00:00";
                 e("qr-test-tr").value = "260415000";
                 e("qr-test-tc").value = "GGD Fryslân, L-Heliconweg";
                 e("qr-test-co").value = "NL";
@@ -1404,8 +1415,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-tt").value = "LP217198-3";
                 e("qr-test-nm").value = fillTo("COVID PCR", 50);
                 e("qr-test-ma").value = "1232";
-                e("qr-test-sc-date").value = "2021-04-13T14:20:00+00:00";
-                e("qr-test-dr-date").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00+00:00";
+                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01+00:00";
                 e("qr-test-tr").value = "260415000";
                 e("qr-test-tc").value = fillTo("GGD Fryslân, L-Heliconweg", 50);
                 e("qr-test-co").value = "NL";

@@ -81,8 +81,8 @@
                         <tr><td>Email</td><td><input id="qr-test-sp-cd-e" type="text" placeholder=""/></td></tr>
                         <tr><td>Address</td><td><input id="qr-test-sp-cd-a" type="text" placeholder=""/></td></tr>
 
-                        <tr><td>Date Colect</td><td><input id="qr-test-dat-sc-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Result</td><td><input id="qr-test-dat-ri-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Colect</td><td><input id="qr-test-dat-sc-timestamp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Result</td><td><input id="qr-test-dat-ri-timestamp" type="text" placeholder=""/></td></tr>
 
                         <tr><td>Test Type</td><td><input id="qr-test-tr-tc" type="text" placeholder=""/></td></tr>
                         <tr><td>Result</td><td><input id="qr-test-tr-r" type="text" placeholder=""/></td></tr>
@@ -610,8 +610,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function replacer(key, value) {
                 if(value instanceof Map) {
                     return {
-                    dataType: 'Map',
-                    value: Array.from(value.entries()), // or with spread: value: [...value]
+                        dataType: 'Map',
+                        value: Array.from(value.entries()), // or with spread: value: [...value]
                     };
                 } else {
                     return value;
@@ -630,14 +630,25 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const fields = elemArray.map(function(elemId) {
                     if (elemId.endsWith('-date')) {
                         // Sends dates always in seconds since epoch
-                        return convertDate(e(elemId).value).toString();
+                        return dateInYYYYMMDD(e(elemId).value).toString();
+                    }
+                    if (elemId.endsWith('-timestamp')) {
+                        // Sends dates always in seconds since epoch
+                        return dateInSecondsToEpoch(e(elemId).value).toString();
                     }
                     return e(elemId).value;
                 })
                 return fields;
             }
 
-            function convertDate(str) {
+            function dateInYYYYMMDD(str) {
+                let d = new Date(str)
+                return   "" + d.getFullYear() +  
+                        ("0"+(d.getMonth()+1)).slice(-2) +
+                        ("0" + d.getDate()).slice(-2);
+            }
+
+            function dateInSecondsToEpoch(str) {
                 return new Date(str).getTime()/1000;
             }
 
@@ -685,11 +696,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
-                const t0 = performance.now();
+                const eut0 = performance.now();
                 EUDGC.makeCWT(json).then(cwt => {
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
-                        const t1 = performance.now();
-                        displayEUQR(uri, elemPref, t1-t0, pubKeyPem)
+                        const eut1 = performance.now();
+                        displayEUQR(uri, elemPref, eut1-eut0, pubKeyPem)
                     });
                 });
             }
@@ -727,9 +738,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function signAndDisplayQRICAO(elemPref, payload, prikey, certificate) {
-                const t0 = performance.now();
+                const icaot0 = performance.now();
                 const uri = ICAOVDS.signAndPack(payload, certificate, prikey).then(uri => {
-                    const t1 = performance.now();
+                    const icaot1 = performance.now();
                     const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
 
                     // Builds QR Element
@@ -745,7 +756,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e(elemPref+"-result").innerHTML +=
                         "<pre><span class='message'>iJSON</span></pre>"
 
-                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-sign").innerHTML = Math.round(icaot1-icaot0);
                     e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
                     e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
@@ -829,7 +840,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayQR("qr-vax", "icao.vacc","1", priKeyPEM, pubKeyLink, vaccineArray);
 
                 const testArray = getValueArray(["qr-test-utci","qr-test-pid-n","qr-test-pid-dob-date","qr-test-pid-dt","qr-test-pid-dn","qr-test-sp-spn",
-                "qr-test-sp-ctr","qr-test-sp-cd-p","qr-test-sp-cd-e","qr-test-sp-cd-a","qr-test-dat-sc-date","qr-test-dat-ri-date",
+                "qr-test-sp-ctr","qr-test-sp-cd-p","qr-test-sp-cd-e","qr-test-sp-cd-a","qr-test-dat-sc-timestamp","qr-test-dat-ri-timestamp",
                 "qr-test-tr-tc","qr-test-tr-r","qr-test-tr-m","qr-test-opt"]);  
                 signAndDisplayQR("qr-test", "icao.test","1", priKeyPEM, pubKeyLink, testArray);
 
@@ -900,8 +911,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             }
                         },
                         "dat": {
-                            "sc": e("qr-test-dat-sc-date").value,
-                            "ri": e("qr-test-dat-ri-date").value 
+                            "sc": e("qr-test-dat-sc-timestamp").value,
+                            "ri": e("qr-test-dat-ri-timestamp").value 
                         },
                         "tr": {
                             "tc":  e("qr-test-tr-tc").value,
@@ -1009,8 +1020,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-sp-cd-p").value = "+00068765432";
                 e("qr-test-sp-cd-e").value = "genhosp@mail.com";
                 e("qr-test-sp-cd-a").value = "12 Utopia Street";
-                e("qr-test-dat-sc-date").value = "2020-12-12T12:00:00+08:00";
-                e("qr-test-dat-ri-date").value = "2021-02-11T14:00:00+08:00";
+                e("qr-test-dat-sc-timestamp").value = "2020-12-12T12:00:00+08:00";
+                e("qr-test-dat-ri-timestamp").value = "2021-02-11T14:00:00+08:00";
                 e("qr-test-tr-tc").value = "molecular(PCR)";
                 e("qr-test-tr-r").value = "negative";
                 e("qr-test-tr-m").value = "nasopharyngeal";

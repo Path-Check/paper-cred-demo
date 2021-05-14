@@ -667,7 +667,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const uri = PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
                     const t1 = performance.now();
                     PCFUtils.debugURI(uri).then( debugInfo => {
-                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
                         // Builds QR Element
                         QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
@@ -706,7 +706,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function displayEUQR(uri, elemPref, deltaTime, pubKeyPem) {
-                const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
                 // Builds QR Element
                 QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
@@ -741,7 +741,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const icaot0 = performance.now();
                 const uri = ICAOVDS.signAndPack(payload, certificate, prikey).then(uri => {
                     const icaot1 = performance.now();
-                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
                     // Builds QR Element
                     QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})

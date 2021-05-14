@@ -66,7 +66,7 @@
 
             function generateCode(elemIdSource, elemPrefix) {
                 let uri = e(elemIdSource).value;
-                let params = {margin:0, width:e('qr-code1').scrollWidth, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }};
+                let params = {margin:0, width:e('qr-code1').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
                 let qr = QRCode.create(uri, );
                 
                 QRCode.toCanvas(e(elemPrefix), uri, params, function (error) {

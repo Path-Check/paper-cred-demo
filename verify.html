@@ -66,7 +66,7 @@
 		<script>
             function e(elem) { return document.getElementById(elem); }
 
-            function qrParams(elem) { return {margin:0, width:Math.min(e(elem).scrollWidth,500)-20, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }}; }
+            function qrParams(elem) { return {margin:0, width:Math.min(e(elem).scrollWidth,500)-20, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }}; }
 
             var scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
             scanner.addListener('scan', function (content) {

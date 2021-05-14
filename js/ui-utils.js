@@ -24,7 +24,7 @@ var UIUtils = {
   },
 
   drawsQR: function(elemPref, value, debugURI) {
-      const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }};
+      const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
       if (e(elemPref+"-code-label"))
         e(elemPref+"-code-label").style.display = '';

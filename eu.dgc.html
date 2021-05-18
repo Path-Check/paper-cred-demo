@@ -37,7 +37,7 @@
             <h1>EU's Digital Green Certificate Payloads</h1>
             <div class="full-div">
                 <div class="third">
-                    <h4>Immunization</h4>
+                    <h4>Vaccination</h4>
                     <table>
                         <tr><td>Fam Name</td><td><input id="qr-vax-nam-fn" type="text" placeholder=""/></td></tr>
                         <tr><td>Given Name</td><td><input id="qr-vax-nam-gn" type="text" placeholder=""/></td></tr>
@@ -140,7 +140,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-vax-code-label" style="display: none;">Immunization QR</h4>
+                    <h4 id="qr-vax-code-label" style="display: none;">Vaccination QR</h4>
                     <canvas id="qr-vax-code"></canvas><br/>
                     <h4 id="qr-vax-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-vax-pdf"></canvas><br/>
@@ -172,11 +172,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 </div>
             </div>
             <div class="four-quarter">
-                <h2>Original EU CBOR COSE ZLIB Base45 URI</h2>
+                <h2>EU's GDC: CBOR COSE ZLIB Base45 URI</h2>
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-vax-orig-code-label" style="display: none;">Immunization QR</h4>
+                    <h4 id="qr-vax-orig-code-label" style="display: none;">Vaccination QR</h4>
                     <canvas id="qr-vax-orig-code"></canvas><br/>
                     <h4 id="qr-vax-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-vax-orig-pdf"></canvas><br/>
@@ -201,12 +201,43 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 </div>
             </div>
+
+            <div class="four-quarter">
+                <h2>CBLD: BBS+ with CBOR-LD on Base32 URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-cbld-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-cbld-code"></canvas><br/>
+                    <h4 id="qr-vax-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-cbld-pdf"></canvas><br/>
+                    <pre id="qr-vax-cbld-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-cbld-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-cbld-code"></canvas><br/>
+                    <h4 id="qr-test-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-cbld-pdf"></canvas><br/>
+                    <pre id="qr-test-cbld-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-cbld-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-cbld-code"></canvas><br/>
+                    <h4 id="qr-recov-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-cbld-pdf"></canvas><br/>
+                    <pre id="qr-recov-cbld-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
             <div class="four-quarter">
                 <h2>Modified EU CBOR COSE ZLIB Base32 URI</h2>
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-vax-orig32-code-label" style="display: none;">Immunization QR</h4>
+                    <h4 id="qr-vax-orig32-code-label" style="display: none;">Vaccination QR</h4>
                     <canvas id="qr-vax-orig32-code"></canvas><br/>
                     <h4 id="qr-vax-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-vax-orig32-pdf"></canvas><br/>
@@ -236,7 +267,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-vax-orig45DInt-code-label" style="display: none;">Immunization QR</h4>
+                    <h4 id="qr-vax-orig45DInt-code-label" style="display: none;">Vaccination QR</h4>
                     <canvas id="qr-vax-orig45DInt-code"></canvas><br/>
                     <h4 id="qr-vax-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-vax-orig45DInt-pdf"></canvas><br/>
@@ -267,7 +298,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <h4 style="text-align: center;">Vaccination QR</h4>
 
                     <table class="comparison">
                         <tr>
@@ -291,7 +322,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig-time-json"></td>
                             <td style="text-align: right;" id="qr-vax-orig-time-sign"></td>
                             <td style="text-align: right;" id="qr-vax-orig-time-verify"></td>
-
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">CBLD</td>
+                            <td style="text-align: right;" id="qr-vax-cbld-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
@@ -332,7 +369,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig-time-json"></td>
                             <td style="text-align: right;" id="qr-test-orig-time-sign"></td>
                             <td style="text-align: right;" id="qr-test-orig-time-verify"></td>
-
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">CBLD</td>
+                            <td style="text-align: right;" id="qr-test-cbld-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
@@ -374,7 +417,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig-time-json"></td>
                             <td style="text-align: right;" id="qr-recov-orig-time-sign"></td>
                             <td style="text-align: right;" id="qr-recov-orig-time-verify"></td>
-
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">CBLD</td>
+                            <td style="text-align: right;" id="qr-recov-cbld-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
@@ -398,7 +447,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <h4 style="text-align: center;">Vaccination QR</h4>
 
                     <table class="comparison">
                         <tr>
@@ -421,6 +470,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-cbld-comp-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-comp-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -462,6 +518,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-cbld-comp-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-test-cbld-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccm"></td>
@@ -501,6 +564,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-cbld-comp-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-eccm"></td>
@@ -521,7 +591,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <h4 style="text-align: center;">Vaccination QR</h4>
 
                     <table class="comparison">
                         <tr>
@@ -544,6 +614,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig-bits-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-cbld-bits-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-bits-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -586,6 +663,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-cbld-bits-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-test-cbld-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-bits-eccm"></td>
@@ -626,6 +710,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-cbld-bits-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-eccm"></td>
@@ -648,7 +739,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <h4 style="text-align: center;">Vaccination QR</h4>
 
                     <table class="comparison">
                         <tr>
@@ -671,6 +762,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig-size-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-cbld-size-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -713,6 +811,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-cbld-size-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-test-cbld-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccm"></td>
@@ -753,6 +858,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-cbld-size-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size-eccm"></td>
@@ -774,7 +886,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 style="text-align: center;">Immunization QR</h4>
+                    <h4 style="text-align: center;">Vaccination QR</h4>
 
                     <table class="comparison">
                         <tr>
@@ -797,6 +909,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-cbld-size300-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-cbld-size300-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -839,6 +958,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-orig-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-cbld-size300-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-test-cbld-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-cbld-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size300-eccm"></td>
@@ -879,6 +1005,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-orig-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-cbld-size300-uri">CBLD</td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-cbld-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccm"></td>
@@ -912,6 +1045,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/pcf-utils.js"></script>
         <script src="js/ui-utils.js"></script>
+
+        <script src="js/bbs-cborld.sdk.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -1001,6 +1136,46 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
                         });
+                    });
+                });
+            }
+
+            function signAndDisplayQRCBLD(elemPref, json, keyPair) {
+                const t0 = performance.now();
+
+                BBS_CBORLD.addCache(keyPair);
+
+                const uri = BBS_CBORLD.signAndPack(json, keyPair).then(uri => {
+                    const t1 = performance.now();
+                    
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                    // Builds QR Element
+                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                    PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                    e(elemPref+"-code-label").style.display = '';
+                    e(elemPref+"-pdf-label").style.display = '';
+
+                    // Updates screen elements. 
+                    e(elemPref+"-result").innerHTML= 
+                                                "<span class='schema'>" + uri.substring(0,4) + "</span></a>:" + 
+                                                "<span class='message'>" + uri.substring(5) + "</span><br>";
+                    
+                    e(elemPref+"-result").innerHTML +=
+                        "<pre>CBLD:<span class='message'>Payload</span></pre>"
+                    
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    BBS_CBORLD.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
                     });
                 });
             }
@@ -1133,6 +1308,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const priKeyEUPEM = e('privkeyEU').value;
                 const pubKeyEUPEM = e('pubkeyEU').value;
 
+                const keyPair = {
+                    id: "did:pathcheck:489398593#web",
+                    controller: "did:pathcheck:489398593",
+                    privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
+                    publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
+                }
+
                 let vaxEU = { 
                     "ver": "1.0.0",
                     "nam": {
@@ -1157,6 +1339,56 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         }
                     ]
                 };
+
+                let vaxCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfVaccination",
+                        "id": "urn:uvci:"+e('qr-vax-ci').value, 
+                        "issuerName": e('qr-vax-is').value,
+                        "vaccinationInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCVaccinationInformation",
+                            "diseaseProtectedFrom": e('qr-vax-tg').value,
+                            "prophylaxis": e('qr-vax-vp').value,
+                            "countryOfVaccination": e('qr-vax-co').value,
+                            "dateOfVaccination": e('qr-vax-dt-date').value,
+                            "order": parseInt(e('qr-vax-dn').value) + " of " + parseInt(e('qr-vax-sd').value),
+                            "vaccine": {
+                                "@context": [
+                                    "https://w3id.org/pathogen/v1"
+                                ],
+                                "type": "DGCVaccine",
+                                "code": e('qr-vax-vp').value,
+                                "marketingAuthHolder": e('qr-vax-ma').value,
+                                "medicinalProductName": e('qr-vax-mp').value
+                            }
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-vax-nam-fn').value,
+                            "givenName": e('qr-vax-nam-gn').value,
+                            "stdFamilyName": e('qr-vax-nam-fnt').value,
+                            "stdGivenName": e('qr-vax-nam-gnt').value,
+                            "birthDate": e('qr-vax-dob-date').value
+                        }
+                    }
+                }
 
                 let vaxEUDInt = { 
                     "ver": "1.0.0",
@@ -1186,6 +1418,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-vax-orig32", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-vax-orig45DInt", vaxEUDInt, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1201,6 +1434,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "tg": e('qr-test-tg').value,
                             "tt": e('qr-test-tt').value,
                             "tr": e('qr-test-tr').value,
+                            "nm": e("qr-test-nm").value,
                             "ma": e('qr-test-ma').value,
                             "sc": e('qr-test-sc-timestamp').value,
                             "dr": e('qr-test-dr-timestamp').value,
@@ -1211,6 +1445,52 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         }
                     ]
                 };
+
+                let testCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    //"id": "http://example.org/credentials/",
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfCovidTest",
+                        "id": "urn:uvci:"+e('qr-test-ci').value,
+                        "issuerName": e('qr-test-is').value,
+                        "testInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCTestInformation",
+                            "diseaseTestedFrom": e("qr-test-tg").value,
+                            "testName": e("qr-test-nm").value,
+                            "testManufacturer": e("qr-test-ma").value,
+                            "testType": e('qr-test-tt').value,
+                            "sampleCollectionDateTime": e('qr-test-sc-timestamp').value,
+                            "testResultDate": e('qr-test-dr-timestamp').value,
+                            "testResult": e('qr-test-tr').value,
+                            "testCenter": e('qr-test-tc').value,
+                            "countryOfTestAdminstration": e('qr-test-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
 
                 let testEUDInt = { 
                     "ver": "1.0.0",
@@ -1241,6 +1521,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-test-orig45DInt", testEUDInt, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1263,6 +1544,47 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         }
                     ]
                 };
+
+                let recovCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfRecovery",
+                        "id": "urn:uvci:"+e('qr-recov-ci').value,
+                        "issuerName": e('qr-recov-is').value,
+                        "validFrom": e('qr-recov-df-date').value,
+                        "validUntil": e('qr-recov-du-date').value,
+                        "infectionInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCInfectionInformation",
+                            "diseaseRecoveredFrom": e('qr-recov-tg').value,
+                            "dateFirstPositive": e('qr-recov-fr-date').value,
+                            "countryOfTest": e('qr-recov-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
 
                 let recovEUDInt = { 
                     "ver": "1.0.0",
@@ -1289,6 +1611,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-recov-orig45DInt", recovEUDInt, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
             }
 
             function getEUPayload(cwt) {

@@ -65,7 +65,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/divoc.sdk.min.js"></script>
         <script src="js/json-beautify.min.js"></script>
-
+        <script src="js/bbs-cborld.sdk.min.js"></script>
        
 		<script>
             function replacer(key, value) {
@@ -126,6 +126,24 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                     PCFUtils.debugVerify(qr).then(debug => {
                         e('qr-verify-verified').innerHTML = debug;
+                    });
+                } else if (qr.startsWith('CBLD:')) {
+                    const keyPair = {
+                        id: "did:pathcheck:489398593#web",
+                        controller: "did:pathcheck:489398593",
+                        privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
+                        publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
+                    };
+                    BBS_CBORLD.addCache(keyPair);
+
+                    BBS_CBORLD.unpackAndVerify(qr).then(json => {
+                        if (json) {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));
+                            e('qr-verify-verified').innerHTML = "Signature Verified ";
+                        } else {
+                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
                     });
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Green Certificate Verifiable QR"

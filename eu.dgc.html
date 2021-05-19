@@ -137,7 +137,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
             </div>
             <div class="four-quarter">
-                <h2>PathCheck CRED-style URI</h2>
+                <h2>CRED: URI-based DataModel</h2>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -172,8 +172,39 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     <pre id="qr-verify-verified"></pre>
                 </div>
             </div>
+
             <div class="four-quarter">
-                <h2>EU's GDC: CBOR COSE ZLIB Base45 URI</h2>
+                <h2>JXT: W3C VC with BBS+ on JSONXT URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-jxt-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-jxt-code"></canvas><br/>
+                    <h4 id="qr-vax-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-jxt-pdf"></canvas><br/>
+                    <pre id="qr-vax-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-jxt-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-jxt-code"></canvas><br/>
+                    <h4 id="qr-test-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-jxt-pdf"></canvas><br/>
+                    <pre id="qr-test-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-jxt-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-jxt-code"></canvas><br/>
+                    <h4 id="qr-recov-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-jxt-pdf"></canvas><br/>
+                    <pre id="qr-recov-jxt-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>EU's HC1: CWT CBOR COSE ZLIB Base45 URI</h2>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -204,7 +235,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
 
             <div class="four-quarter">
-                <h2>CBLD: BBS+ with ZLIB(CBOR-LD) on Base32 URI</h2>
+                <h2>CBLD: W3C VC with BBS+ on CBOR-LD ZLIB Base32 URI</h2>
             </div>
             <div class="full-div">
                 <div class="third">
@@ -234,96 +265,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
 
             <div class="four-quarter">
-                <h2>JXT: BBS+ with JSONXT on Base32 URI</h2>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 id="qr-vax-jxt-code-label" style="display: none;">Vaccination QR</h4>
-                    <canvas id="qr-vax-jxt-code"></canvas><br/>
-                    <h4 id="qr-vax-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-vax-jxt-pdf"></canvas><br/>
-                    <pre id="qr-vax-jxt-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-test-jxt-code-label" style="display: none;">Test QR</h4>
-                    <canvas id="qr-test-jxt-code"></canvas><br/>
-                    <h4 id="qr-test-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-test-jxt-pdf"></canvas><br/>
-                    <pre id="qr-test-jxt-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-recov-jxt-code-label" style="display: none;">Recovery QR</h4>
-                    <canvas id="qr-recov-jxt-code"></canvas><br/>
-                    <h4 id="qr-recov-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-recov-jxt-pdf"></canvas><br/>
-                    <pre id="qr-recov-jxt-result"></pre>
-                </div>
-
-                <div class="quarter xs-hidden">
-                </div>
-            </div>
-
-            <div class="four-quarter">
-                <h2>Modified EU CBOR COSE ZLIB Base32 URI</h2>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 id="qr-vax-orig32-code-label" style="display: none;">Vaccination QR</h4>
-                    <canvas id="qr-vax-orig32-code"></canvas><br/>
-                    <h4 id="qr-vax-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-vax-orig32-pdf"></canvas><br/>
-                    <pre id="qr-vax-orig32-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-test-orig32-code-label" style="display: none;">Test QR</h4>
-                    <canvas id="qr-test-orig32-code"></canvas><br/>
-                    <h4 id="qr-test-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-test-orig32-pdf"></canvas><br/>
-                    <pre id="qr-test-orig32-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-recov-orig32-code-label" style="display: none;">Recovery QR</h4>
-                    <canvas id="qr-recov-orig32-code"></canvas><br/>
-                    <h4 id="qr-recov-orig32-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-recov-orig32-pdf"></canvas><br/>
-                    <pre id="qr-recov-orig32-result"></pre>
-                </div>
-
-                <div class="quarter xs-hidden">
-                </div>
-            </div>
-
-            <div class="four-quarter">
-                <h2>Modified Date As Integers EU CBOR COSE ZLIB Base45 URI</h2>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 id="qr-vax-orig45DInt-code-label" style="display: none;">Vaccination QR</h4>
-                    <canvas id="qr-vax-orig45DInt-code"></canvas><br/>
-                    <h4 id="qr-vax-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-vax-orig45DInt-pdf"></canvas><br/>
-                    <pre id="qr-vax-orig45DInt-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-test-orig45DInt-code-label" style="display: none;">Test QR</h4>
-                    <canvas id="qr-test-orig45DInt-code"></canvas><br/>
-                    <h4 id="qr-test-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-test-orig45DInt-pdf"></canvas><br/>
-                    <pre id="qr-test-orig45DInt-result"></pre>
-                </div>
-                <div class="third">
-                    <h4 id="qr-recov-orig45DInt-code-label" style="display: none;">Recovery QR</h4>
-                    <canvas id="qr-recov-orig45DInt-code"></canvas><br/>
-                    <h4 id="qr-recov-orig45DInt-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-recov-orig45DInt-pdf"></canvas><br/>
-                    <pre id="qr-recov-orig45DInt-result"></pre>
-                </div>
-
-                <div class="quarter xs-hidden">
-                </div>
-            </div>
-
-            <div class="four-quarter">
                 <h2>Comparison Tables</h2>
                 <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
             </div>
@@ -345,7 +286,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-time-json"></td>
                             <td style="text-align: right;" id="qr-vax-time-sign"></td>
                             <td style="text-align: right;" id="qr-vax-time-verify"></td>
-
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1</td>
@@ -361,26 +308,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-time-verify"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-time-verify"></td>
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-time-verify"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -402,6 +330,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                         </tr>
                         <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-verify"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-time-uri"></td>
                             <td style="text-align: right;" id="qr-test-orig-time-json"></td>
@@ -415,26 +350,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-test-cbld-time-verify"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig32-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-time-verify"></td>
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-time-verify"></td>
-                        </tr>
+
                     
                     </table>
                 </div>
@@ -457,6 +373,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                         </tr>
                         <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-verify"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-time-uri"></td>
                             <td style="text-align: right;" id="qr-recov-orig-time-json"></td>
@@ -470,27 +393,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-time-verify"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-time-verify"></td>
 
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-time-verify"></td>
-                        </tr>
                     </table>
                 </div>
             </div>
@@ -517,6 +420,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-comp-eccm"></td>
@@ -530,26 +440,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-comp-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-comp-ecch"></td>
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-comp-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -570,6 +461,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-comp-eccm"></td>
@@ -583,26 +481,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-comp-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-comp-ecch"></td>
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-comp-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -623,6 +502,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig-comp-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-comp-eccm"></td>
@@ -636,26 +522,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-comp-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-comp-ecch"></td>
-                        </tr>
-                        <tr><td style="text-align: right;">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-comp-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -682,6 +549,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig-bits-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-bits-eccm"></td>
@@ -695,27 +569,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-bits-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-bits-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -736,6 +590,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig-bits-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-bits-eccm"></td>
@@ -749,27 +610,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-bits-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-bits-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -790,6 +631,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig-bits-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-bits-eccm"></td>
@@ -803,27 +651,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-bits-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-bits-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -851,6 +679,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size-eccm"></td>
@@ -864,27 +699,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-size-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -905,6 +720,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-size-eccm"></td>
@@ -918,27 +740,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -959,6 +761,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig-size-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-size-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size-eccm"></td>
@@ -972,27 +781,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
@@ -1019,6 +808,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig-size300-eccm"></td>
@@ -1032,27 +828,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-size300-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig32-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig45DInt-size300-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -1073,6 +849,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-test-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig-size300-eccm"></td>
@@ -1086,27 +869,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size300-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig32-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig45DInt-size300-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
                 <div class="third">
@@ -1127,6 +890,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig-size300-uri">HC1</td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig-size300-eccm"></td>
@@ -1140,32 +910,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size300-ecch"></td>
                         </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig32-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-uri">HC1<small><small><small>DInt</small></small></small></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig45DInt-size300-ecch"></td>
-                        </tr>
+
                     </table>
                 </div>
             </div>
         </div>
-        
+
         <script src="js/qrcode.min.js"></script>
 
         <script src="js/libbcmath.js" type="text/javascript"></script>
@@ -1361,50 +1111,36 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 EUDGC.makeCWT(json).then(cwt => {
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const eu45t1 = performance.now();
-                        displayEUQR(uri, elemPref, eu45t1-eu45t0, pubKeyPem)
-                    });
-                });
-            }
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
-            function sign32AndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
-                const eut0 = performance.now();
-                EUDGC.makeCWT(json).then(cwt => {
-                    EUDGC.signAndPack32(cwt, pubKeyPem, priKeyPEM).then(uri => {
-                        const eut1 = performance.now();
-                        displayEUQR(uri, elemPref, eut1-eut0, pubKeyPem);
-                    });
-                });
-            }
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                        PDF417.draw(uri, e(elemPref+"-pdf"));
 
-            function displayEUQR(uri, elemPref, deltaTime, pubKeyPem) {
-                const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
 
-                // Builds QR Element
-                QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                e(elemPref+"-code-label").style.display = '';
-                e(elemPref+"-pdf-label").style.display = '';
-
-                // Updates screen elements. 
-                e(elemPref+"-result").innerHTML= 
-                                            "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
-                                            "<span class='message'>" + uri.substring(4) + "</span><br>";
-                
-                e(elemPref+"-result").innerHTML +=
-                    "<pre>HC1:<span class='message'>Payload</span></pre>"
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= 
+                                                    "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
+                                                    "<span class='message'>" + uri.substring(4) + "</span><br>";
+                        
+                        e(elemPref+"-result").innerHTML +=
+                            "<pre>HC1:<span class='message'>Payload</span></pre>"
+                            
+                        studyQR(uri, elemPref);
                     
-                studyQR(uri, elemPref);
-            
-                e(elemPref+"-time-sign").innerHTML=Math.round(deltaTime);
-                e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
-                e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+                        e(elemPref+"-time-sign").innerHTML=Math.round(eu45t1-eu45t0);
+                        e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
-                const v0 = performance.now();
-                EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
-                    const v1 = performance.now();
-                    e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
-                    UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        const v0 = performance.now();
+                        EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        });
+                    });
                 });
             }
 
@@ -1566,34 +1302,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     }
                 }
 
-                let vaxEUDInt = { 
-                    "ver": "1.0.0",
-                    "nam": {
-                        "fn": e('qr-vax-nam-fn').value,
-                        "gn": e('qr-vax-nam-gn').value,
-                        "fnt": e('qr-vax-nam-fnt').value,
-                        "gnt": e('qr-vax-nam-gnt').value,
-                    },
-                    "dob": dateInSecondsToEpoch(e('qr-vax-dob-date').value),
-                    "v": [
-                        {
-                            "tg": e('qr-vax-tg').value,
-                            "vp": e('qr-vax-vp').value,
-                            "mp": e('qr-vax-mp').value,
-                            "ma": e('qr-vax-ma').value,
-                            "dn": parseInt(e('qr-vax-dn').value),
-                            "sd": parseInt(e('qr-vax-sd').value),
-                            "dt": dateInSecondsToEpoch(e('qr-vax-dt-date').value),
-                            "co": e('qr-vax-co').value,
-                            "is": e('qr-vax-is').value,
-                            "ci": "urn:uvci:"+e('qr-vax-ci').value
-                        }
-                    ]
-                };
-
                 signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
-                sign32AndDisplayEUQR("qr-vax-orig32", vaxEU, priKeyEUPEM, pubKeyEUPEM);
-                signAndDisplayEUQR("qr-vax-orig45DInt", vaxEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
                 signAndDisplayQRJXT("qr-vax-jxt", vaxCBLD, keyPair);
                 
@@ -1669,35 +1378,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     }
                 }
 
-                let testEUDInt = { 
-                    "ver": "1.0.0",
-                    "nam": {
-                        "fn": e('qr-test-nam-fn').value,
-                        "gn": e('qr-test-nam-gn').value,
-                        "fnt": e('qr-test-nam-fnt').value,
-                        "gnt": e('qr-test-nam-gnt').value,
-                    },
-                    "dob": dateInSecondsToEpoch(e('qr-test-dob-date').value),
-                    "t": [
-                        {
-                            "tg": e('qr-test-tg').value,
-                            "tt": e('qr-test-tt').value,
-                            "tr": e('qr-test-tr').value,
-                            "nm": e("qr-test-nm").value,
-                            "ma": e('qr-test-ma').value,
-                            "sc": dateInSecondsToEpoch(e('qr-test-sc-timestamp').value),
-                            "dr": dateInSecondsToEpoch(e('qr-test-dr-timestamp').value),
-                            "tc": e('qr-test-tc').value,
-                            "co": e('qr-test-co').value,
-                            "is": e('qr-test-is').value,
-                            "ci": "urn:uvci:"+e('qr-test-ci').value
-                        }
-                    ]
-                };
-
                 signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
-                sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
-                signAndDisplayEUQR("qr-test-orig45DInt", testEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
                 signAndDisplayQRJXT("qr-test-jxt", testCBLD, keyPair);
 
@@ -1764,31 +1445,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     }
                 }
 
-                let recovEUDInt = { 
-                    "ver": "1.0.0",
-                    "nam": {
-                        "fn": e('qr-recov-nam-fn').value,
-                        "gn": e('qr-recov-nam-gn').value,
-                        "fnt": e('qr-recov-nam-fnt').value,
-                        "gnt": e('qr-recov-nam-gnt').value,
-                    },
-                    "dob": dateInSecondsToEpoch(e('qr-recov-dob-date').value),
-                    "r": [
-                        {     
-                            "tg": e('qr-recov-tg').value,
-                            "fr": dateInSecondsToEpoch(e('qr-recov-fr-date').value),
-                            "df": dateInSecondsToEpoch(e('qr-recov-df-date').value),
-                            "du": dateInSecondsToEpoch(e('qr-recov-du-date').value),
-                            "co": e('qr-recov-co').value,
-                            "is": e('qr-recov-is').value,
-                            "ci": "urn:uvci:"+e('qr-recov-ci').value
-                        }
-                    ]
-                };
-
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
-                sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
-                signAndDisplayEUQR("qr-recov-orig45DInt", recovEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
                 signAndDisplayQRJXT("qr-recov-jxt", recovCBLD, keyPair);
             }

@@ -233,6 +233,36 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
 
             <div class="four-quarter">
+                <h2>JXT: BBS+ with JSONXT on Base32 URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-jxt-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-jxt-code"></canvas><br/>
+                    <h4 id="qr-vax-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-jxt-pdf"></canvas><br/>
+                    <pre id="qr-vax-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-jxt-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-jxt-code"></canvas><br/>
+                    <h4 id="qr-test-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-jxt-pdf"></canvas><br/>
+                    <pre id="qr-test-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-jxt-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-jxt-code"></canvas><br/>
+                    <h4 id="qr-recov-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-jxt-pdf"></canvas><br/>
+                    <pre id="qr-recov-jxt-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
+            <div class="four-quarter">
                 <h2>Modified EU CBOR COSE ZLIB Base32 URI</h2>
             </div>
             <div class="full-div">
@@ -331,6 +361,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-time-verify"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-time-verify"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-time-uri"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-time-json"></td>
@@ -376,6 +413,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-time-json"></td>
                             <td style="text-align: right;" id="qr-test-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-test-cbld-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
@@ -424,6 +468,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-time-json"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-time-verify"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-time-verify"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;">HC1<small><small><small>B32</small></small></small></td>
@@ -479,6 +530,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-comp-eccm"></td>
@@ -525,6 +583,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-comp-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-comp-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-comp-eccm"></td>
@@ -569,6 +634,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-comp-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-comp-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-comp-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-comp-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -623,6 +695,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-bits-eccm"></td>
@@ -670,6 +749,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-bits-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-bits-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-bits-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-bits-eccm"></td>
@@ -715,6 +801,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-bits-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-bits-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-bits-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-bits-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -771,6 +864,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size-eccm"></td>
@@ -818,6 +918,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-test-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccl"></td>
                             <td style="text-align: right;" id="qr-test-orig32-size-eccm"></td>
@@ -863,6 +970,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size-eccm"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-size-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -918,6 +1032,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-jxt-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-vax-orig32-size300-eccm"></td>
@@ -963,6 +1084,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size300-eccm"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size300-ecch"></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-jxt-size300-ecch"></td>
                         </tr>
                         <tr>
                             <td style="text-align: right;" id="qr-test-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
@@ -1012,6 +1140,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size300-ecch"></td>
                         </tr>
                         <tr>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-uri">JXT</td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-jxt-size300-ecch"></td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-uri">HC1<small><small><small>B32</small></small></small></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccl"></td>
                             <td style="text-align: right;" id="qr-recov-orig32-size300-eccm"></td>
@@ -1047,6 +1182,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/ui-utils.js"></script>
 
         <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-jxt.sdk.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -1173,6 +1309,46 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                     const v0 = performance.now();
                     BBS_CBORLD.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
+            function signAndDisplayQRJXT(elemPref, json, keyPair) {
+                const t0 = performance.now();
+
+                BBS_JXT.addCache(keyPair);
+
+                const uri = BBS_JXT.signAndPack(json, keyPair).then(uri => {
+                    const t1 = performance.now();
+                    
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                    // Builds QR Element
+                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                    PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                    e(elemPref+"-code-label").style.display = '';
+                    e(elemPref+"-pdf-label").style.display = '';
+
+                    // Updates screen elements. 
+                    e(elemPref+"-result").innerHTML= 
+                                                "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
+                                                "<span class='message'>" + uri.substring(4) + "</span><br>";
+                    
+                    e(elemPref+"-result").innerHTML +=
+                        "<pre>CBLD:<span class='message'>Payload</span></pre>"
+                    
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    BBS_JXT.unpackAndVerify(uri).then(result => {
                         const v1 = performance.now();
                         e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                         UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
@@ -1419,6 +1595,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 sign32AndDisplayEUQR("qr-vax-orig32", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-vax-orig45DInt", vaxEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
+                signAndDisplayQRJXT("qr-vax-jxt", vaxCBLD, keyPair);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1522,6 +1699,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-test-orig45DInt", testEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
+                signAndDisplayQRJXT("qr-test-jxt", vaxCBLD, keyPair);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1612,6 +1790,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-recov-orig45DInt", recovEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
+                signAndDisplayQRJXT("qr-recov-jxt", vaxCBLD, keyPair);
             }
 
             function getEUPayload(cwt) {

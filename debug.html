@@ -114,6 +114,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-verify-result").innerHTML = "Checking";
                 e('qr-verify-verified').innerHTML = "";
                 
+                const keyPair = {
+                    id: "did:pcf:1A8#web",
+                    controller: "did:pcf:1A8",
+                    privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
+                    publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
+                }
+
                 const qr = e("qr-verify").value;
                 if (qr === "" && qr == null) {
                     e('qr-verify-verified').innerHTML = "Certificate not found. ";
@@ -129,14 +136,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         e('qr-verify-verified').innerHTML = debug;
                     });
                 } else if (qr.startsWith('CBLD:')) {
-                    const keyPair = {
-                        id: "did:pathcheck:489398593#web",
-                        controller: "did:pathcheck:489398593",
-                        privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
-                        publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
-                    };
                     BBS_CBORLD.addCache(keyPair);
-
                     BBS_CBORLD.unpackAndVerify(qr).then(json => {
                         if (json) {
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));
@@ -147,14 +147,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         }
                     });
                 } else if (qr.startsWith('JXT:')) {
-                    const keyPair = {
-                        id: "did:pathcheck:489398593#web",
-                        controller: "did:pathcheck:489398593",
-                        privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
-                        publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
-                    };
                     BBS_JXT.addCache(keyPair);
-
                     BBS_JXT.unpackAndVerify(qr).then(json => {
                         if (json) {
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));

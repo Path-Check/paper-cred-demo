@@ -1338,7 +1338,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     
                     e(elemPref+"-result").innerHTML += 
                         "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
-                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[1]+"."+uriArray[2]+"."+uriArray[3]+"</span></a>:" +                           
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[1]+":"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
                         "<span class='message'>" + uriArray[4] + "</span><br>";
                     
                     e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
@@ -1485,8 +1485,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const pubKeyEUPEM = e('pubkeyEU').value;
 
                 const keyPair = {
-                    id: "did:pathcheck:489398593#web",
-                    controller: "did:pathcheck:489398593",
+                    id: "did:pcf:1A8#web",
+                    controller: "did:pcf:1A8",
                     privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
                     publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
                 }

@@ -1,5 +1,6 @@
 <!doctype html>
 	<head>
+        <meta charset="UTF-8">
 		<link rel="stylesheet" href="css/style.v2.css">
         <link rel="stylesheet" href="css/topnav.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -1333,13 +1334,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e(elemPref+"-code-label").style.display = '';
                     e(elemPref+"-pdf-label").style.display = '';
 
-                    // Updates screen elements. 
-                    e(elemPref+"-result").innerHTML= 
-                                                "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
-                                                "<span class='message'>" + uri.substring(4) + "</span><br>";
+                    const uriArray = uri.split(":");
                     
-                    e(elemPref+"-result").innerHTML +=
-                        "<pre>CBLD:<span class='message'>Payload</span></pre>"
+                    e(elemPref+"-result").innerHTML += 
+                        "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[1]+"."+uriArray[2]+"."+uriArray[3]+"</span></a>:" +                           
+                        "<span class='message'>" + uriArray[4] + "</span><br>";
                     
                     e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
                     e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
@@ -1699,7 +1699,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 sign32AndDisplayEUQR("qr-test-orig32", testEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-test-orig45DInt", testEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
-                signAndDisplayQRJXT("qr-test-jxt", vaxCBLD, keyPair);
+                signAndDisplayQRJXT("qr-test-jxt", testCBLD, keyPair);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1790,7 +1790,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 sign32AndDisplayEUQR("qr-recov-orig32", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayEUQR("qr-recov-orig45DInt", recovEUDInt, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
-                signAndDisplayQRJXT("qr-recov-jxt", vaxCBLD, keyPair);
+                signAndDisplayQRJXT("qr-recov-jxt", recovCBLD, keyPair);
             }
 
             function getEUPayload(cwt) {
@@ -1870,8 +1870,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-tt").value = "LP217198-3";
                 e("qr-test-nm").value = "COVID PCR";
                 e("qr-test-ma").value = "1232";
-                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00+00:00";
-                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00Z";
+                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01Z";
                 e("qr-test-tr").value = "260415000";
                 e("qr-test-tc").value = "GGD Fryslân, L-Heliconweg";
                 e("qr-test-co").value = "NL";

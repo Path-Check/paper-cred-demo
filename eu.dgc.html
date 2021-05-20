@@ -1082,11 +1082,29 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                     const uriArray = uri.split(":");
                     
+
+
+                    var payload = uriArray[4].split("/");
+
+                    var longest = payload.reduce(
+                        function (a, b) {
+                            return a.length > b.length ? a : b;
+                        }
+                    );
+                    var index = payload.indexOf(longest);
+                    payload[index] = "<span class='signature'>"+payload[index]+"</span>";
+                    uriArray[4] = payload.join("/")
+
                     e(elemPref+"-result").innerHTML += 
                         "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
-                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[1]+":"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
+                        "<a href='https://"+uriArray[1]+"/.well-known/templates.json'><span class='pub-key'>"+uriArray[1]+"</span></a>:"+
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
                         "<span class='message'>" + uriArray[4] + "</span><br>";
                     
+                    e(elemPref+"-result").innerHTML +=     
+                        "<pre>JWT:<span class='pub-key'>TEMPLATE</span>:<span class='protocol'>TYPE:VER</span>:" +
+                        "<span class='message'>PAYLOAD</span>/<span class='signature'>SIG</span></pre>";
+
                     e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
                     e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
                     e(elemPref+"-time-json").innerHTML = Math.round(uri.length);

@@ -191,19 +191,19 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
                     e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
-                } else if (type == 'EU.DGC.VAX') {
+                } else if (type == 'DGC.VAX') {
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
-                } else if (type == 'EU.DGC.TEST') {
+                } else if (type == 'DGC.TEST') {
                     e('qr-verify-title').innerHTML = "COVID-19 Test Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
-                } else if (type == 'EU.DGC.RECV') {
+                } else if (type == 'DGC.RECV') {
                     e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
-                } else if (type == 'EU.DGC.RECV') {
+                } else if (type == 'DGC.RECV') {
                     e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);

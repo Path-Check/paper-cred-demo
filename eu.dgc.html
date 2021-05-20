@@ -1206,13 +1206,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const priKeyPEM = e('privkey').value;
 
                 const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob-date", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt-date", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
-                signAndDisplayQR("qr-vax", "eu.dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
+                signAndDisplayQR("qr-vax", "dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
 
                 const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-timestamp", "qr-test-dr-timestamp", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
-                signAndDisplayQR("qr-test", "eu.dgc.test","1", priKeyPEM, pubKeyLink, testArray);
+                signAndDisplayQR("qr-test", "dgc.test","1", priKeyPEM, pubKeyLink, testArray);
 
                 const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
-                signAndDisplayQR("qr-recov", "eu.dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
+                signAndDisplayQR("qr-recov", "dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
 
                 // PEM code of the private key
                 const priKeyEUPEM = e('privkeyEU').value;

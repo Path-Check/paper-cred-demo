@@ -105,7 +105,7 @@ var PCFUtils = {
                                     "<span class='message'>" + payload + "</span><br>";
 
         uriDebugger +=
-            "<pre>CRED:<span class='protocol'>TYPE:VER</span>:<span class='signature'>SIGNATURE</span>:" +
+            "<pre>CRED:<span class='protocol'>TYPE:VER</span>:<span class='signature'>SIG</span>:" +
             "<span class='pub-key'>KEYID</span>:<span class='message'>PAYLOAD</span></pre>";
 
         return uriDebugger;

@@ -109,7 +109,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
                     <br><br>
                     <label for="pubkey">Public Key</label><br/>
-                    <textarea id="qr-link" rows="1" cols="30">1A9.PCF</textarea>
+                    <textarea id="qr-link" rows="1" cols="30">1A9.PCF.PW</textarea>
 
                     <h4>EU HC1 Credentials</h4>
                     <label for="privkey">P8 Private Key</label><br/>
@@ -1070,8 +1070,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayQRJXT(elemPref, domain, type, version, json, keyPair) {
                 const t0 = performance.now();
 
-                BBS_JXT.addCache(keyPair);
-
                 const uri = BBS_JXT.signAndPack(json, keyPair, domain, type, version).then(uri => {
                     const t1 = performance.now();
                     
@@ -1221,8 +1219,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const pubKeyEUPEM = e('pubkeyEU').value;
 
                 const keyPair = {
-                    id: "did:pcf:1A8#web",
-                    controller: "did:pcf:1A8",
+                    id: "did:web:PCF:PW:1A8#web",
+                    controller: "did:web:PCF:PW:1A8",
                     privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
                     publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
                 }

@@ -1067,12 +1067,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
-            function signAndDisplayQRJXT(elemPref, json, keyPair) {
+            function signAndDisplayQRJXT(elemPref, domain, type, version, json, keyPair) {
                 const t0 = performance.now();
 
                 BBS_JXT.addCache(keyPair);
 
-                const uri = BBS_JXT.signAndPack(json, keyPair).then(uri => {
+                const uri = BBS_JXT.signAndPack(json, keyPair, domain, type, version).then(uri => {
                     const t1 = performance.now();
                     
                     const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
@@ -1277,7 +1277,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "prophylaxis": e('qr-vax-vp').value,
                             "countryOfVaccination": e('qr-vax-co').value,
                             "dateOfVaccination": e('qr-vax-dt-date').value,
-                            "order": parseInt(e('qr-vax-dn').value) + " of " + parseInt(e('qr-vax-sd').value),
+                            "dose": parseInt(e('qr-vax-dn').value), 
+                            "totalDoses": parseInt(e('qr-vax-sd').value),
                             "vaccine": {
                                 "@context": [
                                     "https://w3id.org/pathogen/v1"
@@ -1304,7 +1305,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
-                signAndDisplayQRJXT("qr-vax-jxt", vaxCBLD, keyPair);
+                signAndDisplayQRJXT("qr-vax-jxt", "pcf.org", "dgc.vax", "1", vaxCBLD, keyPair);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1380,7 +1381,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
-                signAndDisplayQRJXT("qr-test-jxt", testCBLD, keyPair);
+                signAndDisplayQRJXT("qr-test-jxt", "pcf.org", "dgc.test", "1", testCBLD, keyPair);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1447,7 +1448,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
-                signAndDisplayQRJXT("qr-recov-jxt", recovCBLD, keyPair);
+                signAndDisplayQRJXT("qr-recov-jxt", "pcf.org", "dgc.recv", "1", recovCBLD, keyPair);
             }
 
             function getEUPayload(cwt) {

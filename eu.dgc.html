@@ -1030,8 +1030,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayQRCBLD(elemPref, json, keyPair) {
                 const t0 = performance.now();
 
-                BBS_CBORLD.addCache(keyPair);
-
                 const uri = BBS_CBORLD.signAndPack(json, keyPair).then(uri => {
                     const t1 = performance.now();
                     

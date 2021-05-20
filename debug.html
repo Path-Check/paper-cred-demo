@@ -113,13 +113,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-verify-brand").innerHTML = "";
                 e("qr-verify-result").innerHTML = "Checking";
                 e('qr-verify-verified').innerHTML = "";
-                
-                const keyPair = {
-                    id: "did:web:PCF.PW:1A8#DEMO",
-                    controller: "did:web:PCF.PW:1A8",
-                    privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
-                    publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
-                }
 
                 const qr = e("qr-verify").value;
                 if (qr === "" && qr == null) {
@@ -136,7 +129,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         e('qr-verify-verified').innerHTML = debug;
                     });
                 } else if (qr.startsWith('CBLD:')) {
-                    BBS_CBORLD.addCache(keyPair);
                     BBS_CBORLD.unpackAndVerify(qr).then(json => {
                         if (json) {
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));

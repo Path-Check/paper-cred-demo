@@ -141,25 +141,25 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-vax-code-label" style="display: none;">Vaccination QR</h4>
-                    <canvas id="qr-vax-code"></canvas><br/>
-                    <h4 id="qr-vax-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-vax-pdf"></canvas><br/>
-                    <pre id="qr-vax-result"></pre>
+                    <h4 id="qr-vax-cred-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-cred-code"></canvas><br/>
+                    <h4 id="qr-vax-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-cred-pdf"></canvas><br/>
+                    <pre id="qr-vax-cred-result"></pre>
                 </div>
                 <div class="third">
-                    <h4 id="qr-test-code-label" style="display: none;">Test QR</h4>
-                    <canvas id="qr-test-code"></canvas><br/>
-                    <h4 id="qr-test-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-test-pdf"></canvas><br/>
-                    <pre id="qr-test-result"></pre>
+                    <h4 id="qr-test-cred-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-cred-code"></canvas><br/>
+                    <h4 id="qr-test-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-cred-pdf"></canvas><br/>
+                    <pre id="qr-test-cred-result"></pre>
                 </div>
                 <div class="third">
-                    <h4 id="qr-recov-code-label" style="display: none;">Recovery QR</h4>
-                    <canvas id="qr-recov-code"></canvas><br/>
-                    <h4 id="qr-recov-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-recov-pdf"></canvas><br/>
-                    <pre id="qr-recov-result"></pre>
+                    <h4 id="qr-recov-cred-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-cred-code"></canvas><br/>
+                    <h4 id="qr-recov-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-cred-pdf"></canvas><br/>
+                    <pre id="qr-recov-cred-result"></pre>
                 </div>
 
                 <div class="quarter xs-hidden">
@@ -293,747 +293,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 <div class="quarter xs-hidden">
                 </div>
             </div>
+        </div>
+        <div class="center" id="comparison">
 
-            <div class="four-quarter">
-                <h2>Comparison Tables</h2>
-                <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 style="text-align: center;">Vaccination QR</h4>
-
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">URI Bytes</th>
-                            <th style="text-align: right;">URI Chars</th>
-                            <th style="text-align: right;">Sign Time</th>
-                            <th style="text-align: right;">Verify Time</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;">CRED</td>
-                            <td style="text-align: right;" id="qr-vax-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1</td>
-                            <td style="text-align: right;" id="qr-vax-orig-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">CBLD</td>
-                            <td style="text-align: right;" id="qr-vax-cbld-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">Divoc</td>
-                            <td style="text-align: right;" id="qr-vax-divoc-time-uri"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-time-json"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-time-sign"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-time-verify"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Test QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">URI Bytes</th>
-                            <th style="text-align: right;">URI Chars</th>
-                            <th style="text-align: right;">Sign Time</th>
-                            <th style="text-align: right;">Verify Time</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" >CRED</td>
-                            <td style="text-align: right;" id="qr-test-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-time-verify"></td>
-
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1</td>
-                            <td style="text-align: right;" id="qr-test-orig-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-orig-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-orig-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-orig-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">CBLD</td>
-                            <td style="text-align: right;" id="qr-test-cbld-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-time-verify"></td>
-                        </tr>
-
-                        <tr>
-                            <td style="text-align: right;">Divoc</td>
-                            <td style="text-align: right;" id="qr-test-divoc-time-uri"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-time-json"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-time-sign"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-time-verify"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Recovery QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">URI Bytes</th>
-                            <th style="text-align: right;">URI Chars</th>
-                            <th style="text-align: right;">Sign Time</th>
-                            <th style="text-align: right;">Verify Time</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;">CRED</td>
-                            <td style="text-align: right;" id="qr-recov-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-time-verify"></td>
-
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">HC1</td>
-                            <td style="text-align: right;" id="qr-recov-orig-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">CBLD</td>
-                            <td style="text-align: right;" id="qr-recov-cbld-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-time-verify"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;">Divoc</td>
-                            <td style="text-align: right;" id="qr-recov-divoc-time-uri"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-time-json"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-time-sign"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-time-verify"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="four-quarter">
-                <h4>QR Size in Bytes (bits * bits / 8)</h4>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 style="text-align: center;">Vaccination QR</h4>
-
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-comp-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-vax-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-cbld-comp-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-divoc-comp-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-comp-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Test QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-comp-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-test-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig-comp-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-test-orig-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-cbld-comp-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-test-cbld-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-divoc-comp-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-test-divoc-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-comp-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Recovery QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-comp-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-recov-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-cbld-comp-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-comp-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-divoc-comp-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-comp-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="four-quarter">
-                <h4>QR Size (bits x bits)</h4>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 style="text-align: center;">Vaccination QR</h4>
-
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-bits-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-cbld-bits-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-divoc-bits-uri">Divoc</td>
-                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccl"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccm"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccq"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Test QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-bits-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-test-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig-bits-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-cbld-bits-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-test-cbld-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-divoc-bits-uri">Divoc</td>
-                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccl"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccm"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccq"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Recovery QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-bits-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-cbld-bits-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-bits-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-bits-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-divoc-bits-uri">Divoc</td>
-                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccl"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccm"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccq"></td>
-                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="four-quarter">
-                <h4>Minimum Printed Size (in millimiters at 150 DPI)</h4>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 style="text-align: center;">Vaccination QR</h4>
-
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-size-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-vax-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-size-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-vax-orig-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-cbld-size-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-divoc-size-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Test QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-size-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-test-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig-size-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-test-orig-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-cbld-size-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-test-cbld-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-divoc-size-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-test-divoc-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Recovery QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-size-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-recov-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-size-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-recov-orig-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-cbld-size-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-divoc-size-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="four-quarter">
-                <h4>Minimum Printed Size (in millimiters at 300 DPI)</h4>
-            </div>
-            <div class="full-div">
-                <div class="third">
-                    <h4 style="text-align: center;">Vaccination QR</h4>
-
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-size300-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-vax-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-orig-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-cbld-size300-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-cbld-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-vax-divoc-size300-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-vax-divoc-size300-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Test QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-size300-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-test-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-orig-size300-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-test-orig-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-orig-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-cbld-size300-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-test-cbld-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-cbld-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-test-divoc-size300-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-test-divoc-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-test-divoc-size300-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="third">
-                    <h4 style="text-align: center;">Recovery QR</h4>
-                    <table class="comparison">
-                        <tr>
-                            <th style="text-align: right;">Tech</th>
-                            <th style="text-align: right;">ECC 7%</th>
-                            <th style="text-align: right;">ECC 15%</th>
-                            <th style="text-align: right;">ECC 25%</th>
-                            <th style="text-align: right;">ECC 30%</th>
-                        </th>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-size300-uri">CRED</td>
-                            <td style="text-align: right;" id="qr-recov-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-uri">JXT</td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-jxt-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-uri">HC1</td>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-orig-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-cbld-size300-uri">CBLD</td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-cbld-size300-ecch"></td>
-                        </tr>
-                        <tr>
-                            <td style="text-align: right;" id="qr-recov-divoc-size300-uri">Divoc</td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccl"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccm"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccq"></td>
-                            <td style="text-align: right;" id="qr-recov-divoc-size300-ecch"></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </div>
 
         <script src="js/qrcode.min.js"></script>
@@ -1051,6 +313,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/pcf-utils.js"></script>
         <script src="js/ui-utils.js"></script>
+        <script src="js/ui-comp.js"></script>
 
         <script src="js/bbs-cborld.sdk.min.js"></script>
         <script src="js/bbs-jxt.sdk.min.js"></script>
@@ -1058,7 +321,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/divoc.sdk.min.js"></script>
 
 		<script>
-            function e(elem) { return document.getElementById(elem); }
+            function e(elem) { 
+                if (document.getElementById(elem) == null) {
+                    console.log(elem + " not found");
+                }
+                return document.getElementById(elem); 
+            }
 
             function replacer(key, value) {
                 if(value instanceof Map) {
@@ -1110,10 +378,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e(elemPrefix+'-result').innerHTML = "";
             }
 
-            async function clear() {
-                clearQR('qr-vax');
-                clearQR('qr-test');
-                clearQR('qr-recov');
+            async function clear(payloads, compressionAlgos) {
+                payloads.forEach(payload => {
+                    compressionAlgos.forEach(algo => {
+                        clearQR(`qr-${payload.id}-${algo.id}`);
+                    });
+                });
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
@@ -1335,9 +605,22 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (e(elemPref+"-bits-eccl")) {
                     e(elemPref+"-bits-eccl").innerHTML = qrSizeBits(qrL);
+                    if (qrSizeBits(qrL).length > 5) {
+                        e(elemPref+"-bits-eccl").style.fontSize = "small";
+                    }
+
                     e(elemPref+"-bits-eccm").innerHTML = qrSizeBits(qrM);
+                    if (qrSizeBits(qrM).length > 5) {
+                        e(elemPref+"-bits-eccm").style.fontSize = "small";
+                    }
                     e(elemPref+"-bits-eccq").innerHTML = qrSizeBits(qrQ);
+                    if (qrSizeBits(qrQ).length > 5) {
+                        e(elemPref+"-bits-eccq").style.fontSize = "small";
+                    }
                     e(elemPref+"-bits-ecch").innerHTML = qrSizeBits(qrH);
+                    if (qrSizeBits(qrH).length > 5) {
+                        e(elemPref+"-bits-ecch").style.fontSize = "small";
+                    }
                 }
 
                 if (e(elemPref+"-size-eccl")) {
@@ -1379,7 +662,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function generateQRCodes() {
-                clear();
+                clear(payloads, compressionAlgos);
 
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
@@ -1388,13 +671,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const priKeyPEM = e('privkey').value;
 
                 const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob-date", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt-date", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
-                signAndDisplayQR("qr-vax", "dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
+                signAndDisplayQR("qr-vax-cred", "dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
 
                 const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-timestamp", "qr-test-dr-timestamp", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
-                signAndDisplayQR("qr-test", "dgc.test","1", priKeyPEM, pubKeyLink, testArray);
+                signAndDisplayQR("qr-test-cred", "dgc.test","1", priKeyPEM, pubKeyLink, testArray);
 
                 const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
-                signAndDisplayQR("qr-recov", "dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
+                signAndDisplayQR("qr-recov-cred", "dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
 
                 // PEM code of the private key
                 const priKeyEUPEM = e('privkeyEU').value;
@@ -1915,6 +1198,46 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             loadDemo();
+
+            qrModes = [
+                {id:"header", label:"Tech"},
+                {id:"eccl", label:"ECC 7%"},
+                {id:"eccm", label:"ECC 15%"},
+                {id:"eccq", label:"ECC 25%"},
+                {id:"ecch", label:"ECC 30%"}
+            ];
+
+            qrTimeBytes = [
+                {id:"header", label:"Tech"},
+                {id:"uri", label:"URI Bytes"},
+                {id:"json", label:"URI Chars"},
+                {id:"sign", label:"Sign Time"},
+                {id:"verify", label:"Verify Time"}
+            ];
+
+            compressionAlgos = [
+                {id:"cred", label:"CRED"}, 
+                {id:"jxt", label:"JXT"}, 
+                {id:"orig", label:"HC1"}, 
+                {id:"cbld", label:"CBLD"},
+                {id:"divoc", label:"Divoc"}
+            ];
+
+            payloads = [
+                {id:"vax", label:"Vaccination QR"},
+                {id:"test", label:"Test QR"},
+                {id:"recov", label:"Recovery QR"}
+            ];
+
+            metrics = [
+                {id:"time", label:"URI Size (in A/N bytes and in chars) and Time (in milliseconds)", over: qrTimeBytes}, 
+                {id:"comp", label:"QR Size in Bytes (bits * bits / 8)", over: qrModes},
+                {id:"bits", label:"QR Size (bits x bits)", over: qrModes},
+                {id:"size", label:"Minimum Printed Size (in millimiters at 150 DPI)", over: qrModes},
+                {id:"size300", label:"Minimum Printed Size (in millimiters at 300 DPI)", over: qrModes}
+            ];
+
+            e('comparison').innerHTML = UIComp.init(payloads, compressionAlgos, metrics);
         </script>
 
         <script>

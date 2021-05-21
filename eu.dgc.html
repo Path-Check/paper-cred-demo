@@ -265,6 +265,36 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
 
             <div class="four-quarter">
+                <h2>DIVOC: W3C VC with RSA on a ZIP file</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-divoc-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-divoc-code"></canvas><br/>
+                    <h4 id="qr-vax-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-divoc-pdf"></canvas><br/>
+                    <pre id="qr-vax-divoc-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-divoc-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-divoc-code"></canvas><br/>
+                    <h4 id="qr-test-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-divoc-pdf"></canvas><br/>
+                    <pre id="qr-test-divoc-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-divoc-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-divoc-code"></canvas><br/>
+                    <h4 id="qr-recov-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-divoc-pdf"></canvas><br/>
+                    <pre id="qr-recov-divoc-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
+            <div class="four-quarter">
                 <h2>Comparison Tables</h2>
                 <h4>URI Size (in A/N bytes and in chars) and Time (in milliseconds)</h4>
             </div>
@@ -308,7 +338,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-time-verify"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;">Divoc</td>
+                            <td style="text-align: right;" id="qr-vax-divoc-time-uri"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-time-json"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-time-sign"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-time-verify"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -351,7 +387,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-time-verify"></td>
                         </tr>
 
-                    
+                        <tr>
+                            <td style="text-align: right;">Divoc</td>
+                            <td style="text-align: right;" id="qr-test-divoc-time-uri"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-time-json"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-time-sign"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-time-verify"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -393,7 +435,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-time-sign"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-time-verify"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;">Divoc</td>
+                            <td style="text-align: right;" id="qr-recov-divoc-time-uri"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-time-json"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-time-sign"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-time-verify"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -440,7 +488,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-comp-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-divoc-comp-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-comp-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -481,7 +535,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-comp-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-divoc-comp-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-test-divoc-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-comp-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -522,7 +582,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-comp-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-comp-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-divoc-comp-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-comp-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-comp-ecch"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -569,7 +635,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-bits-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-divoc-bits-uri">Divoc</td>
+                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccl"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccm"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-eccq"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-vax-divoc-bits-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -610,7 +682,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-bits-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-divoc-bits-uri">Divoc</td>
+                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccl"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccm"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-eccq"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-test-divoc-bits-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -651,7 +729,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-bits-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-bits-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-divoc-bits-uri">Divoc</td>
+                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccl"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccm"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-eccq"></td>
+                            <td style="text-align: right; font-size:11px" id="qr-recov-divoc-bits-ecch"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -699,7 +783,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-size-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-divoc-size-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -740,7 +830,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-divoc-size-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-test-divoc-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -781,7 +877,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-divoc-size-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size-ecch"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -828,7 +930,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-vax-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-vax-cbld-size300-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-vax-divoc-size300-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-vax-divoc-size300-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -869,7 +977,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-test-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-test-cbld-size300-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-test-divoc-size300-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-test-divoc-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-test-divoc-size300-ecch"></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="third">
@@ -910,7 +1024,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             <td style="text-align: right;" id="qr-recov-cbld-size300-eccq"></td>
                             <td style="text-align: right;" id="qr-recov-cbld-size300-ecch"></td>
                         </tr>
-
+                        <tr>
+                            <td style="text-align: right;" id="qr-recov-divoc-size300-uri">Divoc</td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccl"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccm"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size300-eccq"></td>
+                            <td style="text-align: right;" id="qr-recov-divoc-size300-ecch"></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -934,6 +1054,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/bbs-cborld.sdk.min.js"></script>
         <script src="js/bbs-jxt.sdk.min.js"></script>
+
+        <script src="js/divoc.sdk.min.js"></script>
 
 		<script>
             function e(elem) { return document.getElementById(elem); }
@@ -1065,6 +1187,44 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
+            function signAndDisplayQRDIVOC(elemPref, json) {
+                const t0 = performance.now();
+                DIVOC.sign(json).then(cert => {
+                    DIVOC.pack(cert).then(packed => {
+                        const t1 = performance.now();
+                        
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), packed, params, function (error) {})
+                        PDF417.draw(packed, e(elemPref+"-pdf"));
+
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
+
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= 
+                                                    "<span class='schema'>" + packed + "</span></a>";
+                        
+                        e(elemPref+"-result").innerHTML +=
+                            "<pre>PK<span class='message'>Payload</span></pre>"
+                        
+                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(packed.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(packed.length);
+
+                        studyQR(packed, elemPref);
+
+                        const v0 = performance.now();
+                        DIVOC.unpackAndVerify(packed).then(verified => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        });
+                    });
+                });
+            }
+
             function signAndDisplayQRJXT(elemPref, domain, type, version, json, keyPair) {
                 const t0 = performance.now();
 
@@ -1081,8 +1241,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e(elemPref+"-pdf-label").style.display = '';
 
                     const uriArray = uri.split(":");
-                    
-
 
                     var payload = uriArray[4].split("/");
 
@@ -1159,8 +1317,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function studyQR(uri, elemPref) {
+                let qrH = null; 
+                try {
+                    qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                } catch {}
+                
                 let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-                let qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
                 let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
                 let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
 
@@ -1194,18 +1356,22 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function describe(qr) {
+                if (!qr) return "--x--";
                 return qr.modules.size + "x" + qr.modules.size + " " + qrSizeBytes(qr) + " bytes ";
             }
 
             function qrSizeBytes(qr) {
+                if (!qr) return "---";
                 return Math.round((qr.modules.size*qr.modules.size)/8)
             }
 
             function qrSizeBits(qr) {
+                if (!qr) return "--x--";
                 return qr.modules.size + "x" + qr.modules.size;
             }
 
             function qrSizeMillimiters(qr, dpi) {
+                if (!qr) return "--x--";
                 // 150 DPI Printer
                 // 3x3 printer dots per QR bit.
                 const side = Math.round(qr.modules.size * (25.4/(dpi/3)));
@@ -1317,9 +1483,60 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     }
                 }
 
+                let vaxDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfVaccination",
+                        "id": "urn:uvci:"+e('qr-vax-ci').value, 
+                        "issuerName": e('qr-vax-is').value,
+                        "vaccinationInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCVaccinationInformation",
+                            "diseaseProtectedFrom": e('qr-vax-tg').value,
+                            "prophylaxis": e('qr-vax-vp').value,
+                            "countryOfVaccination": e('qr-vax-co').value,
+                            "dateOfVaccination": e('qr-vax-dt-date').value,
+                            "dose": parseInt(e('qr-vax-dn').value), 
+                            "totalDoses": parseInt(e('qr-vax-sd').value),
+                            "vaccine": {
+                                "@context": [
+                                    "https://w3id.org/pathogen/v1"
+                                ],
+                                "type": "DGCVaccine",
+                                "code": e('qr-vax-vp').value,
+                                "marketingAuthHolder": e('qr-vax-ma').value,
+                                "medicinalProductName": e('qr-vax-mp').value
+                            }
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-vax-nam-fn').value,
+                            "givenName": e('qr-vax-nam-gn').value,
+                            "stdFamilyName": e('qr-vax-nam-fnt').value,
+                            "stdGivenName": e('qr-vax-nam-gnt').value,
+                            "birthDate": e('qr-vax-dob-date').value
+                        }
+                    }
+                }
+
                 signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
                 signAndDisplayQRJXT("qr-vax-jxt", "pcf.pw", "dgc.vax", "1", vaxCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-vax-divoc", vaxDIVOC);
                 
                 let testEU = { 
                     "ver": "1.0.0",
@@ -1353,7 +1570,50 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         "https://w3id.org/pathogen/v1",
                         "https://w3id.org/security/bbs/v1"
                     ],
-                    //"id": "http://example.org/credentials/",
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfCovidTest",
+                        "id": "urn:uvci:"+e('qr-test-ci').value,
+                        "issuerName": e('qr-test-is').value,
+                        "testInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCTestInformation",
+                            "diseaseTestedFrom": e("qr-test-tg").value,
+                            "testName": e("qr-test-nm").value,
+                            "testManufacturer": e("qr-test-ma").value,
+                            "testType": e('qr-test-tt').value,
+                            "sampleCollectionDateTime": e('qr-test-sc-timestamp').value,
+                            "testResultDate": e('qr-test-dr-timestamp').value,
+                            "testResult": e('qr-test-tr').value,
+                            "testCenter": e('qr-test-tc').value,
+                            "countryOfTestAdminstration": e('qr-test-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
+                let testDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
                     "type": [
                         "VerifiableCredential"
                     ],
@@ -1396,6 +1656,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
                 signAndDisplayQRJXT("qr-test-jxt", "pcf.pw", "dgc.test", "1", testCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-test-divoc", testDIVOC);
 
                 let recovEU = { 
                     "ver": "1.0.0",
@@ -1460,9 +1721,50 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     }
                 }
 
+                let recovDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfRecovery",
+                        "id": "urn:uvci:"+e('qr-recov-ci').value,
+                        "issuerName": e('qr-recov-is').value,
+                        "validFrom": e('qr-recov-df-date').value,
+                        "validUntil": e('qr-recov-du-date').value,
+                        "infectionInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCInfectionInformation",
+                            "diseaseRecoveredFrom": e('qr-recov-tg').value,
+                            "dateFirstPositive": e('qr-recov-fr-date').value,
+                            "countryOfTest": e('qr-recov-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
                 signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
                 signAndDisplayQRJXT("qr-recov-jxt", "pcf.pw", "dgc.recv", "1", recovCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-recov-divoc", recovDIVOC);
             }
 
             function getEUPayload(cwt) {

@@ -54,6 +54,11 @@ var UIComp = {
 
   drawSection: function (payloads, compressionAlgos, metrics) {
     let line = '';
+
+    line += '<div class="four-quarter">';
+    line += "<h2>Comparison Tables</h2>"
+    line += "</div>"
+
     metrics.forEach(metric => {
       line += this.drawBlock(payloads, compressionAlgos, metric, metric.over);
     });

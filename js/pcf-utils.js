@@ -15,6 +15,34 @@ var PCFUtils = {
         return uppercase;
     }, 
 
+    htmlEncode: async function(text) {
+        if (!text) return text;
+        return text.replaceAll('>','&#62;')
+                   .replaceAll('<','&#60;')
+                   .replaceAll('\'','&#39;')
+                   .replaceAll('\"','&#34;');
+    },
+
+    debugFields: async function(padding, decodedFields) {
+        // Decodes all fields
+        let formattedResult = ""
+        for (var key in decodedFields) {
+            if (Array.isArray(decodedFields[key])) {
+                for (let arrayItem=0; arrayItem < decodedFields[key].length; arrayItem++) {
+                    formattedResult += padding + await this.cropFieldName(key) +arrayItem+ ": <br>";
+                    formattedResult += await this.debugFields(padding + "  ",  decodedFields[key][arrayItem]);
+                }
+            } else {
+                formattedResult += padding + await this.cropFieldName(key) + ": " +
+                                "<span class='message'>" + 
+                                    await this.htmlEncode(decodedFields[key])
+                                + "</span><br>" 
+            }
+
+        }
+        return formattedResult;
+    },
+
     debugParseURI: async function(uri) {
         try {
             const [schema, type, version, signature, keyID, payloadNormalized] = await PCF.unpack(uri);
@@ -32,16 +60,7 @@ var PCFUtils = {
                                         " (<a href='" + rKeyID.debugPath + "'>"+rKeyID.type+"</a>)" + "<br>" +
                                 "Fields: <br>";
 
-            // Decodes all fields
-            for (var key in decodedFields) {
-                formattedResult += "  "+await this.cropFieldName(key) +": " +
-                                    "<span class='message'>" + 
-                                        decodedFields[key].replaceAll('>','&#62;')
-                                            .replaceAll('<','&#60;')
-                                            .replaceAll('\'','&#39;')
-                                            .replaceAll('\"','&#34;') 
-                                  + "</span><br>" 
-            }
+            formattedResult += await this.debugFields("  ", decodedFields);
 
             return formattedResult;
         } catch (err) {

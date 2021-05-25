@@ -16,8 +16,16 @@ var UIComp = {
     return line;
   },
 
-  drawTable: function (payload, compressionAlgos, metric, qrModes) {
-    let line = `<div class="third">\n`
+  drawTable: function (payload, compressionAlgos, metric, qrModes, numberOfPayloads) {
+    let line = '';
+    if (numberOfPayloads == 3)
+      line += `<div class="third">\n`;
+    else if (numberOfPayloads == 2) {
+      line += `<div class="two-halfs">\n`;
+    } else if (numberOfPayloads == 1) {
+      line += `<div class="four-quarter">\n`;
+    }
+
     line += `<h4 style="text-align: center;">${payload.label}</h4>\n`; 
     line += `<table class="comparison">\n`;
 
@@ -45,7 +53,7 @@ var UIComp = {
     line += `<div class="full-div">\n`
 
     payloads.forEach(payload => {
-      line += this.drawTable(payload, compressionAlgos, metric, qrModes);
+      line += this.drawTable(payload, compressionAlgos, metric, qrModes, payloads.length);
     });
 
     line += `</div>\n`

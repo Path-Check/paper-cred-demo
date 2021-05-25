@@ -1,0 +1,1263 @@
+<!doctype html>
+	<head>
+        <meta charset="UTF-8">
+		<link rel="stylesheet" href="css/style.v2.css">
+        <link rel="stylesheet" href="css/topnav.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" href="https://www.pathcheck.org/hubfs/Favicon.png">
+		<title>EU's Digital Green Certificate Payloads</title>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-DTDMHW3NV6"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DTDMHW3NV6');
+        </script>
+	</head>
+	<body>
+        <div class="topnav">
+            <div class="topnavContainer">
+              <a class="active" href="index.html">Signers</a>
+              <a href="verify.html"><span class="xs-hidden">Universal </span>Verifier</a>
+              <a class="xs-hidden" href="debug.html">QR Debugger</a>
+              <a class="xs-hidden" href="https://github.com/Path-Check/paper-cred-demo">Source Code</a>
+              <a href="https://github.com/Path-Check/paper-cred"><span class="xs-hidden"> QR </span>Specs</a>
+              <a href="http://vaccine-docs.pathcheck.org"><span class="xs-hidden">Vaccine </span>Docs</a>
+              <a class="xs-hidden" href="http://pathcheck.org">About PathCheck</a>
+            </div>
+        </div>
+      
+        <div class="subnav">
+            <div class="subnavContainer">
+                <a href="index.v5.html">PCF<span class="xs-hidden">'s 4 QRs</span></a>
+                <a class="active" href="eu.dgc.html">EU<span class="xs-hidden"> Green Pass</span></a>
+                <a href="icao.html">ICAO<span class="xs-hidden"> Seals</span></a>
+                <a href="cowin.html">DIVOC<span class="xs-hidden">/India</span></a>
+                <a href="liberty.html">IBM/NY<span class="xs-hidden"> Excelsior</span></a>
+                <a href="opencerta.html"><span class="xs-hidden">Open</span>Certa</a>
+                <a href="vial.html">Vial<span class="xs-hidden"> Label</span></a>
+                <a href="us.ma.id.html"><span class="xs-hidden">Mass </span>ID</a>
+                <a href="banknote.html">Cash<span class="xs-hidden"> Bills</span></a>
+            </div>
+        </div>
+
+        <div class="center">
+            <h1>EU's Digital Green Certificate Payloads</h1>
+            <div class="full-div">
+                <div class="third">
+                    <h4>Vaccination</h4>
+                    <table>
+                        <tr><td>Fam Name</td><td><input id="qr-vax-nam-fn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Given Name</td><td><input id="qr-vax-nam-gn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Family</td><td><input id="qr-vax-nam-fnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Given</td><td><input id="qr-vax-nam-gnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-vax-dob-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-vax-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Prophylaxis</td><td><input id="qr-vax-vp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Product</td><td><input id="qr-vax-mp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Manuf</td><td><input id="qr-vax-ma" type="text" placeholder=""/></td></tr>
+                        <tr><td>Dose #</td><td><input id="qr-vax-dn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Doses</td><td><input id="qr-vax-sd" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date</td><td><input id="qr-vax-dt-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Country</td><td><input id="qr-vax-co" type="text" placeholder=""/></td></tr>
+                        <tr><td>Issuer</td><td><input id="qr-vax-is" type="text" placeholder=""/></td></tr>
+                        <tr><td>Cert ID</td><td><input id="qr-vax-ci" type="text" placeholder=""/></td></tr>
+                    </table>
+                </div>
+                <div class="third"> 
+                    <h4>COVID Test</h4>
+                    <table>
+                        <tr><td>Fam Name</td><td><input id="qr-test-nam-fn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Given Name</td><td><input id="qr-test-nam-gn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Family</td><td><input id="qr-test-nam-fnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Given</td><td><input id="qr-test-nam-gnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-test-dob-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-test-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Type</td><td><input id="qr-test-tt" type="text" placeholder=""/></td></tr>
+                        <tr><td>Test Name</td><td><input id="qr-test-nm" type="text" placeholder=""/></td></tr>
+                        <tr><td>Manuf</td><td><input id="qr-test-ma" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Colect</td><td><input id="qr-test-sc-timestamp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date Result</td><td><input id="qr-test-dr-timestamp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Result</td><td><input id="qr-test-tr" type="text" placeholder=""/></td></tr>
+                        <tr><td>Centre</td><td><input id="qr-test-tc" type="text" placeholder=""/></td></tr>
+                        <tr><td>Country</td><td><input id="qr-test-co" type="text" placeholder=""/></td></tr>
+                        <tr><td>Issuer</td><td><input id="qr-test-is" type="text" placeholder=""/></td></tr>
+                        <tr><td>Cert ID</td><td><input id="qr-test-ci" type="text" placeholder=""/></td></tr>
+                    </table>
+                </div>
+                <div class="third">
+                    <h4>Recovery</h4>
+                    <table>
+                        <tr><td>Fam Name</td><td><input id="qr-recov-nam-fn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Given Name</td><td><input id="qr-recov-nam-gn" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Family</td><td><input id="qr-recov-nam-fnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>Std Given</td><td><input id="qr-recov-nam-gnt" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-recov-dob-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-recov-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid From</td><td><input id="qr-recov-df-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid Until</td><td><input id="qr-recov-du-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Country</td><td><input id="qr-recov-co" type="text" placeholder=""/></td></tr>
+                        <tr><td>Issuer</td><td><input id="qr-recov-is" type="text" placeholder=""/></td></tr>
+                        <tr><td>Cert ID</td><td><input id="qr-recov-ci" type="text" placeholder=""/></td></tr>
+                    </table>
+                </div>
+                
+                <div class="quarter">
+                    <h4>CRED Credentials</h4>
+                    <label for="privkey">Private Key</label><br/>
+<textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
+oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
+DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
+-----END EC PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">Public Key</label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">1A9.PCF.PW</textarea>
+
+                    <h4>EU HC1 Credentials</h4>
+                    <label for="privkey">P8 Private Key</label><br/>
+<textarea id="privkeyEU" rows="10" style="width: 100%;">-----BEGIN PRIVATE KEY-----
+MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb
+ZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts
+CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
+-----END PRIVATE KEY-----</textarea>
+                    <br><br>
+                    <label for="pubkey">PublicKey  Certificate</label><br/>
+<textarea id="pubkeyEU" rows="10" style="width: 100%;">-----BEGIN CERTIFICATE-----
+MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
+BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
+MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
+ZXIgd29ya2VyIG9mIEZyaWVzbGFuZDELMAkGA1UEBhMCRlIwWTATBgcqhkjOPQIB
+BggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1
+9aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgbMAoGCCqGSM49BAMCA0gAMEUC
+IQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN
+AF7zi+d862ePRQ9Lwymr7XfwVm0=
+-----END CERTIFICATE-----</textarea>
+                </div>
+            </div>
+            <br>
+            <div class="four-quarter">
+                <button class="qr-btn" onclick="generateQRCodes()">Create Certificates</button>
+            </div>
+            <div class="four-quarter">
+                <h2>CRED: URI-based DataModel</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-cred-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-cred-code"></canvas><br/>
+                    <h4 id="qr-vax-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-cred-pdf"></canvas><br/>
+                    <pre id="qr-vax-cred-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-cred-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-cred-code"></canvas><br/>
+                    <h4 id="qr-test-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-cred-pdf"></canvas><br/>
+                    <pre id="qr-test-cred-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-cred-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-cred-code"></canvas><br/>
+                    <h4 id="qr-recov-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-cred-pdf"></canvas><br/>
+                    <pre id="qr-recov-cred-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                    <label for="verify">Verify a QR Code</label>
+                    <textarea id="qr-verify" rows="10" cols="33" placeholder="cred:type:version:signature:pubkey:payload"></textarea>
+                    <br><br>
+                    <button class="qr-btn" onclick="verifyQRCode()">Verify</button>
+                    <br><br>
+                    <pre id="qr-verify-result"></pre>
+                    <pre id="qr-verify-verified"></pre>
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>JXT: W3C VC with BBS+ on JSONXT URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-jxt-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-jxt-code"></canvas><br/>
+                    <h4 id="qr-vax-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-jxt-pdf"></canvas><br/>
+                    <pre id="qr-vax-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-jxt-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-jxt-code"></canvas><br/>
+                    <h4 id="qr-test-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-jxt-pdf"></canvas><br/>
+                    <pre id="qr-test-jxt-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-jxt-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-jxt-code"></canvas><br/>
+                    <h4 id="qr-recov-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-jxt-pdf"></canvas><br/>
+                    <pre id="qr-recov-jxt-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>EU's HC1: CWT CBOR COSE ZLIB Base45 URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-orig-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-orig-code"></canvas><br/>
+                    <h4 id="qr-vax-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-orig-pdf"></canvas><br/>
+                    <pre id="qr-vax-orig-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-orig-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-orig-code"></canvas><br/>
+                    <h4 id="qr-test-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-orig-pdf"></canvas><br/>
+                    <pre id="qr-test-orig-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-orig-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-orig-code"></canvas><br/>
+                    <h4 id="qr-recov-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-orig-pdf"></canvas><br/>
+                    <pre id="qr-recov-orig-result"></pre>
+                </div>
+
+                <div class="quarter">
+
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>CBLD: W3C VC with BBS+ on CBOR-LD ZLIB Base32 URI</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-cbld-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-cbld-code"></canvas><br/>
+                    <h4 id="qr-vax-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-cbld-pdf"></canvas><br/>
+                    <pre id="qr-vax-cbld-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-cbld-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-cbld-code"></canvas><br/>
+                    <h4 id="qr-test-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-cbld-pdf"></canvas><br/>
+                    <pre id="qr-test-cbld-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-cbld-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-cbld-code"></canvas><br/>
+                    <h4 id="qr-recov-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-cbld-pdf"></canvas><br/>
+                    <pre id="qr-recov-cbld-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+
+            <div class="four-quarter">
+                <h2>DIVOC: W3C VC with RSA on a ZIP file</h2>
+            </div>
+            <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-vax-divoc-code-label" style="display: none;">Vaccination QR</h4>
+                    <canvas id="qr-vax-divoc-code"></canvas><br/>
+                    <h4 id="qr-vax-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-divoc-pdf"></canvas><br/>
+                    <pre id="qr-vax-divoc-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-test-divoc-code-label" style="display: none;">Test QR</h4>
+                    <canvas id="qr-test-divoc-code"></canvas><br/>
+                    <h4 id="qr-test-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-test-divoc-pdf"></canvas><br/>
+                    <pre id="qr-test-divoc-result"></pre>
+                </div>
+                <div class="third">
+                    <h4 id="qr-recov-divoc-code-label" style="display: none;">Recovery QR</h4>
+                    <canvas id="qr-recov-divoc-code"></canvas><br/>
+                    <h4 id="qr-recov-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-recov-divoc-pdf"></canvas><br/>
+                    <pre id="qr-recov-divoc-result"></pre>
+                </div>
+
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+        </div>
+        <div class="center" id="comparison">
+
+        </div>
+
+        <script src="js/qrcode.min.js"></script>
+
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
+
+        <script src="js/pcf.sdk.min.js"></script>
+
+        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/he.js"></script>
+        <script src="js/ajv7.min.js"></script>
+        <script src="js/json-beautify.min.js"></script>
+
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
+        <script src="js/ui-comp.js"></script>
+
+        <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-jxt.sdk.min.js"></script>
+
+        <script src="js/divoc.sdk.min.js"></script>
+
+		<script>
+            function e(elem) { 
+                if (document.getElementById(elem) == null) {
+                    console.log(elem + " not found");
+                }
+                return document.getElementById(elem); 
+            }
+
+            function replacer(key, value) {
+                if(value instanceof Map) {
+                    return {
+                    dataType: 'Map',
+                    value: Array.from(value.entries()), // or with spread: value: [...value]
+                    };
+                } else {
+                    return value;
+                }
+            }
+            function reviver(key, value) {
+                if(typeof value === 'object' && value !== null) {
+                    if (value.Map) {
+                        return new Map(value.Map);
+                    }
+                }
+                return value;
+            }
+
+            function getValueArray(elemArray) {
+                const fields = elemArray.map(function(elemId) {
+                    if (elemId.endsWith('-date')) {
+                        // Sends dates always in seconds since epoch
+                        return dateInYYYYMMDD(e(elemId).value).toString();
+                    }
+                    if (elemId.endsWith('-timestamp')) {
+                        // Sends dates always in seconds since epoch
+                        return dateInSecondsToEpoch(e(elemId).value).toString();
+                    }
+                    return e(elemId).value;
+                })
+                return fields;
+            }
+
+            function dateInYYYYMMDD(str) {
+                let d = new Date(str)
+                return   "" + d.getFullYear() +  
+                        ("0"+(d.getMonth()+1)).slice(-2) +
+                        ("0" + d.getDate()).slice(-2);
+            }
+
+            function dateInSecondsToEpoch(str) {
+                return new Date(str).getTime()/1000;
+            }
+
+            function clearQR(elemPrefix) {
+                e(elemPrefix+'-code').getContext('2d').clearRect(0, 0, e(elemPrefix+'-code').width, e(elemPrefix+'-code').height);
+                e(elemPrefix+'-result').innerHTML = "";
+            }
+
+            async function clear(payloads, compressionAlgos) {
+                payloads.forEach(payload => {
+                    compressionAlgos.forEach(algo => {
+                        clearQR(`qr-${payload.id}-${algo.id}`);
+                    });
+                });
+            }
+
+            function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
+                const t0 = performance.now();
+                const uri = PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
+                    const t1 = performance.now();
+                    PCFUtils.debugURI(uri).then( debugInfo => {
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                        PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
+
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= debugInfo;
+                        
+                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                        studyQR(uri, elemPref);
+
+                        const v0 = performance.now();
+                        PCF.unpackAndVerify(uri).then(result => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                        });
+                    });
+                });
+            }
+
+            function signAndDisplayQRCBLD(elemPref, json, keyPair) {
+                const t0 = performance.now();
+
+                const uri = BBS_CBORLD.signAndPack(json, keyPair).then(uri => {
+                    const t1 = performance.now();
+                    
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                    // Builds QR Element
+                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                    PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                    e(elemPref+"-code-label").style.display = '';
+                    e(elemPref+"-pdf-label").style.display = '';
+
+                    // Updates screen elements. 
+                    e(elemPref+"-result").innerHTML= 
+                                                "<span class='schema'>" + uri.substring(0,4) + "</span></a>:" + 
+                                                "<span class='message'>" + uri.substring(5) + "</span><br>";
+                    
+                    e(elemPref+"-result").innerHTML +=
+                        "<pre>CBLD:<span class='message'>Payload</span></pre>"
+                    
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    BBS_CBORLD.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
+            function signAndDisplayQRDIVOC(elemPref, json) {
+                const t0 = performance.now();
+                DIVOC.sign(json).then(cert => {
+                    DIVOC.pack(cert).then(packed => {
+                        const t1 = performance.now();
+                        
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), packed, params, function (error) {})
+                        PDF417.draw(packed, e(elemPref+"-pdf"));
+
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
+
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= 
+                                                    "<span class='schema'>" + packed + "</span></a>";
+                        
+                        e(elemPref+"-result").innerHTML +=
+                            "<pre>PK<span class='message'>Payload</span></pre>"
+                        
+                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(packed.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(packed.length);
+
+                        studyQR(packed, elemPref);
+
+                        const v0 = performance.now();
+                        DIVOC.unpackAndVerify(packed).then(verified => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        });
+                    });
+                });
+            }
+
+            function signAndDisplayQRJXT(elemPref, domain, type, version, json, keyPair) {
+                const t0 = performance.now();
+
+                const uri = BBS_JXT.signAndPack(json, keyPair, domain, type, version).then(uri => {
+                    const t1 = performance.now();
+                    
+                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                    // Builds QR Element
+                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                    PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                    e(elemPref+"-code-label").style.display = '';
+                    e(elemPref+"-pdf-label").style.display = '';
+
+                    const uriArray = uri.split(":");
+
+                    var payload = uriArray[4].split("/");
+
+                    var longest = payload.reduce(
+                        function (a, b) {
+                            return a.length > b.length ? a : b;
+                        }
+                    );
+                    var index = payload.indexOf(longest);
+                    payload[index] = "<span class='signature'>"+payload[index]+"</span>";
+                    uriArray[4] = payload.join("/")
+
+                    e(elemPref+"-result").innerHTML += 
+                        "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
+                        "<a href='https://"+uriArray[1]+"/.well-known/templates.json'><span class='pub-key'>"+uriArray[1]+"</span></a>:"+
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
+                        "<span class='message'>" + uriArray[4] + "</span><br>";
+                    
+                    e(elemPref+"-result").innerHTML +=     
+                        "<pre>JWT:<span class='pub-key'>TEMPLATE</span>:<span class='protocol'>TYPE:VER</span>:" +
+                        "<span class='message'>PAYLOAD</span>/<span class='signature'>SIG</span></pre>";
+
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    BBS_JXT.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
+            function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
+                const eu45t0 = performance.now();
+                EUDGC.makeCWT(json).then(cwt => {
+                    EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
+                        const eu45t1 = performance.now();
+                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+
+                        // Builds QR Element
+                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
+                        PDF417.draw(uri, e(elemPref+"-pdf"));
+
+                        e(elemPref+"-code-label").style.display = '';
+                        e(elemPref+"-pdf-label").style.display = '';
+
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= 
+                                                    "<span class='schema'>" + uri.substring(0,3) + "</span></a>:" + 
+                                                    "<span class='message'>" + uri.substring(4) + "</span><br>";
+                        
+                        e(elemPref+"-result").innerHTML +=
+                            "<pre>HC1:<span class='message'>Payload</span></pre>"
+                            
+                        studyQR(uri, elemPref);
+                    
+                        e(elemPref+"-time-sign").innerHTML=Math.round(eu45t1-eu45t0);
+                        e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                        const v0 = performance.now();
+                        EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        });
+                    });
+                });
+            }
+
+            function studyQR(uri, elemPref) {
+                let qrH = null; 
+                try {
+                    qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
+                } catch {}
+                
+                let qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
+                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
+                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+
+                if (e(elemPref+"-comp-eccl")) {
+                    e(elemPref+"-comp-eccl").innerHTML = qrSizeBytes(qrL);
+                    e(elemPref+"-comp-eccm").innerHTML = qrSizeBytes(qrM);
+                    e(elemPref+"-comp-eccq").innerHTML = qrSizeBytes(qrQ);
+                    e(elemPref+"-comp-ecch").innerHTML = qrSizeBytes(qrH);
+                }
+
+                if (e(elemPref+"-bits-eccl")) {
+                    e(elemPref+"-bits-eccl").innerHTML = qrSizeBits(qrL);
+                    if (qrSizeBits(qrL).length > 5) {
+                        e(elemPref+"-bits-eccl").style.fontSize = "small";
+                    }
+
+                    e(elemPref+"-bits-eccm").innerHTML = qrSizeBits(qrM);
+                    if (qrSizeBits(qrM).length > 5) {
+                        e(elemPref+"-bits-eccm").style.fontSize = "small";
+                    }
+                    e(elemPref+"-bits-eccq").innerHTML = qrSizeBits(qrQ);
+                    if (qrSizeBits(qrQ).length > 5) {
+                        e(elemPref+"-bits-eccq").style.fontSize = "small";
+                    }
+                    e(elemPref+"-bits-ecch").innerHTML = qrSizeBits(qrH);
+                    if (qrSizeBits(qrH).length > 5) {
+                        e(elemPref+"-bits-ecch").style.fontSize = "small";
+                    }
+                }
+
+                if (e(elemPref+"-size-eccl")) {
+                    e(elemPref+"-size-eccl").innerHTML = qrSizeMillimiters(qrL, 150);
+                    e(elemPref+"-size-eccm").innerHTML = qrSizeMillimiters(qrM, 150);
+                    e(elemPref+"-size-eccq").innerHTML = qrSizeMillimiters(qrQ, 150);
+                    e(elemPref+"-size-ecch").innerHTML = qrSizeMillimiters(qrH, 150);
+                }
+
+                if (e(elemPref+"-size300-eccl")) {
+                    e(elemPref+"-size300-eccl").innerHTML = qrSizeMillimiters(qrL, 300);
+                    e(elemPref+"-size300-eccm").innerHTML = qrSizeMillimiters(qrM, 300);
+                    e(elemPref+"-size300-eccq").innerHTML = qrSizeMillimiters(qrQ, 300);
+                    e(elemPref+"-size300-ecch").innerHTML = qrSizeMillimiters(qrH, 300);
+                }
+            }
+
+            function describe(qr) {
+                if (!qr) return "--x--";
+                return qr.modules.size + "x" + qr.modules.size + " " + qrSizeBytes(qr) + " bytes ";
+            }
+
+            function qrSizeBytes(qr) {
+                if (!qr) return "---";
+                return Math.round((qr.modules.size*qr.modules.size)/8)
+            }
+
+            function qrSizeBits(qr) {
+                if (!qr) return "--x--";
+                return qr.modules.size + "x" + qr.modules.size;
+            }
+
+            function qrSizeMillimiters(qr, dpi) {
+                if (!qr) return "--x--";
+                // 150 DPI Printer
+                // 3x3 printer dots per QR bit.
+                const side = Math.round(qr.modules.size * (25.4/(dpi/3)));
+                return side + "x" + side;
+            }
+
+            function generateQRCodes() {
+                clear(payloads, compressionAlgos);
+
+                // Where to Download the public key
+                const pubKeyLink = e("qr-link").value.trim().replace("http://","");
+
+                // PEM code of the private key
+                const priKeyPEM = e('privkey').value;
+
+                const vaccineArray = getValueArray(["qr-vax-nam-fn", "qr-vax-nam-gn", "qr-vax-nam-fnt", "qr-vax-nam-gnt", "qr-vax-dob-date", "qr-vax-tg", "qr-vax-vp", "qr-vax-mp", "qr-vax-ma", "qr-vax-dn", "qr-vax-sd", "qr-vax-dt-date", "qr-vax-co", "qr-vax-is", "qr-vax-ci"]);
+                signAndDisplayQR("qr-vax-cred", "dgc.vax","1", priKeyPEM, pubKeyLink, vaccineArray);
+
+                const testArray = getValueArray(["qr-test-nam-fn", "qr-test-nam-gn", "qr-test-nam-fnt", "qr-test-nam-gnt", "qr-test-dob-date", "qr-test-tg", "qr-test-tt", "qr-test-nm", "qr-test-ma", "qr-test-sc-timestamp", "qr-test-dr-timestamp", "qr-test-tr", "qr-test-tc", "qr-test-co", "qr-test-is", "qr-test-ci"]);  
+                signAndDisplayQR("qr-test-cred", "dgc.test","1", priKeyPEM, pubKeyLink, testArray);
+
+                const recoveryArray = getValueArray(["qr-recov-nam-fn", "qr-recov-nam-gn", "qr-recov-nam-fnt", "qr-recov-nam-gnt", "qr-recov-dob-date", "qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
+                signAndDisplayQR("qr-recov-cred", "dgc.recv","1", priKeyPEM, pubKeyLink, recoveryArray);
+
+                // PEM code of the private key
+                const priKeyEUPEM = e('privkeyEU').value;
+                const pubKeyEUPEM = e('pubkeyEU').value;
+
+                const keyPair = {
+                    id: "did:web:PCF.PW:1A8#DEMO",
+                    controller: "did:web:PCF.PW:1A8",
+                    privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
+                    publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
+                }
+
+                let vaxEU = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-vax-nam-fn').value,
+                        "gn": e('qr-vax-nam-gn').value,
+                        "fnt": e('qr-vax-nam-fnt').value,
+                        "gnt": e('qr-vax-nam-gnt').value,
+                    },
+                    "dob": e('qr-vax-dob-date').value,
+                    "v": [
+                        {
+                            "tg": e('qr-vax-tg').value,
+                            "vp": e('qr-vax-vp').value,
+                            "mp": e('qr-vax-mp').value,
+                            "ma": e('qr-vax-ma').value,
+                            "dn": parseInt(e('qr-vax-dn').value),
+                            "sd": parseInt(e('qr-vax-sd').value),
+                            "dt": e('qr-vax-dt-date').value,
+                            "co": e('qr-vax-co').value,
+                            "is": e('qr-vax-is').value,
+                            "ci": "urn:uvci:"+e('qr-vax-ci').value
+                        }
+                    ]
+                };
+
+                let vaxCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfVaccination",
+                        "id": "urn:uvci:"+e('qr-vax-ci').value, 
+                        "issuerName": e('qr-vax-is').value,
+                        "vaccinationInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCVaccinationInformation",
+                            "diseaseProtectedFrom": e('qr-vax-tg').value,
+                            "prophylaxis": e('qr-vax-vp').value,
+                            "countryOfVaccination": e('qr-vax-co').value,
+                            "dateOfVaccination": e('qr-vax-dt-date').value,
+                            "dose": parseInt(e('qr-vax-dn').value), 
+                            "totalDoses": parseInt(e('qr-vax-sd').value),
+                            "vaccine": {
+                                "@context": [
+                                    "https://w3id.org/pathogen/v1"
+                                ],
+                                "type": "DGCVaccine",
+                                "code": e('qr-vax-vp').value,
+                                "marketingAuthHolder": e('qr-vax-ma').value,
+                                "medicinalProductName": e('qr-vax-mp').value
+                            }
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-vax-nam-fn').value,
+                            "givenName": e('qr-vax-nam-gn').value,
+                            "stdFamilyName": e('qr-vax-nam-fnt').value,
+                            "stdGivenName": e('qr-vax-nam-gnt').value,
+                            "birthDate": e('qr-vax-dob-date').value
+                        }
+                    }
+                }
+
+                let vaxDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfVaccination",
+                        "id": "urn:uvci:"+e('qr-vax-ci').value, 
+                        "issuerName": e('qr-vax-is').value,
+                        "vaccinationInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCVaccinationInformation",
+                            "diseaseProtectedFrom": e('qr-vax-tg').value,
+                            "prophylaxis": e('qr-vax-vp').value,
+                            "countryOfVaccination": e('qr-vax-co').value,
+                            "dateOfVaccination": e('qr-vax-dt-date').value,
+                            "dose": parseInt(e('qr-vax-dn').value), 
+                            "totalDoses": parseInt(e('qr-vax-sd').value),
+                            "vaccine": {
+                                "@context": [
+                                    "https://w3id.org/pathogen/v1"
+                                ],
+                                "type": "DGCVaccine",
+                                "code": e('qr-vax-vp').value,
+                                "marketingAuthHolder": e('qr-vax-ma').value,
+                                "medicinalProductName": e('qr-vax-mp').value
+                            }
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-vax-nam-fn').value,
+                            "givenName": e('qr-vax-nam-gn').value,
+                            "stdFamilyName": e('qr-vax-nam-fnt').value,
+                            "stdGivenName": e('qr-vax-nam-gnt').value,
+                            "birthDate": e('qr-vax-dob-date').value
+                        }
+                    }
+                }
+
+                signAndDisplayEUQR("qr-vax-orig", vaxEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-vax-cbld", vaxCBLD, keyPair);
+                signAndDisplayQRJXT("qr-vax-jxt", "pcf.pw", "dgc.vax", "1", vaxCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-vax-divoc", vaxDIVOC);
+                
+                let testEU = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-test-nam-fn').value,
+                        "gn": e('qr-test-nam-gn').value,
+                        "fnt": e('qr-test-nam-fnt').value,
+                        "gnt": e('qr-test-nam-gnt').value,
+                    },
+                    "dob": e('qr-test-dob-date').value,
+                    "t": [
+                        {
+                            "tg": e('qr-test-tg').value,
+                            "tt": e('qr-test-tt').value,
+                            "tr": e('qr-test-tr').value,
+                            "nm": e("qr-test-nm").value,
+                            "ma": e('qr-test-ma').value,
+                            "sc": e('qr-test-sc-timestamp').value,
+                            "dr": e('qr-test-dr-timestamp').value,
+                            "tc": e('qr-test-tc').value,
+                            "co": e('qr-test-co').value,
+                            "is": e('qr-test-is').value,
+                            "ci": "urn:uvci:"+e('qr-test-ci').value
+                        }
+                    ]
+                };
+
+                let testCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfCovidTest",
+                        "id": "urn:uvci:"+e('qr-test-ci').value,
+                        "issuerName": e('qr-test-is').value,
+                        "testInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCTestInformation",
+                            "diseaseTestedFrom": e("qr-test-tg").value,
+                            "testName": e("qr-test-nm").value,
+                            "testManufacturer": e("qr-test-ma").value,
+                            "testType": e('qr-test-tt').value,
+                            "sampleCollectionDateTime": e('qr-test-sc-timestamp').value,
+                            "testResultDate": e('qr-test-dr-timestamp').value,
+                            "testResult": e('qr-test-tr').value,
+                            "testCenter": e('qr-test-tc').value,
+                            "countryOfTestAdminstration": e('qr-test-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
+                let testDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfCovidTest",
+                        "id": "urn:uvci:"+e('qr-test-ci').value,
+                        "issuerName": e('qr-test-is').value,
+                        "testInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCTestInformation",
+                            "diseaseTestedFrom": e("qr-test-tg").value,
+                            "testName": e("qr-test-nm").value,
+                            "testManufacturer": e("qr-test-ma").value,
+                            "testType": e('qr-test-tt').value,
+                            "sampleCollectionDateTime": e('qr-test-sc-timestamp').value,
+                            "testResultDate": e('qr-test-dr-timestamp').value,
+                            "testResult": e('qr-test-tr').value,
+                            "testCenter": e('qr-test-tc').value,
+                            "countryOfTestAdminstration": e('qr-test-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
+                signAndDisplayEUQR("qr-test-orig", testEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-test-cbld", testCBLD, keyPair);
+                signAndDisplayQRJXT("qr-test-jxt", "pcf.pw", "dgc.test", "1", testCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-test-divoc", testDIVOC);
+
+                let recovEU = { 
+                    "ver": "1.0.0",
+                    "nam": {
+                        "fn": e('qr-recov-nam-fn').value,
+                        "gn": e('qr-recov-nam-gn').value,
+                        "fnt": e('qr-recov-nam-fnt').value,
+                        "gnt": e('qr-recov-nam-gnt').value,
+                    },
+                    "dob": e('qr-recov-dob-date').value,
+                    "r": [
+                        {     
+                            "tg": e('qr-recov-tg').value,
+                            "fr": e('qr-recov-fr-date').value,
+                            "df": e('qr-recov-df-date').value,
+                            "du": e('qr-recov-du-date').value,
+                            "co": e('qr-recov-co').value,
+                            "is": e('qr-recov-is').value,
+                            "ci": "urn:uvci:"+e('qr-recov-ci').value
+                        }
+                    ]
+                };
+
+                let recovCBLD = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1",
+                        "https://w3id.org/security/bbs/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfRecovery",
+                        "id": "urn:uvci:"+e('qr-recov-ci').value,
+                        "issuerName": e('qr-recov-is').value,
+                        "validFrom": e('qr-recov-df-date').value,
+                        "validUntil": e('qr-recov-du-date').value,
+                        "infectionInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCInfectionInformation",
+                            "diseaseRecoveredFrom": e('qr-recov-tg').value,
+                            "dateFirstPositive": e('qr-recov-fr-date').value,
+                            "countryOfTest": e('qr-recov-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
+                let recovDIVOC = {
+                    "@context": [
+                        "https://www.w3.org/2018/credentials/v1",
+                        "https://w3id.org/pathogen/v1"
+                    ],
+                    "type": [
+                        "VerifiableCredential"
+                    ],
+                    "credentialSubject": {
+                        "@context": [
+                            "https://w3id.org/pathogen/v1"
+                        ],
+                        "type": "DGCProofOfRecovery",
+                        "id": "urn:uvci:"+e('qr-recov-ci').value,
+                        "issuerName": e('qr-recov-is').value,
+                        "validFrom": e('qr-recov-df-date').value,
+                        "validUntil": e('qr-recov-du-date').value,
+                        "infectionInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCInfectionInformation",
+                            "diseaseRecoveredFrom": e('qr-recov-tg').value,
+                            "dateFirstPositive": e('qr-recov-fr-date').value,
+                            "countryOfTest": e('qr-recov-co').value
+                        },
+                        "personalInformation": {
+                            "@context": [
+                                "https://w3id.org/pathogen/v1"
+                            ],
+                            "type": "DGCSubject",
+                            "familyName": e('qr-test-nam-fn').value,
+                            "givenName": e('qr-test-nam-gn').value,
+                            "stdFamilyName": e('qr-test-nam-fnt').value,
+                            "stdGivenName": e('qr-test-nam-gnt').value,
+                            "birthDate": e('qr-test-dob-date').value
+                        }
+                    }
+                }
+
+                signAndDisplayEUQR("qr-recov-orig", recovEU, priKeyEUPEM, pubKeyEUPEM);
+                signAndDisplayQRCBLD("qr-recov-cbld", recovCBLD, keyPair);
+                signAndDisplayQRJXT("qr-recov-jxt", "pcf.pw", "dgc.recv", "1", recovCBLD, keyPair);
+                signAndDisplayQRDIVOC("qr-recov-divoc", recovDIVOC);
+            }
+
+            function getEUPayload(cwt) {
+                if (cwt instanceof Map) {
+                    return cwt.get(-260).get(1);
+                } 
+                return cwt;
+            }
+
+            function schemaValidator() {
+                var ajv = new ajv7.default({strict: "log", validateFormats: false});
+
+                let client = new XMLHttpRequest();
+                client.open('GET', 'https://raw.githubusercontent.com/ehn-digital-green-development/ehn-dgc-schema/main/DGC.combined-schema.json', false);
+                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.send();
+
+                const schema = JSON.parse(client.response); 
+                delete schema['$schema'];
+                return ajv.compile(schema);
+            }
+            
+            function verifyQRCode() {
+                if (e("qr-verify").value.startsWith('CRED:')) {
+                    PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
+                        e("qr-verify-result").innerHTML = result;
+                    });
+                    PCFUtils.debugVerify(e("qr-verify").value).then(debug => {
+                        e('qr-verify-verified').innerHTML = debug;
+                    });
+                } else {
+                    e("qr-verify-result").innerHTML = "Checking";
+                    EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
+                        const validator = schemaValidator();
+                        const valid = validator(getEUPayload(json));
+                        if (json) {
+                            e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(json, replacer, 2, 80));
+                            e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? " and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
+                        } else {
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
+                    });
+                }
+            }
+        </script>
+        
+        <script>
+            function fillTo(str, toSize) {
+                let missing = toSize - str.length;
+                if (missing == 0) return str;
+                return fillTo(str + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, missing), toSize);
+            }
+
+            function loadDemo() {
+                e("qr-vax-nam-fn").value = "d'Arsøns - van Halen";
+                e("qr-vax-nam-gn").value = "François-Joan";
+                e("qr-vax-nam-fnt").value = "DARSONS<VAN<HALEN";
+                e("qr-vax-nam-gnt").value = "FRANCOIS<JOAN";
+                e("qr-vax-dob-date").value = "2009-02-28";
+                e("qr-vax-tg").value = "840539006";
+                e("qr-vax-vp").value = "1119349007";
+                e("qr-vax-mp").value = "EU/1/20/1528";
+                e("qr-vax-ma").value = "ORG-100030215";
+                e("qr-vax-dn").value = "2";
+                e("qr-vax-sd").value = "2";
+                e("qr-vax-dt-date").value = new Date().toJSON().slice(0, 10);
+                e("qr-vax-co").value = "NL";
+                e("qr-vax-is").value = "Ministry of VWS";
+                e("qr-vax-ci").value = "01:NL:PlA8UWS60Z4RZXVALl6GAZ";
+
+                e("qr-test-nam-fn").value = "d'Arsøns - van Halen";
+                e("qr-test-nam-gn").value = "François-Joan";
+                e("qr-test-nam-fnt").value = "DARSONS<VAN<HALEN";
+                e("qr-test-nam-gnt").value = "FRANCOIS<JOAN";
+                e("qr-test-dob-date").value = "2009-02-28";
+                e("qr-test-tg").value = "840539006";
+                e("qr-test-tt").value = "LP217198-3";
+                e("qr-test-nm").value = "COVID PCR";
+                e("qr-test-ma").value = "1232";
+                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00Z";
+                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01Z";
+                e("qr-test-tr").value = "260415000";
+                e("qr-test-tc").value = "GGD Fryslân, L-Heliconweg";
+                e("qr-test-co").value = "NL";
+                e("qr-test-is").value = "Ministry of VWS";
+                e("qr-test-ci").value = "01:NL:GGD/81AAH16AZ";
+
+                e("qr-recov-nam-fn").value = "d'Arsøns - van Halen";
+                e("qr-recov-nam-gn").value = "François-Joan";
+                e("qr-recov-nam-fnt").value = "DARSONS<VAN<HALEN";
+                e("qr-recov-nam-gnt").value = "FRANCOIS<JOAN";
+                e("qr-recov-dob-date").value = "2009-02-28";
+                e("qr-recov-tg").value = "840539006";
+                e("qr-recov-fr-date").value = "2021-04-21";
+                e("qr-recov-df-date").value = "2021-05-01";
+                e("qr-recov-du-date").value = "2021-10-21";
+                e("qr-recov-co").value = "NL";
+                e("qr-recov-is").value = "Ministry of VWS";
+                e("qr-recov-ci").value = "01:NL:LSP/REC/1289821";
+            }
+
+            function loadMax() {
+                e("qr-vax-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-vax-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-vax-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-vax-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-vax-dob-date").value = "2009-02-28";
+                e("qr-vax-tg").value = "840539006";
+                e("qr-vax-vp").value = "1119349007";
+                e("qr-vax-mp").value = "EU/1/20/1528";
+                e("qr-vax-ma").value = "ORG-100030215";
+                e("qr-vax-dn").value = "2";
+                e("qr-vax-sd").value = "2";
+                e("qr-vax-dt-date").value = new Date().toJSON().slice(0, 10);
+                e("qr-vax-co").value = "NL";
+                e("qr-vax-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-vax-ci").value = fillTo("01:NL:PlA8UWS60Z4RZXVALl6GAZ", 50);
+
+                e("qr-test-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-test-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-test-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-test-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-test-dob-date").value = "2009-02-28";
+                e("qr-test-tg").value = "840539006";
+                e("qr-test-tt").value = "LP217198-3";
+                e("qr-test-nm").value = fillTo("COVID PCR", 50);
+                e("qr-test-ma").value = "1232";
+                e("qr-test-sc-timestamp").value = "2021-04-13T14:20:00+00:00";
+                e("qr-test-dr-timestamp").value = "2021-04-13T14:40:01+00:00";
+                e("qr-test-tr").value = "260415000";
+                e("qr-test-tc").value = fillTo("GGD Fryslân, L-Heliconweg", 50);
+                e("qr-test-co").value = "NL";
+                e("qr-test-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-test-ci").value = fillTo("01:NL:GGD/81AAH16AZ", 50);
+
+                e("qr-recov-nam-fn").value = fillTo("d'Arsøns - van Halen", 50);
+                e("qr-recov-nam-gn").value = fillTo("François-Joan", 50);
+                e("qr-recov-nam-fnt").value = fillTo("DARSONS<VAN<HALEN", 50);
+                e("qr-recov-nam-gnt").value = fillTo("FRANCOIS<JOAN", 50);
+                e("qr-recov-dob-date").value = "2009-02-28";
+                e("qr-recov-tg").value = "840539006";
+                e("qr-recov-fr-date").value = "2021-04-21";
+                e("qr-recov-df-date").value = "2021-05-01";
+                e("qr-recov-du-date").value = "2021-10-21";
+                e("qr-recov-co").value = "NL";
+                e("qr-recov-is").value = fillTo("Ministry of VWS", 50);
+                e("qr-recov-ci").value = fillTo("01:NL:LSP/REC/1289821", 50);
+            }
+
+            loadDemo();
+
+            qrModes = [
+                {id:"header", label:"Tech"},
+                {id:"eccl", label:"ECC 7%"},
+                {id:"eccm", label:"ECC 15%"},
+                {id:"eccq", label:"ECC 25%"},
+                {id:"ecch", label:"ECC 30%"}
+            ];
+
+            qrTimeBytes = [
+                {id:"header", label:"Tech"},
+                {id:"uri", label:"URI Bytes"},
+                {id:"json", label:"URI Chars"},
+                {id:"sign", label:"Sign Time"},
+                {id:"verify", label:"Verify Time"}
+            ];
+
+            compressionAlgos = [
+                {id:"cred", label:"CRED"}, 
+                {id:"jxt", label:"JXT"}, 
+                {id:"orig", label:"HC1"}, 
+                {id:"cbld", label:"CBLD"},
+                {id:"divoc", label:"Divoc"}
+            ];
+
+            payloads = [
+                {id:"vax", label:"Vaccination QR"},
+                {id:"test", label:"Test QR"},
+                {id:"recov", label:"Recovery QR"}
+            ];
+
+            metrics = [
+                {id:"time", label:"URI Size (in A/N bytes and in chars) and Time (in milliseconds)", over: qrTimeBytes}, 
+                {id:"comp", label:"QR Size in Bytes (bits * bits / 8)", over: qrModes},
+                {id:"bits", label:"QR Size (bits x bits)", over: qrModes},
+                {id:"size", label:"Minimum Printed Size (in millimiters at 150 DPI)", over: qrModes},
+                {id:"size300", label:"Minimum Printed Size (in millimiters at 300 DPI)", over: qrModes}
+            ];
+
+            e('comparison').innerHTML = UIComp.init(payloads, compressionAlgos, metrics);
+        </script>
+
+        <script>
+            async function preloadKey() {
+                PCF.resolveKey(e("qr-link").value);
+            }
+            window.onload = function() {
+                preloadKey();
+            }
+        </script>
+	</body>
+</html>
+
+

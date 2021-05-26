@@ -23,14 +23,25 @@ var UIUtils = {
       return qr.modules.size + "x" + qr.modules.size + " " + this.qrSizeBytes(qr) + " bytes";
   },
 
-  drawsQR: function(elemPref, value, debugURI) {
+  renderQR: function(elemPref, value) {
       const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
       if (e(elemPref+"-code-label"))
         e(elemPref+"-code-label").style.display = '';
 
       // Builds QR Element
-      QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) { });
+      QRCode.toCanvas(e(elemPref+'-code'), value, params, function (error) {
+          if (error) {
+            var canvas = e(elemPref+'-code');
+            canvas.width  = canvas.clientWidth;
+            canvas.height = canvas.clientWidth;
+            //canvas.height = canvas.width;
+            var ctx = canvas.getContext("2d");
+            ctx.font = "30px Arial";
+            ctx.textAlign = "center";
+            ctx.fillText("Too Big to Render", canvas.width/2, canvas.height/2 - 50);
+          }
+      });
 
       if (e(elemPref+"-pdf")) {
         if (PDF417.draw(value, e(elemPref+"-pdf")) === undefined) {
@@ -38,6 +49,10 @@ var UIUtils = {
             e(elemPref+"-pdf").style.display = '';
         } 
       }
+  },
+
+  drawsQR: function(elemPref, value, debugURI) {
+      renderQR(elemPref, value);
 
       let qr = QRCode.create(value, params);
 

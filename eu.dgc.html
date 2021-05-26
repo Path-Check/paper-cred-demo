@@ -47,22 +47,29 @@
             <h1>EU's Digital Green Certificate Combined Payload</h1>
             <div class="full-div">
                 <div class="third">
+                    <h4>Credential</h4>
+                    <table>
+                        <tr><td>Issue Date</td><td><input id="qr-cert-iat" type="text" placeholder=""/></td></tr>
+                        <tr><td>Exp<small> (months)</td></small></td><td><input id="qr-cert-exp" type="text" placeholder=""/></td></tr>
+                        <tr><td>Issuer</td><td><input id="qr-cert-iss" type="text" placeholder=""/></td></tr>
+                    </table>
+                    
                     <h4>Subject</h4>
                     <table>
                         <tr><td>Fam Name</td><td><input id="qr-subject-nam-fn" type="text" placeholder=""/></td></tr>
                         <tr><td>Given Name</td><td><input id="qr-subject-nam-gn" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Family</td><td><input id="qr-subject-nam-fnt" type="text" placeholder=""/></td></tr>
                         <tr><td>Std Given</td><td><input id="qr-subject-nam-gnt" type="text" placeholder=""/></td></tr>
-                        <tr><td>DoB</td><td><input id="qr-subject-dob-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>DoB</td><td><input id="qr-subject-dob-days" type="text" placeholder=""/></td></tr>
                     </table>
 
                     <h4>Recovery</h4>
                     <table>
                         <tr><td>Include?</td><td><input id="qr-recov-include" type="checkbox"></td></tr>
-                        <tr><td>Disease</td><td><input id="qr-recov-tg" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Valid From</td><td><input id="qr-recov-df-date" type="text" placeholder=""/></td></tr>
-                        <tr><td>Valid Until</td><td><input id="qr-recov-du-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-recov-tg-numToB32" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date 1st Pos</td><td><input id="qr-recov-fr-days" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid From</td><td><input id="qr-recov-df-days" type="text" placeholder=""/></td></tr>
+                        <tr><td>Valid Until</td><td><input id="qr-recov-du-days" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-recov-co" type="text" placeholder=""/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-recov-is" type="text" placeholder=""/></td></tr>
                         <tr><td>Cert ID</td><td><input id="qr-recov-ci" type="text" placeholder=""/></td></tr>
@@ -72,7 +79,7 @@
                     <h4>COVID 1st Test</h4>
                     <table>
                         <tr><td>Include?</td><td><input id="qr-test-first-include" type="checkbox"></td></tr>
-                        <tr><td>Disease</td><td><input id="qr-test-first-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-test-first-tg-numToB32" type="text" placeholder=""/></td></tr>
                         <tr><td>Type</td><td><input id="qr-test-first-tt" type="text" placeholder=""/></td></tr>
                         <tr><td>Test Name</td><td><input id="qr-test-first-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-first-ma" type="text" placeholder=""/></td></tr>
@@ -88,7 +95,7 @@
                     <h4>COVID 2nd Test</h4>
                     <table>
                         <tr><td>Include?</td><td><input id="qr-test-second-include" type="checkbox"></td></tr>
-                        <tr><td>Disease</td><td><input id="qr-test-second-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-test-second-tg-numToB32" type="text" placeholder=""/></td></tr>
                         <tr><td>Type</td><td><input id="qr-test-second-tt" type="text" placeholder=""/></td></tr>
                         <tr><td>Test Name</td><td><input id="qr-test-second-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-second-ma" type="text" placeholder=""/></td></tr>
@@ -105,13 +112,13 @@
                     <h4>Vaccination 1st Dose</h4>
                     <table>
                         <tr><td>Include?</td><td><input id="qr-vax-first-include" type="checkbox" checked></td></tr>
-                        <tr><td>Disease</td><td><input id="qr-vax-first-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-vax-first-tg-numToB32" type="text" placeholder=""/></td></tr>
                         <tr><td>Prophylaxis</td><td><input id="qr-vax-first-vp" type="text" placeholder=""/></td></tr>
                         <tr><td>Product</td><td><input id="qr-vax-first-mp" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-vax-first-ma" type="text" placeholder=""/></td></tr>
                         <tr><td>Dose #</td><td><input id="qr-vax-first-dn" type="text" placeholder=""/></td></tr>
                         <tr><td>Doses</td><td><input id="qr-vax-first-sd" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date</td><td><input id="qr-vax-first-dt-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date</td><td><input id="qr-vax-first-dt-days" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-vax-first-co" type="text" placeholder=""/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-vax-first-is" type="text" placeholder=""/></td></tr>
                         <tr><td>Cert ID</td><td><input id="qr-vax-first-ci" type="text" placeholder=""/></td></tr>
@@ -119,13 +126,13 @@
                     <h4>Vaccination 2nd Dose</h4>
                     <table>
                         <tr><td>Include?</td><td><input id="qr-vax-second-include" type="checkbox" checked></td></tr>
-                        <tr><td>Disease</td><td><input id="qr-vax-second-tg" type="text" placeholder=""/></td></tr>
+                        <tr><td>Disease</td><td><input id="qr-vax-second-tg-numToB32" type="text" placeholder=""/></td></tr>
                         <tr><td>Prophylaxis</td><td><input id="qr-vax-second-vp" type="text" placeholder=""/></td></tr>
                         <tr><td>Product</td><td><input id="qr-vax-second-mp" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-vax-second-ma" type="text" placeholder=""/></td></tr>
                         <tr><td>Dose #</td><td><input id="qr-vax-second-dn" type="text" placeholder=""/></td></tr>
                         <tr><td>Doses</td><td><input id="qr-vax-second-sd" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date</td><td><input id="qr-vax-second-dt-date" type="text" placeholder=""/></td></tr>
+                        <tr><td>Date</td><td><input id="qr-vax-second-dt-days" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-vax-second-co" type="text" placeholder=""/></td></tr>
                         <tr><td>Issuer</td><td><input id="qr-vax-second-is" type="text" placeholder=""/></td></tr>
                         <tr><td>Cert ID</td><td><input id="qr-vax-second-ci" type="text" placeholder=""/></td></tr>
@@ -135,7 +142,7 @@
                 <div class="quarter">
                     <h4>CRED Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
-<textarea id="privkey" rows="10" style="width: 100%;">-----BEGIN EC PARAMETERS-----
+                    <textarea id="privkey" rows="7" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
 -----BEGIN EC PRIVATE KEY-----
@@ -143,20 +150,23 @@ MHQCAQEEIPWKbSezZMY1gCpvN42yaVv76Lo47FvSsVZpQl0a5lWRoAcGBSuBBAAK
 oUQDQgAE6DeIun4EgMBLUmbtjQw7DilMJ82YIvOR2jz/IK0R/F7/zXY1z+gqvFXf
 DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 -----END EC PRIVATE KEY-----</textarea>
-                    <br><br>
-                    <label for="pubkey">Public Key</label><br/>
+
+                    <label for="pubkey">Public KeyID</label><br/>
                     <textarea id="qr-link" rows="1" cols="30">1A9.PCF.PW</textarea>
 
                     <h4>EU HC1 Credentials</h4>
                     <label for="privkey">P8 Private Key</label><br/>
-<textarea id="privkeyEU" rows="10" style="width: 100%;">-----BEGIN PRIVATE KEY-----
+                        <textarea id="privkeyEU" rows="7" style="width: 100%;">-----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb
 ZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts
 CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
 -----END PRIVATE KEY-----</textarea>
-                    <br><br>
+
+                    <label for="pubkeyId">Public kID</label><br/>
+                    <textarea id="qr-link" rows="1" cols="30">Rjene8QvRwA</textarea>
+
                     <label for="pubkey">PublicKey  Certificate</label><br/>
-<textarea id="pubkeyEU" rows="10" style="width: 100%;">-----BEGIN CERTIFICATE-----
+                    <textarea id="pubkeyEU" rows="7" style="width: 100%;">-----BEGIN CERTIFICATE-----
 MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
 BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
 MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
@@ -166,6 +176,14 @@ BggqhkjOPQMBBwNCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9NtsCrwORAj6T68/elL1
 IQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN
 AF7zi+d862ePRQ9Lwymr7XfwVm0=
 -----END CERTIFICATE-----</textarea>
+
+                    <h4>W3C VC Credentials</h4>
+                    <label for="privkey">Private Key</label><br/>
+                    <textarea id="w3c-privkey" rows="1" style="width: 100%;">5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj</textarea>
+                    <label for="pubkey">Public Key ID</label><br/>
+                    <textarea id="w3c-key-id" rows="1" cols="30">did:web:PCF.PW:1A8#DEMO</textarea>
+                    <label for="pubkey">Public Key Controller</label><br/>
+                    <textarea id="w3c-controller" rows="1" cols="30">did:web:PCF.PW:1A8</textarea>
                 </div>
             </div>
             <br>
@@ -228,11 +246,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     <pre id="qr-vax-divoc-result"></pre>
                 </div>
                 <div class="third">
-                    <h4 id="qr-recov-divoc-code-label" style="display: none;">Recovery QR</h4>
-                    <canvas id="qr-recov-divoc-code"></canvas><br/>
-                    <h4 id="qr-recov-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-recov-divoc-pdf"></canvas><br/>
-                    <pre id="qr-recov-divoc-result"></pre>
+                    <h4 id="qr-vax-raw-code-label" style="display: none;">RAW: BBS+ W3C VC raw</h4>
+                    <canvas id="qr-vax-raw-code"></canvas><br/>
+                    <h4 id="qr-vax-raw-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-vax-raw-pdf"></canvas><br/>
+                    <pre id="qr-vax-raw-result"></pre>
                 </div>
 
                 <div class="quarter xs-hidden">
@@ -292,15 +310,23 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 return value;
             }
 
-            function getValueArray(elemArray) {
+            function getValueArray(elemArray, epochDate) {
                 const fields = elemArray.map(function(elemId) {
                     if (elemId.endsWith('-date')) {
                         // Sends dates always in seconds since epoch
                         return dateInYYYYMMDD(e(elemId).value).toString();
                     }
+                    if (elemId.endsWith('-days')) {
+                        // Sends dates always in seconds since epoch
+                        return dateStrInDaysToEpoch(e(elemId).value, epochDate).toString();
+                    }
                     if (elemId.endsWith('-timestamp')) {
                         // Sends dates always in seconds since epoch
-                        return dateInSecondsToEpoch(e(elemId).value).toString();
+                        return dateStrInSecondsToEpoch(e(elemId).value, epochDate).toString();
+                    }
+                    if (elemId.endsWith('-numToB32')) {
+                        // Sends dates always in seconds since epoch
+                        return numberToBase32(e(elemId).value);
                     }
                     return e(elemId).value;
                 })
@@ -314,8 +340,28 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         ("0" + d.getDate()).slice(-2);
             }
 
-            function dateInSecondsToEpoch(str) {
-                return new Date(str).getTime()/1000;
+            function dateInSecondsToEpoch(date, epochDate) {
+                let time = Math.round(date.getTime()/1000);
+                let epochTime = Math.round(epochDate.getTime()/1000);
+                return numberToBase32(time-epochTime);
+            }
+
+            function dateStrInSecondsToEpoch(str, epochDate) {
+                return dateInSecondsToEpoch(new Date(str), epochDate);
+            }
+
+            function dateInDaysToEpoch(date, epochDate) {
+                let time = Math.round(date.getTime()/1000/60/60/24);
+                let epochTime = Math.round(epochDate.getTime()/1000/60/60/24);
+                return numberToBase32(time-epochTime);
+            }
+
+            function numberToBase32(number) {
+                return new Number(number).toString(32).toUpperCase();
+            }
+
+            function dateStrInDaysToEpoch(str, epochDate) {
+                return dateInDaysToEpoch(new Date(str), epochDate);
             }
 
             function clearQR(elemPrefix) {
@@ -331,19 +377,46 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
+            function setIfNonNull(newObj, index, value) {
+                if (typeof(value) == 'string') {
+                    if (value.length > 0) {
+                        newObj[index] = value;
+                    }
+                } else {
+                    newObj[index] = value;
+                }
+            }
+
+            function removeEmpty(obj) {
+                if (Array.isArray(obj)) {
+                    const newObj = [];
+                    obj.forEach((v, i) => {  
+                        if (v === Object(v)) {
+                            newObj[i] = removeEmpty(v);
+                        } else if (v) {
+                            setIfNonNull(newObj, i, v);
+                        }
+                    });
+                    return newObj;
+                } else {
+                    const newObj = {};
+                    Object.entries(obj).forEach(([k, v]) => {
+                        if (v === Object(v)) {
+                            newObj[k] = removeEmpty(v);
+                        } else if (v) {
+                            setIfNonNull(newObj, k, v);
+                        }
+                    });
+                    return newObj;
+                }                
+            }
+
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
                 const t0 = performance.now();
                 const uri = PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
                     const t1 = performance.now();
                     PCFUtils.debugURI(uri).then( debugInfo => {
-                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
-
-                        // Builds QR Element
-                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                        PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                        e(elemPref+"-code-label").style.display = '';
-                        e(elemPref+"-pdf-label").style.display = '';
+                        UIUtils.renderQR(elemPref, uri);
 
                         // Updates screen elements. 
                         e(elemPref+"-result").innerHTML= debugInfo;
@@ -370,14 +443,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const uri = BBS_CBORLD.signAndPack(json, keyPair).then(uri => {
                     const t1 = performance.now();
                     
-                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
-
-                    // Builds QR Element
-                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                    PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                    e(elemPref+"-code-label").style.display = '';
-                    e(elemPref+"-pdf-label").style.display = '';
+                    UIUtils.renderQR(elemPref, uri);
 
                     // Updates screen elements. 
                     e(elemPref+"-result").innerHTML= 
@@ -402,20 +468,50 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
+            function htmlEncode(text) {
+                if (!text) return text;
+                return text.replaceAll('>','&#62;')
+                        .replaceAll('<','&#60;')
+                        .replaceAll('\'','&#39;')
+                        .replaceAll('\"','&#34;');
+            }
+
+            function signAndDisplayQRJSON(elemPref, json, keyPair) {
+                const t0 = performance.now();
+
+                const uri = BBS_CBORLD.sign(json, keyPair).then(uri => {
+                    const t1 = performance.now();
+                    uri = JSON.stringify(uri);
+
+                    UIUtils.renderQR(elemPref, uri);
+
+                    // Updates screen elements. 
+                    e(elemPref+"-result").innerHTML = "<span class='schema'>" + htmlEncode(uri) + "</span></a>";
+                    
+                    e(elemPref+"-result").innerHTML += "<pre><span class='message'>JSON Payload</span></pre>"
+                    
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length); // is not an alphanumeric.
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    BBS_CBORLD.verify(JSON.parse(uri)).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
             function signAndDisplayQRDIVOC(elemPref, json) {
                 const t0 = performance.now();
                 DIVOC.sign(json).then(cert => {
                     DIVOC.pack(cert).then(packed => {
                         const t1 = performance.now();
                         
-                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
-
-                        // Builds QR Element
-                        QRCode.toCanvas(e(elemPref+'-code'), packed, params, function (error) {})
-                        PDF417.draw(packed, e(elemPref+"-pdf"));
-
-                        e(elemPref+"-code-label").style.display = '';
-                        e(elemPref+"-pdf-label").style.display = '';
+                        UIUtils.renderQR(elemPref, packed);
 
                         // Updates screen elements. 
                         e(elemPref+"-result").innerHTML= 
@@ -446,14 +542,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const uri = BBS_JXT.signAndPack(json, keyPair, domain, type, version).then(uri => {
                     const t1 = performance.now();
                     
-                    const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
-
-                    // Builds QR Element
-                    QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                    PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                    e(elemPref+"-code-label").style.display = '';
-                    e(elemPref+"-pdf-label").style.display = '';
+                    UIUtils.renderQR(elemPref, uri);
 
                     const uriArray = uri.split(":");
 
@@ -495,17 +584,10 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const eu45t0 = performance.now();
-                EUDGC.makeCWT(json).then(cwt => {
+                EUDGC.makeCWT(json, parseInt(e("qr-cert-exp").value)).then(cwt => {
                     EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const eu45t1 = performance.now();
-                        const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
-
-                        // Builds QR Element
-                        QRCode.toCanvas(e(elemPref+'-code'), uri, params, function (error) {})
-                        PDF417.draw(uri, e(elemPref+"-pdf"));
-
-                        e(elemPref+"-code-label").style.display = '';
-                        e(elemPref+"-pdf-label").style.display = '';
+                        UIUtils.renderQR(elemPref, uri);
 
                         // Updates screen elements. 
                         e(elemPref+"-result").innerHTML= 
@@ -531,20 +613,18 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
+            function tryBuildQR(uri, ecc) {
+                try {
+                    return QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: ecc, color: {dark: '#3654DD' }});
+                } catch {}
+                return undefined;
+            }
+
             function studyQR(uri, elemPref) {
-                let qrH = null; 
-                try {
-                    qrH = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
-                } catch {}
-                
-
-                let qrQ = null; 
-                try {
-                    qrQ = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-                } catch {}
-
-                let qrM = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-                let qrL = QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+                let qrH = tryBuildQR(uri, 'H'); 
+                let qrQ = tryBuildQR(uri, 'Q'); 
+                let qrM = tryBuildQR(uri, 'M'); 
+                let qrL = tryBuildQR(uri, 'L'); 
 
                 if (e(elemPref+"-comp-eccl")) {
                     e(elemPref+"-comp-eccl").innerHTML = qrSizeBytes(qrL);
@@ -599,9 +679,17 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function buildCREDArray() {
+                var issue = new Date();
+                var expiration = new Date(issue);
+                expiration.setMonth(expiration.getMonth()+parseInt(e("qr-cert-exp").value));
+
                 let dgcArray = getValueArray(
-                    ["qr-subject-nam-fn", "qr-subject-nam-gn", "qr-subject-nam-fnt", "qr-subject-nam-gnt", "qr-subject-dob-date"]
-                );
+                    ["qr-subject-nam-fn", "qr-subject-nam-gn", "qr-subject-nam-fnt", "qr-subject-nam-gnt", "qr-subject-dob-days"], 
+                    issue);
+
+                dgcArray.push(dateInSecondsToEpoch(issue, new Date(0)));
+                dgcArray.push(dateInSecondsToEpoch(expiration, issue));
+                dgcArray.push(e("qr-cert-iss").value);
 
                 // vaccination, testing and recovery in order
                 let vaxNumber = 0;
@@ -618,29 +706,29 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 dgcArray.push(vaxNumber.toString());
 
                 if (e('qr-vax-first-include').checked) {
-                    const firstVaccineArray = getValueArray(["qr-vax-first-tg", "qr-vax-first-vp", "qr-vax-first-mp", "qr-vax-first-ma", "qr-vax-first-dn", "qr-vax-first-sd", "qr-vax-first-dt-date", "qr-vax-first-co", "qr-vax-first-is", "qr-vax-first-ci"]);
+                    const firstVaccineArray = getValueArray(["qr-vax-first-tg-numToB32", "qr-vax-first-vp", "qr-vax-first-mp", "qr-vax-first-ma", "qr-vax-first-dn", "qr-vax-first-sd", "qr-vax-first-dt-days", "qr-vax-first-co", "qr-vax-first-is", "qr-vax-first-ci"], issue);
                     Array.prototype.push.apply(dgcArray, firstVaccineArray);
                 }
                 if (e('qr-vax-second-include').checked) {
-                    const secondVaccineArray = getValueArray(["qr-vax-second-tg", "qr-vax-second-vp", "qr-vax-second-mp", "qr-vax-second-ma", "qr-vax-second-dn", "qr-vax-second-sd", "qr-vax-second-dt-date", "qr-vax-second-co", "qr-vax-second-is", "qr-vax-second-ci"]);
+                    const secondVaccineArray = getValueArray(["qr-vax-second-tg-numToB32", "qr-vax-second-vp", "qr-vax-second-mp", "qr-vax-second-ma", "qr-vax-second-dn", "qr-vax-second-sd", "qr-vax-second-dt-days", "qr-vax-second-co", "qr-vax-second-is", "qr-vax-second-ci"], issue);
                     Array.prototype.push.apply(dgcArray, secondVaccineArray);
                 }
 
                 dgcArray.push(testNumber.toString());
 
                 if (e('qr-test-first-include').checked) {
-                    const firstTestArray = getValueArray(["qr-test-first-tg", "qr-test-first-tt", "qr-test-first-nm", "qr-test-first-ma", "qr-test-first-sc-timestamp", "qr-test-first-dr-timestamp", "qr-test-first-tr", "qr-test-first-tc", "qr-test-first-co", "qr-test-first-is", "qr-test-first-ci"]);  
+                    const firstTestArray = getValueArray(["qr-test-first-tg-numToB32", "qr-test-first-tt", "qr-test-first-nm", "qr-test-first-ma", "qr-test-first-sc-timestamp", "qr-test-first-dr-timestamp", "qr-test-first-tr", "qr-test-first-tc", "qr-test-first-co", "qr-test-first-is", "qr-test-first-ci"], issue);  
                     Array.prototype.push.apply(dgcArray, firstTestArray);
                 }
                 if (e('qr-test-second-include').checked) {
-                    const secondTestArray = getValueArray(["qr-test-second-tg", "qr-test-second-tt", "qr-test-second-nm", "qr-test-second-ma", "qr-test-second-sc-timestamp", "qr-test-second-dr-timestamp", "qr-test-second-tr", "qr-test-second-tc", "qr-test-second-co", "qr-test-second-is", "qr-test-second-ci"]);  
+                    const secondTestArray = getValueArray(["qr-test-second-tg-numToB32", "qr-test-second-tt", "qr-test-second-nm", "qr-test-second-ma", "qr-test-second-sc-timestamp", "qr-test-second-dr-timestamp", "qr-test-second-tr", "qr-test-second-tc", "qr-test-second-co", "qr-test-second-is", "qr-test-second-ci"], issue);  
                     Array.prototype.push.apply(dgcArray, secondTestArray);
                 }
 
                 dgcArray.push(recovNumber.toString());
 
                 if (e('qr-recov-include').checked) {
-                    const recoveryArray = getValueArray(["qr-recov-tg", "qr-recov-fr-date", "qr-recov-df-date", "qr-recov-du-date", "qr-recov-co", "qr-recov-is", "qr-recov-ci"]);
+                    const recoveryArray = getValueArray(["qr-recov-tg-numToB32", "qr-recov-fr-days", "qr-recov-df-days", "qr-recov-du-days", "qr-recov-co", "qr-recov-is", "qr-recov-ci"], issue);
                     Array.prototype.push.apply(dgcArray, recoveryArray);
                 }
 
@@ -656,16 +744,16 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         "fnt": e('qr-subject-nam-fnt').value,
                         "gnt": e('qr-subject-nam-gnt').value,
                     },
-                    "dob": e('qr-subject-dob-date').value
+                    "dob": e('qr-subject-dob-days').value
                 };
 
                 if (e('qr-recov-include').checked) {
                     dgcHC1["r"] = [
                         {     
-                            "tg": e('qr-recov-tg').value,
-                            "fr": e('qr-recov-fr-date').value,
-                            "df": e('qr-recov-df-date').value,
-                            "du": e('qr-recov-du-date').value,
+                            "tg": e('qr-recov-tg-numToB32').value,
+                            "fr": e('qr-recov-fr-days').value,
+                            "df": e('qr-recov-df-days').value,
+                            "du": e('qr-recov-du-days').value,
                             "co": e('qr-recov-co').value,
                             "is": e('qr-recov-is').value,
                             "ci": "urn:uvci:"+e('qr-recov-ci').value
@@ -679,13 +767,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (e('qr-vax-first-include').checked) {
                     dgcHC1["v"].push({
-                            "tg": e('qr-vax-first-tg').value,
+                            "tg": e('qr-vax-first-tg-numToB32').value,
                             "vp": e('qr-vax-first-vp').value,
                             "mp": e('qr-vax-first-mp').value,
                             "ma": e('qr-vax-first-ma').value,
                             "dn": parseInt(e('qr-vax-first-dn').value),
                             "sd": parseInt(e('qr-vax-first-sd').value),
-                            "dt": e('qr-vax-first-dt-date').value,
+                            "dt": e('qr-vax-first-dt-days').value,
                             "co": e('qr-vax-first-co').value,
                             "is": e('qr-vax-first-is').value,
                             "ci": "urn:uvci:"+e('qr-vax-first-ci').value
@@ -694,13 +782,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (e('qr-vax-second-include').checked) {
                     dgcHC1["v"].push({
-                            "tg": e('qr-vax-second-tg').value,
+                            "tg": e('qr-vax-second-tg-numToB32').value,
                             "vp": e('qr-vax-second-vp').value,
                             "mp": e('qr-vax-second-mp').value,
                             "ma": e('qr-vax-second-ma').value,
                             "dn": parseInt(e('qr-vax-second-dn').value),
                             "sd": parseInt(e('qr-vax-second-sd').value),
-                            "dt": e('qr-vax-second-dt-date').value,
+                            "dt": e('qr-vax-second-dt-days').value,
                             "co": e('qr-vax-second-co').value,
                             "is": e('qr-vax-second-is').value,
                             "ci": "urn:uvci:"+e('qr-vax-second-ci').value
@@ -713,7 +801,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (e('qr-test-first-include').checked) {
                     dgcHC1["t"].push({
-                            "tg": e('qr-test-first-tg').value,
+                            "tg": e('qr-test-first-tg-numToB32').value,
                             "tt": e('qr-test-first-tt').value,
                             "tr": e('qr-test-first-tr').value,
                             "nm": e("qr-test-first-nm").value,
@@ -729,7 +817,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 if (e('qr-test-second-include').checked) {
                     dgcHC1["t"].push({
-                            "tg": e('qr-test-second-tg').value,
+                            "tg": e('qr-test-second-tg-numToB32').value,
                             "tt": e('qr-test-second-tt').value,
                             "tr": e('qr-test-second-tr').value,
                             "nm": e("qr-test-second-nm").value,
@@ -742,10 +830,14 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "ci": "urn:uvci:"+e('qr-test-second-ci').value
                         });
                 }
-                return dgcHC1;
+                return removeEmpty(dgcHC1);
             }
 
             function buildVerifiableCredential() {
+                let iss = new Date();
+                let exp = new Date(iss);
+                exp.setMonth(exp.getMonth()+parseInt(e("qr-cert-exp").value));
+
                 let dgcVC = {
                     "@context": [
                         "https://www.w3.org/2018/credentials/v1",
@@ -754,6 +846,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     "type": [
                         "VerifiableCredential"
                     ],
+                    "issuer": e("w3c-controller").value,
+                    "issuanceDate": iss.toISOString().replace(/....Z$/, "Z"),
+                    "expirationDate": exp.toISOString().replace(/....Z$/, "Z"),
                     "credentialSubject": {
                         "@context": [
                             "https://w3id.org/dgc/v1"
@@ -768,7 +863,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "givenName": e('qr-subject-nam-gn').value,
                             "stdFamilyName": e('qr-subject-nam-fnt').value,
                             "stdGivenName": e('qr-subject-nam-gnt').value,
-                            "birthDate": e('qr-subject-dob-date').value
+                            "birthDate": e('qr-subject-dob-days').value
                         }
                     }
                 };
@@ -788,10 +883,10 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                     "https://w3id.org/dgc/v1"
                                 ],
                                 "type": "DGCInfectionInformation",
-                                "diseaseRecoveredFrom": e('qr-recov-tg').value,
-                                "dateFirstPositive": e('qr-recov-fr-date').value,
-                                "validFrom": e('qr-recov-df-date').value,
-                                "validUntil": e('qr-recov-du-date').value
+                                "diseaseRecoveredFrom": e('qr-recov-tg-numToB32').value,
+                                "dateFirstPositive": e('qr-recov-fr-days').value,
+                                "validFrom": e('qr-recov-df-days').value,
+                                "validUntil": e('qr-recov-du-days').value
                             },
                         }
                     ];
@@ -816,9 +911,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                     "https://w3id.org/dgc/v1"
                                 ],
                                 "type": "DGCVaccinationInformation",
-                                "diseaseProtectedFrom": e('qr-vax-first-tg').value,
+                                "diseaseProtectedFrom": e('qr-vax-first-tg-numToB32').value,
                                 "prophylaxis": e('qr-vax-first-vp').value,
-                                "dateOfVaccination": e('qr-vax-first-dt-date').value,
+                                "dateOfVaccination": e('qr-vax-first-dt-days').value,
                                 "dose": parseInt(e('qr-vax-first-dn').value), 
                                 "totalDoses": parseInt(e('qr-vax-first-sd').value),
                                 "code": e('qr-vax-first-vp').value,
@@ -843,9 +938,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                     "https://w3id.org/dgc/v1"
                                 ],
                                 "type": "DGCVaccinationInformation",
-                                "diseaseProtectedFrom": e('qr-vax-second-tg').value,
+                                "diseaseProtectedFrom": e('qr-vax-second-tg-numToB32').value,
                                 "prophylaxis": e('qr-vax-second-vp').value,
-                                "dateOfVaccination": e('qr-vax-second-dt-date').value,
+                                "dateOfVaccination": e('qr-vax-second-dt-days').value,
                                 "dose": parseInt(e('qr-vax-second-dn').value), 
                                 "totalDoses": parseInt(e('qr-vax-second-sd').value),
                                 "code": e('qr-vax-second-vp').value,
@@ -873,7 +968,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                     "https://w3id.org/dgc/v1"
                                 ],
                                 "type": "DGCTestInformation",
-                                "diseaseTestedFrom": e("qr-test-first-tg").value,
+                                "diseaseTestedFrom": e("qr-test-first-tg-numToB32").value,
                                 "testName": e("qr-test-first-nm").value,
                                 "testManufacturer": e("qr-test-first-ma").value,
                                 "testType": e('qr-test-first-tt').value,
@@ -899,7 +994,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                     "https://w3id.org/dgc/v1"
                                 ],
                                 "type": "DGCTestInformation",
-                                "diseaseTestedFrom": e("qr-test-second-tg").value,
+                                "diseaseTestedFrom": e("qr-test-second-tg-numToB32").value,
                                 "testName": e("qr-test-second-nm").value,
                                 "testManufacturer": e("qr-test-second-ma").value,
                                 "testType": e('qr-test-second-tt').value,
@@ -911,7 +1006,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         });
                 }
 
-                return dgcVC;
+                return removeEmpty(dgcVC);
             }
 
             function buildBBSVC() {
@@ -941,9 +1036,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const pubKeyEUPEM = e('pubkeyEU').value;
 
                 const keyPair = {
-                    id: "did:web:PCF.PW:1A8#DEMO",
-                    controller: "did:web:PCF.PW:1A8",
-                    privateKeyBase58: "5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj",
+                    id: e("w3c-key-id").value,
+                    controller: e("w3c-controller").value,
+                    privateKeyBase58: e("w3c-privkey").value,
                     publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
                 }
 
@@ -954,6 +1049,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayQR("qr-vax-cred", "dgc","1", priKeyPEM, pubKeyLink, dgcArray);
                 signAndDisplayEUQR("qr-vax-orig", dgcHC1, priKeyEUPEM, pubKeyEUPEM);
                 signAndDisplayQRCBLD("qr-vax-cbld", dgcBBS, keyPair);
+                signAndDisplayQRJSON("qr-vax-raw", dgcBBS, keyPair);
                 signAndDisplayQRJXT("qr-vax-jxt", "pcf.pw", "dgc", "1", dgcBBS, keyPair);
                 signAndDisplayQRDIVOC("qr-vax-divoc", dgcDIVOC);
             }
@@ -1014,31 +1110,35 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-subject-nam-gn").value = "François-Joan";
                 e("qr-subject-nam-fnt").value = "DARSONS<VAN<HALEN";
                 e("qr-subject-nam-gnt").value = "FRANCOIS<JOAN";
-                e("qr-subject-dob-date").value = "2009-02-28";
+                e("qr-subject-dob-days").value = "2009-02-28";
+
+                e("qr-cert-iat").value = "<Automatic>";
+                e("qr-cert-exp").value = 48;
+                e("qr-cert-iss").value = "NL";
                
-                e("qr-vax-first-tg").value = "840539006";
+                e("qr-vax-first-tg-numToB32").value = "840539006";
                 e("qr-vax-first-vp").value = "1119349007";
                 e("qr-vax-first-mp").value = "EU/1/20/1528";
                 e("qr-vax-first-ma").value = "ORG-100030215";
                 e("qr-vax-first-dn").value = "1";
                 e("qr-vax-first-sd").value = "2";
-                e("qr-vax-first-dt-date").value = "2021-05-05";
+                e("qr-vax-first-dt-days").value = "2021-05-05";
                 e("qr-vax-first-co").value = "NL";
                 e("qr-vax-first-is").value = "Ministry of VWS";
                 e("qr-vax-first-ci").value = "01:NL:PlA8UWS60Z4RZXVALl6GAZ";
 
-                e("qr-vax-second-tg").value = "840539006";
+                e("qr-vax-second-tg-numToB32").value = "840539006";
                 e("qr-vax-second-vp").value = "1119349007";
                 e("qr-vax-second-mp").value = "EU/1/20/1528";
                 e("qr-vax-second-ma").value = "ORG-100030215";
                 e("qr-vax-second-dn").value = "2";
                 e("qr-vax-second-sd").value = "2";
-                e("qr-vax-second-dt-date").value = "2021-05-25";
+                e("qr-vax-second-dt-days").value = "2021-05-25";
                 e("qr-vax-second-co").value = "NL";
                 e("qr-vax-second-is").value = "Ministry of VWS";
                 e("qr-vax-second-ci").value = "01:NL:ATS342XDYS358FDFH3GTK5";
 
-                e("qr-test-first-tg").value = "840539006";
+                e("qr-test-first-tg-numToB32").value = "840539006";
                 e("qr-test-first-tt").value = "LP217198-3";
                 e("qr-test-first-nm").value = "COVID PCR";
                 e("qr-test-first-ma").value = "1232";
@@ -1050,22 +1150,22 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-first-is").value = "Ministry of VWS";
                 e("qr-test-first-ci").value = "01:NL:GGD/81AAH16AZ";
 
-                e("qr-test-second-tg").value = "840539006";
+                e("qr-test-second-tg-numToB32").value = "840539006";
                 e("qr-test-second-tt").value = "LP6464-4";
                 e("qr-test-second-nm").value = "NAAT TEST";
                 e("qr-test-second-ma").value = "1343";
-                e("qr-test-second-sc-timestamp").value = "2021-04-13T14:20:00Z";
-                e("qr-test-second-dr-timestamp").value = "2021-04-13T14:40:01Z";
+                e("qr-test-second-sc-timestamp").value = "2021-04-05T10:10:00Z";
+                e("qr-test-second-dr-timestamp").value = "2021-04-05T10:20:01Z";
                 e("qr-test-second-tr").value = "260373001";
-                e("qr-test-second-tc").value = "GGD Fryslân, L-Heliconweg";
+                e("qr-test-second-tc").value = "Alphen a/d Rijn";
                 e("qr-test-second-co").value = "NL";
                 e("qr-test-second-is").value = "Ministry of VWS";
                 e("qr-test-second-ci").value = "01:NL:GGD/23BBS36BC";
 
-                e("qr-recov-tg").value = "840539006";
-                e("qr-recov-fr-date").value = "2021-04-21";
-                e("qr-recov-df-date").value = "2021-05-01";
-                e("qr-recov-du-date").value = "2021-10-21";
+                e("qr-recov-tg-numToB32").value = "840539006";
+                e("qr-recov-fr-days").value = "2021-04-21";
+                e("qr-recov-df-days").value = "2021-05-01";
+                e("qr-recov-du-days").value = "2021-10-21";
                 e("qr-recov-co").value = "NL";
                 e("qr-recov-is").value = "Ministry of VWS";
                 e("qr-recov-ci").value = "01:NL:LSP/REC/1289821";
@@ -1094,7 +1194,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 {id:"jxt", label:"JXT"}, 
                 {id:"orig", label:"HC1"}, 
                 {id:"cbld", label:"CBLD"},
-                {id:"divoc", label:"Divoc"}
+                {id:"divoc", label:"Divoc"},
+                {id:"raw", label:"RAW"}
             ];
 
             payloads = [

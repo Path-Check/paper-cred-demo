@@ -54,8 +54,6 @@ var UIUtils = {
   drawsQR: function(elemPref, value, debugURI) {
       this.renderQR(elemPref, value);
 
-      let qr = QRCode.create(value, params);
-
       let qrQ = null;
       try {
           qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
@@ -81,9 +79,9 @@ var UIUtils = {
       e(elemPref+"-bytes").innerHTML += "<br>-ECC Q 25% " + this.describe(qrQ);
       e(elemPref+"-bytes").innerHTML += "<br>-ECC H 30% " + this.describe(qrH);
       
-      e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qr.segments.length + " segments";
-      for (i=0; i<qr.segments.length; i++) {
-          e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qr.segments[i].mode.id + " " + qr.segments[i].data;
+      e(elemPref+"-bytes").innerHTML += "<br><br>QR built with " + qrL.segments.length + " segments";
+      for (i=0; i<qrL.segments.length; i++) {
+          e(elemPref+"-bytes").innerHTML += "<br>- " + i + ": " + qrL.segments[i].mode.id + " " + qrL.segments[i].data;
       }
 
       if (e(elemPref+"-result")) {

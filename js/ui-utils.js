@@ -52,7 +52,7 @@ var UIUtils = {
   },
 
   drawsQR: function(elemPref, value, debugURI) {
-      renderQR(elemPref, value);
+      this.renderQR(elemPref, value);
 
       let qr = QRCode.create(value, params);
 

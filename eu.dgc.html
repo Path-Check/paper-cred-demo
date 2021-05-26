@@ -360,6 +360,10 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 return new Number(number).toString(32).toUpperCase();
             }
 
+            function base32ToNumber(base32String) {
+                return parseInt(base32String, 32);
+            }
+
             function dateStrInDaysToEpoch(str, epochDate) {
                 return dateInDaysToEpoch(new Date(str), epochDate);
             }

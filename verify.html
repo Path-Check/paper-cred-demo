@@ -71,6 +71,9 @@
         <script src="js/divoc.sdk.min.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
 
+        <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-jxt.sdk.min.js"></script>
+
         <script type="text/javascript" src="js/instascan.min.js"></script>
 
 		<script>
@@ -106,6 +109,10 @@
                 return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
             }
 
+            function base32ToNumber(base32String) {
+                return parseInt(base32String, 32);
+            }
+
             function parseISODate(str) {
                 const d = new Date(str);
                 return  monthNames[parseInt(d.getMonth()+1)] + ' ' + d.getDate() + ', ' + d.getFullYear();
@@ -129,6 +136,12 @@
                     displayCertificateNotFound(data);
                 } else if (typeof(data) === 'string' && data.startsWith("CRED:")) {
                     verifyDisplayCRED(data); 
+                } else if (typeof(data) === 'string' && data.startsWith("CBLD:")) {
+                    verifyDisplayCBOR(data); 
+                } else if (typeof(data) === 'string' && data.startsWith("HC1:")) {
+                    verifyDisplayEU(data);
+                } else if (typeof(data) === 'string' && data.startsWith("JXT:")) {
+                    verifyDisplayJXT(data); 
                 } else if (data.startsWith("PK")) {
                     unZipVerifyDisplayDIVOC(data);
                 } else if (typeof(data) === 'string' && data.startsWith("{")) {
@@ -137,8 +150,6 @@
                     } else {
                         verifyDisplayIBM(json);
                     }
-                } else if (typeof(data) === 'string' && data.startsWith("HC1:")) {
-                    verifyDisplayEU(data);
                 } else {
                     displayCertificateUnsupported(data);
                 }
@@ -201,16 +212,16 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = fields['credentialSubject.name'] + "<br>";
                     e('qr-verify-name').innerHTML += fields['credentialSubject.age'] + "yrs old";
+                } else if (type == 'DGC') {
+                    e('qr-verify-title').innerHTML = "COVID-19 Certificate"
+                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(base32ToNumber(fields['iat']) + base32ToNumber(fields['dob'])*60*60*24);
                 } else if (type == 'DGC.VAX') {
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
                 } else if (type == 'DGC.TEST') {
                     e('qr-verify-title').innerHTML = "COVID-19 Test Certificate"
-                    e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
-                    e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
-                } else if (type == 'DGC.RECV') {
-                    e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
                     e('qr-verify-name').innerHTML = fields['nam.gn'] + " " + fields['nam.fn'] + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + parseDInt(fields['dob']);
                 } else if (type == 'DGC.RECV') {
@@ -233,13 +244,6 @@
                     e('qr-verify-title').innerHTML = "Unsupported Credential"
                     e('qr-verify-name').innerHTML =  "Credential Type " + type + " undefined";
                 } 
-            }
-
-            function getEUPayload(cwt) {
-                if (cwt instanceof Map) {
-                    return cwt.get(-260).get(1);
-                } 
-                return cwt;
             }
 
             function verifyDisplayEU(data) {
@@ -301,6 +305,44 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
                     e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
+                });
+            }
+
+            function verifyDisplayCBOR(uri) {
+                BBS_CBORLD.unpackAndVerify(uri).then(json => {
+                    QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
+                        UIUtils.drawVerifiedSymbol('qr', json);
+                    });
+                    if (json == null) {
+                        e('qr-verify-verified').innerHTML = "Unable to Verify";
+                    } else if (json) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer + ' on ' + parseISODate(json.issuanceDate);
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-name').innerHTML = json.credentialSubject.personalInformation.givenName + " " + json.credentialSubject.personalInformation.familyName + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.personalInformation.birthDate;
+                });
+            }
+
+            function verifyDisplayJXT(uri) {
+                BBS_JXT.unpackAndVerify(uri).then(json => {
+                    QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
+                        UIUtils.drawVerifiedSymbol('qr', json);
+                    });
+                    if (json == null) {
+                        e('qr-verify-verified').innerHTML = "Unable to Verify";
+                    } else if (json) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer + ' on ' + parseISODate(json.issuanceDate);
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-name').innerHTML = json.credentialSubject.personalInformation.givenName + " " + json.credentialSubject.personalInformation.familyName + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.personalInformation.birthDate;
                 });
             }
 

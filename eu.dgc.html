@@ -84,7 +84,6 @@
                         <tr><td>Test Name</td><td><input id="qr-test-first-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-first-ma" type="text" placeholder=""/></td></tr>
                         <tr><td>Date Colect</td><td><input id="qr-test-first-sc-timestamp" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Result</td><td><input id="qr-test-first-dr-timestamp" type="text" placeholder=""/></td></tr>
                         <tr><td>Result</td><td><input id="qr-test-first-tr" type="text" placeholder=""/></td></tr>
                         <tr><td>Centre</td><td><input id="qr-test-first-tc" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-test-first-co" type="text" placeholder=""/></td></tr>
@@ -100,7 +99,6 @@
                         <tr><td>Test Name</td><td><input id="qr-test-second-nm" type="text" placeholder=""/></td></tr>
                         <tr><td>Manuf</td><td><input id="qr-test-second-ma" type="text" placeholder=""/></td></tr>
                         <tr><td>Date Colect</td><td><input id="qr-test-second-sc-timestamp" type="text" placeholder=""/></td></tr>
-                        <tr><td>Date Result</td><td><input id="qr-test-second-dr-timestamp" type="text" placeholder=""/></td></tr>
                         <tr><td>Result</td><td><input id="qr-test-second-tr" type="text" placeholder=""/></td></tr>
                         <tr><td>Centre</td><td><input id="qr-test-second-tc" type="text" placeholder=""/></td></tr>
                         <tr><td>Country</td><td><input id="qr-test-second-co" type="text" placeholder=""/></td></tr>
@@ -688,8 +686,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 expiration.setMonth(expiration.getMonth()+parseInt(e("qr-cert-exp").value));
 
                 let dgcArray = getValueArray(
-                    ["qr-subject-nam-fn", "qr-subject-nam-gn", "qr-subject-nam-fnt", "qr-subject-nam-gnt", "qr-subject-dob-days"], 
-                    issue);
+                    ["qr-subject-nam-fn", "qr-subject-nam-gn", "qr-subject-nam-fnt", "qr-subject-nam-gnt", "qr-subject-dob-days"], issue);
 
                 dgcArray.push(dateInSecondsToEpoch(issue, new Date(0)));
                 dgcArray.push(dateInSecondsToEpoch(expiration, issue));
@@ -721,11 +718,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 dgcArray.push(testNumber.toString());
 
                 if (e('qr-test-first-include').checked) {
-                    const firstTestArray = getValueArray(["qr-test-first-tg-numToB32", "qr-test-first-tt", "qr-test-first-nm", "qr-test-first-ma", "qr-test-first-sc-timestamp", "qr-test-first-dr-timestamp", "qr-test-first-tr", "qr-test-first-tc", "qr-test-first-co", "qr-test-first-is", "qr-test-first-ci"], issue);  
+                    const firstTestArray = getValueArray(["qr-test-first-tg-numToB32", "qr-test-first-tt", "qr-test-first-nm", "qr-test-first-ma", "qr-test-first-sc-timestamp", "qr-test-first-tr", "qr-test-first-tc", "qr-test-first-co", "qr-test-first-is", "qr-test-first-ci"], issue);  
                     Array.prototype.push.apply(dgcArray, firstTestArray);
                 }
                 if (e('qr-test-second-include').checked) {
-                    const secondTestArray = getValueArray(["qr-test-second-tg-numToB32", "qr-test-second-tt", "qr-test-second-nm", "qr-test-second-ma", "qr-test-second-sc-timestamp", "qr-test-second-dr-timestamp", "qr-test-second-tr", "qr-test-second-tc", "qr-test-second-co", "qr-test-second-is", "qr-test-second-ci"], issue);  
+                    const secondTestArray = getValueArray(["qr-test-second-tg-numToB32", "qr-test-second-tt", "qr-test-second-nm", "qr-test-second-ma", "qr-test-second-sc-timestamp", "qr-test-second-tr", "qr-test-second-tc", "qr-test-second-co", "qr-test-second-is", "qr-test-second-ci"], issue);  
                     Array.prototype.push.apply(dgcArray, secondTestArray);
                 }
 
@@ -741,7 +738,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function buildHC1() {
                 let dgcHC1 = { 
-                    "ver": "1.0.0",
+                    "ver": "1.2.0",
                     "nam": {
                         "fn": e('qr-subject-nam-fn').value,
                         "gn": e('qr-subject-nam-gn').value,
@@ -811,7 +808,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "nm": e("qr-test-first-nm").value,
                             "ma": e('qr-test-first-ma').value,
                             "sc": e('qr-test-first-sc-timestamp').value,
-                            "dr": e('qr-test-first-dr-timestamp').value,
                             "tc": e('qr-test-first-tc').value,
                             "co": e('qr-test-first-co').value,
                             "is": e('qr-test-first-is').value,
@@ -827,7 +823,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "nm": e("qr-test-second-nm").value,
                             "ma": e('qr-test-second-ma').value,
                             "sc": e('qr-test-second-sc-timestamp').value,
-                            "dr": e('qr-test-second-dr-timestamp').value,
                             "tc": e('qr-test-second-tc').value,
                             "co": e('qr-test-second-co').value,
                             "is": e('qr-test-second-is').value,
@@ -977,7 +972,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                 "testManufacturer": e("qr-test-first-ma").value,
                                 "testType": e('qr-test-first-tt').value,
                                 "sampleCollectionDateTime": e('qr-test-first-sc-timestamp').value,
-                                "testResultDate": e('qr-test-first-dr-timestamp').value,
                                 "testResult": e('qr-test-first-tr').value,
                                 "testCenter": e('qr-test-first-tc').value
                             },
@@ -1003,7 +997,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                                 "testManufacturer": e("qr-test-second-ma").value,
                                 "testType": e('qr-test-second-tt').value,
                                 "sampleCollectionDateTime": e('qr-test-second-sc-timestamp').value,
-                                "testResultDate": e('qr-test-second-dr-timestamp').value,
                                 "testResult": e('qr-test-second-tr').value,
                                 "testCenter": e('qr-test-second-tc').value
                             },
@@ -1147,7 +1140,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-first-nm").value = "COVID PCR";
                 e("qr-test-first-ma").value = "1232";
                 e("qr-test-first-sc-timestamp").value = "2021-02-13T14:20:00Z";
-                e("qr-test-first-dr-timestamp").value = "2021-02-13T14:40:01Z";
                 e("qr-test-first-tr").value = "260415000";
                 e("qr-test-first-tc").value = "GGD Fryslân, L-Heliconweg";
                 e("qr-test-first-co").value = "NL";
@@ -1159,7 +1151,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 e("qr-test-second-nm").value = "NAAT TEST";
                 e("qr-test-second-ma").value = "1343";
                 e("qr-test-second-sc-timestamp").value = "2021-04-05T10:10:00Z";
-                e("qr-test-second-dr-timestamp").value = "2021-04-05T10:20:01Z";
                 e("qr-test-second-tr").value = "260373001";
                 e("qr-test-second-tc").value = "Alphen a/d Rijn";
                 e("qr-test-second-co").value = "NL";

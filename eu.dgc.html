@@ -15,6 +15,28 @@
             gtag('js', new Date());
             gtag('config', 'G-DTDMHW3NV6');
         </script>
+
+        <script src="js/qrcode.min.js"></script>
+
+        <script src="js/libbcmath.js" type="text/javascript"></script>
+        <script src="js/bcmath.js" type="text/javascript"></script>
+        <script src="js/pdf417.js" type="text/javascript"></script>
+
+        <script src="js/pcf.sdk.min.js"></script>
+
+        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/he.js"></script>
+        <script src="js/ajv7.min.js"></script>
+        <script src="js/json-beautify.min.js"></script>
+
+        <script src="js/pcf-utils.js"></script>
+        <script src="js/ui-utils.js"></script>
+        <script src="js/ui-comp.js"></script>
+
+        <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-jxt.sdk.min.js"></script>
+
+        <script src="js/divoc.sdk.min.js"></script>
 	</head>
 	<body>
         <div class="topnav">
@@ -258,28 +280,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <div class="center" id="comparison">
 
         </div>
-
-        <script src="js/qrcode.min.js"></script>
-
-        <script src="js/libbcmath.js" type="text/javascript"></script>
-        <script src="js/bcmath.js" type="text/javascript"></script>
-        <script src="js/pdf417.js" type="text/javascript"></script>
-
-        <script src="js/pcf.sdk.min.js"></script>
-
-        <script src="js/eudgc.sdk.min.js"></script>
-        <script src="js/he.js"></script>
-        <script src="js/ajv7.min.js"></script>
-        <script src="js/json-beautify.min.js"></script>
-
-        <script src="js/pcf-utils.js"></script>
-        <script src="js/ui-utils.js"></script>
-        <script src="js/ui-comp.js"></script>
-
-        <script src="js/bbs-cborld.sdk.min.js"></script>
-        <script src="js/bbs-jxt.sdk.min.js"></script>
-
-        <script src="js/divoc.sdk.min.js"></script>
 
 		<script>
             function e(elem) { 
@@ -562,7 +562,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e(elemPref+"-result").innerHTML += 
                         "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
                         "<a href='https://"+uriArray[1]+"/.well-known/templates.json'><span class='pub-key'>"+uriArray[1]+"</span></a>:"+
-                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2]+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2].toLowerCase()+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
                         "<span class='message'>" + uriArray[4] + "</span><br>";
                     
                     e(elemPref+"-result").innerHTML +=     

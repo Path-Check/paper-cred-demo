@@ -243,6 +243,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
+                gtag('event', 'generateQR');
+                
                 // Get Keys
                 let pubkey = e("qr-link").value.trim().replace("http://","");
                 let prikey = e('privkey').value;

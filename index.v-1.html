@@ -102,6 +102,8 @@
                 //e(elemPrefix + "-bytes").innerHTML = "QR Version: " + qr.version + " with size " + qr.modules.size + "x" + qr.modules.size + " bits => " + Math.round((qr.modules.size*qr.modules.size)/8) + " bytes";
             }
             function generateQRCodes() {
+                gtag('event', 'generateQR');
+                
                 generateCode('text-qr1', "qr-code1");
                 generateCode('text-qr2', "qr-code2");
             }

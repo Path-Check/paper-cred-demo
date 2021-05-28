@@ -103,6 +103,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 client.send();
             }
             function generateQRCode() {
+                gtag('event', 'generateQR');
+                
                 var message = addIfExists("data=", 'india-data');
                 
                 var pubkey = e("qr-link").value.trim().replace("http://","");

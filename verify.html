@@ -122,7 +122,8 @@
                 return hash.substr(0,10) + ".." + hash.substr(hash.length-10,10)
             }
 
-            function verifyQRCode(data) {               
+            function verifyQRCode(data) {        
+                gtag('event', 'universalverifyQR');       
                 if (!data)
                     data = e("qr-verify").value;
 

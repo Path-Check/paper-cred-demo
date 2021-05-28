@@ -213,6 +213,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
+                gtag('event', 'generateQR');
+                
                 var pubkey = e("qr-link").value.trim().replace("http://","");
                 var prikey = e('privkey').value;
 

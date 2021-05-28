@@ -120,6 +120,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function verifyQRCode() {
+                gtag('event', 'debugQR');
+
                 e("qr-verify-brand").innerHTML = "";
                 e("qr-verify-result").innerHTML = "Checking";
                 e('qr-verify-verified').innerHTML = "";

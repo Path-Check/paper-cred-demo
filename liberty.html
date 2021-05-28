@@ -255,6 +255,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
+                gtag('event', 'generateQR');
+
                 // Where to Download the public key
                 const pubKeyLink = e("qr-link").value.trim().replace("http://","");
 
@@ -314,6 +316,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verifyQRCode() {
+                gtag('event', 'verifyQR');
+                
                 PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
                     e("qr-verify-result").innerHTML = result;
                 });

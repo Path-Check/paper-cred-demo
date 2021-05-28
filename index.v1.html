@@ -112,6 +112,8 @@ uku7JUXcVpt08DFSceCEX9unCuMcT72rAQlLpdZir876
                 client.send();
             }
             function generateQRCode() {
+                gtag('event', 'generateQR');
+                
                 var message = "date="+e("qr-date").value;
                 message += addIfExists("&vaccinee=", "qr-vaccineeid");
                 message += addIfExists("&vaccinator=", "qr-vacinatorid");

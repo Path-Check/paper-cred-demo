@@ -1016,6 +1016,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function generateQRCodes() {
+                gtag('event', 'generateQR');
+
                 clear(payloads, compressionAlgos);
 
                 // Where to Download the public key
@@ -1070,6 +1072,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
             
             function verifyQRCode() {
+                gtag('event', 'verifyQR');
                 if (e("qr-verify").value.startsWith('CRED:')) {
                     PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
                         e("qr-verify-result").innerHTML = result;

@@ -177,6 +177,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function generateQRCodes() {
+                gtag('event', 'generateQR');
                 clear();
 
                 // Where to Download the public key
@@ -196,6 +197,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function verifyQRCode() {
+                gtag('event', 'verifyQR');
                 PCFUtils.debugParseURI(e("qr-verify").value).then(result => {
                     e("qr-verify-result").innerHTML = result;
                 });

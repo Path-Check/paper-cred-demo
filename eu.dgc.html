@@ -37,6 +37,7 @@
         <script src="js/bbs-jxt.sdk.min.js"></script>
 
         <script src="js/divoc.sdk.min.js"></script>
+        <script src="js/shc.sdk.min.js"></script>
 	</head>
 	<body>
         <div class="topnav">
@@ -215,7 +216,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-dgc-cred-code-label" style="display: none;">CRED: URI-based DataModel</h4>
+                    <h4 id="qr-dgc-cred-code-label" style="display: none;">CRED: ECDSA directly on URI</h4>
                     <canvas id="qr-dgc-cred-code"></canvas><br/>
                     <h4 id="qr-dgc-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-dgc-cred-pdf"></canvas><br/>
@@ -259,12 +260,27 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     <pre id="qr-dgc-cbld-result"></pre>
                 </div>
                 <div class="third">
+                    <h4 id="qr-dgc-shc-code-label" style="display: none;">SHC: ECDSA on Zipped Base10</h4>
+                    <canvas id="qr-dgc-shc-code"></canvas><br/>
+                    <h4 id="qr-dgc-shc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-dgc-shc-pdf"></canvas><br/>
+                    <pre id="qr-dgc-shc-result"></pre>
+                </div>
+                <div class="third">
                     <h4 id="qr-dgc-divoc-code-label" style="display: none;">DIVOC: RSA W3C VC on a ZIP file</h4>
                     <canvas id="qr-dgc-divoc-code"></canvas><br/>
                     <h4 id="qr-dgc-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-dgc-divoc-pdf"></canvas><br/>
                     <pre id="qr-dgc-divoc-result"></pre>
                 </div>
+                <div class="quarter xs-hidden">
+                </div>
+            </div>
+            
+            <div class="four-quarter">
+                <h2></h2>
+            </div>
+            <div class="full-div">
                 <div class="third">
                     <h4 id="qr-dgc-raw-code-label" style="display: none;">RAW: BBS+ W3C VC raw</h4>
                     <canvas id="qr-dgc-raw-code"></canvas><br/>
@@ -607,6 +623,37 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                         const v0 = performance.now();
                         EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
+                            const v1 = performance.now();
+                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                        });
+                    });
+                });
+            }
+
+            function signAndDisplayQRSHC(elemPref, json, priKeyPEM, pubKeyLink) {
+                const eu45t0 = performance.now();
+                SHC.makeJWT(json, parseInt(e("qr-cert-exp").value), pubKeyLink).then(jwt => {
+                    SHC.signAndPack(jwt, priKeyPEM).then(uri => {
+                        const eu45t1 = performance.now();
+                        UIUtils.renderQR(elemPref, uri);
+
+                        // Updates screen elements. 
+                        e(elemPref+"-result").innerHTML= 
+                                                    "<span class='schema'>" + uri.substring(0,5) + "</span></a>" + 
+                                                    "<span class='message'>" + uri.substring(5) + "</span><br>";
+                        
+                        e(elemPref+"-result").innerHTML +=
+                            "<pre>SHC:/<span class='message'>Payload</span></pre>"
+                            
+                        studyQR(uri, elemPref);
+                    
+                        e(elemPref+"-time-sign").innerHTML=Math.round(eu45t1-eu45t0);
+                        e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                        const v0 = performance.now();
+                        SHC.unpackAndVerify(uri).then(verified => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
@@ -1039,6 +1086,18 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
                 }
 
+                const shcKeys = {
+                    "kty": "EC",
+                    "kid": "RtNFRifHI_nsVNYwpZbB8i0ZqBsjtAI_sjCiyh8fzV8",
+                    "use": "sig",
+                    "alg": "ES256",
+                    "x5c": [],
+                    "crv": "P-256",
+                    "x": "-YrUDl5O6LBdmVEEfxw4Ml5trO3IuAzeCnASbxSYowc",
+                    "y": "E67zIYdV78qz-xAn0dIc0vQWzYEn9RG6OUN2RIL6GQo",
+                    "d": "XI7SFgM8Attzb0Kxa145OxgfjjezmGpHd3AhE2PePlA"
+                }    
+
                 const dgcHC1 = buildHC1(); 
                 const dgcBBS = buildBBSVC(); 
                 const dgcDIVOC = buildRSAVC(); 
@@ -1049,6 +1108,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayQRJSON("qr-dgc-raw", dgcBBS, keyPair);
                 signAndDisplayQRJXT("qr-dgc-jxt", "pcf.pw", "dgc", "1", dgcBBS, keyPair);
                 signAndDisplayQRDIVOC("qr-dgc-divoc", dgcDIVOC);
+                signAndDisplayQRSHC("qr-dgc-shc", dgcDIVOC, shcKeys, "https://pcf.pw");
             }
 
             function getEUPayload(cwt) {
@@ -1190,6 +1250,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 {id:"jxt", label:"JXT"}, 
                 {id:"orig", label:"HC1"}, 
                 {id:"cbld", label:"CBLD"},
+                {id:"shc", label:"SHC"},
                 {id:"divoc", label:"Divoc"},
                 {id:"raw", label:"RAW"}
             ];

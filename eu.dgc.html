@@ -553,7 +553,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             "<pre>PK<span class='message'>Payload</span></pre>"
                         
                         e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
-                        e(elemPref+"-time-uri").innerHTML  = Math.round(packed.length * 5.5/8);
+                        e(elemPref+"-time-uri").innerHTML  = Math.round(packed.length);
                         e(elemPref+"-time-json").innerHTML = Math.round(packed.length);
 
                         studyQR(packed, elemPref);
@@ -663,7 +663,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         studyQR(uri, elemPref);
                     
                         e(elemPref+"-time-sign").innerHTML=Math.round(eu45t1-eu45t0);
-                        e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 5.5/8);
+                        e(elemPref+"-time-uri").innerHTML = Math.round(uri.length * 3.33/8);
                         e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
                         const v0 = performance.now();
@@ -1274,7 +1274,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             ];
 
             metrics = [
-                {id:"time", label:"URI Size (in A/N bytes and in chars) and Time (in milliseconds)", over: qrTimeBytes}, 
+                {id:"time", label:"URI Size (in bytes and in chars) and Time (in milliseconds)", over: qrTimeBytes}, 
                 {id:"comp", label:"QR Size in Bytes (bits * bits / 8)", over: qrModes},
                 {id:"bits", label:"QR Size (bits x bits)", over: qrModes},
                 {id:"size", label:"Minimum Printed Size (in millimiters at 150 DPI)", over: qrModes},

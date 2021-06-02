@@ -186,7 +186,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         }
                     });
                 } else if (qr.startsWith('HC1:')) {
-                    e("qr-verify-brand").innerHTML = "EU Digital Green Certificate Verifiable QR"
+                    e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
                     EUDGC.unpackAndVerify(qr, e('pubkey').value).then(json => {
                         const validator = schemaValidator();
                         const valid = validator(getEUPayload(json));

@@ -19,8 +19,8 @@ h4 {
   margin: 20px 0px 10px 0px;
 }
 
-
 .center {
+  min-height: 80vh; /* will cover the 100% of viewport */
   max-width: 1100px;
   margin: 30px auto 0 auto;
 }

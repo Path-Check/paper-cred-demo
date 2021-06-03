@@ -33,7 +33,7 @@
         <script src="js/ui-utils.js"></script>
         <script src="js/ui-comp.js"></script>
 
-        <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-cbld-sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
 
         <script src="js/divoc-sdk.min.js"></script>
@@ -471,7 +471,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayQRCBLD(elemPref, json, keyPair) {
                 const t0 = performance.now();
 
-                const uri = BBS_CBORLD.signAndPack(json, keyPair).then(uri => {
+                const uri = BBS_CBLD.signAndPack(json, keyPair).then(uri => {
                     const t1 = performance.now();
                     
                     UIUtils.renderQR(elemPref, uri);
@@ -491,7 +491,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     studyQR(uri, elemPref);
 
                     const v0 = performance.now();
-                    BBS_CBORLD.unpackAndVerify(uri).then(result => {
+                    BBS_CBLD.unpackAndVerify(uri).then(result => {
                         const v1 = performance.now();
                         e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                         UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
@@ -510,7 +510,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             function signAndDisplayQRJSON(elemPref, json, keyPair) {
                 const t0 = performance.now();
 
-                const uri = BBS_CBORLD.sign(json, keyPair).then(uri => {
+                const uri = BBS_CBLD.sign(json, keyPair).then(uri => {
                     const t1 = performance.now();
                     uri = JSON.stringify(uri);
 
@@ -528,7 +528,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     studyQR(uri, elemPref);
 
                     const v0 = performance.now();
-                    BBS_CBORLD.verify(JSON.parse(uri)).then(result => {
+                    BBS_CBLD.verify(JSON.parse(uri)).then(result => {
                         const v1 = performance.now();
                         e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                         UIUtils.drawVerifiedSymbol(elemPref+'-code',result);

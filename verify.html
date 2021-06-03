@@ -85,7 +85,7 @@
         <script src="js/divoc-sdk.min.js"></script>
         <script src="js/dcc-sdk.min.js"></script>
 
-        <script src="js/bbs-cborld.sdk.min.js"></script>
+        <script src="js/bbs-cbld-sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
 
         <script type="text/javascript" src="js/instascan.min.js"></script>
@@ -324,7 +324,7 @@
             }
 
             function verifyDisplayCBOR(uri) {
-                BBS_CBORLD.unpackAndVerify(uri).then(json => {
+                BBS_CBLD.unpackAndVerify(uri).then(json => {
                     QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
                         UIUtils.drawVerifiedSymbol('qr', json);
                     });

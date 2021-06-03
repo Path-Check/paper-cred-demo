@@ -23,8 +23,12 @@ var UIUtils = {
       return qr.modules.size + "x" + qr.modules.size + " " + this.qrSizeBytes(qr) + " bytes";
   },
 
-  renderQR: function(elemPref, value) {
-      const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
+  renderQR: function(elemPref, value, ecc) {
+      if (!ecc) {
+          ecc = "Q";
+      }
+
+      const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: ecc, color: {dark: '#3654DD' }};
 
       if (e(elemPref+"-code-label"))
         e(elemPref+"-code-label").style.display = '';
@@ -51,25 +55,20 @@ var UIUtils = {
       }
   },
 
-  drawsQR: function(elemPref, value, debugURI) {
-      this.renderQR(elemPref, value);
+  tryBuildQR: function(uri, ecc) {
+    try {
+        return QRCode.create(uri, { margin:0, width:275, errorCorrectionLevel: ecc, color: {dark: '#3654DD' }});
+    }  catch {}
+    return undefined;
+  },
 
-      let qrQ = null;
-      try {
-          qrQ = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }});
-      } catch (err) {
-          console.error("Q " + err);
-      }
-      
-      let qrH = null;
-      try {
-          qrH = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'H', color: {dark: '#3654DD' }});
-      } catch (err) {
-          console.error("H " + err);
-      }
+  drawsQR: function(elemPref, value, debugURI, ecc) {
+      this.renderQR(elemPref, value, ecc);
 
-      let qrM = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'M', color: {dark: '#3654DD' }});
-      let qrL = QRCode.create(value, { margin:0, width:275, errorCorrectionLevel: 'L', color: {dark: '#3654DD' }});
+      let qrQ = this.tryBuildQR(value, 'Q');
+      let qrH = this.tryBuildQR(value, 'H');
+      let qrM = this.tryBuildQR(value, 'M');
+      let qrL = this.tryBuildQR(value, 'L');
       
       e(elemPref+"-bytes").innerHTML = "URI in A/N (5.5bit/char): "+ Math.round(value.length * 5.5/8) + " bytes<br>";
 

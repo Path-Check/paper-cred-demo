@@ -622,7 +622,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/ui-utils.js"></script>
 
         <script src="js/dcc-sdk.min.js"></script>
-        <script src="js/icaovds.sdk.min.js"></script>
+        <script src="js/vds-sdk.min.js"></script>
        
 
 		<script>
@@ -763,7 +763,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayQRICAO(elemPref, payload, prikey, certificate) {
                 const icaot0 = performance.now();
-                const uri = ICAOVDS.signAndPack(payload, certificate, prikey).then(uri => {
+                const uri = VDS.signAndPack(payload, certificate, prikey).then(uri => {
                     const icaot1 = performance.now();
                     const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
@@ -787,7 +787,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     studyQR(uri, elemPref);
 
                     const v0 = performance.now();
-                    ICAOVDS.unpackAndVerify(uri).then(result => {
+                    VDS.unpackAndVerify(uri).then(result => {
                         const v1 = performance.now();
                         e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                         UIUtils.drawVerifiedSymbol(elemPref+'-code',result);

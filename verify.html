@@ -81,7 +81,7 @@
         <script src="js/pcf-utils.js"></script>
         <script src="js/ui-utils.js"></script>
 
-        <script src="js/pcf.sdk.min.js"></script>
+        <script src="js/cred-sdk.min.js"></script>
         <script src="js/divoc.sdk.min.js"></script>
         <script src="js/eudgc.sdk.min.js"></script>
 
@@ -189,9 +189,9 @@
             async function verifyDisplayCRED(data) {
                 let uri = data.substring(data.indexOf("CRED:"));
 
-                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payloadStr] = await PCF.unpack(uri);  
-                const payload = await PCF.unpackAndVerify(uri);
-                const fields = await PCF.mapHeaders(payload, type, version);
+                const [schema, type, version, signatureBase32NoPad, pubKeyLink, payloadStr] = await CRED.unpack(uri);  
+                const payload = await CRED.unpackAndVerify(uri);
+                const fields = await CRED.mapHeaders(payload, type, version);
 
                 QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
                     UIUtils.drawVerifiedSymbol('qr',payload);

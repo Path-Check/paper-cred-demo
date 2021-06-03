@@ -327,7 +327,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/bcmath.js" type="text/javascript"></script>
         <script src="js/pdf417.js" type="text/javascript"></script>
 
-        <script src="js/pcf.sdk.min.js"></script>
+        <script src="js/cred-sdk.min.js"></script>
 
         <script src="js/eudgc.sdk.min.js"></script>
         <script src="js/he.js"></script>
@@ -411,7 +411,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
                 const t0 = performance.now();
-                const uri = PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
+                const uri = CRED.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
                     const t1 = performance.now();
                     PCFUtils.debugURI(uri).then( debugInfo => {
                         const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
@@ -433,7 +433,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         studyQR(uri, elemPref);
 
                         const v0 = performance.now();
-                        PCF.unpackAndVerify(uri).then(result => {
+                        CRED.unpackAndVerify(uri).then(result => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
@@ -1269,7 +1269,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script>
             async function preloadKey() {
-                PCF.resolveKey(e("qr-link").value);
+                CRED.resolveKey(e("qr-link").value);
             }
             window.onload = function() {
                 preloadKey();

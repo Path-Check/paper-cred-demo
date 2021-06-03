@@ -45,11 +45,11 @@ var PCFUtils = {
 
     debugParseURI: async function(uri) {
         try {
-            const [schema, type, version, signature, keyID, payloadNormalized] = await PCF.unpack(uri);
-            const payload = await PCF.unpackAndVerify(uri);
-            const decodedFields = await PCF.mapHeaders(payload, type, version);
+            const [schema, type, version, signature, keyID, payloadNormalized] = await CRED.unpack(uri);
+            const payload = await CRED.unpackAndVerify(uri);
+            const decodedFields = await CRED.mapHeaders(payload, type, version);
 
-            const rKeyID = await PCF.resolveKey(keyID);
+            const rKeyID = await CRED.resolveKey(keyID);
 
             // Updates screen elements. 
             let formattedResult = "Type: <span class='protocol'>" + type + ":" + version +
@@ -78,23 +78,23 @@ var PCFUtils = {
         }
 
         try {
-            await PCF.unpack(uri);
+            await CRED.unpack(uri);
             formattedMessages += "QR was parsed sucessfully!<br><br>";
         } catch (err) {
             formattedMessages += "Could not parse string into the URI format.<br>";
             return formattedMessages;
         }                
 
-        const [schema, type, version, signatureBase32NoPad, keyID, payloadStr] = await PCF.unpack(uri);
-        const rKeyID = await PCF.resolveKey(keyID);
+        const [schema, type, version, signatureBase32NoPad, keyID, payloadStr] = await CRED.unpack(uri);
+        const rKeyID = await CRED.resolveKey(keyID);
 
         if (!rKeyID) {
             formattedMessages += "Public Key not found";
             return formattedMessages;
         }
 
-        const payloadArray = await PCF.unpackAndVerify(uri);
-        const decodedFields = await PCF.mapHeaders(payloadArray, type, version);
+        const payloadArray = await CRED.unpackAndVerify(uri);
+        const decodedFields = await CRED.mapHeaders(payloadArray, type, version);
 
         if (schema !== "CRED") {
             formattedMessages += "QR is not a credential: Code must start with CRED instead of "+schema +".<br>";
@@ -115,7 +115,7 @@ var PCFUtils = {
     },
 
     debugURI: async function(uri) {
-        const [schema, type, version, signature, pubKeyLink, payload] = await PCF.unpack(uri);
+        const [schema, type, version, signature, pubKeyLink, payload] = await CRED.unpack(uri);
         
         let uriDebugger = "<a href='https://github.com/Path-Check/paper-cred'><span class='schema'>" + schema + "</span></a>:" + 
                                     "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+type.toLowerCase()+"."+version+".md'><span class='protocol'>"+type+":"+version+"</span></a>:" +                           

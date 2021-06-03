@@ -179,7 +179,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
         <script src="js/bcmath.js" type="text/javascript"></script>
         <script src="js/pdf417.js" type="text/javascript"></script>
 
-        <script src="js/pcf.sdk.min.js"></script>
+        <script src="js/cred-sdk.min.js"></script>
 
         <script src="js/pcf-utils.js"></script>
         <script src="js/ui-utils.js"></script>
@@ -208,11 +208,11 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
-                PCF.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
+                CRED.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
                     PCFUtils.debugURI(uri).then( debugInfo => {
                         UIUtils.drawsQR(elemPref, uri, debugInfo);
 
-                        PCF.unpackAndVerify(uri).then(result => {
+                        CRED.unpackAndVerify(uri).then(result => {
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
                         });
                     });
@@ -231,7 +231,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 const priKeyPEM = e('privkey').value;
 
                 // Build PassKeyHash
-                const hashPassKeyBase32 = await PCF.hashPayload(getValueArray(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]));
+                const hashPassKeyBase32 = await CRED.hashPayload(getValueArray(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]));
                 
                 if (e("qr-badge-private").checked) {
                     // Update fields on Screen
@@ -372,7 +372,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
         <script>
             async function preloadKey() {
-                PCF.resolveKey(e("qr-link").value);
+                CRED.resolveKey(e("qr-link").value);
             }
             window.onload = function() {
                 preloadKey();

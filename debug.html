@@ -83,7 +83,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         <script src="js/ui-utils.js"></script>
 
         <script src="js/cred-sdk.min.js"></script>
-        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/dcc-sdk.min.js"></script>
         <script src="js/he.js"></script>
         <script src="js/ajv7.min.js"></script>
 
@@ -187,7 +187,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
-                    EUDGC.unpackAndVerify(qr, e('pubkey').value).then(json => {
+                    DCC.unpackAndVerify(qr, e('pubkey').value).then(json => {
                         const validator = schemaValidator();
                         const valid = validator(getEUPayload(json));
                         if (json) {
@@ -196,7 +196,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
-                    EUDGC.debug(qr).then(json => {
+                    DCC.debug(qr).then(json => {
                         if (json) {
                             e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
                         } else {

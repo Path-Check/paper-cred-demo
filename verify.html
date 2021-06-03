@@ -83,7 +83,7 @@
 
         <script src="js/cred-sdk.min.js"></script>
         <script src="js/divoc-sdk.min.js"></script>
-        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/dcc-sdk.min.js"></script>
 
         <script src="js/bbs-cborld.sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
@@ -262,7 +262,7 @@
             }
 
             function verifyDisplayEU(data) {
-                EUDGC.debug(data).then(obj => {
+                DCC.debug(data).then(obj => {
                     let result = null;
 
                     QRCode.toCanvas(e('qr'), data, qrParams('qr'), function (error) {

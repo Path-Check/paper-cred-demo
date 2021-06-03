@@ -329,7 +329,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script src="js/cred-sdk.min.js"></script>
 
-        <script src="js/eudgc.sdk.min.js"></script>
+        <script src="js/dcc-sdk.min.js"></script>
         <script src="js/he.js"></script>
         <script src="js/ajv7.min.js"></script>
         <script src="js/json-beautify.min.js"></script>
@@ -573,8 +573,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const eu45t0 = performance.now();
-                EUDGC.makeCWT(json).then(cwt => {
-                    EUDGC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
+                DCC.makeCWT(json).then(cwt => {
+                    DCC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const eu45t1 = performance.now();
                         const params = { margin:0, width:e(elemPref+'-code').scrollWidth, errorCorrectionLevel: 'Q', color: {dark: '#3654DD' }};
 
@@ -600,7 +600,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
 
                         const v0 = performance.now();
-                        EUDGC.unpackAndVerify(uri, pubKeyPem).then(verified => {
+                        DCC.unpackAndVerify(uri, pubKeyPem).then(verified => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
@@ -1107,7 +1107,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                 } else {
                     e("qr-verify-result").innerHTML = "Checking";
-                    EUDGC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
+                    DCC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
                         const validator = schemaValidator();
                         const valid = validator(getEUPayload(json));
                         if (json) {

@@ -27,6 +27,7 @@
 
         <script src="js/bbs-cbld-sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
+        <script src="js/eddsa-jxt-sdk.min.js"></script>
 
         <script type="text/javascript" src="js/instascan.min.js"></script>
 	</head>
@@ -343,13 +344,34 @@
             }
 
             function verifyDisplayJXT(uri) {
+                e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                e('qr-verify-verified').innerHTML = "Unable to Verify";
+                
                 BBS_JXT.unpackAndVerify(uri).then(json => {
+                    if (json == null) return;
+
                     QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
                         UIUtils.drawVerifiedSymbol('qr', json);
                     });
-                    if (json == null) {
-                        e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    } else if (json) {
+                    
+                    if (json) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer + ' on ' + parseISODate(json.issuanceDate);
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+                    
+                    e('qr-verify-name').innerHTML = json.credentialSubject.personalInformation.givenName + " " + json.credentialSubject.personalInformation.familyName + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.personalInformation.birthDate;
+                });
+
+                EDDSA_JXT.unpackAndVerify(uri).then(json => {
+                    if (json == null) return;
+                    
+                    QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
+                        UIUtils.drawVerifiedSymbol('qr', json);
+                    });
+                    
+                    if (json) {
                         e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer + ' on ' + parseISODate(json.issuanceDate);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";

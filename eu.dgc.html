@@ -35,6 +35,7 @@
 
         <script src="js/bbs-cbld-sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
+        <script src="js/eddsa-jxt-sdk.min.js"></script>
 
         <script src="js/divoc-sdk.min.js"></script>
         <script src="js/shc-sdk.min.js"></script>
@@ -198,13 +199,21 @@ IQDvDacGFQO3tuATpoqf40CBv09nfglL3wh5wBwA1uA7lAIgZ4sOK2iaaTsFNqEN
 AF7zi+d862ePRQ9Lwymr7XfwVm0=
 -----END CERTIFICATE-----</textarea>
 
-                    <h4>W3C VC Credentials</h4>
+                    <h4>BBS+ Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
-                    <textarea id="w3c-privkey" rows="1" style="width: 100%;">5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj</textarea>
+                    <textarea id="bbs-privkey" rows="1" style="width: 100%;">5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj</textarea>
                     <label for="pubkey">Public Key ID</label><br/>
-                    <textarea id="w3c-key-id" rows="1" cols="30">did:web:PCF.PW:1A8#DEMO</textarea>
+                    <textarea id="bbs-key-id" rows="1" cols="30">did:web:PCF.PW:1A8#DEMO</textarea>
                     <label for="pubkey">Public Key Controller</label><br/>
-                    <textarea id="w3c-controller" rows="1" cols="30">did:web:PCF.PW:1A8</textarea>
+                    <textarea id="bbs-controller" rows="1" cols="30">did:web:PCF.PW:1A8</textarea>
+
+                    <h4>EDDSA Credentials</h4>
+                    <label for="privkey">Private Key</label><br/>
+                    <textarea id="eddsa-privkey" rows="1" style="width: 100%;">z5Q2WLLaD7aJ44s6Aw6qXf1vNor9quCe1ZLhHqc63yhfFF63tbuTgPHgCzXKUbkHAGm8oE9jiQpCPepD88Jgyy7FW</textarea>
+                    <label for="pubkey">Public Key ID</label><br/>
+                    <textarea id="eddsa-key-id" rows="1" cols="30">did:web:PCF.PW:1A12#WEB</textarea>
+                    <label for="pubkey">Public Key Controller</label><br/>
+                    <textarea id="eddsa-controller" rows="1" cols="30">did:web:PCF.PW:1A12</textarea>
                 </div>
             </div>
             <br>
@@ -216,25 +225,27 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
-                    <h4 id="qr-dgc-cred-code-label" style="display: none;"><a href="https://github.com/Path-Check/cred-sdk.js">CRED</a>: ECDSA directly on URI</h4>
-                    <canvas id="qr-dgc-cred-code"></canvas><br/>
-                    <h4 id="qr-dgc-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-dgc-cred-pdf"></canvas><br/>
-                    <pre id="qr-dgc-cred-result"></pre>
+                    <h4 id="qr-dgc-ed-jxt-code-label" style="display: none;"><a href="https://github.com/Path-Check/bbs-jxt-sdk.js">JXT</a>: W3C VC w/ EDDSA on JSONXT</h4>
+                    <canvas id="qr-dgc-ed-jxt-code"></canvas><br/>
+                    <h4 id="qr-dgc-ed-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-dgc-ed-jxt-pdf"></canvas><br/>
+                    <pre id="qr-dgc-ed-jxt-result"></pre>
                 </div>
+
                 <div class="third">
-                    <h4 id="qr-dgc-jxt-code-label" style="display: none;"><a href="https://github.com/Path-Check/bbs-jxt-sdk.js">JXT</a>: W3C VC with BBS+ on JSONXT</h4>
+                    <h4 id="qr-dgc-jxt-code-label" style="display: none;"><a href="https://github.com/Path-Check/ed-jxt-sdk.js">JXT</a>: W3C VC w/ BBS+ on JSONXT</h4>
                     <canvas id="qr-dgc-jxt-code"></canvas><br/>
                     <h4 id="qr-dgc-jxt-pdf-label" style="display: none;">PDF 417 Format</h4>
                     <canvas id="qr-dgc-jxt-pdf"></canvas><br/>
                     <pre id="qr-dgc-jxt-result"></pre>
                 </div>
+
                 <div class="third">
-                    <h4 id="qr-dgc-orig-code-label" style="display: none;"><a href="https://github.com/Path-Check/dcc-sdk.js">HC1</a>: CWT CBOR EC COSE ZLIB B45</h4>
-                    <canvas id="qr-dgc-orig-code"></canvas><br/>
-                    <h4 id="qr-dgc-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-dgc-orig-pdf"></canvas><br/>
-                    <pre id="qr-dgc-orig-result"></pre>
+                    <h4 id="qr-dgc-cred-code-label" style="display: none;"><a href="https://github.com/Path-Check/cred-sdk.js">CRED</a>: ECDSA directly on URI</h4>
+                    <canvas id="qr-dgc-cred-code"></canvas><br/>
+                    <h4 id="qr-dgc-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-dgc-cred-pdf"></canvas><br/>
+                    <pre id="qr-dgc-cred-result"></pre>
                 </div>
 
                 <div class="quarter xs-hidden">
@@ -253,6 +264,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             </div>
             <div class="full-div">
                 <div class="third">
+                    <h4 id="qr-dgc-orig-code-label" style="display: none;"><a href="https://github.com/Path-Check/dcc-sdk.js">HC1</a>: CWT CBOR EC COSE ZLIB B45</h4>
+                    <canvas id="qr-dgc-orig-code"></canvas><br/>
+                    <h4 id="qr-dgc-orig-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-dgc-orig-pdf"></canvas><br/>
+                    <pre id="qr-dgc-orig-result"></pre>
+                </div>
+                <div class="third">
                     <h4 id="qr-dgc-cbld-code-label" style="display: none;"><a href="https://github.com/Path-Check/bbs-cbld-sdk.js">CBLD</a>: W3C VC BBS+ CBOR-LD B32</h4>
                     <canvas id="qr-dgc-cbld-code"></canvas><br/>
                     <h4 id="qr-dgc-cbld-pdf-label" style="display: none;">PDF 417 Format</h4>
@@ -266,13 +284,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     <canvas id="qr-dgc-shc-pdf"></canvas><br/>
                     <pre id="qr-dgc-shc-result"></pre>
                 </div>
-                <div class="third">
-                    <h4 id="qr-dgc-divoc-code-label" style="display: none;"><a href="https://github.com/Path-Check/divoc-sdk.js">DIVOC</a>: W3C VC RSA on a ZIP file</h4>
-                    <canvas id="qr-dgc-divoc-code"></canvas><br/>
-                    <h4 id="qr-dgc-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-dgc-divoc-pdf"></canvas><br/>
-                    <pre id="qr-dgc-divoc-result"></pre>
-                </div>
+
                 <div class="quarter xs-hidden">
                 </div>
             </div>
@@ -281,6 +293,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 <h2></h2>
             </div>
             <div class="full-div">
+                <div class="third">
+                    <h4 id="qr-dgc-divoc-code-label" style="display: none;"><a href="https://github.com/Path-Check/divoc-sdk.js">DIVOC</a>: W3C VC RSA on a ZIP file</h4>
+                    <canvas id="qr-dgc-divoc-code"></canvas><br/>
+                    <h4 id="qr-dgc-divoc-pdf-label" style="display: none;">PDF 417 Format</h4>
+                    <canvas id="qr-dgc-divoc-pdf"></canvas><br/>
+                    <pre id="qr-dgc-divoc-result"></pre>
+                </div>
                 <div class="third">
                     <h4 id="qr-dgc-raw-code-label" style="display: none;">RAW: BBS+ W3C VC raw</h4>
                     <canvas id="qr-dgc-raw-code"></canvas><br/>
@@ -613,6 +632,52 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 });
             }
 
+            function signAndDisplayQREDJXT(elemPref, domain, type, version, json, keyPair) {
+                const t0 = performance.now();
+
+                const uri = EDDSA_JXT.signAndPack(json, keyPair, domain, type, version).then(uri => {
+                    const t1 = performance.now();
+                    
+                    UIUtils.renderQR(elemPref, uri);
+
+                    const uriArray = uri.split(":");
+
+                    var payload = uriArray[4].split("/");
+
+                    var longest = payload.reduce(
+                        function (a, b) {
+                            return a.length > b.length ? a : b;
+                        }
+                    );
+                    var index = payload.indexOf(longest);
+                    payload[index] = "<span class='signature'>"+payload[index]+"</span>";
+                    uriArray[4] = payload.join("/")
+
+                    e(elemPref+"-result").innerHTML += 
+                        "<a href='https://jsonxt.io/'><span class='schema'>" + uriArray[0] + "</span></a>:" + 
+                        "<a href='https://"+uriArray[1]+"/.well-known/templates.json'><span class='pub-key'>"+uriArray[1]+"</span></a>:"+
+                        "<a href='https://github.com/Path-Check/paper-cred/blob/main/payloads/"+uriArray[2].toLowerCase()+"."+uriArray[3]+".md'><span class='protocol'>"+uriArray[2]+":"+uriArray[3]+"</span></a>:" +                           
+                        "<span class='message'>" + uriArray[4] + "</span><br>";
+                    
+                    e(elemPref+"-result").innerHTML +=     
+                        "<pre>JWT:<span class='pub-key'>TEMPLATE</span>:<span class='protocol'>TYPE:VER</span>:" +
+                        "<span class='message'>PAYLOAD</span>/<span class='signature'>SIG</span></pre>";
+
+                    e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
+                    e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
+                    e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
+
+                    studyQR(uri, elemPref);
+
+                    const v0 = performance.now();
+                    EDDSA_JXT.unpackAndVerify(uri).then(result => {
+                        const v1 = performance.now();
+                        e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
+                        UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
+                    });
+                });
+            }
+
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const eu45t0 = performance.now();
                 DCC.makeCWT(json, parseInt(e("qr-cert-exp").value)).then(cwt => {
@@ -905,7 +970,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     "type": [
                         "VerifiableCredential"
                     ],
-                    "issuer": e("w3c-controller").value,
                     "issuanceDate": iss.toISOString().replace(/....Z$/, "Z"),
                     "expirationDate": exp.toISOString().replace(/....Z$/, "Z"),
                     "credentialSubject": {
@@ -1066,7 +1130,15 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function buildBBSVC() {
                 let dgcVC = buildVerifiableCredential(); 
+                dgcVC["issuer"] = e("bbs-controller").value,
                 dgcVC["@context"].push("https://w3id.org/security/bbs/v1");
+                return dgcVC;
+            }
+
+            function buildEDDSAVC() {
+                let dgcVC = buildVerifiableCredential(); 
+                dgcVC["issuer"] = e("eddsa-controller").value,
+                dgcVC["@context"].push("https://w3id.org/security/suites/ed25519-2020/v1");
                 return dgcVC;
             }
 
@@ -1093,10 +1165,18 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 const pubKeyEUPEM = e('pubkeyEU').value;
 
                 const keyPair = {
-                    id: e("w3c-key-id").value,
-                    controller: e("w3c-controller").value,
-                    privateKeyBase58: e("w3c-privkey").value,
+                    id: e("bbs-key-id").value,
+                    controller: e("bbs-controller").value,
+                    privateKeyBase58: e("bbs-privkey").value,
                     publicKeyBase58: "oqpWYKaZD9M1Kbe94BVXpr8WTdFBNZyKv48cziTiQUeuhm7sBhCABMyYG4kcMrseC68YTFFgyhiNeBKjzdKk9MiRWuLv5H4FFujQsQK2KTAtzU8qTBiZqBHMmnLF4PL7Ytu"
+                }
+
+                const keyPairED = {
+                    id: e("eddsa-key-id").value,
+                    type: "Ed25519VerificationKey2020",
+                    controller: e("eddsa-controller").value,
+                    publicKeyMultibase: "zGhTGvJH58518mWd5PAWnAVLx3dArnmQNmPqhhqmhuEsz",
+                    privateKeyMultibase: e("eddsa-privkey").value,
                 }
 
                 const shcKeys = {
@@ -1113,6 +1193,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                 const dgcHC1 = buildHC1(); 
                 const dgcBBS = buildBBSVC(); 
+                const dgcEDDSA = buildEDDSAVC(); 
                 const dgcDIVOC = buildRSAVC(); 
 
                 signAndDisplayQR("qr-dgc-cred", "dgc","1", priKeyPEM, pubKeyLink, dgcArray);
@@ -1120,6 +1201,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 signAndDisplayQRCBLD("qr-dgc-cbld", dgcBBS, keyPair);
                 signAndDisplayQRJSON("qr-dgc-raw", dgcBBS, keyPair);
                 signAndDisplayQRJXT("qr-dgc-jxt", "pcf.pw", "dgc", "1", dgcBBS, keyPair);
+                signAndDisplayQREDJXT("qr-dgc-ed-jxt", "pcf.pw", "dgc", "2", dgcEDDSA, keyPairED);
                 signAndDisplayQRDIVOC("qr-dgc-divoc", dgcDIVOC);
                 signAndDisplayQRSHC("qr-dgc-shc", dgcDIVOC, shcKeys, "https://pcf.pw");
             }
@@ -1259,8 +1341,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             ];
 
             compressionAlgos = [
+                {id:"ed-jxt", label:"ED JXT"}, 
+                {id:"jxt", label:"BBS JXT"}, 
                 {id:"cred", label:"CRED"}, 
-                {id:"jxt", label:"JXT"}, 
                 {id:"orig", label:"HC1"}, 
                 {id:"cbld", label:"CBLD"},
                 {id:"shc", label:"SHC"},

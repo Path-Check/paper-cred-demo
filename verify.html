@@ -24,6 +24,7 @@
         <script src="js/cred-sdk.min.js"></script>
         <script src="js/divoc-sdk.min.js"></script>
         <script src="js/dcc-sdk.min.js"></script>
+        <script src="js/shc-sdk.min.js"></script>
 
         <script src="js/bbs-cbld-sdk.min.js"></script>
         <script src="js/bbs-jxt-sdk.min.js"></script>
@@ -158,6 +159,8 @@
                     verifyDisplayEU(data);
                 } else if (typeof(data) === 'string' && data.startsWith("JXT:")) {
                     verifyDisplayJXT(data); 
+                } else if (typeof(data) === 'string' && data.startsWith("shc:")) {
+                    verifyDisplaySHC(data); 
                 } else if (data.startsWith("PK")) {
                     unZipVerifyDisplayDIVOC(data);
                 } else if (typeof(data) === 'string' && data.startsWith("{")) {
@@ -340,6 +343,36 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = json.credentialSubject.personalInformation.givenName + " " + json.credentialSubject.personalInformation.familyName + "<br>";
                     e('qr-verify-name').innerHTML += "DoB: " + json.credentialSubject.personalInformation.birthDate;
+                });
+            }
+
+            function verifyDisplaySHC(uri) {
+                e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                e('qr-verify-verified').innerHTML = "Unable to Verify";
+                
+                SHC.unpackAndVerify(uri).then(json => {
+                    if (json == null) return;
+
+                    QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
+                        UIUtils.drawVerifiedSymbol('qr', json);
+                    });
+
+                    let iss = json.iss;
+                    if (iss === 'https://myvaccinerecord.cdph.ca.gov/creds')
+                        iss = "State of California"
+                    
+                    if (json) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + iss + ' on ' + parseDInt(json.nbf);
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+
+                    let pat = json.vc.credentialSubject.fhirBundle.entry.filter(entry => entry.resource.resourceType === "Patient");
+                    let name = pat[0].resource.name[0].given.join(' ') + " " + pat[0].resource.name[0].family;
+                    let dob = pat[0].resource.birthDate;
+                    
+                    e('qr-verify-name').innerHTML = name + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + dob;
                 });
             }
 

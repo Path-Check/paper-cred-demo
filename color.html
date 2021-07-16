@@ -156,7 +156,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
             function downloadColorRecord(userid, token) {
                 let client = new XMLHttpRequest();
-                client.open('GET', '"https://home.color.com/api/v1/vaccination_appointments/"+userid+"?claim_token="+token', false);
+                client.open('GET', "https://home.color.com/api/v1/vaccination_appointments/"+userid+"?claim_token="+token, false);
                 client.setRequestHeader("Accept", "application/vnd.github.v3+json");
                 client.send();
 

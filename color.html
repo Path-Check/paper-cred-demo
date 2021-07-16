@@ -47,17 +47,13 @@
         <div class="center">
             <h1>Massachusetts's Color Vaccine Record to Verifiable QR</h1>
             <div class="full-div">
-                <div class="two-quarter"> 
-                    <h4>User Information</h4>
+                
+                <div class="four-quarter-left"> 
+                    <h4>Insert Color's Vaccination history URL</h4>
                     <table>
-                        <tr><td>User ID</td><td><input id="qr-color-userid" type="text" placeholder=""/></td></tr>
-                        <tr><td>Token<small> (months)</td></small></td><td><input id="qr-color-token" type="text" placeholder=""/></td></tr>
+                        <tr><td><input id="qr-color-url" type="text" placeholder="https://www.color.com/vaccine/vaccinations/XXXXXXXXXXX?claim_token=YYYYYYYYYYYYYYY"/></td></tr>
                     </table>
                 </div>
-                <div class="two-quarter">
-                              
-                </div>
-            
                 
                 <div class="quarter">
                     <h4>CRED Credentials</h4>
@@ -82,21 +78,23 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 <br><br>
             </div>
             <div class="full-div">
-                <div class="two-quarter">
-                    <h4>PathCheck QR Badge</h4>
-                    <canvas id="qr-cred-code"></canvas><br/>
-                    <h4 id="qr-cred-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-cred-pdf" style="display: none;"></canvas>
-                    <pre id="qr-cred-result"></pre>
-                    <pre id="qr-cred-bytes"  class="xs-hidden"></pre>
+                <div class="third">
+                    <h4>First Dose</h4>
+                    <canvas id="qr-cred-first-code"></canvas><br/>
+                    <pre id="qr-cred-first-result"></pre>
+                    <pre id="qr-cred-first-bytes"  class="xs-hidden"></pre>
                 </div>
-                <div class="two-quarter">
-                    <h4>PathCheck QR Status</h4>
-                    <canvas id="qr-status-code"></canvas>
-                    <h4 id="qr-status-pdf-label" style="display: none;">PDF 417 Format</h4>
-                    <canvas id="qr-status-pdf" style="display: none;"></canvas>
-                    <pre id="qr-status-result" style="display: none;"></pre>
-                    <pre id="qr-status-bytes" class="xs-hidden"></pre>
+                <div class="third">
+                    <h4>Second Dose</h4>
+                    <canvas id="qr-cred-second-code"></canvas><br/>
+                    <pre id="qr-cred-second-result"></pre>
+                    <pre id="qr-cred-second-bytes"  class="xs-hidden"></pre>
+                </div>
+                <div class="third">
+                    <h4>Status</h4>
+                    <canvas id="qr-cred-status-code"></canvas><br/>
+                    <pre id="qr-cred-status-result"></pre>
+                    <pre id="qr-cred-status-bytes"  class="xs-hidden"></pre>
                 </div>
             </div>
         </div>
@@ -129,25 +127,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             function e(elem) { return document.getElementById(elem); }
 
             function signAndDisplayQR(elemPref, _type, _version, priKeyPEM, pubKeyId, payloadValueArray) {
-                const t0 = performance.now();
                 const uri = CRED.signAndPack(_type, _version, priKeyPEM, pubKeyId, payloadValueArray).then(uri => {
-                    const t1 = performance.now();
                     PCFUtils.debugURI(uri).then( debugInfo => {
                         UIUtils.renderQR(elemPref, uri);
 
                         // Updates screen elements. 
                         e(elemPref+"-result").innerHTML= debugInfo;
                         
-                        e(elemPref+"-time-sign").innerHTML = Math.round(t1-t0);
-                        e(elemPref+"-time-uri").innerHTML  = Math.round(uri.length * 5.5/8);
-                        e(elemPref+"-time-json").innerHTML = Math.round(uri.length);
-
-                        studyQR(uri, elemPref);
-
-                        const v0 = performance.now();
                         CRED.unpackAndVerify(uri).then(result => {
-                            const v1 = performance.now();
-                            e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',result);
                         });
                     });
@@ -155,17 +142,85 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             }
 
             function downloadColorRecord(userid, token) {
+                console.log("https://home.color.com/api/v1/vaccination_appointments/"+userid+"?claim_token="+token);
+                
                 let client = new XMLHttpRequest();
-                client.open('GET', "https://home.color.com/api/v1/vaccination_appointments/"+userid+"?claim_token="+token, false);
-                client.setRequestHeader("Accept", "application/vnd.github.v3+json");
+                client.open('GET', "https://pathcheck-cors-proxy.herokuapp.com/home.color.com/api/v1/vaccination_appointments/"+userid+"?claim_token="+token, false);
                 client.send();
 
-                const data = JSON.parse(client.response); 
+                return JSON.parse(client.response);
+            }
+
+            function convertPreviousApptToBadgeArray(data) { 
+                if (data.previous_appointment && data.previous_appointment.vaccination_record) {
+                    let firstDate = new Date(data.previous_appointment.vaccination_record.vaccination_date);
+                    let secondDate = new Date(data.vaccination_record.vaccination_date);
+
+                    const diffTime = Math.abs(secondDate - firstDate);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+
+                    return [
+                        data.previous_appointment.vaccination_record.vaccination_date, //date
+                        data.previous_appointment.vaccination_record.manufacturer,  // manuf
+                        data.vaccination_record.type.replaceAll(data.vaccination_record.manufacturer + " ", ""), // product
+                        data.previous_appointment.vaccination_record.substance_lot_number, // type
+                        diffDays.toString(), //doses
+                        , //vaccinee
+                        , //route
+                        data.previous_appointment.vaccination_record.administration_site, //site
+                        (data.previous_appointment.vaccination_record.administered_amount_in_ml*1000).toString(), //dose
+                        data.first_name + " " + data.last_name,  //name
+                        data.birthday //dob
+                    ];
+                } else {
+                    return undefined;
+                }
             }
 
             function convertColorToBadgeArray(data) { 
-                console.log(data);
-                return [];
+                if (data && data.vaccination_record) {
+                    let diffDays = "";
+                    if (data.next_appointment) {
+                        let firstDate = new Date(data.previous_appointment.vaccination_record.vaccination_date);
+                        let secondDate = new Date(data.next_appointment);
+
+                        const diffTime = Math.abs(secondDate - firstDate);
+                        diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                    }
+                    
+                    return [
+                        data.vaccination_record.vaccination_date,
+                        data.vaccination_record.manufacturer, 
+                        data.vaccination_record.type.replaceAll(data.vaccination_record.manufacturer + " ", ""), // product
+                        data.vaccination_record.substance_lot_number, 
+                        diffDays,
+                        , //vaccinee
+                        , //route
+                        data.vaccination_record.administration_site, //site
+                        (data.vaccination_record.administered_amount_in_ml*1000).toString(), //dose
+                        data.first_name + " " + data.last_name,  //name
+                        data.birthday //dob
+                    ];
+                } else {
+                    return undefined;
+                }
+            }
+
+            function getInitialsAndYear(fullName, dob) {
+                var names = fullName.split(' '),
+                    initials = names[0].substring(0, 1).toUpperCase();
+                
+                if (names.length > 1) {
+                    initials += names[names.length - 1].substring(0, 1).toUpperCase();
+                }
+
+                return initials + dob.substring(2,4);
+            }
+
+            function getDoses(badgeArrayCurr, badgeArrayPrevious) {
+                if (!badgeArrayCurr) return "0";
+                if (badgeArrayCurr.next_appointment) return "1";
+                return "2";
             }
 
             function generateQRCodes() {
@@ -177,23 +232,39 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 // PEM code of the private key
                 const priKeyPEM = e('privkey').value;
 
+                //https://www.color.com/vaccine/vaccinations/42929033352?claim_token=189f8d5c69f8f9bea870ad7571d212e7e36d
+
+                let urlMain = e('qr-color-url').value.split("?")[0];
+                let queryString = e('qr-color-url').value.split("?")[1];
+
+                let userid = urlMain.substring(urlMain.lastIndexOf('/')+1);
+                let token = new URLSearchParams(queryString).get('claim_token')
+
+                console.log(token);
+
+                colorRecord = downloadColorRecord(userid, token);
+
+                console.log(colorRecord);
+
                 // Badge QR
-                const badgeArray = convertColorToBadgeArray(downloadColorRecord(e('qr-color-userid').value, e('qr-color-token').value));
-                signAndDisplayQR("qr-cred", "badge","2", priKeyPEM, pubKeyLink, badgeArray);
+                const badgeArrayCurr = convertColorToBadgeArray(colorRecord);
+                
+                // Badge QR
+                const badgeArrayPrevious = convertPreviousApptToBadgeArray(colorRecord);
+                
+                if (badgeArrayPrevious && badgeArrayCurr) {
+                    signAndDisplayQR("qr-cred-first", "badge","2", priKeyPEM, pubKeyLink, badgeArrayPrevious);
+                    signAndDisplayQR("qr-cred-second", "badge","2", priKeyPEM, pubKeyLink, badgeArrayCurr);
+                } else if (!badgeArrayPrevious && badgeArrayCurr) {
+                    signAndDisplayQR("qr-cred-first", "badge","2", priKeyPEM, pubKeyLink, badgeArrayCurr);
+                } else {
+                    
+                }
 
-                e("qr-shc-code").style.display='block';
-                e("qr-shc-result").style.display='block';
+                const initals = getInitialsAndYear(badgeArrayCurr[9], badgeArrayCurr[10]);
+                const statusArray = [getDoses(badgeArrayCurr,badgeArrayPrevious),,initals];
+                signAndDisplayQR("qr-cred-status", "status","2", priKeyPEM, pubKeyLink, statusArray);
             }
-        </script>
-        
-        <script>
-            // Defaults
-            function loadDemo() {
-                e("qr-color-token").value = "189f8d5c69f8f9bea870ad7571d212e7e36d";
-                e("qr-color-userid").value = "42929033352";
-            }
-
-            loadDemo();
         </script>
 	</body>
 </html>

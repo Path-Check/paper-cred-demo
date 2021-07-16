@@ -49,7 +49,7 @@
             <div class="full-div">
                 
                 <div class="four-quarter-left"> 
-                    <h4>Insert Color's Vaccination history URL</h4>
+                    <h4>Insert your Vaccination history URL (you received it as an SMS)</h4>
                     <table>
                         <tr><td><input id="qr-color-url" type="text" placeholder="https://www.color.com/vaccine/vaccinations/XXXXXXXXXXX?claim_token=YYYYYYYYYYYYYYY"/></td></tr>
                     </table>
@@ -231,8 +231,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // PEM code of the private key
                 const priKeyPEM = e('privkey').value;
-
-                //https://www.color.com/vaccine/vaccinations/42929033352?claim_token=189f8d5c69f8f9bea870ad7571d212e7e36d
 
                 let urlMain = e('qr-color-url').value.split("?")[0];
                 let queryString = e('qr-color-url').value.split("?")[1];

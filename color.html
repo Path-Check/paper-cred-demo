@@ -49,13 +49,16 @@
             <div class="full-div">
                 
                 <div class="four-quarter-left"> 
+                    <br><br>
                     <h4>Insert your Vaccination history URL (you received it as an SMS)</h4>
+                    <br>
                     <table>
                         <tr><td><input id="qr-color-url" type="text" placeholder="https://www.color.com/vaccine/vaccinations/XXXXXXXXXXX?claim_token=YYYYYYYYYYYYYYY"/></td></tr>
                     </table>
+                    <br><br>
                 </div>
                 
-                <div class="quarter">
+                <div class="quarter"  style="display: none;">
                     <h4>CRED Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
                     <textarea id="privkey" rows="7" style="width: 100%;">-----BEGIN EC PARAMETERS-----
@@ -238,11 +241,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 let userid = urlMain.substring(urlMain.lastIndexOf('/')+1);
                 let token = new URLSearchParams(queryString).get('claim_token')
 
-                console.log(token);
-
                 colorRecord = downloadColorRecord(userid, token);
-
-                console.log(colorRecord);
 
                 // Badge QR
                 const badgeArrayCurr = convertColorToBadgeArray(colorRecord);

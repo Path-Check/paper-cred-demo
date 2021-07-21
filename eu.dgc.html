@@ -679,7 +679,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function signAndDisplayEUQR(elemPref, json, priKeyPEM, pubKeyPem) {
                 const eu45t0 = performance.now();
-                DCC.makeCWT(json, parseInt(e("qr-cert-exp").value)).then(cwt => {
+                DCC.makeCWT(json, parseInt(e("qr-cert-exp").value), e("qr-cert-iss").value).then(cwt => {
                     DCC.signAndPack(cwt, pubKeyPem, priKeyPEM).then(uri => {
                         const eu45t1 = performance.now();
                         UIUtils.renderQR(elemPref, uri);

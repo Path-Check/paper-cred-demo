@@ -177,6 +177,14 @@ pre {
   padding-left: 5px;
 }
 
+.quarter-real {
+  float: left;
+  width: 25%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .half {
   float: left;
   width: 49%;
@@ -196,6 +204,11 @@ pre {
   margin: 0px;
 }
 
+.four-quarter-middle {
+  width: 78%;
+  margin: auto;
+}
+
 .full-div-align-center {
   clear: both;
   width: 100%;
@@ -213,6 +226,14 @@ pre {
 .two-quarter {
   float: left;
   width: 38.5%;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.two-quarter2 {
+  float: left;
+  width: 49%;
   margin: 0px;
   padding-right: 5px;
   padding-left: 5px;

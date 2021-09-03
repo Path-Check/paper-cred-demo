@@ -64,8 +64,11 @@ HC1:payload">HC1:6BFOXN%TSMAHN-H+XO5XF7:UY%FJ.G0II:3O6NRBD295QJQC8G9Z3RRAC/GPWBI
                 </div>
 
                 <div class="quarter">
-                    <h4>Public Key (for HC1)</h4>
-                    <textarea id="pubkey" rows="10" cols="30">-----BEGIN CERTIFICATE-----
+                    <label for="qr-linkEU">Public kID</label><br/>
+                    <textarea id="qr-linkEU" rows="1" cols="30">Rjene8QvRwA=</textarea>
+
+                    <label for="pubkey">PublicKey  Certificate</label><br/>
+                    <textarea id="pubkey" rows="7" style="width: 100%;">-----BEGIN CERTIFICATE-----
 MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
 BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
 MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
@@ -95,6 +98,10 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         </div>
        
 		<script>
+            let cache = {}
+            cache[e('qr-linkEU').value] = e('pubkey').value.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace(/\n/g,'');
+            DCC.addCachedCerts(cache);
+
             function replacer(key, value) {
                 if  (value instanceof Map) {
                     return {

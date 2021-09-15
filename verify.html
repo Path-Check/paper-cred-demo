@@ -266,24 +266,25 @@
             }
 
             function verifyDisplayEU(data) {
-                DCC.debug(data).then(obj => {
-                    let result = null;
+                DCC.unpackAndVerify(data).then(obj => {
+                    let result = obj;
 
                     QRCode.toCanvas(e('qr'), data, qrParams('qr'), function (error) {
                         UIUtils.drawVerifiedSymbol('qr',result);
                     });
 
+                    console.log(obj);
+                    let certificate = obj.get(-260).get(1);
+                    console.log(certificate);
+
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.evidence[0].facility.name + ' on ' + parseISODate(json.issuanceDate);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.get(1) + ' on ' + parseDInt(obj.get(6));
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
-                    console.log(obj);
-                    let certificate = obj.value[2].get(-260).get(1);
-                    console.log(certificate);
                     
                     if (certificate.v) { 
                         e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
@@ -569,7 +570,6 @@
                         homeView();
                 }
             }
-
         </script>
 	</body>
 </html>

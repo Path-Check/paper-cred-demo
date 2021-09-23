@@ -98,10 +98,6 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
         </div>
        
 		<script>
-            let cache = {}
-            cache[e('qr-linkEU').value] = e('pubkey').value.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace(/\n/g,'');
-            DCC.addCachedCerts(cache);
-
             function replacer(key, value) {
                 if  (value instanceof Map) {
                     return {
@@ -144,6 +140,20 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function verifyQRCode() {
                 gtag('event', 'debugQR');
+
+                if (e('pubkey').value.includes('CERTIFICATE')) {
+                    let cache = {}
+                    cache[e('qr-linkEU').value] = 
+                        e('pubkey').value.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace(/\n/g,'');
+
+                        console.log(cache);
+                    DCC.addCachedCerts(cache);
+                } else {
+                    let cache = {}
+                    cache[e('qr-linkEU').value] = 
+                        e('pubkey').value.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "").replace(/\n/g,'');
+                    DCC.addCachedKeys(cache);
+                }
 
                 e("qr-verify-brand").innerHTML = "";
                 e("qr-verify-result").innerHTML = "Checking";

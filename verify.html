@@ -273,10 +273,6 @@
                         UIUtils.drawVerifiedSymbol('qr',result);
                     });
 
-                    console.log(obj);
-                    let certificate = obj.get(-260).get(1);
-                    console.log(certificate);
-
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
@@ -285,17 +281,31 @@
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
-                    
-                    if (certificate.v) { 
-                        e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
-                    } else if (certificate.t) { 
-                        e('qr-verify-title').innerHTML = "COVID-19 Test Certificate"
-                    } else if (certificate.r) { 
-                        e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
-                    }
 
-                    e('qr-verify-name').innerHTML = certificate.nam.gn + " " + certificate.nam.fn + "<br>";
-                    e('qr-verify-name').innerHTML += "DOB: " + certificate.dob ;
+                    let certificate = DCC.parseCWT(obj).then(certificate => {
+                        if (certificate.v) { 
+                            e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
+                        } else if (certificate.t) { 
+                            e('qr-verify-title').innerHTML = "COVID-19 Test Certificate"
+                        } else if (certificate.r) { 
+                            e('qr-verify-title').innerHTML = "COVID-19 Recovery Certificate"
+                        } else {
+                            // Uruguay
+                            e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
+                        }
+
+                        if (certificate.nam) {
+                            // EU and UK
+                            e('qr-verify-name').innerHTML = certificate.nam.gn + " " + certificate.nam.fn + "<br>";
+                            e('qr-verify-name').innerHTML += "DOB: " + certificate.dob ;
+                        } else {
+                            console.log(certificate);
+                            // URUGUAY
+                            e('qr-verify-name').innerHTML = certificate.Name + "<br>";
+                            e('qr-verify-name').innerHTML += "Doc: " + certificate.DocumentType + " " + certificate.DocumentNumber ;
+                        }
+
+                    });
                 });
             }
 

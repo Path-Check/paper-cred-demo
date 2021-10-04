@@ -133,7 +133,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function getEUPayload(cwt) {
                 if (cwt instanceof Map) {
-                    return cwt.get(-260).get(1);
+                    return DCC.parseCWT(cwt);
                 } 
                 return cwt;
             }

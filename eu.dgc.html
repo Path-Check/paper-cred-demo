@@ -163,7 +163,7 @@
                 <div class="quarter">
                     <h4>CRED Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
-                    <textarea id="privkey" rows="7" style="width: 100%;">-----BEGIN EC PARAMETERS-----
+                    <textarea id="privkey" rows="3" style="width: 100%;">-----BEGIN EC PARAMETERS-----
 BgUrgQQACg==
 -----END EC PARAMETERS-----
 -----BEGIN EC PRIVATE KEY-----
@@ -177,7 +177,7 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                     <h4>EU HC1 Credentials</h4>
                     <label for="privkey">P8 Private Key</label><br/>
-                        <textarea id="privkeyEU" rows="7" style="width: 100%;">-----BEGIN PRIVATE KEY-----
+                        <textarea id="privkeyEU" rows="3" style="width: 100%;">-----BEGIN PRIVATE KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb
 ZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts
 CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
@@ -187,7 +187,7 @@ CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
                     <textarea id="qr-linkEU" rows="1" cols="30">Rjene8QvRwA=</textarea>
 
                     <label for="pubkey">PublicKey  Certificate</label><br/>
-                    <textarea id="pubkeyEU" rows="7" style="width: 100%;">-----BEGIN CERTIFICATE-----
+                    <textarea id="pubkeyEU" rows="3" style="width: 100%;">-----BEGIN CERTIFICATE-----
 MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
 BAMMGk5hdGlvbmFsIENTQ0Egb2YgRnJpZXNsYW5kMQswCQYDVQQGEwJGUjAeFw0y
 MTA0MjcyMDQ3MDVaFw0yNjAzMTIyMDQ3MDVaMDYxJzAlBgNVBAMMHkRTQyBudW1i
@@ -201,18 +201,29 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     <h4>BBS+ Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
                     <textarea id="bbs-privkey" rows="1" style="width: 100%;">5D6Pa8dSwApdnfg7EZR8WnGfvLDCZPZGsZ5Y1ELL9VDj</textarea>
-                    <label for="pubkey">Public Key ID</label><br/>
+                    <label for="pubkey">Public Key ID/Controller</label><br/>
                     <textarea id="bbs-key-id" rows="1" cols="30">did:web:PCF.PW:1A8#DEMO</textarea>
-                    <label for="pubkey">Public Key Controller</label><br/>
                     <textarea id="bbs-controller" rows="1" cols="30">did:web:PCF.PW:1A8</textarea>
-
                     <h4>EDDSA Credentials</h4>
                     <label for="privkey">Private Key</label><br/>
                     <textarea id="eddsa-privkey" rows="1" style="width: 100%;">z5Q2WLLaD7aJ44s6Aw6qXf1vNor9quCe1ZLhHqc63yhfFF63tbuTgPHgCzXKUbkHAGm8oE9jiQpCPepD88Jgyy7FW</textarea>
-                    <label for="pubkey">Public Key ID</label><br/>
+                    <label for="pubkey">Public Key ID/Controller</label><br/>
                     <textarea id="eddsa-key-id" rows="1" cols="30">did:web:PCF.PW:1A12#WEB</textarea>
-                    <label for="pubkey">Public Key Controller</label><br/>
                     <textarea id="eddsa-controller" rows="1" cols="30">did:web:PCF.PW:1A12</textarea>
+                    <h4>DIVOC Credentials</h4>
+                    <label for="privkeyDivoc">Private Key</label><br/>
+                    <textarea id="privkeyDivoc" rows="3" cols="30">-----BEGIN RSA PRIVATE KEY-----
+MIIEowIBAAKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwBdICCVJBUKiuQUt7s+Z5epgCvLVAOCbP1mm5lV7bfgV/iYWDio7lzX4MlJwDedWLiufr3Ajq+79CQiqPaIbZTo0i13zijKtX7wgxQ78wT/HkJRLkFpmGeK3za21tEfttytkhmJYlwaDTEc+Kx3RJqVhVh/dfwJGeuV4Xc/e2NH++ht0ENGuTk44KpQ+pwQVqtW7lmbDZQJoOJ7HYmmoKGJ0qt2hrj15uwcD1WEYfY5N7N0ArTzPgctExtZFDmituLGzuAZfv2AZZ9/7Y+igshzfB0reIFdUKw3cdVTzfv5FNrIqN5pwIDAQABAoIBAHPILMUoLt5UTd5f/YnebqgeCRNAmGOBcwk7HtbMqQoGF93qqvZFd30XOAJZ/ncTpz77Vl95ToxxrWk1WQLCe+ZpOK3Dgk5sFSm8zXx1T64UBNPUSnWoh37C1D39+b9rppCZScgnxlyPdSLy3h3q8Hyoy+auqUEkm/ms5W2lT3fJscyN1IAyHrhsOBWjl3Ilq5GxBo5tbYv/Fb1pQiP/p2SIHA1+2ASXNYQP100F5Vn0V6SFtBXTCQnwcvbP083NvlGxs9+xRs3MCUcxCkKepWuzYwOZDmu/2yCz1/EsP6wlsYEHmCZLdIb0tQt0caqzB/RoxfBpNRIlhOtqHvBzUgECgYEAzIRn5Y7lqO3N+V29wXXtVZjYWvBh7xUfOxAwVYv0rKI0y9kHJHhIrU+wOVOKGISxBKmzqBQRPvXtXW8E0/14Zz82g60rRwtNjvW0UoZAY3KPouwruUIjAe2UnKZcQ//MBTrvds8QGpL6nxvPsBqU0y2K+ySAOxBtNtGEjzv8nxUCgYEAxRbMWukIbgVOuQjangkfJEfA1UaRFQqQ8jUmT9aiq2nREnd4mYP8kNKzJa9L7zj6Un6yLH5DbGspZ2gGODeRw3uVFN8XSzRdLvllNEyiG/waiysUtXfG2DPOR6xD8tXXDMm/tl9gTa8cbkvqYy10XT9MpfOAsusEZVmc0/DBBMsCgYAYdAxoKjnThPuHwWma5BrIjUnxNaTADWp6iWj+EYnjylE9vmlYNvmZn1mWwSJV5Ce2QwQ0KJIXURhcf5W4MypeTfSase3mxLc1TLOO2naAbYY3GL3xnLLK3DlUsZ9+kes3BOD097UZOFG3DIA8sjDxPxTLCoY6ibBFSa/r4GRIMQKBgQCranDCgPu79RHLDVBXM0fKnj2xQXbd/hqjDmcL+Xnx7E7S6OYTXyBENX1qwVQh9ESDi34cBJVPrsSME4WVT3+PreS0CnSQDDMfr/m9ywkTnejYMdgJHOvtDuHSpJlUk3g+vxnm3H0+E5d+trhdGiOjFnLrwyWkd5OTMqWcEEFQkQKBgFfXObDz/7KqeSaAxI8RzXWbI3Fa492b4qQUhbKYVpGn98CCVEFJr11vuB/8AXYCa92OtbwgMw6Ah5JOGzRScJKdipoxo7oc2LJ9sSjjw3RB/aWl35ChvnCJhmfSL8Usbj0nWVTrPwRLjMC2bIxkLtnm9qYXPumW1EjEbusjVMpN
+-----END RSA PRIVATE KEY-----</textarea>
+                        <br>
+                        <label for="pubKeyIdDivoc">Public kID</label><br/>
+                        <textarea id="pubKeyIdDivoc" rows="1" cols="30">did:india</textarea>
+                        <br>
+                        <label for="pubkeyDivoc">Public Key</label><br/>
+                        <textarea id="pubKeyDivoc" rows="3" cols="30">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwBdICCVJBUKiuQUt7s+Z5epgCvLVAOCbP1mm5lV7bfgV/iYWDio7lzX4MlJwDedWLiufr3Ajq+79CQiqPaIbZTo0i13zijKtX7wgxQ78wT/HkJRLkFpmGeK3za21tEfttytkhmJYlwaDTEc+Kx3RJqVhVh/dfwJGeuV4Xc/e2NH++ht0ENGuTk44KpQ+pwQVqtW7lmbDZQJoOJ7HYmmoKGJ0qt2hrj15uwcD1WEYfY5N7N0ArTzPgctExtZFDmituLGzuAZfv2AZZ9/7Y+igshzfB0reIFdUKw3cdVTzfv5FNrIqN5pwIDAQAB
+-----END PUBLIC KEY-----</textarea>
+                        <br>
                 </div>
             </div>
             <br>
@@ -555,8 +566,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
             }
 
             function signAndDisplayQRDIVOC(elemPref, json) {
+                // Where to Download the public key
+                const pubKeyIdDivoc = e("pubKeyIdDivoc").value;
+                const privkeyDivoc = e('privkeyDivoc').value;
+                const pubKeyDivoc = e('pubKeyDivoc').value;
+
                 const t0 = performance.now();
-                DIVOC.sign(json).then(cert => {
+                DIVOC.sign(json, privkeyDivoc, pubKeyDivoc).then(cert => {
                     DIVOC.pack(cert).then(packed => {
                         const t1 = performance.now();
                         
@@ -576,7 +592,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         studyQR(packed, elemPref);
 
                         const v0 = performance.now();
-                        DIVOC.unpackAndVerify(packed).then(verified => {
+                        DIVOC.unpackAndVerify(packed, pubKeyDivoc).then(verified => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
                             UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);

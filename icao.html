@@ -123,7 +123,10 @@ MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgZgp3uylFeCIIXozb
 ZkCkSNr4DcLDxplZ1ax/u7ndXqahRANCAARkJeqyO85dyR+UrQ5Ey8EdgLyf9Nts
 CrwORAj6T68/elL19aoISQDbzaNYJjdD77XdHtd+nFGTQVpB88wPTwgb
 -----END PRIVATE KEY-----</textarea>
-                    <br><br>
+                    <br>
+                    <label for="pubkeyId">Public kID</label><br/>
+                    <textarea id="qr-linkEU" rows="1" cols="30">Rjene8QvRwA=</textarea>
+                    <br>
                     <label for="pubkey">PublicKey  Certificate</label><br/>
 <textarea id="pubkeyEU" rows="10" style="width: 100%;">-----BEGIN CERTIFICATE-----
 MIIBYDCCAQYCEQCAG8uscdLb0ppaneNN5sB7MAoGCCqGSM49BAMCMDIxIzAhBgNV
@@ -1057,6 +1060,10 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
         <script>
             async function preloadKey() {
+                let cache = {}
+                cache[e('qr-linkEU').value] = e('pubkeyEU').value.replace("-----BEGIN CERTIFICATE-----", "").replace("-----END CERTIFICATE-----", "").replace(/\n/g,'');
+                DCC.addCachedCerts(cache);
+
                 CRED.resolveKey(e("qr-link").value);
             }
             window.onload = function() {

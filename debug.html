@@ -32,6 +32,7 @@
         <script src="js/bbs-jxt-sdk.min.js"></script>
         <script src="js/eddsa-jxt-sdk.min.js"></script>
         <script src="js/shc-sdk.min.js"></script>
+        <script src="js/vds-sdk.min.js"></script>
 	</head>
 	<body>
         <div class="topnav">
@@ -233,7 +234,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e("qr-verify-result").innerHTML = "Something is wrong with the payload";
                         }
                     });
-                } else if (qr.includes('did:india')) {
+                } else if (qr.includes('did:india') || qr.includes('did:srilanka:moh') || qr.includes('did:philippines')) {
                     e("qr-verify-brand").innerHTML = "Divoc Verifiable QR"
                     DIVOC.verify(qr).then(result => {
                         if (result) {
@@ -248,6 +249,16 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e("qr-verify-brand").innerHTML = "Excelsior Pass Verifiable QR"
                     e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
                     e('qr-verify-verified').innerHTML = "IBM's Pass verification has not been implemented yet.";
+                } else if (qr.includes('icao')) {
+                    VDS.unpackAndVerify(qr).then(result => {
+                        if (result) {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
+                            e('qr-verify-verified').innerHTML = "Signature Verified";
+                        } else {
+                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
+                        }
+                    });
                 } else {
                     e("qr-verify-brand").innerHTML = "No idea what this is"
                     e("qr-verify-result").innerHTML = "";

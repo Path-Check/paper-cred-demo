@@ -30,6 +30,8 @@
         <script src="js/bbs-jxt-sdk.min.js"></script>
         <script src="js/eddsa-jxt-sdk.min.js"></script>
 
+        <script src="js/vds-sdk.min.js"></script>
+
         <script type="text/javascript" src="js/instascan.min.js"></script>
 	</head>
 	<body>
@@ -165,9 +167,11 @@
                     unZipVerifyDisplayDIVOC(data);
                 } else if (typeof(data) === 'string' && data.startsWith("{")) {
                     if (data.includes("did:india")) {
-                        verifyDisplayDIVOC(json);
+                        verifyDisplayDIVOC(data);
+                    } else if (data.includes("icao")) {
+                        verifyDisplayVDS(data);
                     } else {
-                        verifyDisplayIBM(json);
+                        verifyDisplayIBM(data);
                     }
                 } else {
                     displayCertificateUnsupported(data);
@@ -335,6 +339,28 @@
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                     e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
                     e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
+                });
+            }
+
+            function verifyDisplayVDS(json) {
+                VDS.unpackAndVerify(json).then(result => {
+                    VDS.pack(result).then(function (bin) {
+                        QRCode.toCanvas(e('qr'), bin, qrParams('qr'), function (error) {
+                            UIUtils.drawVerifiedSymbol('qr',result);
+                        });
+                    });
+
+                    if (result == null) {
+                        e('qr-verify-verified').innerHTML = "Unable to Verify";
+                    } else if (result) {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + result.data.hdr.is;
+                    } else {
+                        e('qr-verify-verified').innerHTML = "Credential Invalid";
+                    }
+
+                    e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
+                    e('qr-verify-name').innerHTML = result.data.msg.pid.n + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + result.data.msg.pid.dob;
                 });
             }
 

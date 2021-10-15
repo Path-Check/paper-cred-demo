@@ -14,6 +14,20 @@ var UIUtils = {
     }
   },
 
+  drawPicture: function (element, url) {
+    if (url) {
+        const imgDim= {width:e(element).width/3,height:e(element).width/3}; //logo dimention
+        var context = e(element).getContext('2d');
+        var imageObj = new Image();  
+        imageObj.src = url.toLowerCase();      
+        imageObj.onload = function() {
+            context.drawImage(imageObj, 
+            e(element).width / 2 - imgDim.width / 2 +1,
+            e(element).height / 5 - imgDim.height / 2,imgDim.width,imgDim.height);
+        }; 
+    }
+  },
+
   qrSizeBytes: function(qr) {
       return Math.round((qr.modules.size*qr.modules.size)/8);
   },

@@ -45,7 +45,7 @@
         <div class="center">
             <h1>PCF Vaccination Journey</h1>
             <div class="full-div">
-                <div class="quarter">
+                <div class="third">
                     <h4>Eligibility Coupon</h4>
                     <table>
                         <tr><td>ID</td><td><input id="qr-coupon-id" type="text" placeholder="2"/></td></tr>
@@ -54,17 +54,17 @@
                         <tr><td>City</td><td><input id="qr-coupon-city" type="text" placeholder="Somerville, MA, US..."/></td></tr>
                         <tr><td>Limits</td><td><input id="qr-coupon-indicator" type="text" placeholder="Diabetes, Teacher, Healthworker, Under 65, Over 65,...."/></td></tr>
                     </table>
-                </div>
-                <div class="quarter"> 
                     <h4>PassKey (Identity)</h4>
                     <table>
                         <tr><td>Name</td><td><input id="qr-passkey-name" type="text" placeholder="Your Full Name ..."/></td></tr>
                         <tr><td>Phone #</td><td><input id="qr-passkey-phone" type="text" placeholder="1617 .."/></td></tr>
                         <tr><td>Birthdate</td><td><input id="qr-passkey-dob" type="text" placeholder="YYYYMMDD"/></td></tr>
                         <tr><td>Salt</td><td><input id="qr-passkey-salt" type="text" placeholder="2342342"/></td></tr>
+                        <tr><td>Photo</td><td><input id="qr-passkey-photo-url" type="text" placeholder="https://...."/></td></tr>
+                        <tr><td>Hash</td><td><input id="qr-passkey-photo-hash" type="text" placeholder=""/></td></tr>
                     </table>
                 </div>
-                <div class="quarter">
+                <div class="third">
                     <h4>Badge (Immunization)</h4>
                     <table>
                         <tr><td>Date</td><td><input id="qr-badge-date" type="text" placeholder=""/></td></tr>
@@ -80,15 +80,19 @@
                         <tr id="qr-badge-line-passkey2" style="display: none; visibility: hidden;" ><td>Pass #</td><td><input id="qr-badge-vaccinee2" type="text" placeholder="User Hash" readonly/></td></tr>
                         <tr id="qr-badge-line-name"><td>Name</td><td><input id="qr-badge-name" type="text" placeholder="Patient Name" readonly/></td></tr>
                         <tr id="qr-badge-line-dob"><td>DoB</td><td><input id="qr-badge-dob" type="text" placeholder="YYYYMMDD" readonly/></td></tr>
+                        <tr id="qr-badge-line-photo-url"><td>Photo</td><td><input id="qr-badge-photo-url" type="text" placeholder="https://...." readonly/></td></tr>
+                        <tr id="qr-badge-line-photo-hash"><td>Hash</td><td><input id="qr-badge-photo-hash" type="text" placeholder="" readonly/></td></tr>
                     </table>
                 </div>
-                <div class="quarter">
+                <div class="third">
                     <h4>Status (Health Pass)</h4>
                     <table>
                         <tr><td>Doses</td><td><input id="qr-status-vaccinated" type="text" placeholder="0, 1, 2"/></td></tr>
                         <tr><td>Private?</td><td><input id="qr-status-private" type="checkbox"></td></tr>
                         <tr id="qr-status-line-passkey" style="display: none;"><td>Pass #</td><td><input id="qr-status-vaccinee" type="text" placeholder="User Hash" readonly/></td></tr>
                         <tr id="qr-status-line-name"><td>Holder</td><td><input id="qr-status-vaccinee-red" type="text" placeholder="FLYY" readonly/></td></tr>
+                        <tr id="qr-status-line-photo-url"><td>Photo</td><td><input id="qr-status-photo-url" type="text" placeholder="https://...." readonly/></td></tr>
+                        <tr id="qr-status-line-photo-hash"><td>Hash</td><td><input id="qr-status-photo-hash" type="text" placeholder="" readonly/></td></tr>
                     </table>
                 </div>
                 
@@ -231,7 +235,10 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
 
                 // Build PassKeyHash
                 const hashPassKeyBase32 = await CRED.hashPayload(getValueArray(["qr-passkey-name", "qr-passkey-dob", "qr-passkey-salt", "qr-passkey-phone"]));
+                const hashPhoto = await CRED.hashEndPoint(e("qr-passkey-photo-url").value);
                 
+                e("qr-passkey-photo-hash").value = hashPhoto;
+
                 if (e("qr-badge-private").checked) {
                     // Update fields on Screen
                     e("qr-badge-vaccinee").value = hashPassKeyBase32;
@@ -241,6 +248,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                     e("qr-badge-vaccinee").value = "";
                     e("qr-badge-name").value = e("qr-passkey-name").value;
                     e("qr-badge-dob").value = e("qr-passkey-dob").value;
+                    e("qr-badge-photo-url").value = e("qr-passkey-photo-url").value;
+                    e("qr-badge-photo-hash").value = e("qr-passkey-photo-hash").value;
                 }
 
                 if (e("qr-status-private").checked) {
@@ -249,6 +258,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 } else {
                     e("qr-status-vaccinee").value = ""
                     e("qr-status-vaccinee-red").value = getInitialsAndYear(e("qr-passkey-name").value, e('qr-passkey-dob').value);
+                    e("qr-status-photo-url").value = e("qr-passkey-photo-url").value;
+                    e("qr-status-photo-hash").value = e("qr-passkey-photo-hash").value;
                 }
 
                 // Coupon QR
@@ -310,9 +321,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-badge-line-passkey").style.display = e("qr-badge-private").checked ? '' :'none';
                 e("qr-badge-line-passkey2").style.display = e("qr-badge-private").checked ? '' :'none';
 
+                e("qr-badge-line-photo-url").style.display = e("qr-badge-private").checked ? 'none': '';
+                e("qr-badge-line-photo-hash").style.display = e("qr-badge-private").checked ? 'none': '';
+
                 if (e("qr-badge-private").checked) {
                     e("qr-badge-name").value = "";
                     e("qr-badge-dob").value = "";
+                    e("qr-badge-photo-url").value = "";
+                    e("qr-badge-photo-hash").value = "";
                 } else {
                     e("qr-badge-vaccinee").value = "";
                 }
@@ -321,9 +337,13 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
             e("qr-status-private").addEventListener('change', () => {
                 e("qr-status-line-name").style.display = e("qr-status-private").checked ? 'none': '';
                 e("qr-status-line-passkey").style.display = e("qr-status-private").checked ? '' :'none';
+                e("qr-status-line-photo-url").style.display = e("qr-status-private").checked ? 'none': '';
+                e("qr-status-line-photo-hash").style.display = e("qr-status-private").checked ? 'none': '';
                 
                 if (e("qr-status-private").checked) {
                     e("qr-status-vaccinee-red").value = "";
+                    e("qr-status-photo-url").value = "";
+                    e("qr-status-photo-hash").value = "";
                 } else {
                     e("qr-status-vaccinee").value = "";
                 }
@@ -342,7 +362,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-badge-name").value = "";
                 e("qr-badge-dob").value = "";
                 e("qr-badge-vaccinee").value = "";
-                e("qr-status-vaccinee-red").value = "";
             
                 e("qr-coupon-id").value = "1";
                 e("qr-coupon-coupons").value = 5000;
@@ -353,6 +372,8 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-passkey-name").value = "Jane Doe";
                 e("qr-passkey-phone").value = "16173332345";
                 e("qr-passkey-dob").value = "19820321";
+                e("qr-passkey-photo-hash").value = "";
+                e("qr-passkey-photo-url").value = "https://github.pathcheck.org/img/profile.png";
 
                 e("qr-badge-manuf").value = "Moderna";
                 e("qr-badge-product").value = "COVID19";
@@ -362,8 +383,14 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                 e("qr-badge-dose").value = "500";
                 e("qr-badge-required_doses").value = "28";
 
+                e("qr-badge-photo-hash").value = "";
+                e("qr-badge-photo-url").value = "";
+
                 e("qr-status-vaccinated").value = "1";
                 e("qr-status-vaccinee").value = "";
+                e("qr-status-vaccinee-red").value = "";
+                e("qr-status-photo-url").value = "";
+                e("qr-status-photo-hash").value = "";
             }
 
             loadDemo();

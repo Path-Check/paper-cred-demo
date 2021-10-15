@@ -227,7 +227,6 @@ DcJqR5clbAYlO9lHmvb4lsPLZHjugQ==
                                 if (headers["photo-url"] && headers["photo-hash"]) {
                                     const url = Base32URL.decodeAsString(headers["photo-url"]);
                                     CRED.verifyEndPoint(url, headers["photo-hash"]).then(verified => {
-                                        console.log(verified);
                                         if (verified) {
                                             UIUtils.drawPicture(elemPref+'-code',url);
                                         }

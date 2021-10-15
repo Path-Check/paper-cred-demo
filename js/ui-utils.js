@@ -22,8 +22,17 @@ var UIUtils = {
         imageObj.src = url.toLowerCase();      
         imageObj.onload = function() {
             context.drawImage(imageObj, 
-            e(element).width / 2 - imgDim.width / 2 +1,
+            e(element).width / 2 - imgDim.width / 2,
             e(element).height / 5 - imgDim.height / 2,imgDim.width,imgDim.height);
+
+            const imgDim2= {width:e(element).width/10,height:e(element).width/10}; //logo dimention
+            var imageObj2 = new Image();  
+            imageObj2.src = './img/ok-256.png';      
+            imageObj2.onload = function() {
+                context.drawImage(imageObj2, 
+                e(element).width / 2 - imgDim.width / 2 + imgDim2.width * 2,
+                e(element).height / 5 - imgDim.height / 2 + imgDim2.height * 2 , imgDim2.width,imgDim2.height);
+            }; 
         }; 
     }
   },

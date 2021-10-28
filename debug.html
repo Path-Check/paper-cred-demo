@@ -132,9 +132,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 return ajv.compile(schema);
             }
 
-            function getEUPayload(cwt) {
+            async function getEUPayload(cwt) {
                 if (cwt instanceof Map) {
-                    return DCC.parseCWT(cwt);
+                    return await DCC.parseCWT(cwt);
                 } 
                 return cwt;
             }
@@ -219,10 +219,12 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
                     DCC.unpackAndVerify(qr, e('pubkey').value).then(json => {
-                        const validator = schemaValidator();
-                        const valid = validator(getEUPayload(json));
                         if (json) {
-                            e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
+                            const validator = schemaValidator();
+                            getEUPayload(json).then(payload => {
+                                const valid = validator(payload);
+                                e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
+                            });
                         } else {
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }

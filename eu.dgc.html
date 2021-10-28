@@ -67,7 +67,7 @@
         </div>
 
         <div class="center">
-            <h1>Digital Covid Certificate <span class="xs-hidden"><small>(Schema 1.2.0)</small></span></h1>
+            <h1>Digital Covid Certificate <span class="xs-hidden"><small>(Schema 1.3.0)</small></span></h1>
             <div class="full-div">
                 <div class="third">
                     <h4>Credential</h4>
@@ -146,7 +146,7 @@
                     </table>
                     <h4>Vaccination 2nd Dose</h4>
                     <table>
-                        <tr><td>Include?</td><td><input id="qr-vax-second-include" type="checkbox" checked></td></tr>
+                        <tr><td>Include?</td><td><input id="qr-vax-second-include" type="checkbox"></td></tr>
                         <tr><td>Disease</td><td><input id="qr-vax-second-tg-numToB32" type="text" placeholder=""/></td></tr>
                         <tr><td>Prophylaxis</td><td><input id="qr-vax-second-vp" type="text" placeholder=""/></td></tr>
                         <tr><td>Product</td><td><input id="qr-vax-second-mp" type="text" placeholder=""/></td></tr>
@@ -878,7 +878,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwB
 
             function buildHC1() {
                 let dgcHC1 = { 
-                    "ver": "1.2.0",
+                    "ver": "1.3.0",
                     "nam": {
                         "fn": e('qr-subject-nam-fn').value,
                         "gn": e('qr-subject-nam-gn').value,

@@ -119,11 +119,17 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
             function e(elem) { return document.getElementById(elem); }
 
-            function schemaValidator() {
+            function schemaValidator(version) {
                 var ajv = new ajv7.default({strict: "log", validateFormats: false});
 
+                if (!version) {
+                    version = "1.3.0";
+                }
+
+                let name = ["0.1.0","1.0.0","1.0.1","1.1.0","1.2.0"].includes(version) ? "DGC" : "DCC"; 
+
                 let client = new XMLHttpRequest();
-                client.open('GET', 'https://raw.githubusercontent.com/ehn-digital-green-development/ehn-dgc-schema/main/DCC.combined-schema.json', false);
+                client.open('GET', 'https://raw.githubusercontent.com/ehn-dcc-development/ehn-dcc-schema/release/'+version+'/'+name+'.combined-schema.json', false);
                 client.setRequestHeader("Accept", "application/vnd.github.v3+json");
                 client.send();
 
@@ -220,8 +226,8 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
                     DCC.unpackAndVerify(qr, e('pubkey').value).then(json => {
                         if (json) {
-                            const validator = schemaValidator();
                             getEUPayload(json).then(payload => {
+                                const validator = schemaValidator(payload.ver);
                                 const valid = validator(payload);
                                 e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                             });

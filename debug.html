@@ -208,7 +208,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 } else if (qr.toUpperCase().startsWith('SHC:')) {
                     SHC.unpackAndVerify(qr).then(json => {
                         if (json) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json, null, 2, 80));
+                            e("qr-verify-result").innerHTML = he.encode(beautify(json.credential, null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified ";
                         } else {
                             //e("qr-verify-result").innerHTML = "Something is wrong with the payload";
@@ -226,7 +226,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
                     DCC.unpackAndVerify(qr, e('pubkey').value).then(json => {
                         if (json) {
-                            getEUPayload(json).then(payload => {
+                            getEUPayload(json.credential).then(payload => {
                                 const validator = schemaValidator(payload.ver);
                                 const valid = validator(payload);
                                 e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));

@@ -1254,9 +1254,9 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwB
                     e("qr-verify-result").innerHTML = "Checking";
                     DCC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
                         const validator = schemaValidator();
-                        const valid = validator(getEUPayload(json));
+                        const valid = validator(getEUPayload(json.credential));
                         if (json) {
-                            e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(json, replacer, 2, 80));
+                            e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(json.credential, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? " and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                         } else {
                             e('qr-verify-verified').innerHTML = "Could not Verify";

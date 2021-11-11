@@ -280,13 +280,12 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.get(1) + ' on ' + parseDInt(obj.get(6));
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.credential.get(1) + ' on ' + parseDInt(obj.credential.get(6));
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
-
-                    let certificate = DCC.parseCWT(obj).then(certificate => {
+                    let certificate = DCC.parseCWT(obj.credential).then(certificate => {
                         if (certificate.v) { 
                             e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
                         } else if (certificate.t) { 
@@ -394,17 +393,17 @@
                         UIUtils.drawVerifiedSymbol('qr', json);
                     });
 
-                    let iss = json.iss;
+                    let iss = json.credential.iss;
                     if (iss === 'https://myvaccinerecord.cdph.ca.gov/creds')
                         iss = "State of California"
                     
                     if (json) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + iss + ' on ' + parseDInt(json.nbf);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + iss + ' on ' + parseDInt(json.credential.nbf);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
-                    let pat = json.vc.credentialSubject.fhirBundle.entry.filter(entry => entry.resource.resourceType === "Patient");
+                    let pat = json.credential.vc.credentialSubject.fhirBundle.entry.filter(entry => entry.resource.resourceType === "Patient");
                     let name = pat[0].resource.name[0].given.join(' ') + " " + pat[0].resource.name[0].family;
                     let dob = pat[0].resource.birthDate;
                     

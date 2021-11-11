@@ -280,7 +280,7 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.credential.get(1) + ' on ' + parseDInt(obj.credential.get(6));
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer.displayName.en + ' on ' + parseDInt(obj.credential.get(6));
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
@@ -392,13 +392,9 @@
                     QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
                         UIUtils.drawVerifiedSymbol('qr', json);
                     });
-
-                    let iss = json.credential.iss;
-                    if (iss === 'https://myvaccinerecord.cdph.ca.gov/creds')
-                        iss = "State of California"
                     
                     if (json) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + iss + ' on ' + parseDInt(json.credential.nbf);
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer.displayName.en + ' on ' + parseDInt(json.credential.nbf);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }

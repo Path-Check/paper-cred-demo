@@ -280,7 +280,7 @@
                     if (result == null) {
                         e('qr-verify-verified').innerHTML = "Unable to Verify";
                     } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer.displayName.en + ' on ' + parseDInt(obj.credential.get(6));
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.issuer.displayName.en + ' on ' + parseDInt(obj.credential.get(6));
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }

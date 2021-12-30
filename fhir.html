@@ -244,7 +244,7 @@
 
 
             function signAndDisplayQRSHC(elemPref, json, priKeyPEM, pubKeyLink) {
-                SHC.makeJWT(json, parseInt(e("qr-cert-exp").value), pubKeyLink, new Date()).then(jwt => {
+                SHC.makeJWT(json, pubKeyLink, new Date()).then(jwt => {
                     console.log(jwt);
                     SHC.signAndPack(jwt, priKeyPEM).then(uri => {
                         UIUtils.renderQR(elemPref, uri);

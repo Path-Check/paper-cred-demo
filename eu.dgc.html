@@ -726,7 +726,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwB
 
             function signAndDisplayQRSHC(elemPref, json, priKeyPEM, pubKeyLink) {
                 const eu45t0 = performance.now();
-                SHC.makeJWT(json, parseInt(e("qr-cert-exp").value), pubKeyLink).then(jwt => {
+                SHC.makeJWT(json, pubKeyLink).then(jwt => {
                     SHC.signAndPack(jwt, priKeyPEM).then(uri => {
                         const eu45t1 = performance.now();
                         UIUtils.renderQR(elemPref, uri);

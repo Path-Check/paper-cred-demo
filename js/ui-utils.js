@@ -14,6 +14,20 @@ var UIUtils = {
     }
   },
 
+  drawVerificationResult: function (element, result) {
+    if (result.status === "verified") {
+        const imgDim= {width:e(element).width/5,height:e(element).width/5}; //logo dimention
+        var context = e(element).getContext('2d');
+        var imageObj = new Image();  
+        imageObj.src = './img/ok-256.png';      
+        imageObj.onload = function() {
+            context.drawImage(imageObj, 
+            e(element).width / 2 - imgDim.width / 2 +1,
+            e(element).height / 2 - imgDim.height / 2,imgDim.width,imgDim.height);
+        }; 
+    }
+  },
+
   drawPicture: function (element, url) {
     if (url) {
         const imgDim= {width:e(element).width/3,height:e(element).width/3}; //logo dimention

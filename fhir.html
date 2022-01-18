@@ -258,7 +258,7 @@
                             "<pre>SHC:/<span class='message'>Payload</span></pre>"
                             
                         SHC.unpackAndVerify(uri).then(verified => {
-                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                            UIUtils.verificationResult(elemPref+'-code',verified);
                         });
                     });
                 });

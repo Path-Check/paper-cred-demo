@@ -206,20 +206,14 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         } 
                     });
                 } else if (qr.toUpperCase().startsWith('SHC:')) {
-                    SHC.unpackAndVerify(qr).then(json => {
-                        if (json) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json.credential, null, 2, 80));
+                    SHC.unpackAndVerify(qr).then(verificationResult => {
+                        console.log(verificationResult)
+                        if (verificationResult.status == "verified") {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(verificationResult, null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified ";
                         } else {
-                            //e("qr-verify-result").innerHTML = "Something is wrong with the payload";
-                            e('qr-verify-verified').innerHTML = "Could not Verify";
-                        }
-                    });
-                    SHC.debug(qr).then(json => {
-                        if (json) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
-                        } else {
                             e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
                 } else if (qr.startsWith('HC1:')) {

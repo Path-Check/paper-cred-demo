@@ -749,7 +749,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwB
                         SHC.unpackAndVerify(uri).then(verified => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
-                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                            UIUtils.drawVerificationResult(elemPref+'-code',verified);
                         });
                     });
                 });

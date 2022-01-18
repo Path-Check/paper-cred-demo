@@ -386,20 +386,20 @@
                 e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
                 e('qr-verify-verified').innerHTML = "Unable to Verify";
                 
-                SHC.unpackAndVerify(uri).then(json => {
-                    if (json == null) return;
+                SHC.unpackAndVerify(uri).then(verificationResult => {
+                    if (verificationResult == null) return;
 
                     QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
-                        UIUtils.drawVerifiedSymbol('qr', json);
+                        UIUtils.drawVerificationResult('qr', verificationResult.status);
                     });
                     
-                    if (json) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.issuer.displayName.en + ' on ' + parseDInt(json.credential.nbf);
+                    if (verificationResult.status == "verified") {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + verificationResult.issuer.displayName.en + ' on ' + parseDInt(verificationResult.contents.nbf);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
-                    let pat = json.credential.vc.credentialSubject.fhirBundle.entry.filter(entry => entry.resource.resourceType === "Patient");
+                    let pat = verificationResult.contents.vc.credentialSubject.fhirBundle.entry.filter(entry => entry.resource.resourceType === "Patient");
                     let name = pat[0].resource.name[0].given.join(' ') + " " + pat[0].resource.name[0].family;
                     let dob = pat[0].resource.birthDate;
                     

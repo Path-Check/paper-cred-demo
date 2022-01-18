@@ -384,10 +384,8 @@
                 e('qr-verify-verified').innerHTML = "Unable to Verify";
                 
                 SHC.unpackAndVerify(uri).then(verificationResult => {
-                    if (verificationResult == null) return;
-
                     QRCode.toCanvas(e('qr'), uri, qrParams('qr'), function (error) {
-                        UIUtils.drawVerificationResult('qr', verificationResult.status);
+                        UIUtils.drawVerificationResult('qr', verificationResult);
                     });
                     
                     if (verificationResult.status == "verified") {

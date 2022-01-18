@@ -319,7 +319,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAnXQalrgztecTpc+INjRQ8s73FSE1kU5QSlwB
                         UIUtils.drawsQR("qr-divoc-orig", packed);
                         e("qr-divoc-orig-result").innerHTML = packed;
                         DIVOC.unpackAndVerify(packed, pubKeyDivoc).then(verified => {
-                            if (verified) {
+                            if (verified.status == "verified") {
                                 const imgDim={width:50,height:50}; 
                                 var context = e('qr-divoc-orig-code').getContext('2d');
                                 var imageObj = new Image();  

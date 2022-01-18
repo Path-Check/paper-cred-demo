@@ -234,7 +234,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                 } else if (qr.includes('did:india') || qr.includes('did:srilanka:moh') || qr.includes('did:philippines')) {
                     e("qr-verify-brand").innerHTML = "Divoc Verifiable QR"
                     DIVOC.verify(qr).then(result => {
-                        if (result) {
+                        if (result.status == "verified") {
                             e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified";
                         } else {

@@ -319,21 +319,19 @@
                 DIVOC.verify(json).then(result => {
                     DIVOC.pack(json).then(function (bin) {
                         QRCode.toCanvas(e('qr'), bin, qrParams('qr'), function (error) {
-                            UIUtils.drawVerifiedSymbol('qr',result);
+                            UIUtils.drawVerificationResult('qr',result);
                         });
                     });
 
-                    if (result == null) {
-                        e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + json.evidence[0].facility.name + ' on ' + parseISODate(json.issuanceDate);
+                    if (result.status == "verified") {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + result.contents.evidence[0].facility.name + ' on ' + parseISODate(result.contents.issuanceDate);
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
-                    e('qr-verify-name').innerHTML = json.credentialSubject.name + "<br>";
-                    e('qr-verify-name').innerHTML += json.credentialSubject.age + "yrs old";
+                    e('qr-verify-name').innerHTML = result.contents.credentialSubject.name + "<br>";
+                    e('qr-verify-name').innerHTML += result.contents.credentialSubject.age + "yrs old";
                 });
             }
 

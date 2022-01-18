@@ -286,7 +286,6 @@
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
-                    console.log(verificationResult)
 
                     DCC.parseCWT(verificationResult.contents).then(certificate => {
                         if (certificate.v) { 

@@ -602,7 +602,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                         DCC.unpackAndVerify(uri, pubKeyPem).then(verified => {
                             const v1 = performance.now();
                             e(elemPref+"-time-verify").innerHTML=Math.round(v1-v0);
-                            UIUtils.drawVerifiedSymbol(elemPref+'-code',verified);
+                            UIUtils.drawVerificationResult(elemPref+'-code',verified);
                         });
                     });
                 });
@@ -1106,11 +1106,11 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                 } else {
                     e("qr-verify-result").innerHTML = "Checking";
-                    DCC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(json => {
+                    DCC.unpackAndVerify(e("qr-verify").value, e('pubkeyEU').value).then(verificationResult => {
                         const validator = schemaValidator();
-                        const valid = validator(getEUPayload(json.credential));
-                        if (json) {
-                            e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(json.credential, replacer, 2, 80));
+                        const valid = validator(getEUPayload(verificationResult.contents));
+                        if (verificationResult.status == "verified") {
+                            e("qr-verify-result").innerHTML = "Data: " + he.encode(beautify(verificationResult.contents, replacer, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? " and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                         } else {
                             e('qr-verify-verified').innerHTML = "Could not Verify";

@@ -270,22 +270,19 @@
             }
 
             function verifyDisplayEU(data) {
-                DCC.unpackAndVerify(data).then(obj => {
-                    let result = obj;
-
+                DCC.unpackAndVerify(data).then(verificationResult => {
                     QRCode.toCanvas(e('qr'), data, qrParams('qr'), function (error) {
-                        UIUtils.drawVerifiedSymbol('qr',result);
+                        UIUtils.drawVerificationResult('qr',verificationResult);
                     });
 
-                    if (result == null) {
-                        e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + obj.issuer.displayName.en + ' on ' + parseDInt(obj.credential.get(6));
+                    if (verificationResult.status == "verified") {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + verificationResult.issuer.displayName.en + ' on ' + parseDInt(verificationResult.contents.get(6));
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
+                    console.log(verificationResult)
 
-                    let certificate = DCC.parseCWT(obj.credential).then(certificate => {
+                    DCC.parseCWT(verificationResult.contents).then(certificate => {
                         if (certificate.v) { 
                             e('qr-verify-title').innerHTML = "COVID-19 Vaccine Certificate"
                         } else if (certificate.t) { 
@@ -307,7 +304,6 @@
                             e('qr-verify-name').innerHTML = certificate.Name + "<br>";
                             e('qr-verify-name').innerHTML += "Doc: " + certificate.DocumentType + " " + certificate.DocumentNumber ;
                         }
-
                     });
                 });
             }
@@ -343,23 +339,21 @@
 
             function verifyDisplayVDS(json) {
                 VDS.unpackAndVerify(json).then(result => {
-                    VDS.pack(result).then(function (bin) {
+                    VDS.pack(result.contents).then(function (bin) {
                         QRCode.toCanvas(e('qr'), bin, qrParams('qr'), function (error) {
-                            UIUtils.drawVerifiedSymbol('qr',result);
+                            UIUtils.drawVerificationResult('qr',result);
                         });
                     });
 
-                    if (result == null) {
-                        e('qr-verify-verified').innerHTML = "Unable to Verify";
-                    } else if (result) {
-                        e('qr-verify-verified').innerHTML = 'Signed by ' + result.data.hdr.is;
+                    if (result.status == "verified") {
+                        e('qr-verify-verified').innerHTML = 'Signed by ' + result.issuer.displayName.en;
                     } else {
                         e('qr-verify-verified').innerHTML = "Credential Invalid";
                     }
 
                     e('qr-verify-title').innerHTML = "COVID-19 Vaccine Record"
-                    e('qr-verify-name').innerHTML = result.data.msg.pid.n + "<br>";
-                    e('qr-verify-name').innerHTML += "DoB: " + result.data.msg.pid.dob;
+                    e('qr-verify-name').innerHTML = result.contents.data.msg.pid.n + "<br>";
+                    e('qr-verify-name').innerHTML += "DoB: " + result.contents.data.msg.pid.dob;
                 });
             }
 

@@ -155,6 +155,9 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
 
                         console.log(cache);
                     DCC.addCachedCerts(cache);
+                    let cache2 = {}
+                    cache2["Rjene8QvRwBx9bytJQq5VY8+Qai4X4x0OpENSrX1sqk="] = e('pubkey').value;
+                    VDS.addCachedCerts(cache2);
                 } else {
                     let cache = {}
                     cache[e('qr-linkEU').value] = 
@@ -207,33 +210,25 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                 } else if (qr.toUpperCase().startsWith('SHC:')) {
                     SHC.unpackAndVerify(qr).then(verificationResult => {
-                        console.log(verificationResult)
+                        e("qr-verify-result").innerHTML = he.encode(beautify(verificationResult, null, 2, 80));
                         if (verificationResult.status == "verified") {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(verificationResult, null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified ";
                         } else {
-                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
-                    DCC.unpackAndVerify(qr, e('pubkey').value).then(json => {
-                        if (json) {
-                            getEUPayload(json.credential).then(payload => {
+                    DCC.unpackAndVerify(qr, e('pubkey').value).then(verificationResult => {
+                        e("qr-verify-result").innerHTML = he.encode(beautify(verificationResult, replacer, 2, 80));
+                        if (verificationResult.status == "verified") {
+                            getEUPayload(verificationResult.contents).then(payload => {
                                 const validator = schemaValidator(payload.ver);
                                 const valid = validator(payload);
                                 e('qr-verify-verified').innerHTML = "Signature Verified " + (valid? "and Schema is Valid" : " but Schema has errors " + JSON.stringify(validator.errors));
                             });
                         } else {
                             e('qr-verify-verified').innerHTML = "Could not Verify";
-                        }
-                    });
-                    DCC.debug(qr).then(json => {
-                        if (json) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(json, replacer, 2, 80));
-                        } else {
-                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
                         }
                     });
                 } else if (qr.includes('did:india') || qr.includes('did:srilanka:moh') || qr.includes('did:philippines')) {
@@ -243,7 +238,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                             e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified";
                         } else {
-                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });
@@ -252,12 +247,13 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
                     e('qr-verify-verified').innerHTML = "IBM's Pass verification has not been implemented yet.";
                 } else if (qr.includes('icao')) {
+                    e("qr-verify-brand").innerHTML = "ICAO Digital Seals"
                     VDS.unpackAndVerify(qr).then(result => {
-                        if (result) {
-                            e("qr-verify-result").innerHTML = he.encode(beautify(JSON.parse(qr), null, 2, 80));
+                        if (result.status == "verified") {
+                            e("qr-verify-result").innerHTML = he.encode(beautify(result, null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Signature Verified";
                         } else {
-                            e("qr-verify-result").innerHTML = "Something is wrong with the payload";
+                            e("qr-verify-result").innerHTML = he.encode(beautify(result, null, 2, 80));
                             e('qr-verify-verified').innerHTML = "Could not Verify";
                         }
                     });

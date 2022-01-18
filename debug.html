@@ -219,7 +219,7 @@ AF7zi+d862ePRQ9Lwymr7XfwVm0=
                     });
                 } else if (qr.startsWith('HC1:')) {
                     e("qr-verify-brand").innerHTML = "EU Digital Covid Certificate Verifiable QR"
-                    DCC.unpackAndVerify(qr, e('pubkey').value).then(verificationResult => {
+                    DCC.unpackAndVerify(qr).then(verificationResult => {
                         e("qr-verify-result").innerHTML = he.encode(beautify(verificationResult, replacer, 2, 80));
                         if (verificationResult.status == "verified") {
                             getEUPayload(verificationResult.contents).then(payload => {

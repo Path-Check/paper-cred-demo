@@ -114,11 +114,17 @@
 
             function parseDate(str) {
                 console.log(str)
-                if(!/^(\d){8}$/.test(str)) return "invalid date";
-                var y = str.substr(0,4),
+                if(/^(\d){8}$/.test(str)) {
+                    var y = str.substr(0,4),
                     m = str.substr(4,2),
                     d = str.substr(6,2);
-                return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
+                    return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
+                } else {
+                    var y = str.substr(0,4),
+                    m = str.substr(5,2),
+                    d = str.substr(8,2);
+                    return  monthNames[parseInt(m)] + ' ' + d + ', ' + y;
+                }   
             }
 
             // Date in seconds from epoch
